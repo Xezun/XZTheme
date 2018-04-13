@@ -6,12 +6,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#ifdef XZKIT_FRAMEWORK
-#import <XZKit/XZThemeDefines.h>
-#else
 #import "XZThemeDefines.h"
-#endif
+
 
 //配置是一个字典，其结构类似于：
 //```json

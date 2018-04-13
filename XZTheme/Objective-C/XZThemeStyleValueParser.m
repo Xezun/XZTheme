@@ -7,9 +7,7 @@
 //
 
 #import "XZThemeStyleValueParser.h"
-#import "UIColor+XZKit.h"
-
-
+@import XZKit;
 
 @interface _XZThemeStyleFontValueParser: XZThemeStyleValueParser<UIFont *>
 @end

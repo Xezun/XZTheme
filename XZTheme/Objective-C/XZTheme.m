@@ -8,9 +8,9 @@
 #import "XZTheme.h"
 #import <objc/runtime.h>
 #import "NSObject+XZTheme.h"
-#import "UIViewController+XZKit.h"
 #import "XZThemeStyle.h"
 #import "XZThemeManager.h"
+#import <XZKit/XZKit.h>
 
 @interface _XZIdentifiedThemeStyleItem: NSObject
 @property (nonatomic, readonly, nonnull) XZThemeIdentifier identifier;

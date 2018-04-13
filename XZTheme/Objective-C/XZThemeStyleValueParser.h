@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XZKit/XZThemeStyle.h>
+#import "XZThemeStyle.h"
 
 /// 主题属性值解析。
 /// - 该类用于派生子类，不可直接实例化使用。

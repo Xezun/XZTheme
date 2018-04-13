@@ -7,8 +7,8 @@
 //
 
 #import "XZThemeManager.h"
-#import "NSObject+XZTheme.h"
 #import "XZTheme.h"
+#import "NSObject+XZTheme.h"
 
 static NSString *const XZThemeNameDefault = @"default";
 

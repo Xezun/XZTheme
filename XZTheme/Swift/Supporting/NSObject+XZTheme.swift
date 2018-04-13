@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 extension NSObject {
     
     /// 更新主题外观：应用主题样式。当应用主题时，如果主题中有当前对象的主题样式，则此方法会被调用。

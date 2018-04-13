@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XZKit/XZTheme.h>
+@class XZTheme;
 
 
 /// 内部类：负责主题的加载、缓存、回收。

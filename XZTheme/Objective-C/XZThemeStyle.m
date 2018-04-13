@@ -9,7 +9,7 @@
 #import "XZThemeState.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeStyleValueParser.h"
-#import "UIColor+XZKit.h"
+
 
 NSString * const _Nonnull XZThemeStyleConfigurationValueNone = @"\\nil";
 

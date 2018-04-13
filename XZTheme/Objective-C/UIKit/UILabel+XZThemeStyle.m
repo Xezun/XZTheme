@@ -5,7 +5,7 @@
 //  Created by mlibai on 2017/12/7.
 //
 
-#import "XZThemeStyle+UILabel.h"
+#import "UILabel+XZThemeStyle.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeState.h"
 

@@ -6,10 +6,9 @@
 //
 
 #import "NSObject+XZTheme.h"
-#import "XZThemeStyle.h"
-#import <XZKit/XZKit-Swift.h>
+#import "XZTheme.h"
+#import "Example-Swift.h"
 @import ObjectiveC;
-
 
 static const void * const _nameOfAppliedTheme     = &_nameOfAppliedTheme;
 static const void * const _needsThemeApply  = &_needsThemeApply;

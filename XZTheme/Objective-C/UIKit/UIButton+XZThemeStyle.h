@@ -6,13 +6,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#ifdef XZKIT_FRAMEWORK
-#import <XZKit/XZThemeDefines.h>
-#import <XZKit/XZThemeStyle.h>
-#else
 #import "XZThemeDefines.h"
 #import "XZThemeStyle.h"
-#endif
+
 
 @class NSAttributedString;
 

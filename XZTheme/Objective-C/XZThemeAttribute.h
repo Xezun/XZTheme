@@ -6,14 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#ifdef XZKIT_FRAMEWORK
-#import <XZKit/XZThemeDefines.h>
-#else
 #import "XZThemeDefines.h"
-#endif
-
-
 
 // MARK: UIView
 UIKIT_EXTERN XZThemeAttribute const _Nonnull XZThemeAttributeTintColor;

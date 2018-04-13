@@ -5,7 +5,7 @@
 //  Created by mlibai on 2017/12/7.
 //
 
-#import "XZThemeStyle+UITabBarItem.h"
+#import "UITabBarItem+XZThemeStyle.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeState.h"
 

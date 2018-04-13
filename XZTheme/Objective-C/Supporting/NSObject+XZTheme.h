@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <XZKit/XZThemeDefines.h>
-#import <XZKit/XZTheme.h>
+#import "XZThemeDefines.h"
+@class XZTheme;
 
 
 @interface NSObject (XZTheme)

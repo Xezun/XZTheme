@@ -6,12 +6,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#ifdef XZKIT_FRAMEWORK
-#import <XZKit/XZThemeDefines.h>
-#else
 #import "XZThemeDefines.h"
-#endif
+
 
 UIKIT_EXTERN XZThemeState const _Nonnull XZThemeStateNormal;
 UIKIT_EXTERN XZThemeState const _Nonnull XZThemeStateSelected;

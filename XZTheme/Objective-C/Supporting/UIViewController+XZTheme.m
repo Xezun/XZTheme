@@ -7,7 +7,8 @@
 
 #import "UIViewController+XZTheme.h"
 #import <objc/runtime.h>
-#import "UIViewController+XZKit.h"
+#import "XZTheme.h"
+@import XZKit;
 
 
 @implementation UIViewController (XZTheme)

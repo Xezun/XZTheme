@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 extension UIView {
     
     open override func updateAppearance(with themeStyle: Theme.Style, for themeAttribute: Theme.Attribute) {
