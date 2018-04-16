@@ -25,8 +25,6 @@ NS_SWIFT_NAME(XZThemeStyle.ValueParser) @interface XZThemeStyleValueParser<T: id
 @end
 
 
-
-
 @interface XZThemeStyle (Parser)
 
 

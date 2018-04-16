@@ -33,7 +33,7 @@
 //```
 
 
-/// 使用 “\\nil” 表示 nil 值；使用 “\\\\nil” 表示字符串 "\\nil"；使用 “\\\\\\nil” 表示字符串 "\\\\nil"，以此类推。
+/// 使用字符串 “nil” 表示 nil 值；使用 “\\nil” 表示字符串 "nil"；使用 “\\\\nil” 表示字符串 "\\nil"，以此类推。
 /// @note 上段文本请以 MarkDown 实际显示效果为准。
 /// @note 反斜杠规则只在判断 nil 值时生效。
 UIKIT_EXTERN NSString * const _Nonnull XZThemeStyleConfigurationValueNone NS_SWIFT_NAME(ThemeStyleConfigurationValueNone);

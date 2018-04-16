@@ -11,28 +11,29 @@
 #import "XZThemeStyleValueParser.h"
 
 
-NSString * const _Nonnull XZThemeStyleConfigurationValueNone = @"\\nil";
+NSString * const _Nonnull XZThemeStyleConfigurationValueNone = @"nil";
 
 
 /**
  解析配置中的属性值。如果值是 \nil 则转化为 [NSNull null]，否则原样返回。
 
  @param value 主题样式配置值。
- @param regularExpression 用于判断 nil 格式的正则表达式 <pre>@"^\\\\+nil$"</pre>。
  @return 解析后的值。
  */
-static inline id _Nullable parseValue(id _Nullable value, NSRegularExpression * _Nonnull regularExpression) {
+static inline id _Nullable parseValue(id _Nullable value) {
     if (![value isKindOfClass:[NSString class]]) {
         return value;
     }
     
     NSString *aString = (NSString *)value;
-
+    
+    if ([aString isEqualToString:XZThemeStyleConfigurationValueNone]) {
+        return [NSNull null];
+    }
+    
     if ([aString hasPrefix:@"\\"]) {
-        // 判断是否为空值。
-        if ([aString isEqualToString:XZThemeStyleConfigurationValueNone]) {
-            return [NSNull null];
-        }
+        // 因为显示 nil 字符串的机会很低，这里不会对性能造成很大影响。
+        NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:@"^\\\\+nil$" options:0 error:NULL];
         // 如果是以双斜线开头，匹配其模式是否为 \\\\nil 格式。
         NSRange range1 = NSMakeRange(0, aString.length);
         NSRange range2 = [regularExpression rangeOfFirstMatchInString:aString options:(0) range:range1];
@@ -40,10 +41,24 @@ static inline id _Nullable parseValue(id _Nullable value, NSRegularExpression * 
             return [aString substringFromIndex:1];
         }
     }
-    
     return aString;
 }
 
+
+typedef NS_ENUM(NSUInteger, XZThemeStyleConfigurationKeyType) {
+    XZThemeStyleConfigurationKeyTypeAttribute,
+    XZThemeStyleConfigurationKeyTypeState,
+    XZThemeStyleConfigurationKeyTypeSubstyle
+};
+
+XZThemeStyleConfigurationKeyType XZThemeStyleConfigurationKeyTypeFromNSString(NSString *aKey) {
+    if ([aKey hasPrefix:@":"]) {
+        return XZThemeStyleConfigurationKeyTypeState;
+    } else if ([aKey hasPrefix:@"."]) {
+        return XZThemeStyleConfigurationKeyTypeSubstyle;
+    }
+    return XZThemeStyleConfigurationKeyTypeAttribute;
+}
 
 
 
@@ -100,26 +115,27 @@ static inline id _Nullable parseValue(id _Nullable value, NSRegularExpression * 
             NSLog(@"Unrecognizable key `%@` in XZThemeStyle configuration. \n%@", key, configuration);
             return;
         }
-        if ([key hasPrefix:@"."]) { // key 主题属性名，value 可能是值，也可能是状态-值字典。
-            if (result1 == nil) { result1 = [NSMutableDictionary dictionary]; }
-            result1[key] = obj;
-            return;
-        } else if ([key hasPrefix:@":"]) { // key 状态，value 必须是属性-值字典。
-            if ([obj isKindOfClass:[NSDictionary class]]) {
-                if (result2 == nil) { result2 = [NSMutableDictionary dictionary]; }
-                result2[key] = obj;
-            }
-            return;
-        } else if ([obj isKindOfClass:[NSDictionary class]]) { // key 子样式名，value 是子样式配置字典。
-            if (result3 == nil) { result3 = [NSMutableDictionary dictionary]; }
-            result3[key] = obj;
-            return;
+        switch (XZThemeStyleConfigurationKeyTypeFromNSString(key)) {
+            case XZThemeStyleConfigurationKeyTypeAttribute:
+                if (result1 == nil) { result1 = [NSMutableDictionary dictionary]; }
+                result1[key] = obj;
+                break;
+                
+            case XZThemeStyleConfigurationKeyTypeState:
+                if ([obj isKindOfClass:[NSDictionary class]]) {
+                    if (result2 == nil) { result2 = [NSMutableDictionary dictionary]; }
+                    result2[key] = obj;
+                }
+                break;
+                
+            case XZThemeStyleConfigurationKeyTypeSubstyle:
+                if (result3 == nil) { result3 = [NSMutableDictionary dictionary]; }
+                result3[key] = obj;
+                break;
         }
+        
         NSLog(@"Unrecognizable key `%@` and value `%@` in XZThemeStyle configuration. \n%@", key, obj, configuration);
     }];
-    
-    // 解析 nil 的正则表达式。
-    NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:@"^\\\\+nil$" options:0 error:NULL];
     
     [result1 enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute  _Nonnull attribute, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[NSDictionary class]]) {
@@ -133,13 +149,13 @@ static inline id _Nullable parseValue(id _Nullable value, NSRegularExpression * 
             // 如果为 状态-样式值 字典，遍历并存储，否则作为属性值存储。
             if (isStatedValues) {
                 [(NSDictionary *)obj enumerateKeysAndObjectsUsingBlock:^(XZThemeState _Nonnull state, id  _Nonnull value, BOOL * _Nonnull stop) {
-                    [self setValue:parseValue(value, regularExpression) forAttribute:attribute forState:state];
+                    [self setValue:parseValue(value) forAttribute:attribute forState:state];
                 }];
             } else {
                 [self setValue:obj forAttribute:attribute forState:XZThemeStateNormal];
             }
         } else {
-            [self setValue:parseValue(obj, regularExpression) forAttribute:attribute forState:XZThemeStateNormal];
+            [self setValue:parseValue(obj) forAttribute:attribute forState:XZThemeStateNormal];
         }
     }];
     
@@ -149,7 +165,7 @@ static inline id _Nullable parseValue(id _Nullable value, NSRegularExpression * 
                 NSLog(@"Unrecognizable XZThemeAttribute `%@` of state `%@` in XZThemeStyle configuration. \n%@", attribute, state, configuration);
                 return;
             }
-            [self setValue:parseValue(value, regularExpression) forAttribute:attribute forState:state];
+            [self setValue:parseValue(value) forAttribute:attribute forState:state];
         }];
     }];
     
