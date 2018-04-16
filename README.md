@@ -1,9 +1,17 @@
-# XZKit
+# XZTheme
 
 [![CI Status](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/mlibai/XZKit)
 [![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg?style=flat)](http://cocoapods.org/pods/XZKit)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](http://cocoapods.org/pods/XZKit)
 [![Platform](https://img.shields.io/badge/Platform-iOS-yellow.svg)](http://cocoapods.org/pods/XZKit)
+
+XZTheme 是 XZKit 组件，目前处于初步开发阶段，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
+
+## 开发计划：
+
+- 阶段 1: 实现通过样式标识符自动应用样式的功能。
+- 阶段 2: 实现标识符的复用、样式的复用。
+- 阶段 3: 实现 CSS 式的样式支持。
 
 ## 例子
 
@@ -13,16 +21,14 @@
 
 ## 安装集成
 
-可以通过 [CocoaPods](http://cocoapods.org) 快速继承到项目中，也可以直接下载 `XZKit.framework` 导入到项目中。
+
 
 ```ruby
-pod "XZKit"
+pod "XZKit/Theme"
 ```
 
 ## 组件
 
-- [APIManager 网络层框架](tree/master/XZKit/Documentation/APIManager)
-- [DataCryptor 对称加密工具](tree/master/XZKit/Documentation/APIManager)
 
 ## 联系作者
 
