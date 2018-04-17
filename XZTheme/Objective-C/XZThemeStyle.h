@@ -56,11 +56,9 @@ NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : NSObject <NSCopying>
 /// 子样式用 key 加以标识。
 @property (nonatomic, readonly, copy, nonnull) NSDictionary<NSString *, XZThemeStyle *> *substyles;
 
-
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)themeStyleWithConfiguration:(nonnull NSDictionary *)configuration NS_SWIFT_NAME(init(configuration:));
-- (void)addAttributesAndSubstylesFromConfiguration:(NSDictionary * _Nonnull)configuration;
-
 
 - (nullable XZThemeStyle *)substyleForKey:(NSString *)aKey;
 - (void)setSubstyle:(nullable XZThemeStyle *)substyle forKey:(NSString *)aKey;
