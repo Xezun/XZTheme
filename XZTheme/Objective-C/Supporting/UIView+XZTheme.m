@@ -36,9 +36,16 @@
 
 - (void)xz_setNeedsThemeApply {
     [super xz_setNeedsThemeApply];
+    if (![self xz_shouldUpdateAppearanceForSubviews]) {
+        return;
+    }
     for (UIView *view in self.subviews) {
         [view xz_setNeedsThemeApply];
     }
+}
+
+- (BOOL)xz_shouldUpdateAppearanceForSubviews {
+    return YES;
 }
 
 @end
