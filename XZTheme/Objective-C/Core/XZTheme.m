@@ -148,6 +148,33 @@ BOOL XZThemeIdentifierArrayContainsThemeIdentifierArray(NSArray<XZThemeIdentifie
 @end
 
 
+@implementation XZTheme (XZThemeDefines)
+
++ (NSRegularExpression *)XZTheme_regularExpression {
+    static NSRegularExpression *_regularExpression;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _regularExpression = [NSRegularExpression regularExpressionWithPattern:@"^[A-Za-z0-9_\\-]+$" options:0 error:NULL];
+    });
+    return _regularExpression;
+}
+
++ (BOOL)isValidName:(NSString *)aString from:(NSInteger)location {
+    if (aString.length <= location) {
+        return NO;
+    }
+    NSRange range1 = NSMakeRange(location, aString.length - location);
+    NSRange range2 = [self.XZTheme_regularExpression rangeOfFirstMatchInString:aString options:(0) range:range1];
+    return NSEqualRanges(range1, range2);
+}
+
++ (BOOL)isValidName:(NSString *)aString {
+    return [self isValidName:aString from:0];
+}
+
+@end
+
+
 
 @implementation _XZIdentifiedThemeStyleItem
 

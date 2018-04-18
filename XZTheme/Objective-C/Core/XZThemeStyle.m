@@ -9,7 +9,7 @@
 #import "XZThemeState.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeStyleValueParser.h"
-
+#import "XZTheme.h"
 
 /// 解析配置中的属性值。如果值是 nil 则转化为 [NSNull null]，否则原样返回。
 static id _Nullable EscapeNilValue(id _Nullable value);
@@ -266,16 +266,6 @@ static inline id _Nullable EscapeNilValue(id _Nullable value) {
     return aString;
 }
 
-/// 检查字符串指定范围的字符是否符合指定的正则表达式。
-static inline BOOL CheckName(NSString *aString, NSInteger location, NSRegularExpression *regularExpression) {
-    if (aString.length <= location) {
-        return NO;
-    }
-    NSRange range1 = NSMakeRange(location, aString.length - location);
-    NSRange range2 = [regularExpression rangeOfFirstMatchInString:aString options:(0) range:range1];
-    return NSEqualRanges(range1, range2);
-}
-
 static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeStyle *themeStyle) {
     // 配置字典 Key-Value 可能包含三种情况：<属性：状态字典或样式值>、<状态：属性-样式字典>、<子样式配置>。
     NSMutableDictionary<XZThemeAttribute, id>         * __block result1 = [NSMutableDictionary dictionary];
@@ -283,8 +273,6 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
     NSMutableDictionary<NSString *, NSDictionary *>   * __block result3 = [NSMutableDictionary dictionary];
     
     NSCharacterSet *trimmingCharacters = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    
-    NSRegularExpression *regularExpression = [NSRegularExpression regularExpressionWithPattern:@"^[A-Za-z0-9_\\-]+$" options:0 error:NULL];
     
     [configuration enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull configKey, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if (![configKey isKindOfClass:[NSString class]]) {
@@ -309,7 +297,7 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
                 break;
             }
             case ':':
-                if (CheckName(aKey, 1, regularExpression)) {
+                if ([XZTheme isValidName:aKey from:1]) {
                     result2[aKey] = obj;
                 } else {
                     NSLog(@"不合法的样式属性状态名: %@", configKey);
@@ -317,7 +305,7 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
                 break;
                 
             default:
-                if (CheckName(aKey, 0, regularExpression)) {
+                if ([XZTheme isValidName:aKey from: 0]) {
                     result1[aKey] = obj;
                 } else {
                     NSLog(@"不合法的样式属性名: %@", configKey);
@@ -336,7 +324,7 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
                 if ([key isKindOfClass:[NSString class]]) {
                     NSString *aKey = [key stringByTrimmingCharactersInSet:trimmingCharacters];
                     if ([aKey hasPrefix:@":"]) {
-                        if (CheckName(aKey, 1, regularExpression)) {
+                        if ([XZTheme isValidName: aKey from: 1]) {
                             [statedValues setObject:obj forKeyedSubscript:aKey];
                         } else {
                             NSLog(@"不合法的字样式属性状态名: %@", key);
@@ -365,7 +353,7 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
         [attributedValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
             if ([key isKindOfClass:[NSString class]]) {
                 XZThemeAttribute attribute = [key stringByTrimmingCharactersInSet:trimmingCharacters];
-                if (CheckName(attribute, 0, regularExpression)) {
+                if ([XZTheme isValidName: attribute from: 0]) {
                     [themeStyle setValue:EscapeNilValue(value) forAttribute:attribute forState:state];
                     return;
                 }
@@ -377,10 +365,9 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
     // 子样式 key 已处理为 name.name1.name2 格式。
     [result3 enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSDictionary * _Nonnull obj, BOOL * _Nonnull stop) {
         NSArray<NSString *> *substyleNames = [key componentsSeparatedByString:@"."];
+        XZThemeStyle *substyle = [XZThemeStyle themeStyleWithConfiguration:obj];
         for (NSString *substyleName in substyleNames) {
-            if (CheckName(substyleName, 0, regularExpression)) {
-                // TODO: 是否需要考虑子样式合并的问题。
-                XZThemeStyle *substyle = [XZThemeStyle themeStyleWithConfiguration:obj];
+            if ([XZTheme isValidName: substyleName from: 0]) {
                 [themeStyle setSubstyle:substyle forKey:key];
             } else {
                 NSLog(@"不合法的字样式子样式名: %@", substyleName);
