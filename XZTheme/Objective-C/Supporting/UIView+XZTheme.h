@@ -35,6 +35,6 @@
  */
 
 /// 当主题改变时，是否应该更新子控件样式。UIView 默认 YES；UIButton 默认 NO。
-- (BOOL)xz_shouldUpdateAppearanceForSubviews; //shouldUpdateAppearanceSubviewsConfrimApplyTheme
+- (BOOL)xz_shouldUpdateAppearanceForSubviews; 
 
 @end
