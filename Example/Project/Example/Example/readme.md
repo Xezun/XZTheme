@@ -11,3 +11,22 @@
     - 父视图 .main 子视图 .bold .header 那么子视图样式为 .main .bold | .main .header -> .main .bold.header
 
 
+.a .b.c d 既能匹配 .a .b. d 也能匹配 .a .c .d 。
+
+如果样式配置有 
+
+.a { }
+.a .b d {}
+.a .c d {}
+
+.a .b.c d {}
+
+主题框架可能与 CSS 有类似之处，但是其设计目的不同。
+配置文件初期只考虑 .plist 文件，后期再考虑是否支持类似 CSS 格式的文件。
+
+!!! 准备以新的方式来实现。
+1，暂时弃用使用配置文件的方案，比较维护配置文件也是一件困难的事。
+2，采取类似 view.theme.day.normal.backgrondColor 来实现，但是其可能对于属性需要反复拓展，会造成同一个类的属性过多，使用起来可能并不方便。
+3，采取 Theme.day.register(view, config(view)) 的方案，使用运行时的方法，提供一个对象供控件配置样式，这个对象将所有操作存储起来 NSInvocation 。
+
+Theme.day.register

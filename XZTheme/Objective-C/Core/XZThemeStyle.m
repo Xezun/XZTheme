@@ -10,6 +10,7 @@
 #import "XZThemeAttribute.h"
 #import "XZThemeStyleValueParser.h"
 #import "XZTheme.h"
+@import XZKit;
 
 /// 解析配置中的属性值。如果值是 nil 则转化为 [NSNull null]，否则原样返回。
 static id _Nullable EscapeNilValue(id _Nullable value);
@@ -30,7 +31,8 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
     self = [super init];
     if (self != nil) {
         /// 背景色默认 nil ，不继承上一个样式。
-        _attributedValues = [NSMutableDictionary dictionaryWithObject:[NSMutableDictionary dictionaryWithObject:[NSNull null] forKey:XZThemeStateNormal] forKey:XZThemeAttributeBackgroundColor];
+        NSMutableDictionary *statedValue = [NSMutableDictionary dictionaryWithObject:[NSNull null] forKey:XZThemeStateNormal];
+        _attributedValues = [NSMutableDictionary dictionaryWithObject:statedValue forKey:XZThemeAttributeBackgroundColor];
         _keyedSubstyles = [NSMutableDictionary dictionary];
     }
     return self;
@@ -276,7 +278,12 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
     
     [configuration enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull configKey, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if (![configKey isKindOfClass:[NSString class]]) {
-            NSLog(@"Unrecognizable key `%@` in XZThemeStyle configuration. \n%@", configKey, configuration);
+            XZLog(@"Unrecognizable key `%@` in XZThemeStyle configuration. \n%@", configKey, configuration);
+            
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                
+            });
             return;
         }
         // 去首位空格。
@@ -358,7 +365,7 @@ static void ParseThemeStyleConfiguration(NSDictionary *configuration, XZThemeSty
                     return;
                 }
             }
-            NSLog(@"不合法的样式属性名：%@", key);
+            XZLog(@"不合法的样式属性名：%@", key);
         }];
     }];
     

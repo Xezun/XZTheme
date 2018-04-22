@@ -13,7 +13,7 @@
 @interface NSObject (XZTheme)
 
 /** 主题标识符。 */
-@property (nonatomic, copy, nullable, setter=xz_setThemeIdentifier:) IBInspectable XZThemeIdentifier xz_themeIdentifier NS_SWIFT_NAME(themeIdentifier);
+@property (nonatomic, copy, nullable, setter=xz_setThemeIdentifier:) XZThemeIdentifier xz_themeIdentifier NS_SWIFT_NAME(themeIdentifier);
 
 /**
  * 已应用的主题名称。
@@ -32,12 +32,11 @@
  */
 - (void)xz_setNeedsThemeApply NS_SWIFT_NAME(setNeedsThemeApply());
 
-/**
- * 如果已被标记为需要更新主题，则执行以下操作，否则不执行任何操作。
- * @note 1. 取消标记。
- * @note 2. 取出当前主题并应用（调用 `xz_updateAppearanceWithTheme:` 方法）。
- * @note 3. 记录 2 中应用的主题。
- */
+/// @b 一般情况下，请勿重写此方法。
+/// 如果已被标记为需要更新主题，则执行以下操作，否则不执行任何操作。
+/// @note 1. 取消标记。
+/// @note 2. 取出当前主题并应用（调用 `xz_updateAppearanceWithTheme:` 方法）。
+/// @note 3. 记录 2 中应用的主题。
 - (void)xz_applyThemeIfNeeded NS_SWIFT_NAME(applyThemeIfNeeded());
 
 /**
