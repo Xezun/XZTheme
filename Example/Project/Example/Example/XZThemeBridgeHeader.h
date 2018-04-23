@@ -6,22 +6,36 @@
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-// MARK: - XZTheme
+// MARK: - 方案一
+
+//#import "XZTheme.h"
+//#import "XZThemeDefines.h"
+//#import "XZThemeAttribute.h"
+//#import "XZThemeStyle.h"
+//#import "XZThemeState.h"
+//#import "XZThemeStyleValueParser.h"
+//
+//#import "NSObject+XZTheme.h"
+//#import "UIView+XZTheme.h"
+//#import "UIViewController+XZTheme.h"
+//#import "UINavigationItem+XZTheme.h"
+//
+//#import "UIView+XZThemeStyle.h"
+//#import "UITabBarItem+XZThemeStyle.h"
+//#import "UIButton+XZThemeStyle.h"
+//#import "UILabel+XZThemeStyle.h"
+//#import "UITabBar+XZThemeStyle.h"
+//#import "UIImageView+XZThemeStyle.h"
+
+
+// MARK: - 方案二
+
 #import "XZTheme.h"
-#import "XZThemeDefines.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeStyle.h"
 #import "XZThemeState.h"
-#import "XZThemeStyleValueParser.h"
 
 #import "NSObject+XZTheme.h"
 #import "UIView+XZTheme.h"
 #import "UIViewController+XZTheme.h"
 #import "UINavigationItem+XZTheme.h"
-
-#import "UIView+XZThemeStyle.h"
-#import "UITabBarItem+XZThemeStyle.h"
-#import "UIButton+XZThemeStyle.h"
-#import "UILabel+XZThemeStyle.h"
-#import "UITabBar+XZThemeStyle.h"
-#import "UIImageView+XZThemeStyle.h"
