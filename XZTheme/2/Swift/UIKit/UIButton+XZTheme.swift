@@ -13,7 +13,7 @@ extension UIButton {
         super.updateAppearance(with: themeStyle)
         
         for themeState in themeStyle.themeStates {
-            let themeAttributes = themeStyle.themeAttributes(forState: themeState)!
+            let themeAttributes = themeStyle.themeStyle(forThemeState: themeState)!
             let controlState = UIControlState(themeState)
             for themeAttribute in themeAttributes.themeAttributes {
                 switch themeAttribute {

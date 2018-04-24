@@ -6,7 +6,7 @@
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-#import "XZThemeStyles.h"
+#import "XZThemeStyle.h"
 
 @implementation XZThemeStyle {
     NSMutableDictionary<XZThemeAttribute, id> *_themeAttributes;
@@ -52,14 +52,14 @@
     return [@[XZThemeStateNormal] arrayByAddingObjectsFromArray:_statedAttributes.allKeys];
 }
 
-- (XZThemeStyle *)themeAttributesForState:(XZThemeState)state {
+- (XZThemeStyle *)themeStyleForThemeState:(XZThemeState)state {
     if ([state isEqualToString:XZThemeStateNormal]) {
         return self;
     }
     return _statedAttributes[state];
 }
 
-- (void)setThemeAttributes:(XZThemeStyle *)themeAttributes forState:(XZThemeState)state {
+- (void)setThemeStyle:(XZThemeStyle *)themeAttributes forThemeState:(XZThemeState)state {
     if (![state isEqualToString:XZThemeStateNormal]) {
         _statedAttributes[state] = themeAttributes;
     }
@@ -128,7 +128,7 @@
 @end
 
 
-@implementation XZThemeStyle (XZExtendedThemeAttributes)
+@implementation XZThemeStyle (XZExtendedThemeStyle)
 
 // MARK: - UIView
 

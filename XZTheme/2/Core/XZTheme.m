@@ -7,7 +7,7 @@
 //
 
 #import "XZTheme.h"
-#import "XZThemeStyles.h"
+#import "XZThemeStyle.h"
 #import "NSObject+XZTheme.h"
 @import ObjectiveC;
 
