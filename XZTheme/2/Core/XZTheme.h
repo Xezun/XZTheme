@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class XZThemeStyle;
+@class XZThemeStyles;
 
 typedef NSString * XZTheme NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Theme);
 
@@ -28,11 +28,11 @@ NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithObject:(NSObject *)object NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:));
 
-- (nonnull XZThemeStyle *)styleForTheme:(nonnull XZTheme)theme;
-- (void)setStyle:(nonnull XZThemeStyle *)style forTheme:(nonnull XZTheme)theme;
+- (nonnull XZThemeStyles *)styleForTheme:(nonnull XZTheme)theme;
+- (void)setStyle:(nonnull XZThemeStyles *)style forTheme:(nonnull XZTheme)theme;
 
 /// 默认主题的样式。
-@property (nonatomic, nonnull, readonly) XZThemeStyle *defaultStyle NS_SWIFT_NAME(default);
+@property (nonatomic, nonnull, readonly) XZThemeStyles *defaultStyle NS_SWIFT_NAME(default);
 
 /// 当前主题，默认 XZThemeDefault 。
 @property (class, nonatomic, nonnull) XZTheme currentTheme;

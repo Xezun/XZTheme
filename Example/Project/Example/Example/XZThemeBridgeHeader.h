@@ -32,7 +32,7 @@
 
 #import "XZTheme.h"
 #import "XZThemeAttribute.h"
-#import "XZThemeStyle.h"
+#import "XZThemeStyles.h"
 #import "XZThemeState.h"
 
 #import "NSObject+XZTheme.h"

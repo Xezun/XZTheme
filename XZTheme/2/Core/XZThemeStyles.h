@@ -10,7 +10,7 @@
 #import "XZThemeAttribute.h"
 #import "XZThemeState.h"
 
-NS_SWIFT_NAME(Theme.Attributes) @interface XZThemeAttributes : NSObject
+NS_SWIFT_NAME(Theme.Attributes) @interface XZThemeStyle : NSObject
 
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeAttribute> *themeAttributes;
 
@@ -19,35 +19,35 @@ NS_SWIFT_NAME(Theme.Attributes) @interface XZThemeAttributes : NSObject
 
 @end
 
-NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : XZThemeAttributes
+NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyles : XZThemeStyle
 
 /// 所有状态，至少有一个状态 Normal 。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeState> *themeStates;
 
 /// 获取指定状态下的样式属性配置。
-- (nullable XZThemeAttributes *)themeAttributesForState:(nonnull XZThemeState)state;
+- (nullable XZThemeStyle *)themeAttributesForState:(nonnull XZThemeState)state;
 
 /// 添加多状态样式，状态 XZThemeStateNormal 的样式无需添加。
 ///
 /// @param themeAttributes 待添加的样式。
 /// @param state 待添加的样式状态。
-- (void)setThemeAttributes:(nullable XZThemeAttributes *)themeAttributes forState:(nonnull XZThemeState)state;
+- (void)setThemeAttributes:(nullable XZThemeStyle *)themeAttributes forState:(nonnull XZThemeState)state;
 
-@property (nonatomic, strong, readonly, nonnull) XZThemeAttributes *normal;
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *normal;
 
-@property (nonatomic, strong, readonly, nonnull) XZThemeAttributes *highlighted;
-@property (nonatomic, strong, readonly, nullable) XZThemeAttributes *highlightedIfLoaded;
-@property (nonatomic, strong, readonly, nonnull) XZThemeAttributes *selected;
-@property (nonatomic, strong, readonly, nullable) XZThemeAttributes *selectedIfLoaded;
-@property (nonatomic, strong, readonly, nonnull) XZThemeAttributes *disabled;
-@property (nonatomic, strong, readonly, nullable) XZThemeAttributes *disabledIfLoaded;
-@property (nonatomic, strong, readonly, nonnull) XZThemeAttributes *focused;
-@property (nonatomic, strong, readonly, nullable) XZThemeAttributes *focusedIfLoaded;
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *highlighted;
+@property (nonatomic, strong, readonly, nullable) XZThemeStyle *highlightedIfLoaded;
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *selected;
+@property (nonatomic, strong, readonly, nullable) XZThemeStyle *selectedIfLoaded;
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *disabled;
+@property (nonatomic, strong, readonly, nullable) XZThemeStyle *disabledIfLoaded;
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *focused;
+@property (nonatomic, strong, readonly, nullable) XZThemeStyle *focusedIfLoaded;
 
 @end
 
 
-@interface XZThemeAttributes (XZExtendedThemeAttributes)
+@interface XZThemeStyle (XZExtendedThemeAttributes)
 
 // MARK: - UIView
 

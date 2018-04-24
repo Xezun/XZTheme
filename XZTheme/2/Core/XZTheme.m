@@ -7,7 +7,7 @@
 //
 
 #import "XZTheme.h"
-#import "XZThemeStyle.h"
+#import "XZThemeStyles.h"
 #import "NSObject+XZTheme.h"
 @import ObjectiveC;
 
@@ -19,7 +19,7 @@ static const void * const _theme = &_theme;
 static XZTheme _Nonnull _currentTheme = XZThemeDefault;
 
 @implementation XZThemes {
-    NSMutableDictionary<XZTheme, XZThemeStyle *> *_styles;
+    NSMutableDictionary<XZTheme, XZThemeStyles *> *_styles;
 }
 
 + (XZTheme)currentTheme {
@@ -53,22 +53,22 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
     return self;
 }
 
-- (XZThemeStyle *)styleForTheme:(XZTheme)theme {
-    XZThemeStyle *themeStyle = _styles[theme];
+- (XZThemeStyles *)styleForTheme:(XZTheme)theme {
+    XZThemeStyles *themeStyle = _styles[theme];
     if (themeStyle != nil) {
         return themeStyle;
     }
-    themeStyle = [[XZThemeStyle alloc] init];
+    themeStyle = [[XZThemeStyles alloc] init];
     _styles[theme] = themeStyle;
     return themeStyle;
 }
 
-- (void)setStyle:(XZThemeStyle *)style forTheme:(XZTheme)theme {
+- (void)setStyle:(XZThemeStyles *)style forTheme:(XZTheme)theme {
     _styles[theme] = style;
 }
 
 
-- (XZThemeStyle *)defaultStyle {
+- (XZThemeStyles *)defaultStyle {
     return [self styleForTheme:XZThemeDefault];
 }
 

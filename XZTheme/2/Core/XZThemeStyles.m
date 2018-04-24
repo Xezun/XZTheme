@@ -6,9 +6,9 @@
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-#import "XZThemeStyle.h"
+#import "XZThemeStyles.h"
 
-@implementation XZThemeAttributes {
+@implementation XZThemeStyle {
     NSMutableDictionary<XZThemeAttribute, id> *_themeAttributes;
 }
 
@@ -36,8 +36,8 @@
 
 
 
-@implementation XZThemeStyle {
-    NSMutableDictionary<XZThemeState, XZThemeAttributes *> *_statedAttributes;
+@implementation XZThemeStyles {
+    NSMutableDictionary<XZThemeState, XZThemeStyle *> *_statedAttributes;
 }
 
 - (instancetype)init {
@@ -52,83 +52,83 @@
     return [@[XZThemeStateNormal] arrayByAddingObjectsFromArray:_statedAttributes.allKeys];
 }
 
-- (XZThemeAttributes *)themeAttributesForState:(XZThemeState)state {
+- (XZThemeStyle *)themeAttributesForState:(XZThemeState)state {
     if ([state isEqualToString:XZThemeStateNormal]) {
         return self;
     }
     return _statedAttributes[state];
 }
 
-- (void)setThemeAttributes:(XZThemeAttributes *)themeAttributes forState:(XZThemeState)state {
+- (void)setThemeAttributes:(XZThemeStyle *)themeAttributes forState:(XZThemeState)state {
     if (![state isEqualToString:XZThemeStateNormal]) {
         _statedAttributes[state] = themeAttributes;
     }
 }
 
-- (XZThemeAttributes *)normal {
+- (XZThemeStyle *)normal {
     return self;
 }
 
-- (XZThemeAttributes *)highlighted {
-    XZThemeAttributes *themeAttributes = _statedAttributes[XZThemeStateHighlighted];
+- (XZThemeStyle *)highlighted {
+    XZThemeStyle *themeAttributes = _statedAttributes[XZThemeStateHighlighted];
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeAttributes alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] init];
     _statedAttributes[XZThemeStateHighlighted] = themeAttributes;
     return themeAttributes;
 }
 
-- (XZThemeAttributes *)highlightedIfLoaded {
+- (XZThemeStyle *)highlightedIfLoaded {
     return _statedAttributes[XZThemeStateHighlighted];
 }
 
-- (XZThemeAttributes *)selected {
-    XZThemeAttributes *themeAttributes = _statedAttributes[XZThemeStateSelected];
+- (XZThemeStyle *)selected {
+    XZThemeStyle *themeAttributes = _statedAttributes[XZThemeStateSelected];
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeAttributes alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] init];
     _statedAttributes[XZThemeStateSelected] = themeAttributes;
     return themeAttributes;
 }
 
-- (XZThemeAttributes *)selectedIfLoaded {
+- (XZThemeStyle *)selectedIfLoaded {
     return _statedAttributes[XZThemeStateSelected];
 }
 
-- (XZThemeAttributes *)disabled {
-    XZThemeAttributes *themeAttributes = _statedAttributes[XZThemeStateDisabled];
+- (XZThemeStyle *)disabled {
+    XZThemeStyle *themeAttributes = _statedAttributes[XZThemeStateDisabled];
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeAttributes alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] init];
     _statedAttributes[XZThemeStateDisabled] = themeAttributes;
     return themeAttributes;
 }
 
-- (XZThemeAttributes *)disabledIfLoaded {
+- (XZThemeStyle *)disabledIfLoaded {
     return _statedAttributes[XZThemeStateDisabled];
 }
 
-- (XZThemeAttributes *)focused {
-    XZThemeAttributes *themeAttributes = _statedAttributes[XZThemeStateFocused];
+- (XZThemeStyle *)focused {
+    XZThemeStyle *themeAttributes = _statedAttributes[XZThemeStateFocused];
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeAttributes alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] init];
     _statedAttributes[XZThemeStateFocused] = themeAttributes;
     return themeAttributes;
 }
 
-- (XZThemeAttributes *)focusedIfLoaded {
+- (XZThemeStyle *)focusedIfLoaded {
     return _statedAttributes[XZThemeStateFocused];
 }
 
 @end
 
 
-@implementation XZThemeAttributes (XZExtendedThemeAttributes)
+@implementation XZThemeStyle (XZExtendedThemeAttributes)
 
 // MARK: - UIView
 

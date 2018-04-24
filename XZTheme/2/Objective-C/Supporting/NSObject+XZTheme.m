@@ -35,7 +35,7 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
         return;
     }
     objc_setAssociatedObject(self, _needsThemeAppearanceUpdate, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_RETAIN);
-    XZThemeStyle *themeStyle = [self.xz_themesIfLoaded styleForTheme:XZThemes.currentTheme];
+    XZThemeStyles *themeStyle = [self.xz_themesIfLoaded styleForTheme:XZThemes.currentTheme];
     if (themeStyle != nil) {
         [self xz_updateAppearanceWithThemeStyle:themeStyle];
     }
