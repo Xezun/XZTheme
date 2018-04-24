@@ -7,21 +7,17 @@
 
 import Foundation
 
-extension UIControlState {
-    
-    public init(_ themeState: Theme.State) {
-        switch themeState {
-        case .normal:       self = .normal
-        case .selected:     self = .selected
-        case .highlighted:  self = .highlighted
-        case .focused:      if #available(iOS 9.0, *) { self = .focused } else { self = .normal }
-        case .disabled:     self = .disabled
-        default:            self = .normal
-        }
-    }
-    
-}
 
+extension Theme {
+    
+    /// 当前已应用的主题。
+    /// — Note: 与 Themes.current 属性相同。
+    public var current: Theme {
+        get { return Themes.current     }
+        set { Themes.current = newValue }
+    }
+
+}
 
 extension Theme.State: ExpressibleByStringLiteral {
 
@@ -49,3 +45,17 @@ extension Theme.Attribute: ExpressibleByStringLiteral {
 }
 
 
+extension UIControlState {
+    
+    public init(_ themeState: Theme.State) {
+        switch themeState {
+        case .normal:       self = .normal
+        case .selected:     self = .selected
+        case .highlighted:  self = .highlighted
+        case .focused:      if #available(iOS 9.0, *) { self = .focused } else { self = .normal }
+        case .disabled:     self = .disabled
+        default:            self = .normal
+        }
+    }
+    
+}

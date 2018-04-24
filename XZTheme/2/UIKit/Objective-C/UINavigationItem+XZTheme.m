@@ -6,6 +6,7 @@
 //
 
 #import "UINavigationItem+XZTheme.h"
+#import "XZTheme.h"
 
 @implementation UINavigationItem (XZTheme)
 

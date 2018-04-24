@@ -37,11 +37,9 @@
 #import "XZThemeStyles.h"
 #import "XZThemeState.h"
 #import "XZThemeStyleValueParser.h"
-#import "NSObject+XZTheme.h"
 
 
 // UIKit/Supporting
-#import "XZThemeStyle+ValueParser.h"
 #import "XZThemeStyle+UIView.h"
 #import "XZThemeStyle+UILabel.h"
 #import "XZThemeStyle+UIButton.h"

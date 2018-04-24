@@ -9,7 +9,6 @@
 #import "XZTheme.h"
 #import "XZThemeStyle.h"
 #import "XZThemeStyles.h"
-#import "NSObject+XZTheme.h"
 @import ObjectiveC;
 
 
@@ -85,7 +84,9 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
 
 @implementation NSObject (XZThemeSupporting)
 
-static const void * const _theme = &_theme;
+static const void * const _theme                       = &_theme;
+static const void * const _appliedTheme                = &_appliedTheme;
+static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceUpdate;
 
 - (XZThemes *)xz_themes {
     XZThemes *theme = objc_getAssociatedObject(self, _theme);
@@ -99,6 +100,41 @@ static const void * const _theme = &_theme;
 
 - (XZThemes *)xz_themesIfLoaded {
     return objc_getAssociatedObject(self, _theme);
+}
+
+- (XZTheme)xz_appliedTheme {
+    return objc_getAssociatedObject(self, _appliedTheme);
+}
+
+- (BOOL)xz_needsThemeAppearanceUpdate {
+    return [objc_getAssociatedObject(self, _needsThemeAppearanceUpdate) boolValue];
+}
+
+- (void)xz_setNeedsThemeAppearanceUpdate {
+    if ([self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    objc_setAssociatedObject(self, _needsThemeAppearanceUpdate, [NSNumber numberWithBool:YES], OBJC_ASSOCIATION_COPY_NONATOMIC);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self xz_updateThemeAppearanceIfNeeded];
+    });
+}
+
+- (void)xz_updateThemeAppearanceIfNeeded {
+    if (![self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    objc_setAssociatedObject(self, _needsThemeAppearanceUpdate, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_COPY_NONATOMIC);
+    XZTheme currentTheme = [XZThemes currentTheme];
+    XZThemeStyles *themeStyles = [self.xz_themesIfLoaded themeStylesIfLoadedForTheme:currentTheme];
+    if (themeStyles != nil) {
+        [self xz_updateAppearanceWithThemeStyles:themeStyles];
+    }
+    objc_setAssociatedObject(self, _appliedTheme, currentTheme, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void)xz_updateAppearanceWithThemeStyles:(XZThemeStyles *)themeStyles {
+    
 }
 
 @end

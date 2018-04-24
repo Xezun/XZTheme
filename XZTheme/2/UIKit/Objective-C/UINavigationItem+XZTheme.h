@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NSObject+XZTheme.h"
 
 
 @interface UINavigationItem (XZTheme)

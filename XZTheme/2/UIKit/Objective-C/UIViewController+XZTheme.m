@@ -7,6 +7,9 @@
 //
 
 #import "UIViewController+XZTheme.h"
+#import "XZTheme.h"
+@import ObjectiveC;
+
 
 @implementation UIViewController (XZTheme)
 

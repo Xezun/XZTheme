@@ -7,6 +7,8 @@
 //
 
 #import "UIView+XZTheme.h"
+#import "XZTheme.h"
+@import ObjectiveC;
 
 @implementation UIView (XZTheme)
 

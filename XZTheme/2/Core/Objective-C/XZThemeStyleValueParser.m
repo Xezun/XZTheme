@@ -7,7 +7,6 @@
 //
 
 #import "XZThemeStyleValueParser.h"
-#import "XZThemeStyle+ValueParser.h"
 @import XZKit;
 
 @implementation XZThemeStyleValueParser
@@ -24,7 +23,16 @@
 
 @end
 
-@implementation XZThemeStyleFontValueParser
+@implementation XZThemeStyleFontParser
+
++ (XZThemeStyleFontParser *)defaultParser {
+    static XZThemeStyleFontParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleFontParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (UIFont *)parse:(id)value {
     if ([value isKindOfClass:[UIFont class]]) {
@@ -54,7 +62,16 @@
 
 @end
 
-@implementation XZThemeStyleColorValueParser
+@implementation XZThemeStyleColorParser
+
++ (XZThemeStyleColorParser *)defaultParser {
+    static XZThemeStyleColorParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleColorParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (UIColor *)parse:(id)value {
     if ([value isKindOfClass:[UIColor class]]) {
@@ -71,7 +88,16 @@
 
 @end
 
-@implementation XZThemeStyleImageValueParser
+@implementation XZThemeStyleImageParser
+
++ (XZThemeStyleImageParser *)defaultParser {
+    static XZThemeStyleImageParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleImageParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (UIImage *)parse:(id)value {
     if ([value isKindOfClass:[UIImage class]]) {
@@ -93,7 +119,16 @@
 
 @end
 
-@implementation XZThemeStyleStringValueParser
+@implementation XZThemeStyleStringParser
+
++ (XZThemeStyleStringParser *)defaultParser {
+    static XZThemeStyleStringParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleStringParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (NSString *)parse:(id)value {
     if ([value isKindOfClass:[NSString class]]) {
@@ -104,7 +139,16 @@
 
 @end
 
-@implementation XZThemeStyleAttributedStringValueParser
+@implementation XZThemeStyleAttributedStringParser
+
++ (XZThemeStyleAttributedStringParser *)defaultParser {
+    static XZThemeStyleAttributedStringParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleAttributedStringParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (NSAttributedString *)parse:(id)value {
     if ([value isKindOfClass:[NSString class]]) {
@@ -120,18 +164,27 @@
 
 @end
 
-@implementation XZThemeStyleStringAttributesValueParser
+@implementation XZThemeStyleStringAttributesParser
+
++ (XZThemeStyleStringAttributesParser *)defaultParser {
+    static XZThemeStyleStringAttributesParser *defaultParser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultParser = [[XZThemeStyleStringAttributesParser alloc] init];
+    });
+    return defaultParser;
+}
 
 - (NSDictionary *)parse:(id)value {
     if (![value isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
     NSMutableDictionary *attrs = [NSMutableDictionary dictionaryWithDictionary:value];
-    attrs[NSFontAttributeName] = [[XZThemeStyle fontParser] parse:attrs[@"font"]];
+    attrs[NSFontAttributeName] = [XZThemeStyleFontParser.defaultParser parse:attrs[@"font"]];
     [attrs removeObjectForKey:@"font"];
-    attrs[NSForegroundColorAttributeName] = [[XZThemeStyle colorParser] parse:attrs[@"color"]];
+    attrs[NSForegroundColorAttributeName] = [XZThemeStyleColorParser.defaultParser parse:attrs[@"color"]];
     [attrs removeObjectForKey:@"color"];
-    attrs[NSBackgroundColorAttributeName] = [[XZThemeStyle colorParser] parse:attrs[@"backgroundColor"]];
+    attrs[NSBackgroundColorAttributeName] = [XZThemeStyleColorParser.defaultParser parse:attrs[@"backgroundColor"]];
     [attrs removeObjectForKey:@"backgroundColor"];
     return attrs;
 }
