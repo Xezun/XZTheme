@@ -9,17 +9,20 @@ import UIKit
 
 extension UIView {
     
-    open override func applyThemeAttribute(_ themeAttribute: Theme.Attribute, for themeState: Theme.State, in themeAttributes: Theme.Attributes) {
-        super.applyThemeAttribute(themeAttribute, for: themeState, in: themeAttributes)
+    open override func updateAppearance(with themeStyle: Theme.Style) {
+        super.updateAppearance(with: themeStyle)
         
-        switch themeAttribute {
-        case .backgroundColor: self.backgroundColor = themeAttributes.backgroundColor;
-        case .tintColor:       self.tintColor       = themeAttributes.tintColor;
-        case .isHidden:        self.isHidden        = themeAttributes.isHidden;
-        case .alpha:           self.alpha           = themeAttributes.alpha;
-        case .isOpaque:        self.isOpaque        = themeAttributes.isOpaque;
-        default:               break;
+        for themeAttribute in themeStyle.themeAttributes {
+            switch themeAttribute {
+            case .backgroundColor: self.backgroundColor = themeStyle.backgroundColor;
+            case .tintColor:       self.tintColor       = themeStyle.tintColor;
+            case .isHidden:        self.isHidden        = themeStyle.isHidden;
+            case .alpha:           self.alpha           = themeStyle.alpha;
+            case .isOpaque:        self.isOpaque        = themeStyle.isOpaque;
+            default:               break;
+            }
         }
+        
         
     }
     

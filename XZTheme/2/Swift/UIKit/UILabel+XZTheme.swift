@@ -10,15 +10,18 @@ import UIKit
 
 extension UILabel {
     
-    open override func applyThemeAttribute(_ themeAttribute: Theme.Attribute, for themeState: Theme.State, in themeAttributes: Theme.Attributes) {
-        super.applyThemeAttribute(themeAttribute, for: themeState, in: themeAttributes)
-        switch themeAttribute {
-        case .text:                 self.text                   = themeAttributes.text;
-        case .textColor:            self.textColor              = themeAttributes.textColor;
-        case .font:                 self.font                   = themeAttributes.font;
-        case .shadowColor:          self.shadowColor            = themeAttributes.shadowColor;
-        case .highlightedTextColor: self.highlightedTextColor   = themeAttributes.highlightedTextColor;
-        default:                    break;
+    open override func updateAppearance(with themeStyle: Theme.Style) {
+        super.updateAppearance(with: themeStyle)
+        
+        for themeAttribute in themeStyle.themeAttributes {
+            switch themeAttribute {
+            case .text:                 self.text                   = themeStyle.text;
+            case .textColor:            self.textColor              = themeStyle.textColor;
+            case .font:                 self.font                   = themeStyle.font;
+            case .shadowColor:          self.shadowColor            = themeStyle.shadowColor;
+            case .highlightedTextColor: self.highlightedTextColor   = themeStyle.highlightedTextColor;
+            default:                    break; 
+            }
         }
         
     }

@@ -9,16 +9,19 @@ import UIKit
 
 extension UIImageView {
     
-    open override func applyThemeAttribute(_ themeAttribute: Theme.Attribute, for themeState: Theme.State, in themeAttributes: Theme.Attributes) {
-        super.applyThemeAttribute(themeAttribute, for: themeState, in: themeAttributes)
-        switch themeAttribute {
-        case .image:                        self.image = themeAttributes.image;
-        case .highlightedImage:             self.highlightedImage = themeAttributes.highlightedImage;
-        case .isHighlighted:                self.isHighlighted = themeAttributes.isHighlighted;
-        case .animationImages:              self.animationImages = themeAttributes.animationImages;
-        case .highlightedAnimationImages:   self.highlightedAnimationImages = themeAttributes.highlightedAnimationImages;
-        case .isAnimating:                  if themeAttributes.isAnimating { self.startAnimating(); } else { self.stopAnimating(); }
-        default:                            break;
+    open override func updateAppearance(with themeStyle: Theme.Style) {
+        super.updateAppearance(with: themeStyle)
+        
+        for themeAttribute in themeStyle.themeAttributes {
+            switch themeAttribute {
+            case .image:                        self.image              = themeStyle.image;
+            case .highlightedImage:             self.highlightedImage   = themeStyle.highlightedImage;
+            case .isHighlighted:                self.isHighlighted      = themeStyle.isHighlighted;
+            case .animationImages:              self.animationImages    = themeStyle.animationImages;
+            case .highlightedAnimationImages:   self.highlightedAnimationImages = themeStyle.highlightedAnimationImages;
+            case .isAnimating:                  if themeStyle.isAnimating { self.startAnimating(); } else { self.stopAnimating(); }
+            default:                            break;
+            }
         }
         
     }

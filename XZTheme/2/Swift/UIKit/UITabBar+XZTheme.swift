@@ -9,22 +9,25 @@ import UIKit
 
 extension UITabBar {
     
-    open override func applyThemeAttribute(_ themeAttribute: Theme.Attribute, for themeState: Theme.State, in themeAttributes: Theme.Attributes) {
-        super.applyThemeAttribute(themeAttribute, for: themeState, in: themeAttributes)
+    open override func updateAppearance(with themeStyle: Theme.Style) {
+        super.updateAppearance(with: themeStyle)
         
-        switch themeAttribute {
-        case .barTintColor:             self.barTintColor            = themeAttributes.barTintColor;
-        case .shadowImage:              self.shadowImage             = themeAttributes.shadowImage;
-        case .backgroundImage:          self.backgroundImage         = themeAttributes.backgroundImage;
-        case .selectionIndicatorImage:  self.selectionIndicatorImage = themeAttributes.selectionIndicatorImage;
-        case .unselectedItemTintColor:
-            if #available(iOS 10.0, *) {
-                self.unselectedItemTintColor = themeAttributes.unselectedItemTintColor
-            } else {
-                // Fallback on earlier versions
-            };
+        for themeAttribute in themeStyle.themeAttributes {
             
-        default: break;
+            switch themeAttribute {
+            case .barTintColor:             self.barTintColor            = themeStyle.barTintColor;
+            case .shadowImage:              self.shadowImage             = themeStyle.shadowImage;
+            case .backgroundImage:          self.backgroundImage         = themeStyle.backgroundImage;
+            case .selectionIndicatorImage:  self.selectionIndicatorImage = themeStyle.selectionIndicatorImage;
+            case .unselectedItemTintColor:
+                if #available(iOS 10.0, *) {
+                    self.unselectedItemTintColor = themeStyle.unselectedItemTintColor
+                } else {
+                    // Fallback on earlier versions
+                };
+                
+            default: break;
+            }
         }
     }
 }

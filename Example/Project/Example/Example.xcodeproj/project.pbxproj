@@ -184,12 +184,12 @@
 		DDB789BE208E1A2C00DB4EDE /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				DDB789BF208E1A2C00DB4EDE /* UITabBar+XZTheme.swift */,
+				DDB789C4208E1A2C00DB4EDE /* UIView+XZTheme.swift */,
+				DDB789C3208E1A2C00DB4EDE /* UIImageView+XZTheme.swift */,
 				DDB789C0208E1A2C00DB4EDE /* UILabel+XZTheme.swift */,
 				DDB789C1208E1A2C00DB4EDE /* UIButton+XZTheme.swift */,
+				DDB789BF208E1A2C00DB4EDE /* UITabBar+XZTheme.swift */,
 				DDB789C2208E1A2C00DB4EDE /* UITabBarItem+XZTheme.swift */,
-				DDB789C3208E1A2C00DB4EDE /* UIImageView+XZTheme.swift */,
-				DDB789C4208E1A2C00DB4EDE /* UIView+XZTheme.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
