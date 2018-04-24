@@ -80,7 +80,7 @@ class ViewController: UIViewController {
         
         view.addSubview(button)
         
-        button.themes.night.normal.setValue("#000", forThemeAttribute: .titleColor)
+//        button.themes.night.normal.setValue("#000", forThemeAttribute: .backgroundImage)
     }
 
     override func didReceiveMemoryWarning() {

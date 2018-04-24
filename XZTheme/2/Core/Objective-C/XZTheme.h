@@ -15,6 +15,7 @@
 /// 主题。
 /// @todo 如果在 window 创建之前设置主题，那么 window 的主题是否会应用需待验证。
 /// @todo 主题样式的资源管理以及静态缓存策略（通过主题标识符，将配置缓存到磁盘上）待研究。
+/// @todo 通过主题标识符自动读取配置。
 typedef NSString * XZTheme NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Theme);
 
 NS_ASSUME_NONNULL_BEGIN

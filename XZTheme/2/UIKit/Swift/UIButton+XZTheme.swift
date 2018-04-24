@@ -17,8 +17,8 @@ extension UIButton {
         super.updateAppearance(with: themeStyles)
         
         for themeState in themeStyles.themeStates {
+            guard let controlState = UIControlState(themeState) else { continue }
             let themeStyle      = themeStyles.themeStyle(forThemeState: themeState)!
-            let controlState    = UIControlState(themeState)
             for themeAttribute in themeStyle.themeAttributes {
                 switch themeAttribute {
                 case .title:            self.setTitle(              themeStyle.title,            for: controlState);
