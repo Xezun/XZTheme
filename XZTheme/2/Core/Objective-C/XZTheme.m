@@ -42,7 +42,7 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
     }
 }
 
-- (instancetype)initWithObject:(UIView *)object {
+- (instancetype)initWithObject:(NSObject *)object {
     self = [super init];
     if (self != nil) {
         _object = object;
@@ -56,7 +56,7 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
     if (themeStyles != nil) {
         return themeStyles;
     }
-    themeStyles = [[XZThemeStyles alloc] init];
+    themeStyles = [[XZThemeStyles alloc] initWithObject:self->_object];
     _themedStyles[theme] = themeStyles;
     return themeStyles;
 }
@@ -72,6 +72,15 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
 - (XZThemeStyles *)defaultThemeStyles {
     return [self themeStylesForTheme:XZThemeDefault];
 }
+
+
+//- (void)XZThemes_windowDidBecomeVisible:(NSNotification *)notification {
+//    [self.object xz_setNeedsThemeAppearanceUpdate];
+//}
+//
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIWindowDidBecomeVisibleNotification object:nil];
+//}
 
 @end
 
@@ -93,6 +102,8 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
     }
     theme = [[XZThemes alloc] initWithObject:self];
     objc_setAssociatedObject(self, _theme, theme, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    // 标记需要更新外观，凡是调用了此方法，主题都会更新一次。
+    [self xz_setNeedsThemeAppearanceUpdate];
     return theme;
 }
 
@@ -142,7 +153,4 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
 }
 
 @end
-
-
-
 

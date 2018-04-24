@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 /// 主题样式属性状态。
-/// @note 自定义属性状态，请以 : 开头。
+/// @note 主题状态字符串符合正则 /^\:[A-Za-z]+$/ 。
 typedef NSString * XZThemeState NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Theme.State);
 
 /// 普通主题状态，主题的默认状态，与 UIControlStateNormal 对应。

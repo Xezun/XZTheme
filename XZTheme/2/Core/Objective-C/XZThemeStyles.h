@@ -8,6 +8,8 @@
 
 #import "XZThemeStyle.h"
 
+@class XZThemes;
+
 NS_SWIFT_NAME(Theme.Styles) @interface XZThemeStyles : XZThemeStyle
 
 /// 所有状态，至少有一个状态 Normal 。

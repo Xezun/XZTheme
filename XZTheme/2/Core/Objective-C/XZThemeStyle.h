@@ -16,6 +16,10 @@ NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : NSObject
 
 /// 主题样式中的所有已设置值的主题属性。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeAttribute> *themeAttributes;
+@property (nonatomic, weak, readonly, nullable) NSObject *object;
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithObject:(NSObject *)object NS_DESIGNATED_INITIALIZER;
 
 /// 设置主题属性值。
 /// @note 使用 [NSNull null] 表示需要设置 nil 的主题属性。

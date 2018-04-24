@@ -79,8 +79,6 @@ class ViewController: UIViewController {
         button.themes.night.highlighted.backgroundImage = UIImage(filled: .yellow).blending(0.5)
         
         view.addSubview(button)
-        
-//        button.themes.night.normal.setValue("#000", forThemeAttribute: .backgroundImage)
     }
 
     override func didReceiveMemoryWarning() {

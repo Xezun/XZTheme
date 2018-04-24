@@ -7,6 +7,7 @@
 //
 
 #import "XZThemeStyle.h"
+#import "XZTheme.h"
 #import "XZThemeStyleValueParser.h"
 
 @implementation XZThemeStyle {
@@ -17,9 +18,10 @@
     return _attributedValues.allKeys;
 }
 
-- (instancetype)init {
+- (instancetype)initWithObject:(NSObject *)object {
     self = [super init];
     if (self) {
+        _object = object;
         _attributedValues = [NSMutableDictionary dictionary];
     }
     return self;
@@ -27,6 +29,7 @@
 
 - (void)setValue:(id)value forThemeAttribute:(XZThemeAttribute)themeAttribute {
     _attributedValues[themeAttribute] = value;
+    [_object xz_setNeedsThemeAppearanceUpdate];
 }
 
 - (id)valueForThemeAttribute:(XZThemeAttribute)themeAttribute {

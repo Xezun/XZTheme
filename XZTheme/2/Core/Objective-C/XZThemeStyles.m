@@ -7,17 +7,10 @@
 //
 
 #import "XZThemeStyles.h"
+#import "XZTheme.h"
 
 @implementation XZThemeStyles {
     NSMutableDictionary<XZThemeState, XZThemeStyle *> *_statedThemeStyles;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _statedThemeStyles = [NSMutableDictionary dictionary];
-    }
-    return self;
 }
 
 - (NSArray<XZThemeState> *)themeStates {
@@ -32,9 +25,11 @@
 }
 
 - (void)setThemeStyle:(XZThemeStyle *)themeAttributes forThemeState:(XZThemeState)state {
-    if (![state isEqualToString:XZThemeStateNormal]) {
-        _statedThemeStyles[state] = themeAttributes;
+    if ([state isEqualToString:XZThemeStateNormal]) {
+        return;
     }
+    _statedThemeStyles[state] = themeAttributes;
+    [self.object xz_setNeedsThemeAppearanceUpdate];
 }
 
 - (XZThemeStyle *)normalStyle {
@@ -46,7 +41,7 @@
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeStyle alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
     _statedThemeStyles[XZThemeStateHighlighted] = themeAttributes;
     return themeAttributes;
 }
@@ -60,7 +55,7 @@
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeStyle alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
     _statedThemeStyles[XZThemeStateSelected] = themeAttributes;
     return themeAttributes;
 }
@@ -74,7 +69,7 @@
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeStyle alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
     _statedThemeStyles[XZThemeStateDisabled] = themeAttributes;
     return themeAttributes;
 }
@@ -88,7 +83,7 @@
     if (themeAttributes != nil) {
         return themeAttributes;
     }
-    themeAttributes = [[XZThemeStyle alloc] init];
+    themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
     _statedThemeStyles[XZThemeStateFocused] = themeAttributes;
     return themeAttributes;
 }

@@ -13,9 +13,9 @@
 @class XZThemeStyles;
 
 /// 主题。
-/// @todo 如果在 window 创建之前设置主题，那么 window 的主题是否会应用需待验证。
 /// @todo 主题样式的资源管理以及静态缓存策略（通过主题标识符，将配置缓存到磁盘上）待研究。
 /// @todo 通过主题标识符自动读取配置。
+/// @todo 通过字典、JSON串来配置样式。
 typedef NSString * XZTheme NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Theme);
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,7 +37,7 @@ NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
 @property (class, nonatomic, nonnull) XZTheme currentTheme NS_SWIFT_NAME(current);
 
 /// 当前 XZThemes 所属的对象。
-@property (nonatomic, weak, readonly, nullable) UIView *object;
+@property (nonatomic, weak, readonly, nullable) NSObject *object;
 /// 所有主题。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZTheme> *themes;
 
@@ -99,6 +99,8 @@ NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
 - (BOOL)xz_needsThemeAppearanceUpdate NS_SWIFT_NAME(needsThemeAppearanceUpdate());
 
 /// 将主题标记为需要更新。
+/// @note 此方法主要目的是降低在更改主题样式时更新主题的频率，从而提高性能；尽可能的只在视图显示时更新主题则不在此方法考虑的范围。
+/// @note 所以此方法一旦调用，更新主题的方法一定会发生，只是频率会大大减少。
 /// @note 默认情况下，该方法将在下一 runloop 中调用 `-applyThemeIfNeeded` 方法，且在同一 runloop 中，多次调用，只会触发一次。
 /// @note 对于 UIKit 控件，当主题发生改变时，此方法会自动调用；如果控件没有显示，则在其显示时会自动调用。
 /// @note 对于非 UIKit 控件对象，需要手动添加监听主题变更通知，并在合适的时机调用此方法（一般可以直接将通知绑定到此方法上）。
