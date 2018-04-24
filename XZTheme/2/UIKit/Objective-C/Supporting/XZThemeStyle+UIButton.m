@@ -7,10 +7,11 @@
 //
 
 #import "XZThemeStyle+UIButton.h"
+#import "XZThemeStyle.h"
 
 @implementation XZThemeStyle (UIButton)
 - (NSString *)title {
-    return [self valueForThemeAttribute:(XZThemeAttributeTitle)];
+    return [XZThemeStyle.stringParser parse:[self valueForThemeAttribute:(XZThemeAttributeTitle)]];
 }
 
 - (void)setTitle:(NSString * _Nullable)title {
@@ -18,7 +19,7 @@
 }
 
 - (UIColor *)titleColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeTitleColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeTitleColor)]];
 }
 
 - (void)setTitleColor:(UIColor * _Nullable)titleColor {
@@ -26,7 +27,7 @@
 }
 
 - (UIImage *)backgroundImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeBackgroundImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeBackgroundImage)]];
 }
 
 - (void)setBackgroundImage:(UIImage * _Nullable)backgroundImage {
@@ -34,7 +35,7 @@
 }
 
 - (UIColor *)titleShadowColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeTitleShadowColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeTitleShadowColor)]];
 }
 
 - (void)setTitleShadowColor:(UIColor * _Nullable)titleShadowColor {
@@ -42,7 +43,7 @@
 }
 
 - (NSAttributedString *)attributedTitle {
-    return [self valueForThemeAttribute:(XZThemeAttributeAttributedTitle)];
+    return [XZThemeStyle.attributedStringParser parse:[self valueForThemeAttribute:(XZThemeAttributeAttributedTitle)]];
 }
 
 - (void)setAttributedTitle:(NSAttributedString * _Nullable)attributedTitle {

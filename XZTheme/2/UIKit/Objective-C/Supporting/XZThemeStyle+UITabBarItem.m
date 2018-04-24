@@ -11,7 +11,7 @@
 @implementation XZThemeStyle (UITabBarItem)
 
 - (UIImage *)selectedImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeSelectedImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeSelectedImage)]];
 }
 
 - (void)setSelectedImage:(UIImage * _Nullable)selectedImage {
@@ -19,7 +19,7 @@
 }
 
 - (NSDictionary<NSAttributedStringKey,id> *)titleTextAttributes {
-    return [self valueForThemeAttribute:(XZThemeAttributeTitleTextAttributes)];
+    return [XZThemeStyle.stringAttributesParser parse:[self valueForThemeAttribute:(XZThemeAttributeTitleTextAttributes)]];
 }
 
 - (void)setTitleTextAttributes:(NSDictionary<NSAttributedStringKey,id> * _Nullable)titleTextAttributes {
@@ -27,7 +27,7 @@
 }
 
 - (UIImage *)landscapeImagePhone {
-    return [self valueForThemeAttribute:(XZThemeAttributeLandscapeImagePhone)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeLandscapeImagePhone)]];
 }
 
 - (void)setLandscapeImagePhone:(UIImage * _Nullable)landscapeImagePhone {
@@ -35,7 +35,7 @@
 }
 
 - (UIImage *)largeContentSizeImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeLargeContentSizeImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeLargeContentSizeImage)]];
 }
 
 - (void)setLargeContentSizeImage:(UIImage * _Nullable)largeContentSizeImage {

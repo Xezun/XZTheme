@@ -89,8 +89,12 @@ NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
 /// 已应用的主题。
 @property (nonatomic, copy, readonly, nullable) XZTheme xz_appliedTheme NS_SWIFT_NAME(appliedTheme);
 
+/// 是否传递主题变更事件。默认 YES 。
+/// @note 当 UIView 控件收到主题变更事件时，可以通过此方法来控制子视图是否更新主题。
+- (BOOL)xz_forwardsThemeAppearanceUpdate NS_SWIFT_NAME(forwardsThemeAppearanceUpdate());
+
 /// 是否已标记需要更新主题。
-@property (nonatomic, readonly) BOOL xz_needsThemeAppearanceUpdate NS_SWIFT_NAME(needsThemeAppearanceUpdate);
+- (BOOL)xz_needsThemeAppearanceUpdate NS_SWIFT_NAME(needsThemeAppearanceUpdate());
 
 /// 将主题标记为需要更新。
 /// @note 默认情况下，该方法将在下一 runloop 中调用 `-applyThemeIfNeeded` 方法，且在同一 runloop 中，多次调用，只会触发一次。

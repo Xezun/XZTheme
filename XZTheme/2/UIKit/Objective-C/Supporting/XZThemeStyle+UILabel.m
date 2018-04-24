@@ -10,7 +10,7 @@
 
 @implementation XZThemeStyle (UILabel)
 - (NSString *)text {
-    return [self valueForThemeAttribute:(XZThemeAttributeText)];
+    return [XZThemeStyle.stringParser parse:[self valueForThemeAttribute:(XZThemeAttributeText)]];
 }
 
 - (void)setText:(NSString * _Nullable)text {
@@ -18,7 +18,7 @@
 }
 
 - (UIColor *)textColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeTextColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeTextColor)]];
 }
 
 - (void)setTextColor:(UIColor * _Nullable)textColor {
@@ -26,7 +26,7 @@
 }
 
 - (UIFont *)font {
-    return [self valueForThemeAttribute:(XZThemeAttributeFont)];
+    return [XZThemeStyle.fontParser parse:[self valueForThemeAttribute:(XZThemeAttributeFont)]];
 }
 
 - (void)setFont:(UIFont * _Nullable)font {
@@ -34,7 +34,7 @@
 }
 
 - (UIColor *)shadowColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeShadowColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeShadowColor)]];
 }
 
 - (void)setShadowColor:(UIColor * _Nullable)shadowColor {
@@ -42,7 +42,7 @@
 }
 
 - (UIColor *)highlightedTextColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeHighlightedTextColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeHighlightedTextColor)]];
 }
 
 - (void)setHighlightedTextColor:(UIColor * _Nullable)highlightedTextColor {

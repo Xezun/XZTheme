@@ -9,7 +9,7 @@ import UIKit
 
 extension UIImageView {
     
-    open override func updatesAppearanceForSubviews() -> Bool {
+    open override func forwardsThemeAppearanceUpdate() -> Bool {
         return false
     }
     

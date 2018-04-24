@@ -10,7 +10,7 @@
 
 @implementation XZThemeStyle (UITabBar)
 - (UIColor *)barTintColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeBarTintColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeBarTintColor)]];
 }
 
 - (void)setBarTintColor:(UIColor * _Nullable)barTintColor {
@@ -18,7 +18,7 @@
 }
 
 - (UIImage *)shadowImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeShadowImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeShadowImage)]];
 }
 
 - (void)setShadowImage:(UIImage * _Nullable)shadowImage {
@@ -26,7 +26,7 @@
 }
 
 - (UIColor *)unselectedItemTintColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeUnselectedItemTintColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeUnselectedItemTintColor)]];
 }
 
 - (void)setUnselectedItemTintColor:(UIColor * _Nullable)unselectedItemTintColor {
@@ -34,7 +34,7 @@
 }
 
 - (UIImage *)selectionIndicatorImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeSelectionIndicatorImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeSelectionIndicatorImage)]];
 }
 
 - (void)setSelectionIndicatorImage:(UIImage * _Nullable)selectionIndicatorImage {

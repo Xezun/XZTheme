@@ -7,7 +7,7 @@
 //
 
 #import "UIView+XZTheme.h"
-#import "XZTheme.h"
+
 @import ObjectiveC;
 
 @implementation UIView (XZTheme)
@@ -35,4 +35,19 @@
     
 }
 
+- (void)xz_setNeedsThemeAppearanceUpdate {
+    [super xz_setNeedsThemeAppearanceUpdate];
+    
+    if (![self xz_forwardsThemeAppearanceUpdate]) {
+        return;
+    }
+    
+    for (UIView *subview in self.subviews) {
+        [subview xz_setNeedsThemeAppearanceUpdate];
+    }
+}
+
 @end
+
+
+

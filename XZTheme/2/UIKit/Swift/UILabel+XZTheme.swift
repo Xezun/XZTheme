@@ -10,7 +10,7 @@ import UIKit
 
 extension UILabel {
     
-    open override func updatesAppearanceForSubviews() -> Bool {
+    open override func forwardsThemeAppearanceUpdate() -> Bool {
         return false
     }
     

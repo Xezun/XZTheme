@@ -36,9 +36,7 @@ static XZTheme _Nonnull _currentTheme = XZThemeDefault;
         for (UIWindow *window in UIApplication.sharedApplication.windows) {
             // 当前正显示的视图，立即更新视图。方便设置动画渐变效果。
             [window xz_setNeedsThemeAppearanceUpdate];
-            [window xz_updateThemeAppearanceIfNeeded];
             [window.rootViewController xz_setNeedsThemeAppearanceUpdate];
-            [window.rootViewController xz_updateThemeAppearanceIfNeeded];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:XZThemeDidChangeNotification object:_currentTheme];
     }
@@ -106,9 +104,15 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
     return objc_getAssociatedObject(self, _appliedTheme);
 }
 
+
+- (BOOL)xz_forwardsThemeAppearanceUpdate {
+    return YES;
+}
+
 - (BOOL)xz_needsThemeAppearanceUpdate {
     return [objc_getAssociatedObject(self, _needsThemeAppearanceUpdate) boolValue];
 }
+
 
 - (void)xz_setNeedsThemeAppearanceUpdate {
     if ([self xz_needsThemeAppearanceUpdate]) {

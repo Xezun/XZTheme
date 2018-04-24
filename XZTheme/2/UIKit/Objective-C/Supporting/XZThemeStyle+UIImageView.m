@@ -10,7 +10,7 @@
 
 @implementation XZThemeStyle (UIImageView)
 - (UIImage *)image {
-    return [self valueForThemeAttribute:(XZThemeAttributeImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeImage)]];
 }
 
 - (void)setImage:(UIImage * _Nullable)image {
@@ -18,15 +18,16 @@
 }
 
 - (UIImage *)highlightedImage {
-    return [self valueForThemeAttribute:(XZThemeAttributeHighlightedImage)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeHighlightedImage)]];
 }
 
 - (void)setHighlightedImage:(UIImage * _Nullable)highlightedImage {
     [self setValue:highlightedImage forThemeAttribute:(XZThemeAttributeHighlightedImage)];
 }
 
+// TODO: 需要优化动态图片。
 - (NSArray<UIImage *> *)animationImages {
-    return [self valueForThemeAttribute:(XZThemeAttributeAnimationImages)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeAnimationImages)]].images;
 }
 
 - (void)setAnimationImages:(NSArray<UIImage *> * _Nullable)animationImages {
@@ -34,7 +35,7 @@
 }
 
 - (NSArray<UIImage *> *)highlightedAnimationImages {
-    return [self valueForThemeAttribute:(XZThemeAttributeHighlightedAnimationImages)];
+    return [XZThemeStyle.imageParser parse:[self valueForThemeAttribute:(XZThemeAttributeHighlightedAnimationImages)]].images;
 }
 
 - (void)setHighlightedAnimationImages:(NSArray<UIImage *> * _Nullable)highlightedAnimationImages {
@@ -42,7 +43,7 @@
 }
 
 - (BOOL)isAnimating {
-    return [self valueForThemeAttribute:(XZThemeAttributeIsAnimating)];
+    return [self boolValueForThemeAttribute:(XZThemeAttributeIsAnimating)];
 }
 
 - (void)setIsAnimating:(BOOL)isAnimating {
@@ -50,7 +51,7 @@
 }
 
 - (BOOL)isHighlighted {
-    return [[self valueForThemeAttribute:(XZThemeAttributeIsHighlighted)] boolValue];
+    return [self boolValueForThemeAttribute:(XZThemeAttributeIsHighlighted)];
 }
 
 - (void)setIsHighlighted:(BOOL)isHighlighted {

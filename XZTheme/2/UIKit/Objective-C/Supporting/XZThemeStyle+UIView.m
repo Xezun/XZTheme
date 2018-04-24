@@ -15,7 +15,7 @@
 }
 
 - (UIColor *)backgroundColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeBackgroundColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeBackgroundColor)]];
 }
 
 - (void)setTintColor:(UIColor * _Nullable)tintColor {
@@ -23,7 +23,7 @@
 }
 
 - (UIColor *)tintColor {
-    return [self valueForThemeAttribute:(XZThemeAttributeTintColor)];
+    return [XZThemeStyle.colorParser parse:[self valueForThemeAttribute:(XZThemeAttributeTintColor)]];
 }
 
 - (void)setIsHidden:(BOOL)isHidden {
@@ -31,11 +31,11 @@
 }
 
 - (BOOL)isHidden {
-    return [[self valueForThemeAttribute:(XZThemeAttributeIsHidden)] boolValue];
+    return [self boolValueForThemeAttribute:(XZThemeAttributeIsHidden)];
 }
 
 - (CGFloat)alpha {
-    return (CGFloat)[[self valueForThemeAttribute:(XZThemeAttributeAlpha)] doubleValue];
+    return (CGFloat)[self doubleValueForThemeAttribute:(XZThemeAttributeAlpha)];
 }
 
 - (void)setAlpha:(CGFloat)alpha {
@@ -47,7 +47,7 @@
 }
 
 - (BOOL)isOpaque {
-    return [[self valueForThemeAttribute:(XZThemeAttributeIsOpaque)] boolValue];
+    return [self boolValueForThemeAttribute:(XZThemeAttributeIsOpaque)];
 }
 
 @end
