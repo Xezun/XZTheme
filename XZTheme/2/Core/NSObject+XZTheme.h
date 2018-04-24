@@ -5,7 +5,7 @@
 //  Created by mlibai on 2017/10/14.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "XZTheme.h"
 
 
@@ -13,6 +13,9 @@
 
 /// 已应用的主题。
 @property (nonatomic, copy, readonly, nullable) XZTheme xz_appliedTheme NS_SWIFT_NAME(appliedTheme);
+
+/// 是否已标记需要更新主题。
+@property (nonatomic, readonly) BOOL xz_needsThemeAppearanceUpdate NS_SWIFT_NAME(needsThemeAppearanceUpdate);
 
 /// 将主题标记为需要更新。
 /// @note 默认情况下，该方法将在下一 runloop 中调用 `-applyThemeIfNeeded` 方法，且在同一 runloop 中，多次调用，只会触发一次。
@@ -29,8 +32,29 @@
 - (void)xz_updateThemeAppearanceIfNeeded NS_SWIFT_NAME(updateThemeAppearanceIfNeeded());
 
 /// 当需要应用主题时，此方法会被调用。
+/// @note 当此方法执行时，appliedTheme 为旧的主题。
 ///
-/// @param themeStyle 待应用的主题样式。
-//- (void)xz_updateAppearanceWithThemeStyle:(nonnull XZThemeStyle *)themeStyle NS_SWIFT_NAME(updateAppearance(with:));
+/// @param themeStyles 待应用的主题样式。
+- (void)xz_updateAppearanceWithThemeStyles:(nonnull XZThemeStyles *)themeStyles NS_SWIFT_NAME(updateAppearance(with:));
+
+@end
+
+
+@interface UIView (XZTheme)
+
+/// 作为视图控件，其每次被添加到父视图上时，都会检查当前已应用的主题与 App 当前主题是否一致，从而判断是否需要调用应用主题的方法。
++ (void)load;
+
+@end
+
+
+@interface UIViewController (XZTheme)
+
+/// 在 UIViewController 中：
+/// @note 控制器每次显示时都会检查当前已应用的主题是否与 App 当前主题是否一致，从而决定是否执行应用主题的方法。
++ (void)load;
+
+/// 作为控制器，当其自身被标记为需要应用主题时，会同时标记其 childViewControllers、presentedViewController、navigationItem、toolbarItems、tabBarItem 。
+- (void)xz_setNeedsThemeAppearanceUpdate;
 
 @end

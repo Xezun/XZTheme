@@ -11,7 +11,7 @@
 #import "XZThemeState.h"
 
 /// 主题样式，存储了对象主题属性相关配置。
-NS_SWIFT_NAME(Theme.Attributes) @interface XZThemeStyle : NSObject
+NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : NSObject
 
 /// 主题样式中的所有已设置值的主题属性。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeAttribute> *themeAttributes;
@@ -22,88 +22,82 @@ NS_SWIFT_NAME(Theme.Attributes) @interface XZThemeStyle : NSObject
 /// @param value 主题属性值。
 /// @param themeAttribute 主题属性。
 - (void)setValue:(nullable id)value forThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+
+/// 获取已设置的主题属性值。
+///
+/// @param themeAttribute 主题属性。
+/// @return 主题属性值。
 - (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
 @end
 
-NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyles : XZThemeStyle
-
-/// 所有状态，至少有一个状态 Normal 。
-@property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeState> *themeStates;
-
-/// 获取指定状态下的样式属性配置。
-///
-/// @param themeState 主题状态。
-/// @return 主题样式。
-- (nullable XZThemeStyle *)themeStyleForThemeState:(nonnull XZThemeState)themeState;
-
-/// 添加多状态样式，状态 XZThemeStateNormal 的样式无需添加。
-///
-/// @param themeStyle 待添加的样式。
-/// @param themeState 待添加的样式状态。
-- (void)setThemeStyle:(nullable XZThemeStyle *)themeStyle forThemeState:(nonnull XZThemeState)themeState;
-
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *normal NS_SWIFT_NAME(normal);
-
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *highlighted NS_SWIFT_NAME(highlighted);
-@property (nonatomic, strong, readonly, nullable) XZThemeStyle *highlightedIfLoaded NS_SWIFT_NAME(highlightedIfLoaded);
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *selected NS_SWIFT_NAME(selected);
-@property (nonatomic, strong, readonly, nullable) XZThemeStyle *selectedIfLoaded NS_SWIFT_NAME(selectedIfLoaded);
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *disabled NS_SWIFT_NAME(disabled);
-@property (nonatomic, strong, readonly, nullable) XZThemeStyle *disabledIfLoaded NS_SWIFT_NAME(disabledIfLoaded);
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *focused NS_SWIFT_NAME(focused);
-@property (nonatomic, strong, readonly, nullable) XZThemeStyle *focusedIfLoaded NS_SWIFT_NAME(focusedIfLoaded);
-
-@end
-
-
 @interface XZThemeStyle (XZExtendedThemeStyle)
 
-// MARK: - UIView
+/// 获取已设置的整数主题属性值。
+/// @note 尝试调用 integerValue 方法，否则返回 0 。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (NSInteger)integerValueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-@property (nonatomic, strong) UIColor * _Nullable backgroundColor;
-@property (nonatomic, strong) UIColor * _Nullable tintColor;
-@property (nonatomic) BOOL isHidden;
-@property (nonatomic) CGFloat alpha;
-@property (nonatomic) BOOL isOpaque;
+/// 获取已设置的浮点数主题属性值。
+/// @note 尝试调用 floatValue 方法，否则返回 0 。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (float)floatValueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-// MARK: - UILabel
+/// 获取已设置的双浮点数主题属性值。
+/// @note 尝试调用 doubleValue 方法，否则返回 0 。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (double)doubleValueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-@property (nonatomic, copy) NSString * _Nullable text;
-@property (nonatomic, strong) UIColor * _Nullable textColor;
-@property (nonatomic, strong) UIFont * _Nullable font;
-@property (nonatomic, strong) UIColor * _Nullable shadowColor;
-@property (nonatomic, strong) UIColor * _Nullable highlightedTextColor;
+/// 获取已设置的主题属性布尔值。
+/// @note 尝试调用 boolValue 方法，否则返回 0 。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (BOOL)boolValueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-// MARK: - UIButton
+/// 获取已设置的主题属性值：字符串。
+/// @note 使用 [XZThemeStyle stringParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable NSString *)stringValueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-@property (nonatomic, copy) NSString * _Nullable title;
-@property (nonatomic, strong) UIColor * _Nullable titleColor;
-@property (nonatomic, strong) UIImage * _Nullable backgroundImage;
-@property (nonatomic, strong) UIColor * _Nullable titleShadowColor;
-@property (nonatomic, strong) NSAttributedString * _Nullable attributedTitle;
+/// 获取已设置的主题属性值：图片。
+/// @note 使用 [XZThemeStyle imageParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable UIImage *)imageForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-// MARK: - UIImageView
+/// 获取已设置的主题属性值：颜色。
+/// @note 使用 [XZThemeStyle colorParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable UIColor *)colorForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-@property (nonatomic, strong) UIImage * _Nullable image;
-@property (nonatomic, strong) UIImage * _Nullable highlightedImage;
-@property (nonatomic, copy) NSArray<UIImage *> * _Nullable animationImages;
-@property (nonatomic, copy) NSArray<UIImage *> * _Nullable highlightedAnimationImages;
-@property (nonatomic) BOOL isAnimating;
-@property (nonatomic) BOOL isHighlighted;
+/// 获取已设置的主题属性值：字体。
+/// @note 使用 [XZThemeStyle fontParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable UIFont *)fontForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-// MARK: - UITabBar
+/// 获取已设置的主题属性值：富文本。
+/// @note 使用 [XZThemeStyle attributedStringParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable NSAttributedString *)attributedStringForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
-@property (nonatomic, strong) UIColor * _Nullable barTintColor;
-@property (nonatomic, strong) UIImage * _Nullable shadowImage;
-@property (nonatomic, strong) UIColor * _Nullable unselectedItemTintColor;
-@property (nonatomic, strong) UIImage * _Nullable selectionIndicatorImage;
-
-// MARK: - UITabBarItem
-
-@property (nonatomic, strong) UIImage * _Nullable selectedImage;
-@property (nonatomic, copy) NSDictionary<NSAttributedStringKey, id> * _Nullable titleTextAttributes;
-@property (nonatomic, strong) UIImage * _Nullable landscapeImagePhone;
-@property (nonatomic, strong) UIImage * _Nullable largeContentSizeImage;
+/// 获取已设置的主题属性值：富文本属性。
+/// @note 使用 [XZThemeStyle stringAttributesParser] 来解析已存储的属性值。
+/// @param themeAttribute 主题属性。
+/// @return 属性值。
+- (nullable NSDictionary<NSAttributedStringKey, id> *)stringAttributesForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
 @end
+
+
+
+
+
+
+
