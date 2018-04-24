@@ -30,15 +30,17 @@
 
 // MARK: - 方案二
 
+// Core
 #import "XZTheme.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeStyle.h"
 #import "XZThemeStyles.h"
 #import "XZThemeState.h"
 #import "XZThemeStyleValueParser.h"
-
 #import "NSObject+XZTheme.h"
 
+
+// UIKit/Supporting
 #import "XZThemeStyle+ValueParser.h"
 #import "XZThemeStyle+UIView.h"
 #import "XZThemeStyle+UILabel.h"
@@ -47,4 +49,8 @@
 #import "XZThemeStyle+UITabBar.h"
 #import "XZThemeStyle+UITabBarItem.h"
 
+// UIKit
+#import "UIView+XZTheme.h"
+#import "UIViewController+XZTheme.h"
+#import "UINavigationItem+XZTheme.h"
 

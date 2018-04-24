@@ -40,21 +40,7 @@
 @end
 
 
-@interface UIView (XZTheme)
-
-/// 作为视图控件，其每次被添加到父视图上时，都会检查当前已应用的主题与 App 当前主题是否一致，从而判断是否需要调用应用主题的方法。
-+ (void)load;
-
-@end
 
 
-@interface UIViewController (XZTheme)
 
-/// 在 UIViewController 中：
-/// @note 控制器每次显示时都会检查当前已应用的主题是否与 App 当前主题是否一致，从而决定是否执行应用主题的方法。
-+ (void)load;
 
-/// 作为控制器，当其自身被标记为需要应用主题时，会同时标记其 childViewControllers、presentedViewController、navigationItem、toolbarItems、tabBarItem 。
-- (void)xz_setNeedsThemeAppearanceUpdate;
-
-@end
