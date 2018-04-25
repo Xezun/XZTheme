@@ -20,6 +20,31 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ukT-VG-iLa">
+                                <rect key="frame" x="149" y="279" width="121" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </segmentedControl>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwV-fI-hYV">
+                                <rect key="frame" x="0.0" y="398" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="BDj-QA-BaN"/>
+                                    <barButtonItem title="Item" id="Wzt-bf-nYV"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="YTW-GV-A0X"/>
+                                    <barButtonItem title="Item" id="RWc-e9-4Pv"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="lSE-Qz-ZZd"/>
+                                    <barButtonItem title="Item" id="WD4-c9-bTT"/>
+                                    <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="pO2-ek-Ecq"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="jMi-tC-wff">
