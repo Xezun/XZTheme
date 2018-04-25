@@ -17,21 +17,33 @@
     return [@[XZThemeStateNormal] arrayByAddingObjectsFromArray:_statedThemeStyles.allKeys];
 }
 
-- (XZThemeStyle *)themeStyleForThemeState:(XZThemeState)state {
-    if ([state isEqualToString:XZThemeStateNormal]) {
+- (XZThemeStyle *)themeStyleForThemeState:(XZThemeState)themeState {
+    if ([themeState isEqualToString:XZThemeStateNormal]) {
         return self;
     }
-    return _statedThemeStyles[state];
+    return _statedThemeStyles[themeState];
 }
 
-- (void)setThemeStyle:(XZThemeStyle *)themeAttributes forThemeState:(XZThemeState)state {
-    if ([state isEqualToString:XZThemeStateNormal]) {
+- (void)setThemeStyle:(XZThemeStyle *)themeStyle forThemeState:(XZThemeState)themeState {
+    if ([themeState isEqualToString:XZThemeStateNormal]) {
         return;
     }
-    _statedThemeStyles[state] = themeAttributes;
+    if (![themeStyle.object isEqual:self.object]) {
+        return;
+    }
+    _statedThemeStyles[themeState] = themeStyle;
     [self.object xz_setNeedsThemeAppearanceUpdate];
 }
 
+
+
+@end
+
+
+
+
+
+@implementation XZThemeStyles (XZExtendedThemeStyles)
 - (XZThemeStyle *)normalStyle {
     return self;
 }
@@ -91,5 +103,5 @@
 - (XZThemeStyle *)focusedStyleIfLoaded {
     return _statedThemeStyles[XZThemeStateFocused];
 }
-
 @end
+

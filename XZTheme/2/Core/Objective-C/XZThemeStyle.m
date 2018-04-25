@@ -40,6 +40,14 @@
     return value;
 }
 
+- (id)objectForKeyedSubscript:(XZThemeAttribute)themeAttribute {
+    return [self valueForThemeAttribute:themeAttribute];
+}
+
+- (void)setObject:(id)object forKeyedSubscript:(XZThemeAttribute)themeAttribute {
+    [self setValue:object forThemeAttribute:themeAttribute];
+}
+
 @end
 
 

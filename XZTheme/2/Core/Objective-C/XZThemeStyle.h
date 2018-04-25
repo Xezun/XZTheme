@@ -21,7 +21,7 @@ NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithObject:(NSObject *)object NS_DESIGNATED_INITIALIZER;
 
-/// 设置主题属性值。
+/// 添加/更新/删除主题属性值。
 /// @note 使用 [NSNull null] 表示需要设置 nil 的主题属性。
 ///
 /// @param value 主题属性值。
@@ -33,6 +33,21 @@ NS_SWIFT_NAME(Theme.Style) @interface XZThemeStyle : NSObject
 /// @param themeAttribute 主题属性。
 /// @return 主题属性值。
 - (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+
+/// 获取已设置的主题属性值。
+/// @note 角标获取值方式支持。
+///
+/// @param themeAttribute 主题属性。
+/// @return 主题属性值。
+- (nullable id)objectForKeyedSubscript:(nonnull XZThemeAttribute)themeAttribute;
+
+/// 添加/更新/删除主题属性值。
+/// @note 角标设置值方式支持。
+/// @note 使用 [NSNull null] 表示需要设置 nil 的主题属性。
+///
+/// @param object 主题属性值。
+/// @param themeAttribute 主题属性。
+- (void)setObject:(nullable id)object forKeyedSubscript:(nonnull XZThemeAttribute)themeAttribute;
 
 @end
 

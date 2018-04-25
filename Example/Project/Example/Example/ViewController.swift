@@ -27,13 +27,7 @@ extension Themes {
 
 }
 
-extension Theme.Style {
-    
-    @discardableResult func set(_ themeAttribute: Theme.Attribute, _ value: Any?) -> Theme.Style {
-        setValue(value, forThemeAttribute: themeAttribute)
-        return self
-    }
-}
+
 
 class ViewController: UIViewController {
 
@@ -89,9 +83,8 @@ class ViewController: UIViewController {
         view.addSubview(button)
         
         button.themes.day.normal
-            .set(.title, "Normal")
-            .set(.backgroundColor, UIColor.red)
-            .set(.backgroundImage, "day_img")
+            .setting(UIColor.red, for: .backgroundColor)
+            .setting(UIColor.black, for: .titleColor)
     }
 
     override func didReceiveMemoryWarning() {

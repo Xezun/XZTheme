@@ -31,6 +31,7 @@
 		DD3DA92C2080471E00A642C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92A2080471E00A642C0 /* Main.storyboard */; };
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
+		DD5643D42090295F00573867 /* OCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5643D32090295F00573867 /* OCViewController.m */; };
 		DDA3850E208F107500F20A7C /* XZThemeStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA3850D208F107500F20A7C /* XZThemeStyles.m */; };
 		DDA38523208F13BB00F20A7C /* XZTheme+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA3851A208F13BB00F20A7C /* XZTheme+Swift.swift */; };
 		DDA3852C208F13EF00F20A7C /* XZThemeStyleValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA3852B208F13EF00F20A7C /* XZThemeStyleValueParser.m */; };
@@ -79,6 +80,8 @@
 		DD3DA92D2080471F00A642C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3DA9302080471F00A642C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD5643D22090295F00573867 /* OCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCViewController.h; sourceTree = "<group>"; };
+		DD5643D32090295F00573867 /* OCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCViewController.m; sourceTree = "<group>"; };
 		DDA3850C208F107500F20A7C /* XZThemeStyles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyles.h; sourceTree = "<group>"; };
 		DDA3850D208F107500F20A7C /* XZThemeStyles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyles.m; sourceTree = "<group>"; };
 		DDA3851A208F13BB00F20A7C /* XZTheme+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XZTheme+Swift.swift"; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 				DDB789B1208E1A2C00DB4EDE /* 2 */,
 				DD3DA9262080471E00A642C0 /* AppDelegate.swift */,
 				DD3DA9282080471E00A642C0 /* ViewController.swift */,
+				DD5643D22090295F00573867 /* OCViewController.h */,
+				DD5643D32090295F00573867 /* OCViewController.m */,
 				DD3DA92A2080471E00A642C0 /* Main.storyboard */,
 				DD3DA92D2080471F00A642C0 /* Assets.xcassets */,
 				DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */,
@@ -390,6 +395,7 @@
 				DD10B110208F405D004B3BAA /* UIButton+XZTheme.swift in Sources */,
 				DD10B10F208F405D004B3BAA /* UILabel+XZTheme.swift in Sources */,
 				DD10B12F208F40F1004B3BAA /* XZThemeStyle+UILabel.m in Sources */,
+				DD5643D42090295F00573867 /* OCViewController.m in Sources */,
 				DD33D6DE208F6C9C00A1D5B8 /* UINavigationBar+XZTheme.swift in Sources */,
 				DDA3852C208F13EF00F20A7C /* XZThemeStyleValueParser.m in Sources */,
 				DD10B12C208F40F1004B3BAA /* XZThemeStyle+UIImageView.m in Sources */,
