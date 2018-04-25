@@ -7,18 +7,6 @@
 
 import Foundation
 
-
-extension Theme {
-    
-    /// 当前已应用的主题。
-    /// — Note: 与 Themes.current 属性相同。
-    public var current: Theme {
-        get { return Themes.current     }
-        set { Themes.current = newValue }
-    }
-
-}
-
 extension Theme.Style {
     
     @objc(settingValue:forThemeAttribute:) @discardableResult func setting(_ value: Any?, for themeAttribute: Theme.Attribute) -> Theme.Style {
@@ -67,3 +55,57 @@ extension UIControlState {
     }
     
 }
+
+
+
+//struct Theme: RawRepresentable {
+//
+//    typealias RawValue = String
+//
+//    let rawValue: String
+//
+//    init(rawValue: String) {
+//        self.rawValue = rawValue
+//    }
+//
+//
+//}
+//
+//extension Theme: ReferenceConvertible, Equatable {
+//
+//    typealias ReferenceType = XZTheme
+//    typealias _ObjectiveCType = XZTheme
+//
+//    func _bridgeToObjectiveC() -> XZTheme {
+//        return XZTheme.init(name: rawValue)
+//    }
+//
+//    static func _forceBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) {
+//        result = Theme.init(rawValue: source.name)
+//    }
+//
+//    static func _conditionallyBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) -> Bool {
+//        _forceBridgeFromObjectiveC(source, result: &result)
+//        return true
+//    }
+//
+//    static func _unconditionallyBridgeFromObjectiveC(_ source: XZTheme?) -> Theme {
+//        if let theme = source {
+//            return Theme.init(rawValue: theme.name)
+//        }
+//        return Theme.init(rawValue: "default")
+//    }
+//
+//    var hashValue: Int {
+//        return rawValue.hashValue
+//    }
+//
+//    var description: String {
+//        return rawValue
+//    }
+//
+//    var debugDescription: String {
+//        return rawValue
+//    }
+//
+//}

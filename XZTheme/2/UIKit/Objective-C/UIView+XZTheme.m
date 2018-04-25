@@ -28,7 +28,7 @@
     // 不在父视图上的控件没有显示，不需要配置主题。
     if (newSuperview == nil) { return; }
     
-    if (![self.xz_appliedTheme isEqualToString:[XZThemes currentTheme]]) {
+    if (![self.xz_appliedTheme isEqual:[XZTheme currentTheme]]) {
         // TODO: 仅标记是否在显示效果上会延迟，待验证。
         [self xz_setNeedsThemeAppearanceUpdate];
     }

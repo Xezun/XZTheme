@@ -28,7 +28,7 @@
     // 在控制器将要显示的时候，更新已应用的主题。
     // 这个时候，控制器还没有显示，如果这个时候，更改了主题，会触发一个异步再次更新主题。
     
-    if ([self.xz_appliedTheme isEqualToString:[XZThemes currentTheme]]) {
+    if ([self.xz_appliedTheme isEqual:[XZTheme currentTheme]]) {
         return;
     }
     [self xz_setNeedsThemeAppearanceUpdate];
