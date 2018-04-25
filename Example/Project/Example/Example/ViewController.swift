@@ -27,6 +27,14 @@ extension Themes {
 
 }
 
+extension Theme.Style {
+    
+    @discardableResult func set(_ themeAttribute: Theme.Attribute, _ value: Any?) -> Theme.Style {
+        setValue(value, forThemeAttribute: themeAttribute)
+        return self
+    }
+}
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -79,6 +87,11 @@ class ViewController: UIViewController {
         button.themes.night.highlighted.backgroundImage = UIImage(filled: .yellow).blending(0.5)
         
         view.addSubview(button)
+        
+        button.themes.day.normal
+            .set(.title, "Normal")
+            .set(.backgroundColor, UIColor.red)
+            .set(.backgroundImage, "day_img")
     }
 
     override func didReceiveMemoryWarning() {
