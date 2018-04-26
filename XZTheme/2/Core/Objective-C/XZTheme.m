@@ -15,26 +15,39 @@
 
 NSNotificationName const _Nonnull XZThemeDidChangeNotification  = @"com.mlibai.XZKit.theme.changed";
 NSString         * const _Nonnull XZThemeUserDefaultsKey        = @"com.mlibai.XZKit.theme.default";
+NSString         * const _Nonnull XZThemeNameDefault            = @"default";
 
+/// 保存当前已应用的主题。
+static XZTheme * _Nonnull _currentTheme = nil;
 
 @implementation XZTheme
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *savedThemeName = [NSUserDefaults.standardUserDefaults stringForKey:XZThemeUserDefaultsKey];
+        
+        if ([savedThemeName isKindOfClass:[NSString class]]) {
+            _currentTheme = [[XZTheme alloc] initWithName:savedThemeName];
+        } else {
+            _currentTheme = [XZTheme defaultTheme];
+        }
+    });
+}
 
 + (XZTheme *)defaultTheme {
     static XZTheme *defaultTheme = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        defaultTheme = [[XZTheme alloc] initWithName:@"default"];
+        defaultTheme = [[XZTheme alloc] initWithName:XZThemeNameDefault];
     });
     return defaultTheme;
 }
 
-static XZTheme *_currentTheme = nil;
+
 
 + (XZTheme *)currentTheme {
-    if (_currentTheme != nil) {
-        return _currentTheme;
-    }
-    return [XZTheme defaultTheme];
+    return _currentTheme;
 }
 
 + (void)setCurrentTheme:(XZTheme *)currentTheme {
@@ -45,7 +58,9 @@ static XZTheme *_currentTheme = nil;
     if (![_currentTheme isEqual:currentTheme]) {
         _currentTheme = currentTheme;
         
-        [NSUserDefaults.standardUserDefaults setObject:_currentTheme.name forKey:XZThemeUserDefaultsKey];
+        
+        [NSUserDefaults.standardUserDefaults setObject:_currentTheme.name
+                                                forKey:XZThemeUserDefaultsKey];
         // send events.
         for (UIWindow *window in UIApplication.sharedApplication.windows) {
             // 当前正显示的视图，立即更新视图。
@@ -75,7 +90,7 @@ static XZTheme *_currentTheme = nil;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSString *name = [aDecoder decodeObjectForKey:@"XZTheme.name"];
-    if (name != nil) {
+    if ([name isKindOfClass:[NSString class]]) {
         return [self initWithName:name];
     }
     return nil;

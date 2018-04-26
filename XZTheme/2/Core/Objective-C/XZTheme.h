@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 UIKIT_EXTERN NSNotificationName const _Nonnull XZThemeDidChangeNotification NS_SWIFT_NAME(ThemeDidChange);
 /// 保存默认主题使用的 NSUserDefault 键名。
 UIKIT_EXTERN NSString         * const _Nonnull XZThemeUserDefaultsKey       NS_SWIFT_NAME(ThemeUserDefaultsKey);
+/// 默认主题名字。
+UIKIT_EXTERN NSString         * const _Nonnull XZThemeNameDefault           NS_SWIFT_NAME(ThemeDefaultName);
 
 
 /// @b 主题。
@@ -43,8 +45,11 @@ NS_SWIFT_NAME(Theme) @interface XZTheme: NSObject <NSCopying, NSCoding>
 /// @param name 主题名字。
 /// @return 主题对象。
 - (nonnull instancetype)initWithName:(nonnull NSString *)name;
+/// 存档。
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder;
+/// 比较 XZTheme 请使用此方法。
 - (BOOL)isEqual:(nullable id)object;
+/// 返回 name.hash 。
 - (NSUInteger)hash;
 
 @end
