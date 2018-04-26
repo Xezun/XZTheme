@@ -25,6 +25,7 @@ UIKIT_EXTERN NSTimeInterval     const XZThemeAnimationDuration     NS_SWIFT_NAME
 
 
 /// @b 主题。
+/// 主题的机制依赖与运行时，所以主要代码以 Objective-C 呈现。
 /// @todo 主题样式的资源管理以及静态缓存策略（通过主题标识符，将配置缓存到磁盘上）待研究。
 /// @todo 通过主题标识符自动读取配置。
 /// @todo 通过字典、JSON串来配置样式。
@@ -41,18 +42,18 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 /// @param name 主题名字。
 /// @return 主题对象。
 + (nonnull XZTheme *)themeNamed:(nonnull NSString *)name NS_SWIFT_NAME(init(named:));
-/// 存档。
+/// XZTheme 反序列化支持。
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder;
-/// 比较 XZTheme 请使用此方法。
+/// XZTheme 序列化支持。
+- (void)encodeWithCoder:(NSCoder *)aCoder;
+/// 比较 XZTheme 请使用此方法，仅比较名称。
 - (BOOL)isEqual:(nullable id)object;
-/// 返回 name.hash 。
+/// 返回 name 属性的哈希值。
 - (NSUInteger)hash;
-
 /// 应用主题。
 ///
 /// @param animated 是否渐变主题应用的过程。
 - (void)apply:(BOOL)animated;
-
 @end
 
 
@@ -67,7 +68,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 @end
 
 
-/// XZThemes 是管理对象所有主题 XZTheme 的集合。
+/// XZThemes 是 XZTheme 的集合，它管理了对象所支持的主题和样式配置。
 NS_SWIFT_NAME(Themes)
 XZ_THEME_SUBCLASSING_RESTRICTED
 @interface XZThemes : NSObject

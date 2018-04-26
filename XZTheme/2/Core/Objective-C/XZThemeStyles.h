@@ -10,6 +10,9 @@
 #import "XZThemeDefines.h"
 @class XZThemes;
 
+/// XZThemeStyles 是 XZThemeStyle 的集合，管理了主题样式的状态和属性值。
+/// XZThemeStyles 本身也是主题样式，主题的默认状态（XZThemeStateNormal）的样式即为 XZThemeStyles 自身。
+/// @note XZThemeStyles 为其它四种常用状态样式提供懒加载属性，方便直接调用。
 NS_SWIFT_NAME(Theme.Styles)
 XZ_THEME_SUBCLASSING_RESTRICTED
 @interface XZThemeStyles : XZThemeStyle
@@ -38,16 +41,13 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 /// @param themeState 待添加的样式状态。
 - (void)setThemeStyle:(nullable XZThemeStyle *)themeStyle forThemeState:(nonnull XZThemeState)themeState;
 
-///// 通过属性配置字典添加样式。开发调研中。Swift 写。
-// - (nonnull XZThemeStyles *)settingThemeStyle:(NSDictionary *)themeStyleConfiguration forThemeState:(nonnull XZThemeState)themeState;
-
 @end
 
 
 @interface XZThemeStyles (XZExtendedThemeStyles)
 
 /// XZThemeStateNormal 状态下的主题样式，当前对象自身。
-@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *normalStyle NS_SWIFT_NAME(normal);
+@property (nonatomic, strong, readonly, nonnull) XZThemeStyle *normalStyle      NS_SWIFT_NAME(normal);
 /// XZThemeStateHighlighted  状态下的主题样式，懒加载。
 @property (nonatomic, strong, readonly, nonnull) XZThemeStyle *highlightedStyle NS_SWIFT_NAME(highlighted);
 /// XZThemeStateSelected  状态下的主题样式，懒加载。

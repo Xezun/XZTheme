@@ -66,13 +66,13 @@ static XZTheme * _Nonnull _currentTheme = nil;
 }
 
 - (BOOL)isEqual:(id)object {
-    if (![super isEqual:object]) {
-        if ([object isKindOfClass:[XZTheme class]]) {
-            return [[(XZTheme *)object name] isEqualToString:self.name];
-        }
+    if ([super isEqual:object]) {
+        return YES;
+    }
+    if (![object isKindOfClass:[XZTheme class]]) {
         return NO;
     }
-    return YES;
+    return [[(XZTheme *)object name] isEqualToString:self.name];
 }
 
 - (NSString *)description {

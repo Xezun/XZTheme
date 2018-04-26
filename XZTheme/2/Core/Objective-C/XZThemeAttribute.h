@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 /// 主题样式属性。
-/// @note 主题样式属性正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
+/// @note 主题样式属性一般情况下与对象的外观属性相对应。
+/// @note 主题样式属性名应该符合正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
 typedef NSString * XZThemeAttribute NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Theme.Attribute);
 
 
