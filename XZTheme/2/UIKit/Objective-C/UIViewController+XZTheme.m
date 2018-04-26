@@ -9,7 +9,7 @@
 #import "UIViewController+XZTheme.h"
 #import "XZTheme.h"
 @import ObjectiveC;
-
+@import XZKit;
 
 @implementation UIViewController (XZTheme)
 
@@ -19,8 +19,13 @@
         Method imp1 = class_getInstanceMethod(self, @selector(viewWillAppear:));
         Method imp2 = class_getInstanceMethod(self, @selector(XZTheme_viewWillAppear:));
         method_exchangeImplementations(imp1, imp2);
+        
+        Method imp3 = class_getInstanceMethod(self, @selector(preferredStatusBarStyle));
+        Method imp4 = class_getInstanceMethod(self, @selector(XZTheme_preferredStatusBarStyle));
+        method_exchangeImplementations(imp3, imp4);
     });
 }
+
 
 
 - (void)XZTheme_viewWillAppear:(BOOL)animated {
@@ -54,6 +59,25 @@
     }
     
     [self.tabBarItem xz_setNeedsThemeAppearanceUpdate];
+}
+
+static const void * const _statusBarStyle = &_statusBarStyle;
+
+- (UIStatusBarStyle)xz_statusBarStyle {
+    NSNumber *number = objc_getAssociatedObject(self, _statusBarStyle);
+    if (number != nil) {
+        return [number integerValue];
+    }
+    // 如果没有保存值的话，返回的是原始的。
+    return [self XZTheme_preferredStatusBarStyle];
+}
+
+- (void)xz_setStatusBarStyle:(UIStatusBarStyle)xz_statusBarStyle {
+    objc_setAssociatedObject(self, _statusBarStyle, [NSNumber numberWithInteger:xz_statusBarStyle], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIStatusBarStyle)XZTheme_preferredStatusBarStyle {
+    return [self xz_statusBarStyle];
 }
 
 @end

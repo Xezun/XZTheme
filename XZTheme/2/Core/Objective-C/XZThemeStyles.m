@@ -36,10 +36,7 @@
 }
 
 - (XZThemeStyle *)themeStyleLazyLoadForThemeState:(XZThemeState)themeState {
-    if ([themeState isEqualToString:XZThemeStateNormal]) {
-        return self;
-    }
-    XZThemeStyle *themeStyle = _statedThemeStyles[themeState];
+    XZThemeStyle *themeStyle = [self themeStyleForThemeState:themeState];
     if (themeStyle != nil) {
         return themeStyle;
     }

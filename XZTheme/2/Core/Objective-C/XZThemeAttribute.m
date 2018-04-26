@@ -61,6 +61,9 @@ XZThemeAttribute const _Nonnull XZThemeAttributeTitleTextAttributes = @"titleTex
 XZThemeAttribute const _Nonnull XZThemeAttributeLandscapeImagePhone = @"landscapeImagePhone";
 XZThemeAttribute const _Nonnull XZThemeAttributeLargeContentSizeImage = @"largeContentSizeImage";
 
+// MARK: UIViewController
+XZThemeAttribute const _Nonnull XZThemeAttributePreferredStatusBarStyle = @"preferredStatusBarStyle";
+
 
 
 XZThemeAttribute const _Nonnull XZThemeAttributeTitleText         = @"titleText";

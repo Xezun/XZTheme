@@ -17,4 +17,7 @@
 /// 作为控制器，当其自身被标记为需要应用主题时，会同时标记其 childViewControllers、presentedViewController、navigationItem、toolbarItems、tabBarItem 。
 - (void)xz_setNeedsThemeAppearanceUpdate;
 
+/// 方便通过主题控制状态栏样式。
+@property (nonatomic, setter=xz_setStatusBarStyle:) UIStatusBarStyle xz_statusBarStyle NS_SWIFT_NAME(statusBarStyle);
+
 @end

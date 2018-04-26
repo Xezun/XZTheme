@@ -58,11 +58,11 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 
 @interface XZTheme (XZExtendedTheme)
 /// 默认主题。
-/// @note 如果从没设置过主题，那么该主题为默认生效的主题。
+/// @note 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
+/// @note 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
 /// @note 建议使用默认主题 + 自定义主题组合。
 @property (class, nonatomic, nonnull, readonly) XZTheme *defaultTheme;
 /// 当前主题，默认 XZTheme.defaultTheme 。
-/// @note 在 Swift 中，可以使用 Theme.current 来设置当前主题。
 @property (class, nonatomic, nonnull, readonly) XZTheme *currentTheme;
 @end
 
@@ -151,7 +151,9 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 
 /// 当需要应用主题时，此方法会被调用。
 /// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
+/// @note 如果当前没有配置任何主题，则不会执行任何操作。
 /// @note 默认情况下此方法将检查是否已配置主题样式，并调用 `-xz_updateAppearanceWithThemeStyles:` 方法。
+/// @note 如果当前已配置主题，但是没有当前主题的样式，则尝试从默认主题配置中读取样式并应用。
 ///
 /// @param theme 待应用的主题。
 - (void)xz_updateAppearanceWithTheme:(nonnull XZTheme *)theme NS_REQUIRES_SUPER NS_SWIFT_NAME(updateAppearance(with:));

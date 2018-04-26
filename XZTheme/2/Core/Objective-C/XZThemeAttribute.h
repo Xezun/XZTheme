@@ -96,8 +96,9 @@ UIKIT_EXTERN XZThemeAttribute const _Nonnull XZThemeAttributeLandscapeImagePhone
 /// UITabBarItem.largeContentSizeImage
 UIKIT_EXTERN XZThemeAttribute const _Nonnull XZThemeAttributeLargeContentSizeImage;
 
-
-
+// MARK: UIViewController
+/// UIViewController.preferredStatusBarStyle
+UIKIT_EXTERN XZThemeAttribute const _Nonnull XZThemeAttributePreferredStatusBarStyle;
 
 
 

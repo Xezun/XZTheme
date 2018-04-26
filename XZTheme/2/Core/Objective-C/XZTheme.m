@@ -233,10 +233,22 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
 }
 
 - (void)xz_updateAppearanceWithTheme:(XZTheme *)theme {
-    XZThemeStyles *themeStyles = [self.xz_themesIfLoaded themeStylesIfLoadedForTheme:theme];
-    if (themeStyles != nil) {
-        [self xz_updateAppearanceWithThemeStyles:themeStyles];
+    XZThemes *themes = [self xz_themesIfLoaded];
+    // 如果没有配置主题，不执行操作。
+    if (themes == nil) {
+        return;
     }
+    XZThemeStyles *themeStyles = [themes themeStylesIfLoadedForTheme:theme];
+    // 配置了主题，但是无当前主题配置，应用默认主题。
+    if (themeStyles == nil) {
+        themeStyles = [themes themeStylesIfLoadedForTheme:XZTheme.defaultTheme];
+    }
+    // 默认主题也没有配置。
+    if (themeStyles == nil) {
+        return;
+    }
+    // 应用主题样式。
+    [self xz_updateAppearanceWithThemeStyles:themeStyles];
 }
 
 - (void)xz_updateAppearanceWithThemeStyles:(XZThemeStyles *)themeStyles {
