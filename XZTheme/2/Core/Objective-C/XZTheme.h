@@ -14,13 +14,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// 当主题发生改变时，所发送通知的名称。
-UIKIT_EXTERN NSNotificationName const _Nonnull XZThemeDidChangeNotification NS_SWIFT_NAME(ThemeDidChange);
+UIKIT_EXTERN NSNotificationName const XZThemeDidChangeNotification NS_SWIFT_NAME(ThemeDidChange);
 /// 保存默认主题使用的 NSUserDefault 键名。
 /// @note 保存的内容为主题名称。
-UIKIT_EXTERN NSString         * const _Nonnull XZThemeUserDefaultsKey       NS_SWIFT_NAME(ThemeUserDefaultsKey);
+UIKIT_EXTERN NSString         * const XZThemeUserDefaultsKey       NS_SWIFT_NAME(ThemeUserDefaultsKey);
 /// 默认主题名称。
-UIKIT_EXTERN NSString         * const _Nonnull XZThemeNameDefault           NS_SWIFT_NAME(ThemeDefaultName);
-
+UIKIT_EXTERN NSString         * const XZThemeNameDefault           NS_SWIFT_NAME(ThemeDefaultName);
+/// 应用主题动画时长。
+UIKIT_EXTERN NSTimeInterval     const XZThemeAnimationDuration     NS_SWIFT_NAME(Theme.AnimationDuration);
 
 
 /// @b 主题。
@@ -47,6 +48,11 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 /// 返回 name.hash 。
 - (NSUInteger)hash;
 
+/// 应用主题。
+///
+/// @param animated 是否渐变主题应用的过程。
+- (void)apply:(BOOL)animated;
+
 @end
 
 
@@ -57,13 +63,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 @property (class, nonatomic, nonnull, readonly) XZTheme *defaultTheme;
 /// 当前主题，默认 XZTheme.defaultTheme 。
 /// @note 在 Swift 中，可以使用 Theme.current 来设置当前主题。
-@property (class, nonatomic, nonnull) XZTheme *currentTheme;
-/// 设置当前主题。
-///
-/// @param currentTheme 待设置的主题。
-/// @param animated 是否展示渐变的动画效果。
-+ (void)setCurrentTheme:(XZTheme *)currentTheme animated:(BOOL)animated;
-
+@property (class, nonatomic, nonnull, readonly) XZTheme *currentTheme;
 @end
 
 

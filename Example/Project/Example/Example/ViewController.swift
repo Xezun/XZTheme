@@ -116,11 +116,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func nightAction(_ sender: Any) {
-        Theme.setCurrent(.night, animated: true)
+        Theme.night.apply(true)
     }
     
     @IBAction func dayAction(_ sender: Any) {
-        Theme.setCurrent(.day, animated: true)
+        Theme.day.apply(true)
     }
 }
 
