@@ -178,24 +178,24 @@ static XZTheme * _Nonnull _currentTheme = nil;
 
 @implementation NSObject (XZThemeSupporting)
 
-static const void * const _theme                       = &_theme;
+static const void * const _themes                      = &_themes;
 static const void * const _appliedTheme                = &_appliedTheme;
 static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceUpdate;
 
 - (XZThemes *)xz_themes {
-    XZThemes *theme = objc_getAssociatedObject(self, _theme);
+    XZThemes *theme = objc_getAssociatedObject(self, _themes);
     if (theme != nil) {
         return theme;
     }
     theme = [[XZThemes alloc] initWithObject:self];
-    objc_setAssociatedObject(self, _theme, theme, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, _themes, theme, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     // 标记需要更新外观，凡是调用了此方法，主题都会更新一次。
     [self xz_setNeedsThemeAppearanceUpdate];
     return theme;
 }
 
 - (XZThemes *)xz_themesIfLoaded {
-    return objc_getAssociatedObject(self, _theme);
+    return objc_getAssociatedObject(self, _themes);
 }
 
 - (XZTheme *)xz_appliedTheme {

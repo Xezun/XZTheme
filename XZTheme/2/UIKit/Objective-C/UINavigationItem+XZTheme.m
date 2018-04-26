@@ -13,6 +13,10 @@
 - (void)xz_setNeedsThemeAppearanceUpdate {
     [super xz_setNeedsThemeAppearanceUpdate];
     
+    if ([self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    
     // Will be called by it's superview.
     // [self.titleView xz_setNeedsThemeApply];
     

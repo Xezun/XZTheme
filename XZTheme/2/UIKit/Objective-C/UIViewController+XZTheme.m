@@ -46,6 +46,10 @@
 - (void)xz_setNeedsThemeAppearanceUpdate {
     [super xz_setNeedsThemeAppearanceUpdate];
     
+    if ([self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    
     for (UIViewController *childVC in self.childViewControllers) {
         [childVC xz_setNeedsThemeAppearanceUpdate];
     }
