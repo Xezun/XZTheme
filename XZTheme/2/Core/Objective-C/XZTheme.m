@@ -12,72 +12,33 @@
 @import ObjectiveC;
 
 
-
 NSNotificationName const _Nonnull XZThemeDidChangeNotification  = @"com.mlibai.XZKit.theme.changed";
 NSString         * const _Nonnull XZThemeUserDefaultsKey        = @"com.mlibai.XZKit.theme.default";
 NSString         * const _Nonnull XZThemeNameDefault            = @"default";
 
-/// 保存当前已应用的主题。
+
+/// 保存当前已应用的主题，+[XZTheme load] 中初始化值。
 static XZTheme * _Nonnull _currentTheme = nil;
 
 @implementation XZTheme
 
 + (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSString *savedThemeName = [NSUserDefaults.standardUserDefaults stringForKey:XZThemeUserDefaultsKey];
-        
-        if ([savedThemeName isKindOfClass:[NSString class]]) {
-            _currentTheme = [[XZTheme alloc] initWithName:savedThemeName];
-        } else {
-            _currentTheme = [XZTheme defaultTheme];
-        }
-    });
-}
-
-+ (XZTheme *)defaultTheme {
-    static XZTheme *defaultTheme = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        defaultTheme = [[XZTheme alloc] initWithName:XZThemeNameDefault];
-    });
-    return defaultTheme;
-}
-
-
-
-+ (XZTheme *)currentTheme {
-    return _currentTheme;
-}
-
-+ (void)setCurrentTheme:(XZTheme *)currentTheme {
-    [self setCurrentTheme:currentTheme animated:NO];
-}
-
-+ (void)setCurrentTheme:(XZTheme *)currentTheme animated:(BOOL)animated {
-    if (![_currentTheme isEqual:currentTheme]) {
-        _currentTheme = currentTheme;
-        
-        
-        [NSUserDefaults.standardUserDefaults setObject:_currentTheme.name
-                                                forKey:XZThemeUserDefaultsKey];
-        // send events.
-        for (UIWindow *window in UIApplication.sharedApplication.windows) {
-            // 当前正显示的视图，立即更新视图。
-            [window xz_setNeedsThemeAppearanceUpdate];
-            [window.rootViewController xz_setNeedsThemeAppearanceUpdate];
-            if (animated) {
-                UIView *snapView = [window snapshotViewAfterScreenUpdates:NO];
-                [window addSubview:snapView];
-                [UIView animateWithDuration:0.5 animations:^{
-                    snapView.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [snapView removeFromSuperview];
-                }];
-            }
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:XZThemeDidChangeNotification object:_currentTheme];
+    NSString *savedThemeName = [NSUserDefaults.standardUserDefaults stringForKey:XZThemeUserDefaultsKey];
+    
+    if ([savedThemeName isKindOfClass:[NSString class]]) {
+        _currentTheme = [[XZTheme alloc] initWithName:savedThemeName];
+    } else {
+        _currentTheme = [XZTheme defaultTheme];
     }
+}
+
++ (XZTheme *)themeNamed:(NSString *)name {
+    if ([name isEqualToString:XZThemeNameDefault]) {
+        return [XZTheme defaultTheme];
+    } else if ([name isEqualToString:_currentTheme.name]) {
+        return _currentTheme;
+    }
+    return [[XZTheme alloc] initWithName:name];
 }
 
 - (instancetype)initWithName:(NSString *)name {
@@ -124,11 +85,61 @@ static XZTheme * _Nonnull _currentTheme = nil;
 
 @end
 
+
+
+@implementation XZTheme (XZExtendedTheme)
++ (XZTheme *)defaultTheme {
+    static XZTheme *defaultTheme = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultTheme = [[XZTheme alloc] initWithName:XZThemeNameDefault];
+    });
+    return defaultTheme;
+}
+
++ (XZTheme *)currentTheme {
+    return _currentTheme;
+}
+
++ (void)setCurrentTheme:(XZTheme *)currentTheme {
+    [self setCurrentTheme:currentTheme animated:NO];
+}
+
++ (void)setCurrentTheme:(XZTheme *)currentTheme animated:(BOOL)animated {
+    if (![_currentTheme isEqual:currentTheme]) {
+        _currentTheme = currentTheme;
+        
+        [NSUserDefaults.standardUserDefaults setObject:_currentTheme.name
+                                                forKey:XZThemeUserDefaultsKey];
+        // send events.
+        for (UIWindow *window in UIApplication.sharedApplication.windows) {
+            // 当前正显示的视图，立即更新视图。
+            [window xz_setNeedsThemeAppearanceUpdate];
+            [window.rootViewController xz_setNeedsThemeAppearanceUpdate];
+            if (animated) {
+                UIView *snapView = [window snapshotViewAfterScreenUpdates:NO];
+                [window addSubview:snapView];
+                [UIView animateWithDuration:0.5 animations:^{
+                    snapView.alpha = 0;
+                } completion:^(BOOL finished) {
+                    [snapView removeFromSuperview];
+                }];
+            }
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:XZThemeDidChangeNotification object:_currentTheme];
+    }
+}
+@end
+
+
+
+
+
+
+
 @implementation XZThemes {
     NSMutableDictionary<XZTheme *, XZThemeStyles *> *_themedStyles;
 }
-
-
 
 - (instancetype)initWithObject:(NSObject *)object {
     self = [super init];
@@ -220,11 +231,15 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
     }
     objc_setAssociatedObject(self, _needsThemeAppearanceUpdate, [NSNumber numberWithBool:NO], OBJC_ASSOCIATION_COPY_NONATOMIC);
     XZTheme *currentTheme = [XZTheme currentTheme];
-    XZThemeStyles *themeStyles = [self.xz_themesIfLoaded themeStylesIfLoadedForTheme:currentTheme];
+    [self xz_updateAppearanceWithTheme:currentTheme];
+    objc_setAssociatedObject(self, _appliedTheme, currentTheme, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (void)xz_updateAppearanceWithTheme:(XZTheme *)theme {
+    XZThemeStyles *themeStyles = [self.xz_themesIfLoaded themeStylesIfLoadedForTheme:theme];
     if (themeStyles != nil) {
         [self xz_updateAppearanceWithThemeStyles:themeStyles];
     }
-    objc_setAssociatedObject(self, _appliedTheme, currentTheme, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (void)xz_updateAppearanceWithThemeStyles:(XZThemeStyles *)themeStyles {

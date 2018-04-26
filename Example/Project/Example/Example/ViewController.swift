@@ -11,8 +11,10 @@ import UIKit
 
 
 extension Theme {
-    static let day = Theme.init(name: "day")
-    static let night = Theme.init(name: "night")
+    static var day: Theme {
+        return Theme.default
+    }
+    static let night = Theme(named: "night")
 }
 
 extension Themes {
@@ -33,14 +35,17 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isTranslucent = false
         
         self.navigationController?.navigationBar.themes.day
-            .setting(UIColor.red, for: .barTintColor)
+            .setting(UIColor.white, for: .barTintColor)
             .setting(UIColor.black, for: .tintColor)
+            .setting(UIImage(filled: 0x222222FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
         
         self.navigationController?.navigationBar.themes.night
-            .setting(UIColor.green, for: .barTintColor)
-            .setting(UIColor.white, for: .tintColor)
+            .setting(UIColor(0x252525FF), for: .barTintColor)
+            .setting(UIColor(0x707070FF), for: .tintColor)
+            .setting(UIImage(filled: 0x707070FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
 
         let label = OMLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
         label.text = "This is a label."
@@ -52,43 +57,57 @@ class ViewController: UIViewController {
         let lc2 = NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
         view.addConstraint(lc1)
         view.addConstraint(lc2)
+        
+        view.themes.day.backgroundColor    = UIColor.white
+        view.themes.night.backgroundColor  = UIColor(0x303030ff)
 
-        view.themes.default.backgroundColor = UIColor.lightGray
-        view.themes.day.backgroundColor = UIColor.lightText
-        view.themes.day.backgroundColor = UIColor.darkGray
+        label.themes.day.backgroundColor   = UIColor(0xf5f5f5ff)
+        label.themes.day.textColor         = UIColor(0x333333ff)
 
-        label.themes.default.backgroundColor = UIColor.red;
-        label.themes.default.textColor       = UIColor.white
+        label.themes.night.backgroundColor = UIColor(0x252525ff)
+        label.themes.night.textColor       = UIColor(0x707070ff)
 
-        label.themes.day.backgroundColor = UIColor.white
-        label.themes.day.textColor = UIColor.black
-
-        label.themes.night.backgroundColor = UIColor(0x222222FF)
-        label.themes.night.textColor = UIColor(0x707070FF)
-
-        label.themes.default.normal.backgroundColor = .red;
 
         let button = UIButton(type: .system)
 
         button.frame = CGRect.init(x: 100, y: 100, width: 150, height: 40)
 
-        button.themes.day.normal.title = "Normal Day"
-        button.themes.day.normal.textColor = UIColor.red
-        button.themes.day.normal.backgroundImage = UIImage(filled: .blue)
+        button.themes.day.normal.title                  = "Normal Day"
+        button.themes.day.normal.titleColor             = UIColor(0x0000FFFF)
+        button.themes.day.normal.backgroundImage        = UIImage(filled: 0xCCCCCCFF)
 
-        button.themes.day.highlighted.title = "Highlighted Day"
-        button.themes.day.highlighted.textColor = UIColor.red.withAlphaComponent(0.5)
-        button.themes.day.highlighted.backgroundImage = UIImage(filled: .blue).blending(0.5)
+        button.themes.day.highlighted.title             = "Highlighted Day"
+        button.themes.day.highlighted.titleColor        = UIColor(0x9999FFFF)
+        button.themes.day.highlighted.backgroundImage   = UIImage(filled: 0xDDDDDDFF)
 
-        button.themes.night.normal.title = "Normal Night"
-        button.themes.night.normal.textColor = UIColor.green
-        button.themes.night.normal.backgroundImage = UIImage(filled: .yellow)
+        button.themes.night.normal.title                = "Normal Night"
+        button.themes.night.normal.titleColor           = UIColor(0x008800FF)
+        button.themes.night.normal.backgroundImage      = UIImage(filled: 0x555555ff)
 
-        button.themes.night.highlighted.title = "Highlighted Night"
-        button.themes.night.highlighted.textColor = UIColor.green.withAlphaComponent(0.5)
-        button.themes.night.highlighted.backgroundImage = UIImage(filled: .yellow).blending(0.5)
+        button.themes.night.highlighted.title           = "Highlighted Night"
+        button.themes.night.highlighted.titleColor      = UIColor(0x007700FF)
+        button.themes.night.highlighted.backgroundImage = UIImage(filled: 0x444444FF)
 
         view.addSubview(button)
+    }
+    
+    /// 计划将状态栏样式做个类目。
+    var statusBarStyle: UIStatusBarStyle = .default
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarStyle
+    }
+    
+    override func updateAppearance(with theme: Theme) {
+        super.updateAppearance(with: theme)
+        
+        switch theme {
+        case .day:      statusBarStyle = .default
+        case .night:    statusBarStyle = .lightContent
+        default:        break
+        }
+        
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func didReceiveMemoryWarning() {

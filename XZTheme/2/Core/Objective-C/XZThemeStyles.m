@@ -13,8 +13,19 @@
     NSMutableDictionary<XZThemeState, XZThemeStyle *> *_statedThemeStyles;
 }
 
+- (NSMutableDictionary<XZThemeState, XZThemeStyle *> *)statedThemeStyles {
+    if (_statedThemeStyles != nil) {
+        return _statedThemeStyles;
+    }
+    _statedThemeStyles = [NSMutableDictionary dictionary];
+    return _statedThemeStyles;
+}
+
 - (NSArray<XZThemeState> *)themeStates {
-    return [@[XZThemeStateNormal] arrayByAddingObjectsFromArray:_statedThemeStyles.allKeys];
+    if (_statedThemeStyles != nil) {
+        return [@[XZThemeStateNormal] arrayByAddingObjectsFromArray:_statedThemeStyles.allKeys];
+    }
+    return @[XZThemeStateNormal];
 }
 
 - (XZThemeStyle *)themeStyleForThemeState:(XZThemeState)themeState {
@@ -24,6 +35,19 @@
     return _statedThemeStyles[themeState];
 }
 
+- (XZThemeStyle *)themeStyleLazyLoadForThemeState:(XZThemeState)themeState {
+    if ([themeState isEqualToString:XZThemeStateNormal]) {
+        return self;
+    }
+    XZThemeStyle *themeStyle = _statedThemeStyles[themeState];
+    if (themeStyle != nil) {
+        return themeStyle;
+    }
+    themeStyle = [[XZThemeStyle alloc] initWithObject:self.object];
+    _statedThemeStyles[themeState] = themeStyle;
+    return themeStyle;
+}
+
 - (void)setThemeStyle:(XZThemeStyle *)themeStyle forThemeState:(XZThemeState)themeState {
     if ([themeState isEqualToString:XZThemeStateNormal]) {
         return;
@@ -31,7 +55,7 @@
     if (![themeStyle.object isEqual:self.object]) {
         return;
     }
-    _statedThemeStyles[themeState] = themeStyle;
+    self.statedThemeStyles[themeState] = themeStyle;
     [self.object xz_setNeedsThemeAppearanceUpdate];
 }
 
@@ -54,7 +78,7 @@
         return themeAttributes;
     }
     themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
-    _statedThemeStyles[XZThemeStateHighlighted] = themeAttributes;
+    self.statedThemeStyles[XZThemeStateHighlighted] = themeAttributes;
     return themeAttributes;
 }
 
@@ -68,7 +92,7 @@
         return themeAttributes;
     }
     themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
-    _statedThemeStyles[XZThemeStateSelected] = themeAttributes;
+    self.statedThemeStyles[XZThemeStateSelected] = themeAttributes;
     return themeAttributes;
 }
 
@@ -82,7 +106,7 @@
         return themeAttributes;
     }
     themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
-    _statedThemeStyles[XZThemeStateDisabled] = themeAttributes;
+    self.statedThemeStyles[XZThemeStateDisabled] = themeAttributes;
     return themeAttributes;
 }
 
@@ -96,7 +120,7 @@
         return themeAttributes;
     }
     themeAttributes = [[XZThemeStyle alloc] initWithObject:self.object];
-    _statedThemeStyles[XZThemeStateFocused] = themeAttributes;
+    self.statedThemeStyles[XZThemeStateFocused] = themeAttributes;
     return themeAttributes;
 }
 

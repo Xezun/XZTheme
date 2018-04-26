@@ -7,10 +7,12 @@
 //
 
 #import "XZThemeStyle.h"
-
+#import "XZThemeDefines.h"
 @class XZThemes;
 
-NS_SWIFT_NAME(Theme.Styles) @interface XZThemeStyles : XZThemeStyle
+NS_SWIFT_NAME(Theme.Styles)
+XZ_THEME_SUBCLASSING_RESTRICTED
+@interface XZThemeStyles : XZThemeStyle
 
 /// 所有状态，至少有一个状态 Normal 。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeState> *themeStates;
@@ -20,6 +22,12 @@ NS_SWIFT_NAME(Theme.Styles) @interface XZThemeStyles : XZThemeStyle
 /// @param themeState 主题状态。
 /// @return 主题样式。
 - (nullable XZThemeStyle *)themeStyleForThemeState:(nonnull XZThemeState)themeState;
+
+/// 获取指定状态下的样式属性配置，懒加载。
+///
+/// @param themeState 主题状态。
+/// @return 主题样式。
+- (nonnull XZThemeStyle *)themeStyleLazyLoadForThemeState:(nonnull XZThemeState)themeState;
 
 /// 添加/修改/删除多状态样式。
 /// @note 添加 XZThemeStateNormal 的样式无效。

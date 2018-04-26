@@ -95,6 +95,7 @@
 		DDB789E7208E1A3D00DB4EDE /* XZThemeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyle.h; sourceTree = "<group>"; };
 		DDB789E8208E1A3D00DB4EDE /* XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZTheme.m; sourceTree = "<group>"; };
 		DDB789E9208E1A3D00DB4EDE /* XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZTheme.h; sourceTree = "<group>"; };
+		DDCDCDDD209181B700A4D267 /* XZThemeDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +130,7 @@
 		DD10B0E1208F3105004B3BAA /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
+				DDCDCDDD209181B700A4D267 /* XZThemeDefines.h */,
 				DDB789E9208E1A3D00DB4EDE /* XZTheme.h */,
 				DDB789E8208E1A3D00DB4EDE /* XZTheme.m */,
 				DDB789E7208E1A3D00DB4EDE /* XZThemeStyle.h */,

@@ -7,44 +7,39 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "XZThemeDefines.h"
 @class XZThemeStyles;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 /// 当主题发生改变时，所发送通知的名称。
 UIKIT_EXTERN NSNotificationName const _Nonnull XZThemeDidChangeNotification NS_SWIFT_NAME(ThemeDidChange);
 /// 保存默认主题使用的 NSUserDefault 键名。
+/// @note 保存的内容为主题名称。
 UIKIT_EXTERN NSString         * const _Nonnull XZThemeUserDefaultsKey       NS_SWIFT_NAME(ThemeUserDefaultsKey);
-/// 默认主题名字。
+/// 默认主题名称。
 UIKIT_EXTERN NSString         * const _Nonnull XZThemeNameDefault           NS_SWIFT_NAME(ThemeDefaultName);
+
 
 
 /// @b 主题。
 /// @todo 主题样式的资源管理以及静态缓存策略（通过主题标识符，将配置缓存到磁盘上）待研究。
 /// @todo 通过主题标识符自动读取配置。
 /// @todo 通过字典、JSON串来配置样式。
-NS_SWIFT_NAME(Theme) @interface XZTheme: NSObject <NSCopying, NSCoding>
-
-/// 默认主题。
-@property (class, nonatomic, nonnull, readonly) XZTheme *defaultTheme;
-/// 设置当前主题。
-///
-/// @param currentTheme 待设置的主题。
-/// @param animated 是否展示渐变的动画效果。
-+ (void)setCurrentTheme:(XZTheme *)currentTheme animated:(BOOL)animated;
-/// 当前主题，默认 XZTheme.defaultTheme 。
-/// @note 在 Swift 中，可以使用 Theme.current 来设置当前主题。
-@property (class, nonatomic, nonnull) XZTheme *currentTheme;
+NS_SWIFT_NAME(Theme)
+XZ_THEME_SUBCLASSING_RESTRICTED
+@interface XZTheme: NSObject <NSCopying, NSCoding>
 /// 主题名称。
 @property (nonatomic, readonly, nonnull) NSString *name;
+/// 请使用 [XZTheme themeNamed] 方法。
+- (instancetype)init NS_UNAVAILABLE;
 /// 构造一个主题对象。
+/// @note 如果主题名字与当前主题或默认主题名称相同，则返回已存在的主题。
 ///
 /// @param name 主题名字。
 /// @return 主题对象。
-- (nonnull instancetype)initWithName:(nonnull NSString *)name;
++ (nonnull XZTheme *)themeNamed:(nonnull NSString *)name NS_SWIFT_NAME(init(named:));
 /// 存档。
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder;
 /// 比较 XZTheme 请使用此方法。
@@ -55,10 +50,27 @@ NS_SWIFT_NAME(Theme) @interface XZTheme: NSObject <NSCopying, NSCoding>
 @end
 
 
+@interface XZTheme (XZExtendedTheme)
+/// 默认主题。
+/// @note 如果从没设置过主题，那么该主题为默认生效的主题。
+/// @note 建议使用默认主题 + 自定义主题组合。
+@property (class, nonatomic, nonnull, readonly) XZTheme *defaultTheme;
+/// 当前主题，默认 XZTheme.defaultTheme 。
+/// @note 在 Swift 中，可以使用 Theme.current 来设置当前主题。
+@property (class, nonatomic, nonnull) XZTheme *currentTheme;
+/// 设置当前主题。
+///
+/// @param currentTheme 待设置的主题。
+/// @param animated 是否展示渐变的动画效果。
++ (void)setCurrentTheme:(XZTheme *)currentTheme animated:(BOOL)animated;
+
+@end
 
 
 /// XZThemes 是管理对象所有主题 XZTheme 的集合。
-NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
+NS_SWIFT_NAME(Themes)
+XZ_THEME_SUBCLASSING_RESTRICTED
+@interface XZThemes : NSObject
 
 /// 当前 XZThemes 所属的对象。
 @property (nonatomic, weak, readonly, nullable) NSObject *object;
@@ -139,10 +151,17 @@ NS_SWIFT_NAME(Themes) @interface XZThemes : NSObject
 
 /// 当需要应用主题时，此方法会被调用。
 /// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
+/// @note 默认情况下此方法将检查是否已配置主题样式，并调用 `-xz_updateAppearanceWithThemeStyles:` 方法。
+///
+/// @param theme 待应用的主题。
+- (void)xz_updateAppearanceWithTheme:(nonnull XZTheme *)theme NS_REQUIRES_SUPER NS_SWIFT_NAME(updateAppearance(with:));
+
+/// 当需要应用主题时，且当前对象已被配置主题样式时，此方法会被调用。
+/// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
 /// @note 默认此方法不执行任何操作。
 ///
 /// @param themeStyles 待应用的主题样式。
-- (void)xz_updateAppearanceWithThemeStyles:(nonnull XZThemeStyles *)themeStyles NS_SWIFT_NAME(updateAppearance(with:));
+- (void)xz_updateAppearanceWithThemeStyles:(nonnull XZThemeStyles *)themeStyles NS_REQUIRES_SUPER NS_SWIFT_NAME(updateAppearance(with:));
 
 @end
 
