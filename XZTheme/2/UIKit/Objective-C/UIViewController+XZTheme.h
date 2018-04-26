@@ -18,6 +18,7 @@
 - (void)xz_setNeedsThemeAppearanceUpdate;
 
 /// 方便通过主题控制状态栏样式。
+/// @note 注意 UINavigationController 的状态栏由 navigationBar.barStyle 决定。
 @property (nonatomic, setter=xz_setStatusBarStyle:) UIStatusBarStyle xz_statusBarStyle NS_SWIFT_NAME(statusBarStyle);
 
 @end

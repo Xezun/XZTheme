@@ -91,23 +91,18 @@ class ViewController: UIViewController {
         view.addSubview(button)
     }
     
-    /// 计划将状态栏样式做个类目。
-    var statusBarStyle: UIStatusBarStyle = .default
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return statusBarStyle
-    }
-    
     override func updateAppearance(with theme: Theme) {
         super.updateAppearance(with: theme)
         
         switch theme {
-        case .day:      statusBarStyle = .default
-        case .night:    statusBarStyle = .lightContent
+        case .day:
+            self.navigationController?.navigationBar.barStyle = .default
+            self.statusBarStyle = .default
+        case .night:
+            self.navigationController?.navigationBar.barStyle = .black
+            self.statusBarStyle = .lightContent
         default:        break
         }
-        
-        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func didReceiveMemoryWarning() {

@@ -16,13 +16,16 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Method imp1 = class_getInstanceMethod(self, @selector(viewWillAppear:));
-        Method imp2 = class_getInstanceMethod(self, @selector(XZTheme_viewWillAppear:));
+        Class aClass = [UIViewController class];
+        Method imp1 = class_getInstanceMethod(aClass, @selector(viewWillAppear:));
+        Method imp2 = class_getInstanceMethod(aClass, @selector(XZTheme_viewWillAppear:));
         method_exchangeImplementations(imp1, imp2);
         
-        Method imp3 = class_getInstanceMethod(self, @selector(preferredStatusBarStyle));
-        Method imp4 = class_getInstanceMethod(self, @selector(XZTheme_preferredStatusBarStyle));
-        method_exchangeImplementations(imp3, imp4);
+        Method method3 = class_getInstanceMethod(aClass, @selector(preferredStatusBarStyle));
+        Method method4 = class_getInstanceMethod(aClass, @selector(XZTheme_preferredStatusBarStyle));
+        if (!class_addMethod(aClass, @selector(preferredStatusBarStyle), method_getImplementation(method4), method_getTypeEncoding(method3))) {
+            method_exchangeImplementations(method3, method4);
+        }
     });
 }
 
@@ -74,6 +77,7 @@ static const void * const _statusBarStyle = &_statusBarStyle;
 
 - (void)xz_setStatusBarStyle:(UIStatusBarStyle)xz_statusBarStyle {
     objc_setAssociatedObject(self, _statusBarStyle, [NSNumber numberWithInteger:xz_statusBarStyle], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (UIStatusBarStyle)XZTheme_preferredStatusBarStyle {
