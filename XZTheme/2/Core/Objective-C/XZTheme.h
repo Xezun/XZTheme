@@ -74,6 +74,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 @interface XZThemes : NSObject
 
 /// 当前 XZThemes 所属的对象。
+/// @note 因为运行时的值绑定机制，被绑定的值生命周期可能比对象的生命周期长，所以使用 weak 属性。
 @property (nonatomic, weak, readonly, nullable) NSObject *object;
 /// 所有主题。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZTheme *> *themes;

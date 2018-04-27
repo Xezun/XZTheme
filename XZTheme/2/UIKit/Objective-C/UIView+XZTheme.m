@@ -38,11 +38,11 @@
 }
 
 - (void)xz_setNeedsThemeAppearanceUpdate {
-    [super xz_setNeedsThemeAppearanceUpdate];
-    
     if ([self xz_needsThemeAppearanceUpdate]) {
+        // 如果当前 runloop 内已标记过，就不需要再标记了。
         return;
     }
+    [super xz_setNeedsThemeAppearanceUpdate];
     
     if (![self xz_forwardsThemeAppearanceUpdate]) {
         return;

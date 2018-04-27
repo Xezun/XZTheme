@@ -16,16 +16,39 @@ extension UIView {
     open override func updateAppearance(with themeStyles: Theme.Styles) {
         super.updateAppearance(with: themeStyles)
         
-        for themeAttribute in themeStyles.themeAttributes {
-            switch themeAttribute {
-            case .backgroundColor: self.backgroundColor = themeStyles.backgroundColor;
-            case .tintColor:       self.tintColor       = themeStyles.tintColor;
-            case .isHidden:        self.isHidden        = themeStyles.isHidden;
-            case .alpha:           self.alpha           = themeStyles.alpha;
-            case .isOpaque:        self.isOpaque        = themeStyles.isOpaque;
-            default:               break;
-            }
+        // 遍历配置，就会导致子类父类多次遍历。
+        // 但是检测是否存在（判断字典是否存在键）属性再赋值，能否效率更高，有待验证。
+        
+        if themeStyles.containsThemeAttribute(.backgroundColor) {
+            self.backgroundColor = themeStyles.backgroundColor
         }
+        
+        if themeStyles.containsThemeAttribute(.tintColor) {
+            self.tintColor = themeStyles.tintColor
+        }
+        
+        if themeStyles.containsThemeAttribute(.isHidden) {
+            self.isHidden = themeStyles.isHidden
+        }
+        
+        if themeStyles.containsThemeAttribute(.alpha) {
+            self.alpha = themeStyles.alpha
+        }
+        
+        if themeStyles.containsThemeAttribute(.isOpaque) {
+            self.isOpaque = themeStyles.isOpaque
+        }
+        
+        //for themeAttribute in themeStyles.themeAttributes {
+        //    switch themeAttribute {
+        //    case .backgroundColor: self.backgroundColor = themeStyles.backgroundColor;
+        //    case .tintColor:       self.tintColor       = themeStyles.tintColor;
+        //    case .isHidden:        self.isHidden        = themeStyles.isHidden;
+        //    case .alpha:           self.alpha           = themeStyles.alpha;
+        //    case .isOpaque:        self.isOpaque        = themeStyles.isOpaque;
+        //    default:               break;
+        //    }
+        //}
         
         
     }

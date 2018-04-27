@@ -15,7 +15,7 @@ extension Theme.Style {
     ///   - value: 主题属性值。
     ///   - themeAttribute: 主题属性。
     /// - Returns: 当前主题样式对象。
-    @objc(settingValue:forThemeAttribute:) @discardableResult
+    @discardableResult
     open func setting(_ value: Any?, for themeAttribute: Theme.Attribute) -> Theme.Style {
         setValue(value, forThemeAttribute: themeAttribute)
         return self

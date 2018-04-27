@@ -27,6 +27,10 @@
     return self;
 }
 
+- (BOOL)containsThemeAttribute:(XZThemeAttribute)themeAttribute {
+    return (_attributedValues[themeAttribute] != nil);
+}
+
 - (void)setValue:(id)value forThemeAttribute:(XZThemeAttribute)themeAttribute {
     _attributedValues[themeAttribute] = value;
     [_object xz_setNeedsThemeAppearanceUpdate];
