@@ -56,8 +56,8 @@ extension Theme.Styles {
     }
     
     /// 通过样式配置字典来配置样式。使用指定类型的字典，方便使用预定义的值。
-    /// - Todo: 尚未完成。
-    ///
+    /// - Note: 得益于 Swift 的字面量构造法，即使指定类型，构造配置字典并不是很繁琐。
+    /// - Note: 灵活的配置字典可能会方便构造，但是对性能来说不一定值得。
     /// - Parameter configuration: 样式配置字典。
     open func setThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
         for item in configuration {
