@@ -31,7 +31,7 @@ extension Theme.Styles {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.Styles {
+    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.Styles {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
@@ -43,7 +43,7 @@ extension Theme.Styles {
     ///   - configuration: 主题样式配置。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Styles {
+    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Styles {
         let themeStyle: Theme.Style = themeStyleLazyLoad(forThemeState: themeState)
         for item in configuration {
             if let themeValue = item.value {
@@ -55,12 +55,14 @@ extension Theme.Styles {
         return self
     }
     
-    /// 通过样式配置字典来配置样式。
+    /// 通过样式配置字典来配置样式。使用指定类型的字典，方便使用预定义的值。
     /// - Todo: 尚未完成。
     ///
     /// - Parameter configuration: 样式配置字典。
-    open func addThemeStyles(from configuration: [AnyHashable: Any]) {
-    
+    open func setThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
+        for item in configuration {
+            setting(item.value, for: item.key)
+        }
     }
 }
 
