@@ -27,6 +27,39 @@ public struct Theme {
         self.name = name
     }
     
+    
+    public struct Attribute: RawRepresentable {
+        public typealias RawValue = String
+        
+        public let rawValue: String
+        
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+    }
+    
+    public struct State: RawRepresentable {
+        public typealias RawValue = String
+        
+        public let rawValue: String
+        
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+    }
+    
+    public final class Style<T: AnyObject> {
+        
+        public unowned let object: T
+        
+        init(_ object: T) {
+            self.object = object
+        }
+        
+        lazy var attribtedValues: [Theme.Attribute: Any?] = [:]
+        
+    }
+    
 }
 
 extension Theme: ExpressibleByStringLiteral, Equatable, Hashable {

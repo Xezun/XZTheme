@@ -8,21 +8,6 @@
 
 import UIKit
 
-extension Theme {
-    
-    public final class Style<T: AnyObject> {
-        
-        public unowned let object: T
-        
-        init(_ object: T) {
-            self.object = object
-        }
-        
-        lazy var attribtedValues: [Theme.Attribute: Any?] = [:]
-        
-    }
-    
-}
 
 extension Theme.Style: ThemeSupporting {
     

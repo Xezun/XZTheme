@@ -8,20 +8,6 @@
 
 import Foundation
 
-extension Theme {
-    
-    public struct Attribute: RawRepresentable {
-        public typealias RawValue = String
-        
-        public let rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-    }
-    
-}
-
 extension Theme.Attribute {
     
     static let backgroundColor = Theme.Attribute.init(rawValue: "backgroundColor")
