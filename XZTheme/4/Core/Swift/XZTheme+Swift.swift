@@ -20,22 +20,22 @@ import Foundation
 //        setValue(value, forThemeAttribute: themeAttribute)
 //        return self
 //    }
-//    
+//
 //}
 //
-//extension Theme.StyleSet {
-//    
+//extension Theme.StyleCollection {
+//
 //    /// 更新指定状态样式的链式编程支持。
 //    ///
 //    /// - Parameters:
 //    ///   - themeStyle: 主题样式。
 //    ///   - themeState: 主题样式状态。
 //    /// - Returns: 当前主题样式集合对象。
-//    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.StyleSet {
+//    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.StyleCollection {
 //        setThemeStyle(themeStyle, forThemeState: themeState)
 //        return self
 //    }
-//    
+//
 //    /// 通过主题样式配置更新主题样式的链式编程支持。
 //    /// - Note: 属性值将以 NSNull 存储。
 //    ///
@@ -43,7 +43,7 @@ import Foundation
 //    ///   - configuration: 主题样式配置。
 //    ///   - themeState: 主题样式状态。
 //    /// - Returns: 当前主题样式集合对象。
-//    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.StyleSet {
+//    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.StyleCollection {
 //        let themeStyle: Theme.Style = themeStyleLazyLoad(forThemeState: themeState)
 //        for item in configuration {
 //            if let themeValue = item.value {
@@ -54,7 +54,7 @@ import Foundation
 //        }
 //        return self
 //    }
-//    
+//
 //    /// 通过样式配置字典来配置样式。使用指定类型的字典，方便使用预定义的值。
 //    /// - Note: 得益于 Swift 的字面量构造法，即使指定类型，构造配置字典并不是很繁琐。
 //    /// - Note: 灵活的配置字典可能会方便构造，但是对性能来说不一定值得。
@@ -64,48 +64,49 @@ import Foundation
 //            setting(item.value, for: item.key)
 //        }
 //    }
+//
 //}
-//
-//extension Theme.State: ExpressibleByStringLiteral {
-//
-//    public typealias StringLiteralType = String
-//
-//    /// 通过字符串字面量创建主题属性状态。
-//    ///
-//    /// - Parameter value: 字符串字面量
-//    public init(stringLiteral value: String) {
-//        self.init(rawValue: value)
-//    }
-//}
-//
-//
-//extension Theme.Attribute: ExpressibleByStringLiteral {
-//    
-//    public typealias StringLiteralType = String
-//    
-//    /// 通过字符串字面量创建主题属性。
-//    ///
-//    /// - Parameter value: 字符串字面量
-//    public init(stringLiteral value: String) {
-//        self.init(rawValue: value)
-//    }
-//}
-//
-//
-//extension UIControlState {
-//    
-//    public init?(_ themeState: Theme.State) {
-//        switch themeState {
-//        case .normal:       self = .normal
-//        case .selected:     self = .selected
-//        case .highlighted:  self = .highlighted
-//        case .focused:      if #available(iOS 9.0, *) { self = .focused } else { return nil }
-//        case .disabled:     self = .disabled
-//        default:            return nil
-//        }
-//    }
-//    
-//}
+
+extension Theme.State: ExpressibleByStringLiteral {
+
+    public typealias StringLiteralType = String
+
+    /// 通过字符串字面量创建主题属性状态。
+    ///
+    /// - Parameter value: 字符串字面量
+    public init(stringLiteral value: String) {
+        self.init(rawValue: value)
+    }
+}
+
+
+extension Theme.Attribute: ExpressibleByStringLiteral {
+    
+    public typealias StringLiteralType = String
+    
+    /// 通过字符串字面量创建主题属性。
+    ///
+    /// - Parameter value: 字符串字面量
+    public init(stringLiteral value: String) {
+        self.init(rawValue: value)
+    }
+}
+
+
+extension UIControlState {
+    
+    public init?(_ themeState: Theme.State) {
+        switch themeState {
+        case .normal:       self = .normal
+        case .selected:     self = .selected
+        case .highlighted:  self = .highlighted
+        case .focused:      if #available(iOS 9.0, *) { self = .focused } else { return nil }
+        case .disabled:     self = .disabled
+        default:            return nil
+        }
+    }
+    
+}
 
 
 

@@ -102,7 +102,7 @@ extension NSObject: Themable {
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with theme: Theme) {
         guard let themes = themesIfLoaded else { return }
-        guard let styles = themes.themeStylesIfLoaded(forTheme: theme) else { return }
+        guard let styles = themes.themeStylesIfLoaded(for: theme) else { return }
         self.updateAppearance(with: styles)
     }
     
@@ -110,7 +110,7 @@ extension NSObject: Themable {
     /// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
     /// @note 默认此方法不执行任何操作。
     ///
-    /// @param themeStyleSet 待应用的主题样式。
+    /// @param themeStyles 待应用的主题样式。
     @objc(xz_updateAppearanceWithThemeStyles:)
     open func updateAppearance(with themeStyles: Theme.StyleCollection<Owner>) {
         
@@ -123,6 +123,6 @@ private struct AssociationKey {
     
     static var themes: Int = 0
     static var appliedTheme: Int = 1
-    static var needsThemeAppearanceUpdate: Int = 3
+    static var needsThemeAppearanceUpdate: Int = 2
 }
 
