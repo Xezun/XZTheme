@@ -18,17 +18,17 @@ public protocol Themable: class {
     /// - Note: 懒加载。
     /// - Note: 通过运行时值绑定的方式为对象添加的额外属性。
     /// - Note: 因为运行时的特性，主题相关对象的生命周期可能比其拥有者稍长，因此不建议在脱离拥有者的情况下调用主题相关对象的方法或属性。
-    var themes: Theme.Collection<Owner> { get }
+    var themes: ThemeCollection<Owner> { get }
     
 }
 
 extension Themable {
     
-    public var themes: Theme.Collection<Self> {
-        if let themes = objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection<Self> {
+    public var themes: ThemeCollection<Self> {
+        if let themes = objc_getAssociatedObject(self, &AssociationKey.themes) as? ThemeCollection<Self> {
             return themes
         }
-        let themes = Theme.Collection<Self>.init(self)
+        let themes = ThemeCollection<Self>.init(self)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN)
         // // 标记需要更新外观，凡是调用了此方法，主题都会更新一次。
         // [self xz_setNeedsThemeAppearanceUpdate];
@@ -36,8 +36,17 @@ extension Themable {
     }
     
     /// 当前对象的所有主题，如果已加载。
-    public var themesIfLoaded: Theme.Collection<Self>? {
-        return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection<Self>
+    public var themesIfLoaded: ThemeCollection<Self>? {
+        return objc_getAssociatedObject(self, &AssociationKey.themes) as? ThemeCollection<Self>
+    }
+    
+    /// 当需要应用主题时，且当前对象已被配置主题样式时，此方法会被调用。
+    /// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
+    /// @note 默认此方法不执行任何操作。
+    ///
+    /// @param themeStyles 待应用的主题样式。
+    public func updateAppearance(with themeStyles: Theme.StyleCollection<Self>) {
+        
     }
     
 }
@@ -106,15 +115,7 @@ extension NSObject: Themable {
         self.updateAppearance(with: styles)
     }
     
-    /// 当需要应用主题时，且当前对象已被配置主题样式时，此方法会被调用。
-    /// @note 当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
-    /// @note 默认此方法不执行任何操作。
-    ///
-    /// @param themeStyles 待应用的主题样式。
-    @objc(xz_updateAppearanceWithThemeStyles:)
-    open func updateAppearance(with themeStyles: Theme.StyleCollection<Owner>) {
-        
-    }
+    
     
     
 }

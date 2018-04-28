@@ -13,7 +13,7 @@ extension UIButton {
         return false
     }
     
-    open override func updateAppearance(with themeStyles: Theme.StyleSet) {
+    open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
         for themeState in themeStyles.themeStates {

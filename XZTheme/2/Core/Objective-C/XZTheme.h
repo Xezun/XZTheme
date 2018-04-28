@@ -10,6 +10,13 @@
 #import "XZThemeDefines.h"
 @class XZThemeStyleCollection;
 
+/// 尝试使用泛型最终以失败告终，无法解决的问题：
+/// - Swift 对象无法在 OC 方法中出现。
+/// - Swift 类目方法，无法继承重写。
+/// - Swift 泛型无法桥接到 OC 。
+/// - OC 泛型在 Swift 中泛型拓展，无法访问原始定义的方法。
+/// - 子类无法在方法参数继承到一个泛型是自己的参数。
+/// - 其它众多阻碍，最终导致无法实现。
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +25,6 @@ UIKIT_EXTERN NSNotificationName const XZThemeDidChangeNotification NS_SWIFT_NAME
 /// 保存默认主题使用的 NSUserDefault 键名。
 /// @note 保存的内容为主题名称。
 UIKIT_EXTERN NSString         * const XZThemeUserDefaultsKey       NS_SWIFT_NAME(ThemeUserDefaultsKey);
-/// 默认主题名称。
-UIKIT_EXTERN NSString         * const XZThemeNameDefault           NS_SWIFT_NAME(ThemeDefaultName);
 /// 应用主题动画时长。
 UIKIT_EXTERN NSTimeInterval     const XZThemeAnimationDuration     NS_SWIFT_NAME(Theme.AnimationDuration);
 
@@ -71,11 +76,11 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 /// XZThemeSet 是 XZTheme 的集合，它管理了对象所支持的主题和样式配置。
 NS_SWIFT_NAME(Theme.Collection)
 XZ_THEME_SUBCLASSING_RESTRICTED
-@interface XZThemeCollection<ObjectType> : NSObject
+@interface XZThemeCollection : NSObject
 
 /// 当前 XZThemeSet 所属的对象。
 /// @note 因为运行时的值绑定机制，被绑定的值生命周期可能比对象的生命周期长，所以使用 weak 属性。
-@property (nonatomic, unsafe_unretained, readonly, nonnull) ObjectType object;
+@property (nonatomic, unsafe_unretained, readonly, nonnull) id object;
 /// 所有主题。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZTheme *> *themes;
 
@@ -86,7 +91,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 ///
 /// @param object 主题所属的对象。
 /// @return XZThemeSet 对象。
-- (instancetype)initWithObject:(ObjectType)object NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:));
+- (instancetype)initWithObject:(id)object NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:));
 
 /// 获取已设置的主题样式。
 /// @note 懒加载，如果主题对应的样式不存在，则会自动创建一个空的主题样式对象。

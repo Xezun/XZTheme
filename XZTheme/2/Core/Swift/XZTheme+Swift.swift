@@ -23,7 +23,7 @@ extension Theme.Style {
     
 }
 
-extension Theme.StyleSet {
+extension Theme.Style.Collection {
     
     /// 更新指定状态样式的链式编程支持。
     ///
@@ -31,7 +31,7 @@ extension Theme.StyleSet {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.StyleSet {
+    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.Style.Collection {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
@@ -43,7 +43,7 @@ extension Theme.StyleSet {
     ///   - configuration: 主题样式配置。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.StyleSet {
+    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
         let themeStyle: Theme.Style = themeStyleLazyLoad(forThemeState: themeState)
         for item in configuration {
             if let themeValue = item.value {
@@ -106,57 +106,3 @@ extension UIControlState {
     }
     
 }
-
-
-
-//struct Theme: RawRepresentable {
-//
-//    typealias RawValue = String
-//
-//    let rawValue: String
-//
-//    init(rawValue: String) {
-//        self.rawValue = rawValue
-//    }
-//
-//
-//}
-//
-//extension Theme: ReferenceConvertible, Equatable {
-//
-//    typealias ReferenceType = XZTheme
-//    typealias _ObjectiveCType = XZTheme
-//
-//    func _bridgeToObjectiveC() -> XZTheme {
-//        return XZTheme.init(name: rawValue)
-//    }
-//
-//    static func _forceBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) {
-//        result = Theme.init(rawValue: source.name)
-//    }
-//
-//    static func _conditionallyBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) -> Bool {
-//        _forceBridgeFromObjectiveC(source, result: &result)
-//        return true
-//    }
-//
-//    static func _unconditionallyBridgeFromObjectiveC(_ source: XZTheme?) -> Theme {
-//        if let theme = source {
-//            return Theme.init(rawValue: theme.name)
-//        }
-//        return Theme.init(rawValue: "default")
-//    }
-//
-//    var hashValue: Int {
-//        return rawValue.hashValue
-//    }
-//
-//    var description: String {
-//        return rawValue
-//    }
-//
-//    var debugDescription: String {
-//        return rawValue
-//    }
-//
-//}

@@ -10,7 +10,7 @@ import UIKit
 
 extension UITabBarItem {
     
-    open override func updateAppearance(with themeStyles: Theme.StyleSet) {
+    open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
         for themeAttribute in themeStyles.themeAttributes {

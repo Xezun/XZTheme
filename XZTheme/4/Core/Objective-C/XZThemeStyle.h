@@ -11,6 +11,13 @@
 #import "XZThemeState.h"
 #import "XZThemeStyleValueParser.h"
 
+@protocol XZThemeSupporting <NSObject>
+
+- (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+- (void)setValue:(nullable id)value forThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+
+@end
+
 /// 主题样式，存储了对象主题属性相关配置。
 NS_SWIFT_NAME(Theme.Style)
 @interface XZThemeStyle<ObjectType> : NSObject
@@ -39,14 +46,14 @@ NS_SWIFT_NAME(Theme.Style)
 ///
 /// @param value 主题属性值。
 /// @param themeAttribute 主题属性。
-- (void)setValue:(nullable id)value forThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+//- (void)setValue:(nullable id)value forThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
 /// 获取已设置的主题属性值。
 /// @note 设置为 NSNull 的值，会返回 nil 。
 ///
 /// @param themeAttribute 主题属性。
 /// @return 主题属性值。
-- (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+//- (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
 
 /// 获取已设置的主题属性值。
 /// @note 角标获取值方式支持。
@@ -63,6 +70,9 @@ NS_SWIFT_NAME(Theme.Style)
 /// @param themeAttribute 主题属性。
 - (void)setObject:(nullable id)object forKeyedSubscript:(nonnull XZThemeAttribute)themeAttribute;
 
+@end
+
+@interface XZThemeStyle (Supporting) <XZThemeSupporting>
 @end
 
 

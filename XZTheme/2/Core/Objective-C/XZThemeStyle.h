@@ -11,13 +11,18 @@
 #import "XZThemeState.h"
 #import "XZThemeStyleValueParser.h"
 
+@protocol XZThemeStyle <NSObject>
+- (nullable id)valueForThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+- (void)setValue:(nullable id)value forThemeAttribute:(nonnull XZThemeAttribute)themeAttribute;
+@end
+
 /// 主题样式，存储了对象主题属性相关配置。
 NS_SWIFT_NAME(Theme.Style)
-@interface XZThemeStyle<ObjectType> : NSObject
+@interface XZThemeStyle : NSObject
 
 /// 主题样式中的所有已设置值的主题属性。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeAttribute> *themeAttributes;
-@property (nonatomic, weak, readonly, nullable) ObjectType object;
+@property (nonatomic, unsafe_unretained, readonly, nonnull) id object;
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
@@ -25,7 +30,7 @@ NS_SWIFT_NAME(Theme.Style)
 ///
 /// @param object 主题样式所属的对象。
 /// @return 主题样式对象。
-- (nonnull instancetype)initWithObject:(nonnull ObjectType)object NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:));
+- (nonnull instancetype)initWithObject:(nonnull id)object NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:));
 
 /// 主题样式是否包含主题属性。
 /// @note 判断是否包含属性，不能使用 -valueForThemeAttribute: 方法。

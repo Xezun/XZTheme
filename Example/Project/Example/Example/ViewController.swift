@@ -29,15 +29,21 @@ import UIKit
 //
 //}
 
-
-
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
         
-        self.view.themes.default
+        let a: [UILabel] = []
+        
+        
+        
+        print(( a as [UIView]).count)
+        
+//        self.view.themes.default.backgroundColor = nil
+        
+//        UILabel.init().themes.default.textColor = nil
         
 //        self.navigationController?.navigationBar.themes.day
 //            .setting(UIColor.white, for: .barTintColor)

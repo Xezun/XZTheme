@@ -12,11 +12,11 @@
 @import ObjectiveC;
 
 
-NSNotificationName const _Nonnull XZThemeDidChangeNotification  = @"com.mlibai.XZKit.theme.changed";
-NSString         * const _Nonnull XZThemeUserDefaultsKey        = @"com.mlibai.XZKit.theme.default";
-NSString         * const _Nonnull XZThemeNameDefault            = @"default";
+NSNotificationName const XZThemeDidChangeNotification  = @"com.mlibai.XZKit.theme.changed";
+NSString         * const XZThemeUserDefaultsKey        = @"com.mlibai.XZKit.theme.default";
 NSTimeInterval     const XZThemeAnimationDuration               = 0.5;
 
+static NSString * const XZThemeNameDefault = @"default";
 /// 保存当前已应用的主题，+[XZTheme load] 中初始化值。
 static XZTheme * _Nonnull _currentTheme = nil;
 

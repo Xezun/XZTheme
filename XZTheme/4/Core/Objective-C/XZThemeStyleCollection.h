@@ -12,7 +12,7 @@
 /// XZThemeStyleSet 是 XZThemeStyle 的集合，管理了主题样式的状态和属性值。
 /// XZThemeStyleSet 本身也是主题样式，主题的默认状态（XZThemeStateNormal）的样式即为 XZThemeStyles 自身。
 /// @note XZThemeStyleSet 为其它四种常用状态样式提供懒加载属性，方便直接调用。
-NS_SWIFT_NAME(Theme.StyleCollection)
+NS_SWIFT_NAME(XZThemeStyle.Collection)
 XZ_THEME_SUBCLASSING_RESTRICTED
 @interface XZThemeStyleCollection<ObjectType> : XZThemeStyle<ObjectType>
 

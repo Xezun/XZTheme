@@ -64,7 +64,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 
 
 /// XZThemeSet 是 XZTheme 的集合，它管理了对象所支持的主题和样式配置。
-NS_SWIFT_NAME(Theme.Collection)
+NS_SWIFT_NAME(ThemeCollection)
 XZ_THEME_SUBCLASSING_RESTRICTED
 @interface XZThemeCollection<ObjectType> : NSObject
 
