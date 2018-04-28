@@ -33,7 +33,8 @@
 
 - (void)setValue:(id)value forThemeAttribute:(XZThemeAttribute)themeAttribute {
     _attributedValues[themeAttribute] = value;
-    [_object xz_setNeedsThemeAppearanceUpdate];
+    // TODO:
+    //[_object xz_setNeedsThemeAppearanceUpdate];
 }
 
 - (id)valueForThemeAttribute:(XZThemeAttribute)themeAttribute {

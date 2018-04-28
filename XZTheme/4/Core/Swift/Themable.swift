@@ -12,7 +12,7 @@ import Foundation
 public protocol Themable: class {
     
     /// 支持主题的对象，也即主题拥有者。
-    associatedtype Owner: AnyObject
+    associatedtype Owner: NSObject
     
     /// 对象所拥有的所有主题集合。
     /// - Note: 懒加载。
@@ -30,6 +30,8 @@ extension Themable {
         }
         let themes = Theme.Collection<Self>.init(self)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN)
+        // // 标记需要更新外观，凡是调用了此方法，主题都会更新一次。
+        // [self xz_setNeedsThemeAppearanceUpdate];
         return themes
     }
     
@@ -55,7 +57,7 @@ extension NSObject: Themable {
     }
     
     /// 是否已标记需要更新主题。
-    @objc(xz_needsThemeAppearanceUpdate) open private(set) var xz_needsThemeAppearanceUpdate: Bool {
+    @objc(xz_needsThemeAppearanceUpdate) open private(set) var needsThemeAppearanceUpdate: Bool {
         get { return (objc_getAssociatedObject(self, &AssociationKey.needsThemeAppearanceUpdate) as? Bool) == true }
         set { objc_setAssociatedObject(self, &AssociationKey.needsThemeAppearanceUpdate, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
@@ -67,7 +69,13 @@ extension NSObject: Themable {
     /// @note 对于 UIKit 控件，当主题发生改变时，此方法会自动调用；如果控件没有显示，则在其显示时会自动调用。
     /// @note 对于非 UIKit 控件对象，需要手动添加监听主题变更通知，并在合适的时机调用此方法（一般可以直接将通知绑定到此方法上）。
     @objc(xz_setNeedsThemeAppearanceUpdate) open func setNeedsThemeAppearanceUpdate() {
-        
+        guard !needsThemeAppearanceUpdate else {
+            return
+        }
+        needsThemeAppearanceUpdate = true
+        DispatchQueue.main.async(execute: {
+            self.updateThemeAppearanceIfNeeded()
+        })
     }
     
     /// @b 一般情况下，请勿重写此方法。
@@ -76,7 +84,12 @@ extension NSObject: Themable {
     /// @note 2. 取出当前主题并应用（调用 `xz_updateAppearanceWithThemeStyles:` 方法）。
     /// @note 3. 记录 2 中应用的主题。
     @objc(xz_updateThemeAppearanceIfNeeded) open func updateThemeAppearanceIfNeeded() {
-        
+        guard needsThemeAppearanceUpdate else {
+            return
+        }
+        self.needsThemeAppearanceUpdate = false
+        self.updateAppearance(with: .current)
+        self.appliedTheme = .current
     }
     
     /// 当需要应用主题时，此方法会被调用。
@@ -88,7 +101,9 @@ extension NSObject: Themable {
     /// @param theme 待应用的主题。
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with theme: Theme) {
-        
+        guard let themes = themesIfLoaded else { return }
+        guard let styles = themes.themeStylesIfLoaded(forTheme: theme) else { return }
+        self.updateAppearance(with: styles)
     }
     
     /// 当需要应用主题时，且当前对象已被配置主题样式时，此方法会被调用。
@@ -97,7 +112,7 @@ extension NSObject: Themable {
     ///
     /// @param themeStyleSet 待应用的主题样式。
     @objc(xz_updateAppearanceWithThemeStyles:)
-    open func updateAppearance(with themeStyles: Theme.Style<Owner>.Collection<Owner>) {
+    open func updateAppearance(with themeStyles: Theme.StyleCollection<Owner>) {
         
     }
     

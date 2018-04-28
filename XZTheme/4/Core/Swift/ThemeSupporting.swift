@@ -21,7 +21,7 @@ public protocol ThemeSupporting: class {
     /// - Parameter attribute: 主题属性。
     /// - Returns: 主题属性值。
     func value(for attribute: Theme.Attribute) -> Any?
-    
+
     /// 更新主题属性值。
     /// - Note: 值 nil 也会更新到主题配置中。
     ///
@@ -29,7 +29,7 @@ public protocol ThemeSupporting: class {
     ///   - value: 待更新的值。
     ///   - attribute: 待更新的属性。
     func update(_ value: Any?, for attribute: Theme.Attribute)
-    
+
     /// 删除主题属性（包括属性和值）。
     ///
     /// - Parameter attribute: 主题属性。

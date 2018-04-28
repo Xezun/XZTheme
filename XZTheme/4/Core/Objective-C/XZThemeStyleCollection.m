@@ -6,10 +6,10 @@
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-#import "XZThemeStyleSet.h"
+#import "XZThemeStyleCollection.h"
 #import "XZTheme.h"
 
-@implementation XZThemeStyleSet {
+@implementation XZThemeStyleCollection {
     NSMutableDictionary<XZThemeState, XZThemeStyle *> *_statedThemeStyles;
 }
 
@@ -53,7 +53,8 @@
         return;
     }
     self.statedThemeStyles[themeState] = themeStyle;
-    [self.object xz_setNeedsThemeAppearanceUpdate];
+    // TODO
+    // [self.object xz_setNeedsThemeAppearanceUpdate];
 }
 
 
@@ -64,7 +65,7 @@
 
 
 
-@implementation XZThemeStyleSet (XZExtendedThemeStyles)
+@implementation XZThemeStyleCollection (XZExtendedThemeStyles)
 - (XZThemeStyle *)normalStyle {
     return self;
 }

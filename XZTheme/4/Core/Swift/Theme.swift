@@ -10,17 +10,15 @@ import UIKit
 
 extension Notification.Name {
     /// 当主题发生改变时，所发送通知的名称。
-    public static let ThemeDidChange = Notification.Name.init("com.mlibai.XZKit.theme.changed")
+    public static let ThemeDidChange: Notification.Name = Notification.Name.init("com.mlibai.XZKit.theme.changed")
 }
 
 /// 保存默认主题使用的 NSUserDefault 键名。
 /// - Note: 保存的内容为主题名称。
-public let ThemeUserDefaultsKey: String         = "com.mlibai.XZKit.theme.default";
+public let ThemeUserDefaultsKey: String = "com.mlibai.XZKit.theme.default";
 
 /// 应用主题动画时长。
 public let ThemeAnimationDuration: TimeInterval = 0.5
-
-
 
 extension Theme {
     
@@ -30,14 +28,14 @@ extension Theme {
         guard let themeName = UserDefaults.standard.string(forKey: ThemeUserDefaultsKey) else {
             return Theme.default
         }
-        return Theme.init(name: themeName)
+        return Theme.init(themeName)
     }()
     
     /// 默认主题。
     /// - Note: 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
     /// - Note: 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
     /// - Note: 建议使用默认主题 + 自定义主题组合。
-    public static let `default`: Theme = Theme.init(name: "default")
+    public static let `default`: Theme = Theme.init("default")
     
     /// 应用主题。
     ///
@@ -47,7 +45,7 @@ extension Theme {
             return
         }
         Theme.current = self
-        UserDefaults.standard.set(self.name, forKey: ThemeUserDefaultsKey)
+        UserDefaults.standard.set(self.rawValue, forKey: ThemeUserDefaultsKey)
         // 更新当前视图。
         for window in UIApplication.shared.windows {
             window.setNeedsThemeAppearanceUpdate()
@@ -67,113 +65,74 @@ extension Theme {
     
 }
 
-public struct Theme {
-    
-    public let name: String
-    
-    public init(name: String) {
-        self.name = name
-    }
-    
-    public final class Collection<T: AnyObject> {
-        
-        public unowned let object: T
-        
-        init(_ object: T) {
-            self.object = object
-        }
-        
-        lazy var themedStyles: [Theme: Theme.Style.Collection<T>] = [:]
-        
-    }
-    
-    public struct Attribute: RawRepresentable {
-        public typealias RawValue = String
-        
-        public let rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-    }
-    
-    public struct State: RawRepresentable {
-        public typealias RawValue = String
-        
-        public let rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-    }
-    
-    public final class Style<T: AnyObject> {
-        
-        public unowned let object: T
-        
-        init(_ object: T) {
-            self.object = object
-        }
-        
-        lazy var attribtedValues: [Theme.Attribute: Any?] = [:]
-        
-    }
-    
-}
-
-extension Theme: ExpressibleByStringLiteral, Equatable, Hashable {
-    
-    public typealias StringLiteralType = String
-    
-    public init(stringLiteral value: String) {
-        self.init(name: value)
-    }
-    
-    public static func == (lhs: Theme, rhs: Theme) -> Bool {
-        return lhs.name == rhs.name
-    }
-    
-    public var hashValue: Int {
-        return name.hashValue
-    }
-    
-}
-
-
-
-extension Theme: ReferenceConvertible {
-    
-    public var description: String {
-        return name
-    }
-    
-    public var debugDescription: String {
-        return "Theme(name: \(name))"
-    }
-    
-    public typealias ReferenceType = NSString
-    public typealias _ObjectiveCType = NSString
-
-    public func _bridgeToObjectiveC() -> NSString {
-        return name as NSString
-    }
-
-    public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme?) {
-        result = Theme.init(name: source as String)
-    }
-
-    public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme?) -> Bool {
-        _forceBridgeFromObjectiveC(source, result: &result)
-        return true
-    }
-
-    public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme {
-        if let themeName = source {
-            return Theme.init(name: themeName as String)
-        }
-        return Theme.default
-    }
-
-}
+//public struct Theme {
+//
+//    public let name: String
+//
+//    public init(name: String) {
+//        self.name = name
+//    }
+//
+//    public typealias Collection = XZThemeCollection
+//    public typealias Style      = XZThemeStyle
+//    public typealias Attribute  = XZThemeAttribute
+//    public typealias State      = XZThemeState
+//
+//}
+//
+//extension Theme: ExpressibleByStringLiteral, Equatable, Hashable {
+//
+//    public typealias StringLiteralType = String
+//
+//    public init(stringLiteral value: String) {
+//        self.init(name: value)
+//    }
+//
+//    public static func == (lhs: Theme, rhs: Theme) -> Bool {
+//        return lhs.name == rhs.name
+//    }
+//
+//    public var hashValue: Int {
+//        return name.hashValue
+//    }
+//
+//}
+//
+//
+//
+//extension Theme: ReferenceConvertible {
+//
+//    public var description: String {
+//        return name
+//    }
+//
+//    public var debugDescription: String {
+//        return "Theme(name: \(name))"
+//    }
+//
+//    public typealias ReferenceType = XZTheme
+//    public typealias _ObjectiveCType = XZTheme
+//
+//    public func _bridgeToObjectiveC() -> XZTheme {
+//        return name as XZTheme
+//    }
+//
+//    public static func _forceBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) {
+//        result = Theme.init(name: source as String)
+//    }
+//
+//    public static func _conditionallyBridgeFromObjectiveC(_ source: XZTheme, result: inout Theme?) -> Bool {
+//        _forceBridgeFromObjectiveC(source, result: &result)
+//        return true
+//    }
+//
+//    public static func _unconditionallyBridgeFromObjectiveC(_ source: XZTheme?) -> Theme {
+//        if let themeName = source {
+//            return Theme.init(name: themeName as String)
+//        }
+//        return Theme.default
+//    }
+//
+//}
 
 

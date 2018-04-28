@@ -8,35 +8,26 @@
 
 import Foundation
 
-extension Theme.Style {
-    
-    public class Collection: XZThemeBridge<T> {
-        lazy var attribtedValues: [Theme.Attribute: Any?]             = [:]
-        lazy var statedStyles: [Theme.State: Theme.Style<ObjectType>] = [:]
-    }
-    
-}
+//extension Theme.Style.Collection: ThemeSupporting {
 
-extension Theme.Style.Collection: ThemeSupporting {
+//    public typealias Owner = T
+//
+//    public func value(for attribute: Theme.Attribute) -> Any? {
+//        if let value = attribtedValues[attribute] {
+//            return value
+//        }
+//        return nil
+//    }
+//
+//    public func update(_ value: Any?, for attribute: Theme.Attribute) {
+//        attribtedValues.updateValue(value, forKey: attribute)
+//    }
+//
+//    public func removeValue(for attribute: Theme.Attribute) -> Any?? {
+//        return self.attribtedValues.removeValue(forKey: attribute)
+//    }
     
-    public typealias Owner = T
-    
-    public func value(for attribute: Theme.Attribute) -> Any? {
-        if let value = attribtedValues[attribute] {
-            return value
-        }
-        return nil
-    }
-    
-    public func update(_ value: Any?, for attribute: Theme.Attribute) {
-        attribtedValues.updateValue(value, forKey: attribute)
-    }
-    
-    public func removeValue(for attribute: Theme.Attribute) -> Any?? {
-        return self.attribtedValues.removeValue(forKey: attribute)
-    }
-    
-}
+//}
 
 
 

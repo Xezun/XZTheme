@@ -8,13 +8,12 @@
 
 // MARK: - 方案一
 
-//#import "XZTheme.h"
-//#import "XZThemeDefines.h"
-//#import "XZThemeAttribute.h"
-#import "XZThemeBridge.h"
-//#import "XZThemeStyleCollection.h"
-//#import "XZThemeState.h"
-//#import "XZThemeStyleValueParser.h"
+#import "XZTheme.h"
+#import "XZThemeDefines.h"
+#import "XZThemeAttribute.h"
+#import "XZThemeStyleCollection.h"
+#import "XZThemeState.h"
+#import "XZThemeStyleValueParser.h"
 //
 //#import "NSObject+XZTheme.h"
 //#import "UIView+XZTheme.h"

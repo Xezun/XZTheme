@@ -37,6 +37,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isTranslucent = false
         
+        self.view.themes.default
+        
 //        self.navigationController?.navigationBar.themes.day
 //            .setting(UIColor.white, for: .barTintColor)
 //            .setting(UIColor.black, for: .tintColor)

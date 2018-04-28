@@ -16,29 +16,21 @@
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
 		DD5643D42090295F00573867 /* OCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5643D32090295F00573867 /* OCViewController.m */; };
-		DDEF845820948BAE00F196D9 /* XZTheme+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF842C20948BAE00F196D9 /* XZTheme+Swift.swift */; };
-		DDEF845F20948BAE00F196D9 /* UITabBar+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF843D20948BAE00F196D9 /* UITabBar+XZTheme.swift */; };
-		DDEF846020948BAE00F196D9 /* UILabel+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF843E20948BAE00F196D9 /* UILabel+XZTheme.swift */; };
-		DDEF846120948BAE00F196D9 /* UIButton+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF843F20948BAE00F196D9 /* UIButton+XZTheme.swift */; };
-		DDEF846220948BAE00F196D9 /* UITabBarItem+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844020948BAE00F196D9 /* UITabBarItem+XZTheme.swift */; };
-		DDEF846320948BAE00F196D9 /* UINavigationBar+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844120948BAE00F196D9 /* UINavigationBar+XZTheme.swift */; };
-		DDEF846420948BAE00F196D9 /* UIImageView+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844220948BAE00F196D9 /* UIImageView+XZTheme.swift */; };
-		DDEF846520948BAE00F196D9 /* UIView+XZTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844320948BAE00F196D9 /* UIView+XZTheme.swift */; };
-		DDEF846620948BAE00F196D9 /* UIViewController+XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844520948BAE00F196D9 /* UIViewController+XZTheme.m */; };
-		DDEF846720948BAE00F196D9 /* UIView+XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844620948BAE00F196D9 /* UIView+XZTheme.m */; };
-		DDEF846820948BAE00F196D9 /* UINavigationItem+XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844720948BAE00F196D9 /* UINavigationItem+XZTheme.m */; };
-		DDEF846920948BAE00F196D9 /* XZThemeStyle+UITabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844B20948BAE00F196D9 /* XZThemeStyle+UITabBarItem.m */; };
-		DDEF846A20948BAE00F196D9 /* XZThemeStyle+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF844C20948BAE00F196D9 /* XZThemeStyle+UIView.m */; };
-		DDEF846B20948BAE00F196D9 /* XZThemeStyle+UIImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF845020948BAE00F196D9 /* XZThemeStyle+UIImageView.m */; };
-		DDEF846C20948BAE00F196D9 /* XZThemeStyle+UILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF845220948BAE00F196D9 /* XZThemeStyle+UILabel.m */; };
-		DDEF846D20948BAE00F196D9 /* XZThemeStyle+UITabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF845320948BAE00F196D9 /* XZThemeStyle+UITabBar.m */; };
-		DDEF846E20948BAE00F196D9 /* XZThemeStyle+UIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF845420948BAE00F196D9 /* XZThemeStyle+UIButton.m */; };
-		DDEF847C20948BD500F196D9 /* XZThemeState.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF846F20948BD400F196D9 /* XZThemeState.m */; };
-		DDEF847D20948BD500F196D9 /* XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF847020948BD400F196D9 /* XZTheme.m */; };
-		DDEF847E20948BD500F196D9 /* XZThemeStyleValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF847120948BD400F196D9 /* XZThemeStyleValueParser.m */; };
-		DDEF847F20948BD500F196D9 /* XZThemeStyleCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF847420948BD400F196D9 /* XZThemeStyleCollection.m */; };
-		DDEF848020948BD500F196D9 /* XZThemeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF847920948BD400F196D9 /* XZThemeStyle.m */; };
-		DDEF848120948BD500F196D9 /* XZThemeAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF847A20948BD400F196D9 /* XZThemeAttribute.m */; };
+		DDEF84F12094979100F196D9 /* XZTheme+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84E82094979100F196D9 /* XZTheme+Swift.swift */; };
+		DDEF84F22094979100F196D9 /* Theme.Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84E92094979100F196D9 /* Theme.Style.swift */; };
+		DDEF84F32094979100F196D9 /* Themable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84EA2094979100F196D9 /* Themable.swift */; };
+		DDEF84F42094979100F196D9 /* Theme.Style.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84EB2094979100F196D9 /* Theme.Style.Collection.swift */; };
+		DDEF84F52094979100F196D9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84EC2094979100F196D9 /* Theme.swift */; };
+		DDEF84F62094979100F196D9 /* Theme.State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84ED2094979100F196D9 /* Theme.State.swift */; };
+		DDEF84F72094979100F196D9 /* Theme.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84EE2094979100F196D9 /* Theme.Collection.swift */; };
+		DDEF84F82094979100F196D9 /* Theme.Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84EF2094979100F196D9 /* Theme.Attribute.swift */; };
+		DDEF84F92094979100F196D9 /* ThemeSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84F02094979100F196D9 /* ThemeSupporting.swift */; };
+		DDEF8507209497DC00F196D9 /* XZThemeStyleValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84FD209497DB00F196D9 /* XZThemeStyleValueParser.m */; };
+		DDEF8508209497DC00F196D9 /* XZThemeAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF84FF209497DB00F196D9 /* XZThemeAttribute.m */; };
+		DDEF8509209497DC00F196D9 /* XZThemeState.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF8500209497DB00F196D9 /* XZThemeState.m */; };
+		DDEF850A209497DC00F196D9 /* XZThemeStyleCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF8501209497DB00F196D9 /* XZThemeStyleCollection.m */; };
+		DDEF850B209497DC00F196D9 /* XZThemeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF8503209497DB00F196D9 /* XZThemeStyle.m */; };
+		DDEF850C209497DC00F196D9 /* XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DDEF8505209497DC00F196D9 /* XZTheme.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,45 +49,28 @@
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD5643D22090295F00573867 /* OCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCViewController.h; sourceTree = "<group>"; };
 		DD5643D32090295F00573867 /* OCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCViewController.m; sourceTree = "<group>"; };
-		DDEF842C20948BAE00F196D9 /* XZTheme+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XZTheme+Swift.swift"; sourceTree = "<group>"; };
-		DDEF843D20948BAE00F196D9 /* UITabBar+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBar+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF843E20948BAE00F196D9 /* UILabel+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF843F20948BAE00F196D9 /* UIButton+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF844020948BAE00F196D9 /* UITabBarItem+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarItem+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF844120948BAE00F196D9 /* UINavigationBar+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF844220948BAE00F196D9 /* UIImageView+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF844320948BAE00F196D9 /* UIView+XZTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+XZTheme.swift"; sourceTree = "<group>"; };
-		DDEF844520948BAE00F196D9 /* UIViewController+XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XZTheme.m"; sourceTree = "<group>"; };
-		DDEF844620948BAE00F196D9 /* UIView+XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XZTheme.m"; sourceTree = "<group>"; };
-		DDEF844720948BAE00F196D9 /* UINavigationItem+XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+XZTheme.m"; sourceTree = "<group>"; };
-		DDEF844820948BAE00F196D9 /* UIViewController+XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+XZTheme.h"; sourceTree = "<group>"; };
-		DDEF844920948BAE00F196D9 /* UIView+XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XZTheme.h"; sourceTree = "<group>"; };
-		DDEF844B20948BAE00F196D9 /* XZThemeStyle+UITabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UITabBarItem.m"; sourceTree = "<group>"; };
-		DDEF844C20948BAE00F196D9 /* XZThemeStyle+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UIView.m"; sourceTree = "<group>"; };
-		DDEF844D20948BAE00F196D9 /* XZThemeStyle+UIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UIButton.h"; sourceTree = "<group>"; };
-		DDEF844E20948BAE00F196D9 /* XZThemeStyle+UITabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UITabBar.h"; sourceTree = "<group>"; };
-		DDEF844F20948BAE00F196D9 /* XZThemeStyle+UILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UILabel.h"; sourceTree = "<group>"; };
-		DDEF845020948BAE00F196D9 /* XZThemeStyle+UIImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UIImageView.m"; sourceTree = "<group>"; };
-		DDEF845120948BAE00F196D9 /* XZThemeStyle+UITabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UITabBarItem.h"; sourceTree = "<group>"; };
-		DDEF845220948BAE00F196D9 /* XZThemeStyle+UILabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UILabel.m"; sourceTree = "<group>"; };
-		DDEF845320948BAE00F196D9 /* XZThemeStyle+UITabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UITabBar.m"; sourceTree = "<group>"; };
-		DDEF845420948BAE00F196D9 /* XZThemeStyle+UIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XZThemeStyle+UIButton.m"; sourceTree = "<group>"; };
-		DDEF845520948BAE00F196D9 /* XZThemeStyle+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UIView.h"; sourceTree = "<group>"; };
-		DDEF845620948BAE00F196D9 /* XZThemeStyle+UIImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XZThemeStyle+UIImageView.h"; sourceTree = "<group>"; };
-		DDEF845720948BAE00F196D9 /* UINavigationItem+XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+XZTheme.h"; sourceTree = "<group>"; };
-		DDEF846F20948BD400F196D9 /* XZThemeState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeState.m; sourceTree = "<group>"; };
-		DDEF847020948BD400F196D9 /* XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZTheme.m; sourceTree = "<group>"; };
-		DDEF847120948BD400F196D9 /* XZThemeStyleValueParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleValueParser.m; sourceTree = "<group>"; };
-		DDEF847220948BD400F196D9 /* XZThemeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeDefines.h; sourceTree = "<group>"; };
-		DDEF847320948BD400F196D9 /* XZThemeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyle.h; sourceTree = "<group>"; };
-		DDEF847420948BD400F196D9 /* XZThemeStyleCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleCollection.m; sourceTree = "<group>"; };
-		DDEF847520948BD400F196D9 /* XZThemeState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeState.h; sourceTree = "<group>"; };
-		DDEF847620948BD400F196D9 /* XZThemeAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeAttribute.h; sourceTree = "<group>"; };
-		DDEF847720948BD400F196D9 /* XZThemeStyleValueParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleValueParser.h; sourceTree = "<group>"; };
-		DDEF847820948BD400F196D9 /* XZThemeStyleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleCollection.h; sourceTree = "<group>"; };
-		DDEF847920948BD400F196D9 /* XZThemeStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyle.m; sourceTree = "<group>"; };
-		DDEF847A20948BD400F196D9 /* XZThemeAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeAttribute.m; sourceTree = "<group>"; };
-		DDEF847B20948BD400F196D9 /* XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZTheme.h; sourceTree = "<group>"; };
+		DDEF84E82094979100F196D9 /* XZTheme+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XZTheme+Swift.swift"; sourceTree = "<group>"; };
+		DDEF84E92094979100F196D9 /* Theme.Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Style.swift; sourceTree = "<group>"; };
+		DDEF84EA2094979100F196D9 /* Themable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themable.swift; sourceTree = "<group>"; };
+		DDEF84EB2094979100F196D9 /* Theme.Style.Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Style.Collection.swift; sourceTree = "<group>"; };
+		DDEF84EC2094979100F196D9 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		DDEF84ED2094979100F196D9 /* Theme.State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.State.swift; sourceTree = "<group>"; };
+		DDEF84EE2094979100F196D9 /* Theme.Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Collection.swift; sourceTree = "<group>"; };
+		DDEF84EF2094979100F196D9 /* Theme.Attribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Attribute.swift; sourceTree = "<group>"; };
+		DDEF84F02094979100F196D9 /* ThemeSupporting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeSupporting.swift; sourceTree = "<group>"; };
+		DDEF84FA209497DB00F196D9 /* XZThemeState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeState.h; sourceTree = "<group>"; };
+		DDEF84FB209497DB00F196D9 /* XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZTheme.h; sourceTree = "<group>"; };
+		DDEF84FC209497DB00F196D9 /* XZThemeStyleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleCollection.h; sourceTree = "<group>"; };
+		DDEF84FD209497DB00F196D9 /* XZThemeStyleValueParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleValueParser.m; sourceTree = "<group>"; };
+		DDEF84FE209497DB00F196D9 /* XZThemeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeDefines.h; sourceTree = "<group>"; };
+		DDEF84FF209497DB00F196D9 /* XZThemeAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeAttribute.m; sourceTree = "<group>"; };
+		DDEF8500209497DB00F196D9 /* XZThemeState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeState.m; sourceTree = "<group>"; };
+		DDEF8501209497DB00F196D9 /* XZThemeStyleCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleCollection.m; sourceTree = "<group>"; };
+		DDEF8502209497DB00F196D9 /* XZThemeStyleValueParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleValueParser.h; sourceTree = "<group>"; };
+		DDEF8503209497DB00F196D9 /* XZThemeStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyle.m; sourceTree = "<group>"; };
+		DDEF8504209497DB00F196D9 /* XZThemeAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeAttribute.h; sourceTree = "<group>"; };
+		DDEF8505209497DC00F196D9 /* XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZTheme.m; sourceTree = "<group>"; };
+		DDEF8506209497DC00F196D9 /* XZThemeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyle.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				DD2321692080798900989B0E /* XZThemeBridgeHeader.h */,
-				DDEF842920948BAE00F196D9 /* 2 */,
+				DDEF84922094974900F196D9 /* 4 */,
 				DD3DA9262080471E00A642C0 /* AppDelegate.swift */,
 				DD3DA9282080471E00A642C0 /* ViewController.swift */,
 				DD5643D22090295F00573867 /* OCViewController.h */,
@@ -164,105 +139,88 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		DDEF842920948BAE00F196D9 /* 2 */ = {
+		DDEF84922094974900F196D9 /* 4 */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF842A20948BAE00F196D9 /* Core */,
-				DDEF843B20948BAE00F196D9 /* UIKit */,
+				DDEF84932094974900F196D9 /* Core */,
+				DDEF84AC2094974900F196D9 /* UIKit */,
 			);
-			name = 2;
-			path = ../../../../XZTheme/2;
+			name = 4;
+			path = ../../../../XZTheme/4;
 			sourceTree = "<group>";
 		};
-		DDEF842A20948BAE00F196D9 /* Core */ = {
+		DDEF84932094974900F196D9 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF842B20948BAE00F196D9 /* Swift */,
-				DDEF842D20948BAE00F196D9 /* Objective-C */,
+				DDEF84942094974900F196D9 /* Swift */,
+				DDEF849E2094974900F196D9 /* Objective-C */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		DDEF842B20948BAE00F196D9 /* Swift */ = {
+		DDEF84942094974900F196D9 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF842C20948BAE00F196D9 /* XZTheme+Swift.swift */,
+				DDEF84EA2094979100F196D9 /* Themable.swift */,
+				DDEF84F02094979100F196D9 /* ThemeSupporting.swift */,
+				DDEF84EC2094979100F196D9 /* Theme.swift */,
+				DDEF84EB2094979100F196D9 /* Theme.Style.Collection.swift */,
+				DDEF84E92094979100F196D9 /* Theme.Style.swift */,
+				DDEF84E82094979100F196D9 /* XZTheme+Swift.swift */,
+				DDEF84ED2094979100F196D9 /* Theme.State.swift */,
+				DDEF84EF2094979100F196D9 /* Theme.Attribute.swift */,
+				DDEF84EE2094979100F196D9 /* Theme.Collection.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
 		};
-		DDEF842D20948BAE00F196D9 /* Objective-C */ = {
+		DDEF849E2094974900F196D9 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF847B20948BD400F196D9 /* XZTheme.h */,
-				DDEF847020948BD400F196D9 /* XZTheme.m */,
-				DDEF847620948BD400F196D9 /* XZThemeAttribute.h */,
-				DDEF847A20948BD400F196D9 /* XZThemeAttribute.m */,
-				DDEF847220948BD400F196D9 /* XZThemeDefines.h */,
-				DDEF847520948BD400F196D9 /* XZThemeState.h */,
-				DDEF846F20948BD400F196D9 /* XZThemeState.m */,
-				DDEF847320948BD400F196D9 /* XZThemeStyle.h */,
-				DDEF847920948BD400F196D9 /* XZThemeStyle.m */,
-				DDEF847820948BD400F196D9 /* XZThemeStyleCollection.h */,
-				DDEF847420948BD400F196D9 /* XZThemeStyleCollection.m */,
-				DDEF847720948BD400F196D9 /* XZThemeStyleValueParser.h */,
-				DDEF847120948BD400F196D9 /* XZThemeStyleValueParser.m */,
+				DDEF84FB209497DB00F196D9 /* XZTheme.h */,
+				DDEF8505209497DC00F196D9 /* XZTheme.m */,
+				DDEF8504209497DB00F196D9 /* XZThemeAttribute.h */,
+				DDEF84FF209497DB00F196D9 /* XZThemeAttribute.m */,
+				DDEF84FE209497DB00F196D9 /* XZThemeDefines.h */,
+				DDEF84FA209497DB00F196D9 /* XZThemeState.h */,
+				DDEF8500209497DB00F196D9 /* XZThemeState.m */,
+				DDEF8506209497DC00F196D9 /* XZThemeStyle.h */,
+				DDEF8503209497DB00F196D9 /* XZThemeStyle.m */,
+				DDEF84FC209497DB00F196D9 /* XZThemeStyleCollection.h */,
+				DDEF8501209497DB00F196D9 /* XZThemeStyleCollection.m */,
+				DDEF8502209497DB00F196D9 /* XZThemeStyleValueParser.h */,
+				DDEF84FD209497DB00F196D9 /* XZThemeStyleValueParser.m */,
 			);
 			path = "Objective-C";
 			sourceTree = "<group>";
 		};
-		DDEF843B20948BAE00F196D9 /* UIKit */ = {
+		DDEF84AC2094974900F196D9 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF843C20948BAE00F196D9 /* Swift */,
-				DDEF844420948BAE00F196D9 /* Objective-C */,
+				DDEF84AD2094974900F196D9 /* Swift */,
+				DDEF84B52094974900F196D9 /* Objective-C */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
 		};
-		DDEF843C20948BAE00F196D9 /* Swift */ = {
+		DDEF84AD2094974900F196D9 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF843D20948BAE00F196D9 /* UITabBar+XZTheme.swift */,
-				DDEF843E20948BAE00F196D9 /* UILabel+XZTheme.swift */,
-				DDEF843F20948BAE00F196D9 /* UIButton+XZTheme.swift */,
-				DDEF844020948BAE00F196D9 /* UITabBarItem+XZTheme.swift */,
-				DDEF844120948BAE00F196D9 /* UINavigationBar+XZTheme.swift */,
-				DDEF844220948BAE00F196D9 /* UIImageView+XZTheme.swift */,
-				DDEF844320948BAE00F196D9 /* UIView+XZTheme.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
 		};
-		DDEF844420948BAE00F196D9 /* Objective-C */ = {
+		DDEF84B52094974900F196D9 /* Objective-C */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF844520948BAE00F196D9 /* UIViewController+XZTheme.m */,
-				DDEF844620948BAE00F196D9 /* UIView+XZTheme.m */,
-				DDEF844720948BAE00F196D9 /* UINavigationItem+XZTheme.m */,
-				DDEF844820948BAE00F196D9 /* UIViewController+XZTheme.h */,
-				DDEF844920948BAE00F196D9 /* UIView+XZTheme.h */,
-				DDEF844A20948BAE00F196D9 /* Supporting */,
-				DDEF845720948BAE00F196D9 /* UINavigationItem+XZTheme.h */,
+				DDEF84BB2094974A00F196D9 /* Supporting */,
 			);
 			path = "Objective-C";
 			sourceTree = "<group>";
 		};
-		DDEF844A20948BAE00F196D9 /* Supporting */ = {
+		DDEF84BB2094974A00F196D9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				DDEF844B20948BAE00F196D9 /* XZThemeStyle+UITabBarItem.m */,
-				DDEF844C20948BAE00F196D9 /* XZThemeStyle+UIView.m */,
-				DDEF844D20948BAE00F196D9 /* XZThemeStyle+UIButton.h */,
-				DDEF844E20948BAE00F196D9 /* XZThemeStyle+UITabBar.h */,
-				DDEF844F20948BAE00F196D9 /* XZThemeStyle+UILabel.h */,
-				DDEF845020948BAE00F196D9 /* XZThemeStyle+UIImageView.m */,
-				DDEF845120948BAE00F196D9 /* XZThemeStyle+UITabBarItem.h */,
-				DDEF845220948BAE00F196D9 /* XZThemeStyle+UILabel.m */,
-				DDEF845320948BAE00F196D9 /* XZThemeStyle+UITabBar.m */,
-				DDEF845420948BAE00F196D9 /* XZThemeStyle+UIButton.m */,
-				DDEF845520948BAE00F196D9 /* XZThemeStyle+UIView.h */,
-				DDEF845620948BAE00F196D9 /* XZThemeStyle+UIImageView.h */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -381,32 +339,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDEF848020948BD500F196D9 /* XZThemeStyle.m in Sources */,
-				DDEF846C20948BAE00F196D9 /* XZThemeStyle+UILabel.m in Sources */,
-				DDEF846A20948BAE00F196D9 /* XZThemeStyle+UIView.m in Sources */,
-				DDEF846420948BAE00F196D9 /* UIImageView+XZTheme.swift in Sources */,
+				DDEF84F42094979100F196D9 /* Theme.Style.Collection.swift in Sources */,
+				DDEF84F52094979100F196D9 /* Theme.swift in Sources */,
+				DDEF84F72094979100F196D9 /* Theme.Collection.swift in Sources */,
+				DDEF850B209497DC00F196D9 /* XZThemeStyle.m in Sources */,
 				DD3DA9292080471E00A642C0 /* ViewController.swift in Sources */,
-				DDEF846B20948BAE00F196D9 /* XZThemeStyle+UIImageView.m in Sources */,
+				DDEF84F32094979100F196D9 /* Themable.swift in Sources */,
+				DDEF850A209497DC00F196D9 /* XZThemeStyleCollection.m in Sources */,
+				DDEF850C209497DC00F196D9 /* XZTheme.m in Sources */,
+				DDEF84F82094979100F196D9 /* Theme.Attribute.swift in Sources */,
+				DDEF84F92094979100F196D9 /* ThemeSupporting.swift in Sources */,
+				DDEF84F62094979100F196D9 /* Theme.State.swift in Sources */,
+				DDEF8508209497DC00F196D9 /* XZThemeAttribute.m in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
-				DDEF845F20948BAE00F196D9 /* UITabBar+XZTheme.swift in Sources */,
-				DDEF848120948BD500F196D9 /* XZThemeAttribute.m in Sources */,
-				DDEF846620948BAE00F196D9 /* UIViewController+XZTheme.m in Sources */,
-				DDEF846D20948BAE00F196D9 /* XZThemeStyle+UITabBar.m in Sources */,
-				DDEF846220948BAE00F196D9 /* UITabBarItem+XZTheme.swift in Sources */,
-				DDEF847C20948BD500F196D9 /* XZThemeState.m in Sources */,
-				DDEF847E20948BD500F196D9 /* XZThemeStyleValueParser.m in Sources */,
-				DDEF846520948BAE00F196D9 /* UIView+XZTheme.swift in Sources */,
-				DDEF846720948BAE00F196D9 /* UIView+XZTheme.m in Sources */,
-				DDEF846120948BAE00F196D9 /* UIButton+XZTheme.swift in Sources */,
-				DDEF846020948BAE00F196D9 /* UILabel+XZTheme.swift in Sources */,
-				DDEF846820948BAE00F196D9 /* UINavigationItem+XZTheme.m in Sources */,
+				DDEF8509209497DC00F196D9 /* XZThemeState.m in Sources */,
 				DD5643D42090295F00573867 /* OCViewController.m in Sources */,
-				DDEF847D20948BD500F196D9 /* XZTheme.m in Sources */,
-				DDEF846320948BAE00F196D9 /* UINavigationBar+XZTheme.swift in Sources */,
-				DDEF846E20948BAE00F196D9 /* XZThemeStyle+UIButton.m in Sources */,
-				DDEF846920948BAE00F196D9 /* XZThemeStyle+UITabBarItem.m in Sources */,
-				DDEF847F20948BD500F196D9 /* XZThemeStyleCollection.m in Sources */,
-				DDEF845820948BAE00F196D9 /* XZTheme+Swift.swift in Sources */,
+				DDEF84F12094979100F196D9 /* XZTheme+Swift.swift in Sources */,
+				DDEF84F22094979100F196D9 /* Theme.Style.swift in Sources */,
+				DDEF8507209497DC00F196D9 /* XZThemeStyleValueParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
