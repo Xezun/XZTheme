@@ -1,5 +1,5 @@
 //
-//  XZThemeStyles.h
+//  XZThemeStyleSet.h
 //  Example
 //
 //  Created by mlibai on 2018/4/24.
@@ -8,14 +8,14 @@
 
 #import "XZThemeStyle.h"
 #import "XZThemeDefines.h"
-@class XZThemes;
+@class XZThemeSet;
 
-/// XZThemeStyles 是 XZThemeStyle 的集合，管理了主题样式的状态和属性值。
-/// XZThemeStyles 本身也是主题样式，主题的默认状态（XZThemeStateNormal）的样式即为 XZThemeStyles 自身。
-/// @note XZThemeStyles 为其它四种常用状态样式提供懒加载属性，方便直接调用。
-NS_SWIFT_NAME(Theme.Styles)
+/// XZThemeStyleSet 是 XZThemeStyle 的集合，管理了主题样式的状态和属性值。
+/// XZThemeStyleSet 本身也是主题样式，主题的默认状态（XZThemeStateNormal）的样式即为 XZThemeStyles 自身。
+/// @note XZThemeStyleSet 为其它四种常用状态样式提供懒加载属性，方便直接调用。
+NS_SWIFT_NAME(Theme.StyleSet)
 XZ_THEME_SUBCLASSING_RESTRICTED
-@interface XZThemeStyles : XZThemeStyle
+@interface XZThemeStyleSet<ObjectType> : XZThemeStyle<ObjectType>
 
 /// 所有状态，至少有一个状态 Normal 。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZThemeState> *themeStates;
@@ -24,7 +24,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 ///
 /// @param themeState 主题状态。
 /// @return 主题样式。
-- (nullable XZThemeStyle *)themeStyleForThemeState:(nonnull XZThemeState)themeState;
+- (nullable XZThemeStyle<ObjectType> *)themeStyleForThemeState:(nonnull XZThemeState)themeState;
 
 /// 获取指定状态下的样式属性配置，懒加载。
 ///
@@ -44,7 +44,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 @end
 
 
-@interface XZThemeStyles (XZExtendedThemeStyles)
+@interface XZThemeStyleSet (XZExtendedThemeStyles)
 
 /// XZThemeStateNormal 状态下的主题样式，当前对象自身。
 @property (nonatomic, strong, readonly, nonnull) XZThemeStyle *normalStyle      NS_SWIFT_NAME(normal);

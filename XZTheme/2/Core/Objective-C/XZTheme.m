@@ -8,7 +8,7 @@
 
 #import "XZTheme.h"
 #import "XZThemeStyle.h"
-#import "XZThemeStyles.h"
+#import "XZThemeStyleSet.h"
 @import ObjectiveC;
 
 
@@ -134,8 +134,8 @@ static XZTheme * _Nonnull _currentTheme = nil;
 
 
 
-@implementation XZThemes {
-    NSMutableDictionary<XZTheme *, XZThemeStyles *> *_themedStyles;
+@implementation XZThemeSet {
+    NSMutableDictionary<XZTheme *, XZThemeStyleSet *> *_themedStyles;
 }
 
 - (instancetype)initWithObject:(NSObject *)object {
@@ -147,25 +147,25 @@ static XZTheme * _Nonnull _currentTheme = nil;
     return self;
 }
 
-- (XZThemeStyles *)themeStylesForTheme:(XZTheme *)theme {
-    XZThemeStyles *themeStyles = _themedStyles[theme];
+- (XZThemeStyleSet *)themeStylesForTheme:(XZTheme *)theme {
+    XZThemeStyleSet *themeStyles = _themedStyles[theme];
     if (themeStyles != nil) {
         return themeStyles;
     }
-    themeStyles = [[XZThemeStyles alloc] initWithObject:self->_object];
+    themeStyles = [[XZThemeStyleSet alloc] initWithObject:self->_object];
     _themedStyles[theme] = themeStyles;
     return themeStyles;
 }
 
-- (void)setThemeStyles:(XZThemeStyles *)themeStyles forTheme:(XZTheme *)theme {
+- (void)setThemeStyles:(XZThemeStyleSet *)themeStyles forTheme:(XZTheme *)theme {
     _themedStyles[theme] = themeStyles;
 }
 
-- (XZThemeStyles *)themeStylesIfLoadedForTheme:(XZTheme *)theme {
+- (XZThemeStyleSet *)themeStylesIfLoadedForTheme:(XZTheme *)theme {
     return _themedStyles[theme];
 }
 
-- (XZThemeStyles *)defaultThemeStyles {
+- (XZThemeStyleSet *)defaultThemeStyles {
     return [self themeStylesForTheme:[XZTheme defaultTheme]];
 }
 
@@ -182,19 +182,19 @@ static const void * const _themes                      = &_themes;
 static const void * const _appliedTheme                = &_appliedTheme;
 static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceUpdate;
 
-- (XZThemes *)xz_themes {
-    XZThemes *theme = objc_getAssociatedObject(self, _themes);
+- (XZThemeSet *)xz_themes {
+    XZThemeSet *theme = objc_getAssociatedObject(self, _themes);
     if (theme != nil) {
         return theme;
     }
-    theme = [[XZThemes alloc] initWithObject:self];
+    theme = [[XZThemeSet alloc] initWithObject:self];
     objc_setAssociatedObject(self, _themes, theme, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     // 标记需要更新外观，凡是调用了此方法，主题都会更新一次。
     [self xz_setNeedsThemeAppearanceUpdate];
     return theme;
 }
 
-- (XZThemes *)xz_themesIfLoaded {
+- (XZThemeSet *)xz_themesIfLoaded {
     return objc_getAssociatedObject(self, _themes);
 }
 
@@ -233,12 +233,12 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
 }
 
 - (void)xz_updateAppearanceWithTheme:(XZTheme *)theme {
-    XZThemes *themes = [self xz_themesIfLoaded];
+    XZThemeSet *themes = [self xz_themesIfLoaded];
     // 如果没有配置主题，不执行操作。
     if (themes == nil) {
         return;
     }
-    XZThemeStyles *themeStyles = [themes themeStylesIfLoadedForTheme:theme];
+    XZThemeStyleSet *themeStyles = [themes themeStylesIfLoadedForTheme:theme];
     // 配置了主题，但是无当前主题配置，应用默认主题。
     if (themeStyles == nil) {
         themeStyles = [themes themeStylesIfLoadedForTheme:XZTheme.defaultTheme];
@@ -248,11 +248,11 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
         return;
     }
     // 应用主题样式。
-    [self xz_updateAppearanceWithThemeStyles:themeStyles];
+    [self xz_updateAppearanceWithThemeStyleSet:themeStyles];
 }
 
-- (void)xz_updateAppearanceWithThemeStyles:(XZThemeStyles *)themeStyles {
-    
+- (void)xz_updateAppearanceWithThemeStyleSet:(XZThemeStyleSet *)themeStyleSet {
+
 }
 
 @end

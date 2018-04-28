@@ -32,7 +32,7 @@
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
 		DD5643D42090295F00573867 /* OCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5643D32090295F00573867 /* OCViewController.m */; };
-		DDA3850E208F107500F20A7C /* XZThemeStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA3850D208F107500F20A7C /* XZThemeStyles.m */; };
+		DDA3850E208F107500F20A7C /* XZThemeStyleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA3850D208F107500F20A7C /* XZThemeStyleSet.m */; };
 		DDA38523208F13BB00F20A7C /* XZTheme+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA3851A208F13BB00F20A7C /* XZTheme+Swift.swift */; };
 		DDA3852C208F13EF00F20A7C /* XZThemeStyleValueParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA3852B208F13EF00F20A7C /* XZThemeStyleValueParser.m */; };
 		DDB789EA208E1A3D00DB4EDE /* XZThemeState.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB789E3208E1A3D00DB4EDE /* XZThemeState.m */; };
@@ -82,8 +82,8 @@
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD5643D22090295F00573867 /* OCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCViewController.h; sourceTree = "<group>"; };
 		DD5643D32090295F00573867 /* OCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCViewController.m; sourceTree = "<group>"; };
-		DDA3850C208F107500F20A7C /* XZThemeStyles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyles.h; sourceTree = "<group>"; };
-		DDA3850D208F107500F20A7C /* XZThemeStyles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyles.m; sourceTree = "<group>"; };
+		DDA3850C208F107500F20A7C /* XZThemeStyleSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleSet.h; sourceTree = "<group>"; };
+		DDA3850D208F107500F20A7C /* XZThemeStyleSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleSet.m; sourceTree = "<group>"; };
 		DDA3851A208F13BB00F20A7C /* XZTheme+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XZTheme+Swift.swift"; sourceTree = "<group>"; };
 		DDA3852A208F13EF00F20A7C /* XZThemeStyleValueParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleValueParser.h; sourceTree = "<group>"; };
 		DDA3852B208F13EF00F20A7C /* XZThemeStyleValueParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleValueParser.m; sourceTree = "<group>"; };
@@ -135,8 +135,8 @@
 				DDB789E8208E1A3D00DB4EDE /* XZTheme.m */,
 				DDB789E7208E1A3D00DB4EDE /* XZThemeStyle.h */,
 				DDB789E4208E1A3D00DB4EDE /* XZThemeStyle.m */,
-				DDA3850C208F107500F20A7C /* XZThemeStyles.h */,
-				DDA3850D208F107500F20A7C /* XZThemeStyles.m */,
+				DDA3850C208F107500F20A7C /* XZThemeStyleSet.h */,
+				DDA3850D208F107500F20A7C /* XZThemeStyleSet.m */,
 				DDB789E2208E1A3D00DB4EDE /* XZThemeAttribute.h */,
 				DDB789E6208E1A3D00DB4EDE /* XZThemeAttribute.m */,
 				DDB789E5208E1A3D00DB4EDE /* XZThemeState.h */,
@@ -406,7 +406,7 @@
 				DD10B132208F40F1004B3BAA /* XZThemeStyle+UIButton.m in Sources */,
 				DD10B12E208F40F1004B3BAA /* XZThemeStyle+UITabBarItem.m in Sources */,
 				DDB789EB208E1A3D00DB4EDE /* XZThemeStyle.m in Sources */,
-				DDA3850E208F107500F20A7C /* XZThemeStyles.m in Sources */,
+				DDA3850E208F107500F20A7C /* XZThemeStyleSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

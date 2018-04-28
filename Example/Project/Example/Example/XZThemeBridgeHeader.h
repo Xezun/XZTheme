@@ -34,7 +34,7 @@
 #import "XZTheme.h"
 #import "XZThemeAttribute.h"
 #import "XZThemeStyle.h"
-#import "XZThemeStyles.h"
+#import "XZThemeStyleSet.h"
 #import "XZThemeState.h"
 #import "XZThemeStyleValueParser.h"
 

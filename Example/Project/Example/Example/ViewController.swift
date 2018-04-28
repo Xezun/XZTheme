@@ -17,13 +17,13 @@ extension Theme {
     static let night = Theme(named: "night")
 }
 
-extension Themes {
+extension ThemeSet {
 
-    var day: Theme.Styles {
+    var day: Theme.StyleSet {
         return self.themeStyles(for: .day)
     }
 
-    var night: Theme.Styles {
+    var night: Theme.StyleSet {
         return self.themeStyles(for: .night)
     }
 

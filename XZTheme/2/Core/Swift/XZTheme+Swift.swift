@@ -23,7 +23,7 @@ extension Theme.Style {
     
 }
 
-extension Theme.Styles {
+extension Theme.StyleSet {
     
     /// 更新指定状态样式的链式编程支持。
     ///
@@ -31,7 +31,7 @@ extension Theme.Styles {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.Styles {
+    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.StyleSet {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
@@ -43,7 +43,7 @@ extension Theme.Styles {
     ///   - configuration: 主题样式配置。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Styles {
+    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.StyleSet {
         let themeStyle: Theme.Style = themeStyleLazyLoad(forThemeState: themeState)
         for item in configuration {
             if let themeValue = item.value {

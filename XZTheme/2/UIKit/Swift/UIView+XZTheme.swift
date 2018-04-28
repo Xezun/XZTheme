@@ -13,7 +13,7 @@ extension UIView {
     /// - Note: 使用 Swift 重写此方法，方便使用 switch 遍历主题属性。
     ///
     /// - Parameter themeStyles: 主题样式。
-    open override func updateAppearance(with themeStyles: Theme.Styles) {
+    open override func updateAppearance(with themeStyles: Theme.StyleSet) {
         super.updateAppearance(with: themeStyles)
         
         // 遍历配置，就会导致子类父类多次遍历。
