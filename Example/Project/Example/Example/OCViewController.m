@@ -7,8 +7,8 @@
 //
 
 #import "OCViewController.h"
-#import "XZTheme.h"
-#import "Example-Swift.h"
+//#import "XZTheme.h"
+//#import "Example-Swift.h"
 
 @interface OCViewController ()
 

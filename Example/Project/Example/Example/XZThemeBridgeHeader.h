@@ -11,7 +11,8 @@
 //#import "XZTheme.h"
 //#import "XZThemeDefines.h"
 //#import "XZThemeAttribute.h"
-//#import "XZThemeStyle.h"
+#import "XZThemeBridge.h"
+//#import "XZThemeStyleCollection.h"
 //#import "XZThemeState.h"
 //#import "XZThemeStyleValueParser.h"
 //
@@ -31,24 +32,24 @@
 // MARK: - 方案二
 
 // Core
-#import "XZTheme.h"
-#import "XZThemeAttribute.h"
-#import "XZThemeStyle.h"
-#import "XZThemeStyleSet.h"
-#import "XZThemeState.h"
-#import "XZThemeStyleValueParser.h"
-
-
-// UIKit/Supporting
-#import "XZThemeStyle+UIView.h"
-#import "XZThemeStyle+UILabel.h"
-#import "XZThemeStyle+UIButton.h"
-#import "XZThemeStyle+UIImageView.h"
-#import "XZThemeStyle+UITabBar.h"
-#import "XZThemeStyle+UITabBarItem.h"
-
-// UIKit
-#import "UIView+XZTheme.h"
-#import "UIViewController+XZTheme.h"
-#import "UINavigationItem+XZTheme.h"
+//#import "XZTheme.h"
+//#import "XZThemeAttribute.h"
+//#import "XZThemeStyle.h"
+//#import "XZThemeStyleSet.h"
+//#import "XZThemeState.h"
+//#import "XZThemeStyleValueParser.h"
+//
+//
+//// UIKit/Supporting
+//#import "XZThemeStyle+UIView.h"
+//#import "XZThemeStyle+UILabel.h"
+//#import "XZThemeStyle+UIButton.h"
+//#import "XZThemeStyle+UIImageView.h"
+//#import "XZThemeStyle+UITabBar.h"
+//#import "XZThemeStyle+UITabBarItem.h"
+//
+//// UIKit
+//#import "UIView+XZTheme.h"
+//#import "UIViewController+XZTheme.h"
+//#import "UINavigationItem+XZTheme.h"
 

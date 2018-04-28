@@ -24,11 +24,18 @@ extension Theme.Style: ThemeSupporting {
         attribtedValues.updateValue(value, forKey: attribute)
     }
     
-    public func set(_ value: Any?, for attribute: Theme.Attribute) {
-        attribtedValues[attribute] = value
+    public func removeValue(for attribute: Theme.Attribute) -> Any?? {
+        return self.attribtedValues.removeValue(forKey: attribute)
     }
-    
+ 
 }
+
+
+
+
+
+
+
 
 
 

@@ -10,16 +10,9 @@ import Foundation
 
 extension Theme.Style {
     
-    public final class Collection<T: AnyObject> {
-        
-        public unowned let object: T
-        
-        init(_ object: T) {
-            self.object = object
-        }
-        
-        lazy var attribtedValues: [Theme.Attribute: Any?]    = [:]
-        lazy var statedStyles: [Theme.State: Theme.Style<T>] = [:]
+    public class Collection: XZThemeBridge<T> {
+        lazy var attribtedValues: [Theme.Attribute: Any?]             = [:]
+        lazy var statedStyles: [Theme.State: Theme.Style<ObjectType>] = [:]
     }
     
 }
@@ -39,7 +32,11 @@ extension Theme.Style.Collection: ThemeSupporting {
         attribtedValues.updateValue(value, forKey: attribute)
     }
     
-    public func set(_ value: Any?, for attribute: Theme.Attribute) {
-        attribtedValues[attribute] = value
+    public func removeValue(for attribute: Theme.Attribute) -> Any?? {
+        return self.attribtedValues.removeValue(forKey: attribute)
     }
+    
 }
+
+
+

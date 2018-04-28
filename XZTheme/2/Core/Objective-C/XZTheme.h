@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "XZThemeDefines.h"
-@class XZThemeStyleSet;
+@class XZThemeStyleCollection;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -69,13 +69,13 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 
 
 /// XZThemeSet 是 XZTheme 的集合，它管理了对象所支持的主题和样式配置。
-NS_SWIFT_NAME(ThemeSet)
+NS_SWIFT_NAME(Theme.Collection)
 XZ_THEME_SUBCLASSING_RESTRICTED
-@interface XZThemeSet<ObjectType> : NSObject
+@interface XZThemeCollection<ObjectType> : NSObject
 
 /// 当前 XZThemeSet 所属的对象。
 /// @note 因为运行时的值绑定机制，被绑定的值生命周期可能比对象的生命周期长，所以使用 weak 属性。
-@property (nonatomic, weak, readonly, nullable) ObjectType object;
+@property (nonatomic, unsafe_unretained, readonly, nonnull) ObjectType object;
 /// 所有主题。
 @property (nonatomic, copy, readonly, nonnull) NSArray<XZTheme *> *themes;
 
@@ -93,23 +93,23 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 ///
 /// @param theme 主题。
 /// @return 主题样式。
-- (nonnull XZThemeStyleSet *)themeStylesForTheme:(nonnull XZTheme *)theme;
+- (nonnull XZThemeStyleCollection *)themeStylesForTheme:(nonnull XZTheme *)theme;
 
 /// 设置主题样式。
 ///
 /// @param themeStyles 主题样式。
 /// @param theme 主题。
-- (void)setThemeStyles:(nonnull XZThemeStyleSet *)themeStyles forTheme:(nonnull XZTheme *)theme;
+- (void)setThemeStyles:(nonnull XZThemeStyleCollection *)themeStyles forTheme:(nonnull XZTheme *)theme;
 
 /// 获取已设置的主题样式（如果有）。
 ///
 /// @param theme 主题。
 /// @return 主题样式。
-- (nullable XZThemeStyleSet *)themeStylesIfLoadedForTheme:(nonnull XZTheme *)theme;
+- (nullable XZThemeStyleCollection *)themeStylesIfLoadedForTheme:(nonnull XZTheme *)theme;
 
 /// 获取默认主题的样式的快捷方法。
 /// @note 该方法等同于调用 -themeStyleForTheme: 方法。
-@property (nonatomic, nonnull, readonly) XZThemeStyleSet *defaultThemeStyles NS_SWIFT_NAME(default);
+@property (nonatomic, nonnull, readonly) XZThemeStyleCollection *defaultThemeStyles NS_SWIFT_NAME(default);
 
 @end
 
@@ -121,10 +121,10 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 @interface NSObject (XZThemeSupporting)
 
 /// 当前对象的所有主题集合，懒加载。
-@property (nonatomic, strong, readonly, nonnull) XZThemeSet *xz_themes NS_SWIFT_NAME(themes);
+@property (nonatomic, strong, readonly, nonnull) XZThemeCollection *xz_themes NS_SWIFT_NAME(themes);
 
 /// 当前对象的所有主题，如果已加载。
-@property (nonatomic, strong, readonly, nullable) XZThemeSet *xz_themesIfLoaded NS_SWIFT_NAME(themesIfLoaded);
+@property (nonatomic, strong, readonly, nullable) XZThemeCollection *xz_themesIfLoaded NS_SWIFT_NAME(themesIfLoaded);
 
 /// 当前已应用的主题。
 @property (nonatomic, copy, readonly, nullable) XZTheme *xz_appliedTheme NS_SWIFT_NAME(appliedTheme);
@@ -165,7 +165,7 @@ XZ_THEME_SUBCLASSING_RESTRICTED
 /// @note 默认此方法不执行任何操作。
 ///
 /// @param themeStyleSet 待应用的主题样式。
-- (void)xz_updateAppearanceWithThemeStyleSet:(nonnull XZThemeStyleSet *)themeStyleSet NS_REQUIRES_SUPER NS_SWIFT_NAME(updateAppearance(with:));
+- (void)xz_updateAppearanceWithThemeStyles:(nonnull XZThemeStyleCollection *)themeStyleSet NS_REQUIRES_SUPER NS_SWIFT_NAME(updateAppearance(with:));
 
 @end
 
