@@ -7,7 +7,6 @@
 //
 
 #import "UIViewController+XZThemeSupporting.h"
-#import "NSObject+XZThemeSupporting.h"
 #import "XZTheme.h"
 
 @import ObjectiveC;
@@ -36,7 +35,30 @@
     [self xz_setNeedsThemeAppearanceUpdate];
 }
 
-
+- (void)xz_setNeedsThemeAppearanceUpdate {
+    if ([self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    [super xz_setNeedsThemeAppearanceUpdate];
+    
+    if (self.navigationController != nil) {
+        [self.navigationItem xz_setNeedsThemeAppearanceUpdate];
+    }
+    
+    if (self.tabBarController != nil) {
+        [self.tabBarItem xz_setNeedsThemeAppearanceUpdate];
+    }
+    
+    for (UIBarButtonItem *toolBarItem in self.toolbarItems) {
+        [toolBarItem xz_setNeedsThemeAppearanceUpdate];
+    }
+    
+    for (UIViewController *childVC in self.childViewControllers) {
+        [childVC xz_setNeedsThemeAppearanceUpdate];
+    }
+    
+    [self.presentedViewController xz_setNeedsThemeAppearanceUpdate];
+}
 
 
 

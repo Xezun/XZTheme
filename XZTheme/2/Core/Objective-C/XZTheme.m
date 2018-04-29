@@ -9,6 +9,7 @@
 #import "XZTheme.h"
 #import "XZThemeStyle.h"
 #import "XZThemeStyleCollection.h"
+#import "NSObject+XZThemeSupporting.h"
 @import ObjectiveC;
 
 
@@ -93,15 +94,15 @@ static XZTheme * _Nonnull _currentTheme = nil;
             // 当前正显示的视图，立即更新视图。
             [window xz_setNeedsThemeAppearanceUpdate];
             [window.rootViewController xz_setNeedsThemeAppearanceUpdate];
-            if (animated) {
-                UIView *snapView = [window snapshotViewAfterScreenUpdates:NO];
-                [window addSubview:snapView];
-                [UIView animateWithDuration:XZThemeAnimationDuration animations:^{
-                    snapView.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [snapView removeFromSuperview];
-                }];
-            }
+            // 执行动画。
+            if (!animated) { continue; }
+            UIView *snapView = [window snapshotViewAfterScreenUpdates:NO];
+            [window addSubview:snapView];
+            [UIView animateWithDuration:XZThemeAnimationDuration animations:^{
+                snapView.alpha = 0;
+            } completion:^(BOOL finished) {
+                [snapView removeFromSuperview];
+            }];
         }
         // 发送通知。
         [[NSNotificationCenter defaultCenter] postNotificationName:XZThemeDidChangeNotification object:_currentTheme];

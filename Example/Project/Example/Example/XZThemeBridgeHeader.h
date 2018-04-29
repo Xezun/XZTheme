@@ -36,8 +36,11 @@
 #import "XZThemeStyle.h"
 #import "XZThemeStyleCollection.h"
 #import "XZThemeParser.h"
+#import "NSObject+XZThemeSupporting.h"
+#import "UIView+XZThemeSupporting.h"
+#import "NSObject+XZThemeSupporting.h"
+
 
 // UIKit
-#import "UIView+XZTheme.h"
 #import "UIViewController+XZTheme.h"
 

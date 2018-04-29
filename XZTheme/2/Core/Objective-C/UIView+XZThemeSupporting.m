@@ -8,9 +8,10 @@
 
 #import "UIView+XZThemeSupporting.h"
 #import "NSObject+XZThemeSupporting.h"
+#import "XZTheme.h"
 @import ObjectiveC;
 
-@implementation UIView (XZTheme)
+@implementation UIView (XZThemeSupporting)
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -35,6 +36,21 @@
     }
     // TODO: 仅标记是否在显示效果上会延迟，待验证。
     [self xz_setNeedsThemeAppearanceUpdate];
+}
+
+- (void)xz_setNeedsThemeAppearanceUpdate {
+    if ([self xz_needsThemeAppearanceUpdate]) {
+        return;
+    }
+    [super xz_setNeedsThemeAppearanceUpdate];
+    
+    if (![self xz_forwardsThemeAppearanceUpdate]) {
+        return;
+    }
+    
+    for (UIView *subview in self.subviews) {
+        [subview xz_setNeedsThemeAppearanceUpdate];
+    }
 }
 
 @end

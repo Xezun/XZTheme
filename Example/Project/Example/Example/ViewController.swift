@@ -62,9 +62,11 @@ class ViewController: UIViewController {
         view.themes.day.backgroundColor    = UIColor.white
         view.themes.night.backgroundColor  = UIColor(0x303030ff)
 
+        label.themes.day.text              = "It's day now."
         label.themes.day.backgroundColor   = UIColor(0xf5f5f5ff)
         label.themes.day.textColor         = UIColor(0x333333ff)
 
+        label.themes.night.text            = "It's night now."
         label.themes.night.backgroundColor = UIColor(0x252525ff)
         label.themes.night.textColor       = UIColor(0x707070ff)
 

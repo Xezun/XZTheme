@@ -172,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				DDACA19D20959C7B000C6484 /* XZTheme+UIView.swift */,
+				DDACA1AD2095C433000C6484 /* XZTheme+UIViewController.swift */,
 				DDACA19F2095A105000C6484 /* XZTheme+UILabel.swift */,
 				DDACA1A12095A599000C6484 /* XZTheme+UIImageView.swift */,
 				DDACA1A32095A93D000C6484 /* XZTheme+UIButton.swift */,
@@ -179,7 +180,6 @@
 				DDACA1A72095B8D1000C6484 /* XZTheme+UITabBarItem.swift */,
 				DDACA1AB2095BFF2000C6484 /* XZTheme+UINavigationItem.swift */,
 				DDACA1AF2095C5DC000C6484 /* XZTheme+UINavigationBar.swift */,
-				DDACA1AD2095C433000C6484 /* XZTheme+UIViewController.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";

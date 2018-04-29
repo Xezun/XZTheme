@@ -50,6 +50,10 @@ extension Theme.Style {
 
 extension UITabBar {
     
+    open override func forwardsThemeAppearanceUpdate() -> Bool {
+        return false
+    }
+    
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
