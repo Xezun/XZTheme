@@ -2,7 +2,7 @@
 //  UIViewController+XZTheme.h
 //  Example
 //
-//  Created by mlibai on 2018/4/24.
+//  Created by mlibai on 2018/4/29.
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
@@ -10,12 +10,9 @@
 
 @interface UIViewController (XZTheme)
 
-/// 在 UIViewController 中：
-/// @note 控制器每次显示时都会检查当前已应用的主题是否与 App 当前主题是否一致，从而决定是否执行应用主题的方法。
-+ (void)load;
-
 /// 方便通过主题控制状态栏样式。
 /// @note 注意 UINavigationController 的状态栏由 navigationBar.barStyle 决定。
 @property (nonatomic, setter=xz_setStatusBarStyle:) UIStatusBarStyle xz_statusBarStyle NS_SWIFT_NAME(statusBarStyle);
+
 
 @end

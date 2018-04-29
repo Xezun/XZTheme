@@ -1,12 +1,12 @@
 //
-//  NSObject.m
+//  NSObject+XZThemeSupporting.m
 //  Example
 //
 //  Created by mlibai on 2018/4/29.
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-#import "XZThemeSupporting.h"
+#import "NSObject+XZThemeSupporting.h"
 #import <objc/runtime.h>
 #import "XZThemeDefines.h"
 #import "XZTheme.h"

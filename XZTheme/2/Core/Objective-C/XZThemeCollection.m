@@ -9,12 +9,13 @@
 #import "XZThemeCollection.h"
 #import "XZTheme.h"
 #import "XZThemeStyleCollection.h"
+#import "NSObject+XZThemeSupporting.h"
 
 @implementation XZThemeCollection {
     NSMutableDictionary<XZTheme *, XZThemeStyleCollection *> *_themedStyles;
 }
 
-- (instancetype)initWithObject:(NSObject *)object {
+- (instancetype)initWithObject:(id<XZThemeSupporting>)object {
     self = [super init];
     if (self != nil) {
         _object = object;

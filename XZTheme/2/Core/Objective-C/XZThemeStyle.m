@@ -18,7 +18,7 @@
     return _attributedValues.allKeys;
 }
 
-- (instancetype)initWithObject:(NSObject *)object {
+- (instancetype)initWithObject:(id<XZThemeSupporting>)object {
     self = [super init];
     if (self) {
         _object = object;
