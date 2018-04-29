@@ -7,7 +7,7 @@
 //
 
 #import "UIView+XZTheme.h"
-
+#import "XZThemeSupporting.h"
 @import ObjectiveC;
 
 @implementation UIView (XZTheme)
@@ -35,22 +35,6 @@
     }
     // TODO: 仅标记是否在显示效果上会延迟，待验证。
     [self xz_setNeedsThemeAppearanceUpdate];
-}
-
-- (void)xz_setNeedsThemeAppearanceUpdate {
-    if ([self xz_needsThemeAppearanceUpdate]) {
-        // 如果当前 runloop 内已标记过，就不需要再标记了。
-        return;
-    }
-    [super xz_setNeedsThemeAppearanceUpdate];
-    
-    if (![self xz_forwardsThemeAppearanceUpdate]) {
-        return;
-    }
-    
-    for (UIView *subview in self.subviews) {
-        [subview xz_setNeedsThemeAppearanceUpdate];
-    }
 }
 
 @end

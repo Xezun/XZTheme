@@ -1,12 +1,12 @@
 //
-//  XZThemeState.m
-//  XZTheme
+//  XZThemeDefines.m
+//  Example
 //
-//  Created by mlibai on 2018/4/23.
+//  Created by mlibai on 2018/4/29.
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-#import "XZThemeState.h"
+#import "XZThemeDefines.h"
 
 XZThemeState const _Nonnull XZThemeStateNormal       = @":normal";
 XZThemeState const _Nonnull XZThemeStateSelected     = @":selected";

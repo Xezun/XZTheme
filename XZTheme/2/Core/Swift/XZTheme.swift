@@ -44,7 +44,7 @@ extension Theme.Style.Collection {
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
     @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
-        let themeStyle: Theme.Style = themeStyleLazyLoad(forThemeState: themeState)
+        let themeStyle: Theme.Style = self.themeStyle(forThemeState: themeState)
         for item in configuration {
             if let themeValue = item.value {
                 themeStyle.setValue(themeValue, forThemeAttribute: item.key)

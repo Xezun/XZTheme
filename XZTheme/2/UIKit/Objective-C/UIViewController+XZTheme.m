@@ -7,7 +7,9 @@
 //
 
 #import "UIViewController+XZTheme.h"
+#import "XZThemeSupporting.h"
 #import "XZTheme.h"
+
 @import ObjectiveC;
 @import XZKit;
 
@@ -29,8 +31,6 @@
     });
 }
 
-
-
 - (void)XZTheme_viewWillAppear:(BOOL)animated {
     [self XZTheme_viewWillAppear:animated];
     // 在控制器将要显示的时候，更新已应用的主题。
@@ -43,31 +43,6 @@
 }
 
 
-- (void)xz_setNeedsThemeAppearanceUpdate {
-    if ([self xz_needsThemeAppearanceUpdate]) {
-        return;
-    }
-    [super xz_setNeedsThemeAppearanceUpdate];
-    
-    
-    
-    for (UIViewController *childVC in self.childViewControllers) {
-        [childVC xz_setNeedsThemeAppearanceUpdate];
-    }
-    
-    [self.presentedViewController xz_setNeedsThemeAppearanceUpdate];
-    
-    [self.navigationItem xz_setNeedsThemeAppearanceUpdate];
-    
-    NSArray<UIBarButtonItem *> *toolbarItems = self.toolbarItems;
-    if (toolbarItems.count > 0) {
-        for (UIBarButtonItem *item in toolbarItems) {
-            [item xz_setNeedsThemeAppearanceUpdate];
-        }
-    }
-    
-    [self.tabBarItem xz_setNeedsThemeAppearanceUpdate];
-}
 
 static const void * const _statusBarStyle = &_statusBarStyle;
 

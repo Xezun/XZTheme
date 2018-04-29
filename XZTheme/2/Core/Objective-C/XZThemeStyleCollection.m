@@ -29,20 +29,20 @@
 }
 
 - (XZThemeStyle *)themeStyleForThemeState:(XZThemeState)themeState {
-    if ([themeState isEqualToString:XZThemeStateNormal]) {
-        return self;
-    }
-    return _statedThemeStyles[themeState];
-}
-
-- (XZThemeStyle *)themeStyleLazyLoadForThemeState:(XZThemeState)themeState {
-    XZThemeStyle *themeStyle = [self themeStyleForThemeState:themeState];
+    XZThemeStyle *themeStyle = [self themeStyleIfLoadedForThemeState:themeState];
     if (themeStyle != nil) {
         return themeStyle;
     }
     themeStyle = [[XZThemeStyle alloc] initWithObject:self.object];
     _statedThemeStyles[themeState] = themeStyle;
     return themeStyle;
+}
+
+- (XZThemeStyle *)themeStyleIfLoadedForThemeState:(XZThemeState)themeState {
+    if ([themeState isEqualToString:XZThemeStateNormal]) {
+        return self;
+    }
+    return _statedThemeStyles[themeState];
 }
 
 - (void)setThemeStyle:(XZThemeStyle *)themeStyle forThemeState:(XZThemeState)themeState {
@@ -64,7 +64,8 @@
 
 
 
-@implementation XZThemeStyleCollection (XZExtendedThemeStyles)
+@implementation XZThemeStyleCollection (XZExtendedThemeStyleCollection)
+
 - (XZThemeStyle *)normalStyle {
     return self;
 }

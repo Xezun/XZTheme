@@ -8,7 +8,7 @@
 
 #import "XZThemeStyle.h"
 #import "XZTheme.h"
-#import "XZThemeStyleValueParser.h"
+#import "XZThemeParser.h"
 
 @implementation XZThemeStyle {
     NSMutableDictionary<XZThemeAttribute, id> *_attributedValues;
@@ -51,18 +51,12 @@
 - (void)setObject:(id)object forKeyedSubscript:(XZThemeAttribute)themeAttribute {
     [self setValue:object forThemeAttribute:themeAttribute];
 }
-
 @end
-
-
-
-
 
 
 @implementation XZThemeStyle (XZExtendedThemeStyle)
 
 // integer
-
 - (NSInteger)integerValueForThemeAttribute:(XZThemeAttribute)themeAttribute {
     NSNumber *number = [self valueForThemeAttribute:themeAttribute];
     if ([number respondsToSelector:@selector(integerValue)]) {
@@ -104,137 +98,39 @@
 // string
 
 - (NSString *)stringValueForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle stringParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.stringParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 // image
 
 - (UIImage *)imageForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle imageParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.imageParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 // colr
 
 - (UIColor *)colorForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle colorParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.colorParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 // font
 
 - (UIFont *)fontForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle fontParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.fontParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 // attributedString
 
 - (NSAttributedString *)attributedStringForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle attributedStringParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.attributedStringParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 // stringAttributes
 
 - (nullable NSDictionary<NSAttributedStringKey, id> *)stringAttributesForThemeAttribute:(XZThemeAttribute)themeAttribute {
-    return [[XZThemeStyle stringAttributesParser] parse:[self valueForThemeAttribute:themeAttribute]];
+    return [XZTheme.stringAttributesParser parse:[self valueForThemeAttribute:themeAttribute]];
 }
 
 @end
 
-
-
-static XZThemeStyleValueParser<UIFont *> *_fontParser                                             = nil;
-static XZThemeStyleValueParser<UIColor *> *_colorParser                                           = nil;
-static XZThemeStyleValueParser<UIImage *> *_imageParser                                           = nil;
-static XZThemeStyleValueParser<NSString *> *_stringParser                                         = nil;
-static XZThemeStyleValueParser<NSAttributedString *> *_attributedStringParser                     = nil;
-static XZThemeStyleValueParser<NSDictionary<NSAttributedStringKey,id> *> *_stringAttributesParser = nil;
-
-@implementation XZThemeStyle (ValueParser)
-
-// UIFont
-
-+ (XZThemeStyleValueParser<UIFont *> *)fontParser {
-    if (_fontParser != nil) {
-        return _fontParser;
-    }
-    _fontParser = XZThemeStyleFontParser.defaultParser;
-    return _fontParser;
-}
-
-+ (void)setFontParser:(XZThemeStyleValueParser<UIFont *> *)fontParser {
-    _fontParser = fontParser;
-}
-
-// UIColor
-
-+ (XZThemeStyleValueParser<UIColor *> *)colorParser {
-    if (_colorParser != nil) {
-        return _colorParser;
-    }
-    _colorParser = XZThemeStyleColorParser.defaultParser;
-    return _colorParser;
-}
-
-+ (void)setColorParser:(XZThemeStyleValueParser<UIColor *> *)colorParser {
-    _colorParser = colorParser;
-}
-
-
-// UIImage
-
-+ (XZThemeStyleValueParser<UIImage *> *)imageParser {
-    if (_imageParser != nil) {
-        return _imageParser;
-    }
-    _imageParser = XZThemeStyleImageParser.defaultParser;
-    return _imageParser;
-}
-
-+ (void)setImageParser:(XZThemeStyleValueParser<UIImage *> *)imageParser {
-    _imageParser = imageParser;
-}
-
-// NSString
-
-+ (XZThemeStyleValueParser<NSString *> *)stringParser {
-    if (_stringParser != nil) {
-        return _stringParser;
-    }
-    _stringParser = XZThemeStyleStringParser.defaultParser;
-    return _stringParser;
-}
-
-+ (void)setStringParser:(XZThemeStyleValueParser<NSString *> *)stringParser {
-    _stringParser = stringParser;
-}
-
-// NSAttributedString
-
-+ (XZThemeStyleValueParser<NSAttributedString *> *)attributedStringParser {
-    if (_attributedStringParser != nil) {
-        return _attributedStringParser;
-    }
-    _attributedStringParser = XZThemeStyleAttributedStringParser.defaultParser;
-    return _attributedStringParser;
-}
-
-+ (void)setAttributedStringParser:(XZThemeStyleValueParser<NSAttributedString *> *)attributedStringParser {
-    _attributedStringParser = attributedStringParser;
-}
-
-
-// NSDictionary
-
-+ (XZThemeStyleValueParser<NSDictionary<NSAttributedStringKey,id> *> *)stringAttributesParser {
-    if (_stringAttributesParser != nil) {
-        return _stringAttributesParser;
-    }
-    _stringAttributesParser = XZThemeStyleStringAttributesParser.defaultParser;
-    return _stringAttributesParser;
-}
-
-+ (void)setStringAttributesParser:(XZThemeStyleValueParser<NSDictionary<NSAttributedStringKey,id> *> *)stringAttributesParser {
-    _stringAttributesParser = stringAttributesParser;
-}
-
-@end
 

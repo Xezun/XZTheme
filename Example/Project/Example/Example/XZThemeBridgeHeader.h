@@ -10,10 +10,8 @@
 
 #import "XZTheme.h"
 #import "XZThemeDefines.h"
-#import "XZThemeAttribute.h"
 #import "XZThemeStyleCollection.h"
-#import "XZThemeState.h"
-#import "XZThemeStyleValueParser.h"
+//#import "XZThemeParser.h"
 //
 //#import "NSObject+XZTheme.h"
 //#import "UIView+XZTheme.h"
