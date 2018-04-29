@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension Theme.Attribute {
+    
+}
+
+extension Theme.Style {
+    
+}
+
 
 extension UINavigationBar {
     
@@ -24,6 +32,10 @@ extension UINavigationBar {
         
         if themeStyles.containsThemeAttribute(.shadowImage) {
             self.shadowImage = themeStyles.shadowImage
+        }
+        
+        if themeStyles.containsThemeAttribute(.barStyle) {
+            self.barStyle = themeStyles.barStyle
         }
         
         

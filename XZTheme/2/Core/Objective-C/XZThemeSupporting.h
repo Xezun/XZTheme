@@ -11,9 +11,8 @@
 
 @class XZTheme, XZThemeCollection, XZThemeStyleCollection, XZThemeStyle;
 
+/// 本协议描述了支持主题功能的对象具有的属性和方法。
 @protocol XZThemeSupporting <NSObject>
-/// 当前对象已配置样式的主题集合。
-@property (nonatomic, strong, readonly, nonnull) XZThemeCollection *xz_themes NS_SWIFT_NAME(themes);
 /// 是否传递主题变更事件。
 - (BOOL)xz_forwardsThemeAppearanceUpdate NS_SWIFT_NAME(forwardsThemeAppearanceUpdate());
 /// 将主题标记为需要更新。

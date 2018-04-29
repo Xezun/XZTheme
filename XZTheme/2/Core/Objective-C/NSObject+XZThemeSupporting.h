@@ -21,6 +21,7 @@
 @property (nonatomic, strong, readonly, nullable) XZThemeCollection *xz_themesIfLoaded NS_SWIFT_NAME(themesIfLoaded);
 
 /// 当前已应用的主题。
+/// @note 已应用的主题不等于当前主题，特别是当控件未显示时。
 @property (nonatomic, copy, readonly, nullable) XZTheme *xz_appliedTheme NS_SWIFT_NAME(appliedTheme);
 
 /// 是否传递主题变更事件。默认 YES 。
@@ -36,7 +37,7 @@
 /// @note 默认情况下，该方法将在下一 runloop 中调用 `-applyThemeIfNeeded` 方法，且在同一 runloop 中，多次调用，只会触发一次。
 /// @note 对于 UIKit 控件，当主题发生改变时，此方法会自动调用；如果控件没有显示，则在其显示时会自动调用。
 /// @note 对于非 UIKit 控件对象，需要手动添加监听主题变更通知，并在合适的时机调用此方法（一般可以直接将通知绑定到此方法上）。
-- (void)xz_setNeedsThemeAppearanceUpdate NS_SWIFT_NAME(setNeedsThemeAppearanceUpdate());
+- (void)xz_setNeedsThemeAppearanceUpdate NS_REQUIRES_SUPER NS_SWIFT_NAME(setNeedsThemeAppearanceUpdate());
 
 /// @b 一般情况下，请勿重写此方法。
 /// 如果已被标记为需要更新主题，则执行以下操作，否则不执行任何操作。

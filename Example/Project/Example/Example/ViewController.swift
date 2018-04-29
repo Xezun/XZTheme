@@ -42,11 +42,13 @@ class ViewController: UIViewController {
             .setting(UIColor.white, for: .barTintColor)
             .setting(UIColor.black, for: .tintColor)
             .setting(UIImage(filled: 0x222222FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.default, for: .barStyle)
 
         self.navigationController?.navigationBar.themes.night
             .setting(UIColor(0x252525FF), for: .barTintColor)
             .setting(UIColor(0x707070FF), for: .tintColor)
             .setting(UIImage(filled: 0x707070FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.black, for: .barStyle)
 
         let label = OMLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
         label.text = "This is a label."
@@ -97,29 +99,25 @@ class ViewController: UIViewController {
     override func updateAppearance(with theme: Theme) {
         super.updateAppearance(with: theme)
 
-        switch theme {
-        case .day:
-            self.navigationController?.navigationBar.barStyle = .default
-            self.statusBarStyle = .default
-        case .night:
-            self.navigationController?.navigationBar.barStyle = .black
-            self.statusBarStyle = .lightContent
-        default:        break
-        }
+//        switch theme {
+//        case .day:
+//            self.navigationController?.navigationBar.barStyle = .default
+//            self.statusBarStyle = .default
+//        case .night:
+//            self.navigationController?.navigationBar.barStyle = .black
+//            self.statusBarStyle = .lightContent
+//        default:        break
+//        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func nightAction(_ sender: Any) {
-        Theme.night.apply(true)
-    }
     
-    @IBAction func dayAction(_ sender: Any) {
-        Theme.day.apply(true)
-    }
+    
+
+    
 }
 
 

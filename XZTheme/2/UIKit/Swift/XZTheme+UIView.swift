@@ -54,8 +54,8 @@ extension Theme.Style {
 
 extension UIView {
     
-    /// 作为 UIView 控件，当主题改变时，其会自动应用 .backgroundColor、.tintColor、.isHidden、.alpha、.isOpaque 等属性。
-    /// - Note: 使用 Swift 重写此方法，方便使用 switch 遍历主题属性。
+    /// 作为 UIView 控件，当主题改变时，其会自动应用如下属性：
+    /// - .backgroundColor、.tintColor、.isHidden、.alpha、.isOpaque
     ///
     /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {

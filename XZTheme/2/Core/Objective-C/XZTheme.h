@@ -55,6 +55,10 @@ XZ_THEME_FINAL_CLASS
 /// 返回 name 属性的哈希值。
 - (NSUInteger)hash;
 /// 应用主题。
+/// @note 应用主题会向所有 UIApplication.sharedApplication.windows 和根控制器发送主题事件。
+/// @note 视图控件或视图控制器，默认会向其子视图或自控制器以及相关联的对象发送事件。
+/// @note 没有正在显示的视图，会在显示（添加到父视图）时，根据自身主题和当前主题判断是否需要更新主题外观。
+/// @note 控制器也会在其将要显示时，判断主题从而决定是否更新主题外观。
 ///
 /// @param animated 是否渐变主题应用的过程。
 - (void)apply:(BOOL)animated;

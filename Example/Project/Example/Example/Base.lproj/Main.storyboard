@@ -22,22 +22,59 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="jMi-tC-wff">
+                    <navigationItem key="navigationItem" id="jMi-tC-wff"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1884" y="116"/>
+        </scene>
+        <!--Next View Controller-->
+        <scene sceneID="ewD-4T-Yxl">
+            <objects>
+                <viewController id="KsT-Zg-Xho" customClass="NextViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="U6q-UJ-gk2"/>
+                        <viewControllerLayoutGuide type="bottom" id="H9a-Ai-bdu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="udx-OY-0Ul">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdt-lf-Qfb">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="t6h-Ub-wJ0"/>
+                                </constraints>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="Xui-4P-3ag"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Zdt-lf-Qfb" secondAttribute="trailing" id="GYp-8C-UfY"/>
+                            <constraint firstItem="H9a-Ai-bdu" firstAttribute="top" secondItem="Zdt-lf-Qfb" secondAttribute="bottom" id="UyD-83-Kao"/>
+                            <constraint firstItem="Zdt-lf-Qfb" firstAttribute="leading" secondItem="udx-OY-0Ul" secondAttribute="leading" id="z4G-tl-LPH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="xZd-qb-uto">
                         <barButtonItem key="leftBarButtonItem" title="Night" id="i9k-Av-SPV">
                             <connections>
-                                <action selector="nightAction:" destination="BYZ-38-t0r" id="I3L-DF-jdT"/>
+                                <action selector="nightAction:" destination="KsT-Zg-Xho" id="4rp-O0-KiA"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Day" id="zT8-30-Tau">
                             <connections>
-                                <action selector="dayAction:" destination="BYZ-38-t0r" id="2Gj-OL-kzv"/>
+                                <action selector="dayAction:" destination="KsT-Zg-Xho" id="Fdz-NF-0Z5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5o0-5E-wQv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1056.8" y="117.39130434782609"/>
+            <point key="canvasLocation" x="975" y="117"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9eR-nq-ha9">
@@ -50,7 +87,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="dzF-Gx-KiD"/>
+                        <segue destination="KsT-Zg-Xho" kind="relationship" relationship="rootViewController" id="OHB-lx-y49"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yvz-ij-IDl" userLabel="First Responder" sceneMemberID="firstResponder"/>
