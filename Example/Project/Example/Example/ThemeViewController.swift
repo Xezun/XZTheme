@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ThemeViewController.swift
 //  Example
 //
 //  Created by mlibai on 2018/4/13.
@@ -29,27 +29,14 @@ extension Theme.Collection {
 
 }
 
-class ViewController: UIViewController {
+class ThemeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.themes.default.backgroundColor = nil
+        view.themes.day.backgroundColor    = UIColor.white
+        view.themes.night.backgroundColor  = UIColor(0x303030ff)
         
-        UILabel.init().themes.default.textColor = nil
-        
-        self.navigationController?.navigationBar.themes.day
-            .setting(UIColor.white, for: .barTintColor)
-            .setting(UIColor.black, for: .tintColor)
-            .setting(UIImage(filled: 0x222222FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
-            .setting(UIBarStyle.default, for: .barStyle)
-
-        self.navigationController?.navigationBar.themes.night
-            .setting(UIColor(0x252525FF), for: .barTintColor)
-            .setting(UIColor(0x707070FF), for: .tintColor)
-            .setting(UIImage(filled: 0x707070FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
-            .setting(UIBarStyle.black, for: .barStyle)
-
         let label = OMLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
         label.text = "This is a label."
         label.backgroundColor = UIColor.lightGray
@@ -60,9 +47,6 @@ class ViewController: UIViewController {
         let lc2 = NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
         view.addConstraint(lc1)
         view.addConstraint(lc2)
-
-        view.themes.day.backgroundColor    = UIColor.white
-        view.themes.night.backgroundColor  = UIColor(0x303030ff)
 
         label.themes.day.text              = "It's day now."
         label.themes.day.backgroundColor   = UIColor(0xf5f5f5ff)
@@ -96,27 +80,10 @@ class ViewController: UIViewController {
         view.addSubview(button)
     }
     
-    override func updateAppearance(with theme: Theme) {
-        super.updateAppearance(with: theme)
-
-//        switch theme {
-//        case .day:
-//            self.navigationController?.navigationBar.barStyle = .default
-//            self.statusBarStyle = .default
-//        case .night:
-//            self.navigationController?.navigationBar.barStyle = .black
-//            self.statusBarStyle = .lightContent
-//        default:        break
-//        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-
     
 }
 

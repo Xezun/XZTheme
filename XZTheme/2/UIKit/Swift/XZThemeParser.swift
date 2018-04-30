@@ -9,44 +9,33 @@
 import Foundation
 import XZKit
 
-public protocol ThemeColorParser {
+/// 主题属性值解析器。
+/// 配置主题属性值时，使用实际值可能会更效率，但是内存能不允许。
+/// 例如主题样式包含大量图片，虽然 XZTheme 样式存储会随对象一起销毁，但是为了避免某些极端情况的内存问题，XZTheme 允许其它值来设置主题样式，比如图片名字。
+/// 在默认规则下， ThemeParser 的作用是负责将样式配置值转换成实际使用值。
+public protocol ThemeParser {
     func parse(_ value: Any?) -> UIColor?
-}
-
-public protocol ThemeImageParser {
     func parse(_ value: Any?) -> UIImage?
     func parse(_ value: Any?) -> [UIImage]?
-}
-
-public protocol ThemeFontParser {
     func parse(_ value: Any?) -> UIFont?
-}
-
-public protocol ThemeAttributedStringParser {
     func parse(_ value: Any?) -> NSAttributedString?
-}
-
-public protocol ThemeStringAttributesParser {
     func parse(_ value: Any?) -> [NSAttributedStringKey: Any]?
 }
 
+
 extension Theme {
     
-    private final class Parser: ThemeColorParser, ThemeImageParser, ThemeFontParser, ThemeAttributedStringParser, ThemeStringAttributesParser {
+    private final class Parser: ThemeParser {
 
     }
     
-    private static let parser: Parser = Parser.init()
-    
-    public static var colorParser1:             ThemeColorParser            = Theme.parser
-    public static var imageParser1:             ThemeImageParser            = Theme.parser
-    public static var fontParser1:              ThemeFontParser             = Theme.parser
-    public static var attribtedStringParser1:   ThemeAttributedStringParser = Theme.parser
-    public static var stringAttributesParser1:  ThemeStringAttributesParser = Theme.parser
+    /// 默认的主题样式属性解析器。
+    /// - Note: 此属性可写，即可以自定解析方法。
+    public static var parser: ThemeParser = Parser.init()
     
 }
 
-extension ThemeColorParser {
+extension ThemeParser {
     
     public func parse(_ value: Any?) -> UIColor? {
         guard let value = value else { return nil }
@@ -59,12 +48,9 @@ extension ThemeColorParser {
         if let string = value as? String {
             return UIColor.init(string)
         }
-        XZLog("ThemeColorParser: Unparsable color value (%@), clear color returned.", value)
+        XZLog("XZTheme: Unparsable color value (%@), clear color returned.", value)
         return UIColor.clear
     }
-    
-}
-extension ThemeImageParser {
     
     func parse(_ value: Any?) -> [UIImage]? {
         guard let value = value else { return nil }
@@ -83,7 +69,7 @@ extension ThemeImageParser {
             }
             return images
         }
-        XZLog("ThemeImageParser: Unparsable images value (%@), nil returned.", value)
+        XZLog("XZTheme: Unparsable images value (%@), nil returned.", value)
         return nil
     }
     
@@ -103,12 +89,9 @@ extension ThemeImageParser {
                 }
             }
         }
-        XZLog("ThemeImageParser: Unparsable image value (%@), nil returned.", value)
+        XZLog("XZTheme: Unparsable image value (%@), nil returned.", value)
         return nil
     }
-    
-}
-extension ThemeFontParser {
     
     public func parse(_ value: Any?) -> UIFont? {
         guard let value = value else { return nil }
@@ -138,14 +121,9 @@ extension ThemeFontParser {
                 return UIFont.systemFont(ofSize: fontSize)
             }
         }
-        XZLog("ThemeFontParser: Unparsable font value (%@), system font returned.", value)
+        XZLog("XZTheme: Unparsable font value (%@), system font returned.", value)
         return UIFont.systemFont(ofSize: UIFont.systemFontSize)
     }
-    
-    
-}
-
-extension ThemeAttributedStringParser {
     
     /// 富文本解析。
     /// 如果值已经是 NSAttributedString 则直接返回原始值。
@@ -186,14 +164,10 @@ extension ThemeAttributedStringParser {
         if let string = value as? String {
             return NSAttributedString.init(string: string)
         }
-        XZLog("ThemeFontParser: Unparsable AttributedString value (%@), nil returned.", value)
+        XZLog("XZTheme: Unparsable AttributedString value (%@), nil returned.", value)
         return nil
     }
     
-    
-    
-}
-extension ThemeStringAttributesParser where Self: ThemeColorParser, Self: ThemeFontParser {
     
     func parse(_ value: Any?) -> [NSAttributedStringKey : Any]? {
         guard let value = value else { return nil }
@@ -212,7 +186,7 @@ extension ThemeStringAttributesParser where Self: ThemeColorParser, Self: ThemeF
                 return stringAttributes
             }
         }
-        XZLog("ThemeFontParser: Unparsable StringAttributes value (%@), nil returned.", value)
+        XZLog("XZTheme: Unparsable StringAttributes value (%@), nil returned.", value)
         return nil
     }
     

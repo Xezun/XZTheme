@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Theme View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ThemeViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HBs-qD-bNw"/>
                         <viewControllerLayoutGuide type="bottom" id="bU0-WN-vqK"/>
@@ -28,10 +28,10 @@
             </objects>
             <point key="canvasLocation" x="1884" y="116"/>
         </scene>
-        <!--Next View Controller-->
+        <!--Root View Controller-->
         <scene sceneID="ewD-4T-Yxl">
             <objects>
-                <viewController id="KsT-Zg-Xho" customClass="NextViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="KsT-Zg-Xho" customClass="RootViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U6q-UJ-gk2"/>
                         <viewControllerLayoutGuide type="bottom" id="H9a-Ai-bdu"/>
@@ -76,10 +76,10 @@
             </objects>
             <point key="canvasLocation" x="975" y="117"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Theme Navigation Controller-->
         <scene sceneID="9eR-nq-ha9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a0e-GO-1bM" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a0e-GO-1bM" customClass="ThemeNavigationController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1qZ-uo-drq">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
