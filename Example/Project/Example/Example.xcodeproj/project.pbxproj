@@ -16,7 +16,7 @@
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
 		DD5643D42090295F00573867 /* OCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD5643D32090295F00573867 /* OCViewController.m */; };
-		DDACA19320957D14000C6484 /* XZThemeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DDACA19220957D14000C6484 /* XZThemeParser.m */; };
+		DD7690DB2096F4F900C9B3F0 /* XZThemeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7690DA2096F4F900C9B3F0 /* XZThemeParser.swift */; };
 		DDACA19920959996000C6484 /* XZThemeCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = DDACA19820959996000C6484 /* XZThemeCollection.m */; };
 		DDACA19E20959C7B000C6484 /* XZTheme+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDACA19D20959C7B000C6484 /* XZTheme+UIView.swift */; };
 		DDACA1A02095A105000C6484 /* XZTheme+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDACA19F2095A105000C6484 /* XZTheme+UILabel.swift */; };
@@ -58,8 +58,7 @@
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD5643D22090295F00573867 /* OCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCViewController.h; sourceTree = "<group>"; };
 		DD5643D32090295F00573867 /* OCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCViewController.m; sourceTree = "<group>"; };
-		DDACA19120957D14000C6484 /* XZThemeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZThemeParser.h; sourceTree = "<group>"; };
-		DDACA19220957D14000C6484 /* XZThemeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZThemeParser.m; sourceTree = "<group>"; };
+		DD7690DA2096F4F900C9B3F0 /* XZThemeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XZThemeParser.swift; sourceTree = "<group>"; };
 		DDACA19720959996000C6484 /* XZThemeCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeCollection.h; sourceTree = "<group>"; };
 		DDACA19820959996000C6484 /* XZThemeCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeCollection.m; sourceTree = "<group>"; };
 		DDACA19A20959AF6000C6484 /* XZThemeSupporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeSupporting.h; sourceTree = "<group>"; };
@@ -222,6 +221,7 @@
 				DDF4A0E92094D0580044D70F /* XZTheme.swift */,
 				DDACA1BC2095CC12000C6484 /* XZThemeStyle.swift */,
 				DDACA1BA2095CBEA000C6484 /* XZThemeStyleCollection.swift */,
+				DD7690DA2096F4F900C9B3F0 /* XZThemeParser.swift */,
 			);
 			path = Swift;
 			sourceTree = "<group>";
@@ -240,8 +240,6 @@
 				DDF4A1362094D0790044D70F /* XZThemeStyle.m */,
 				DDF4A12E2094D0790044D70F /* XZThemeStyleCollection.h */,
 				DDF4A1332094D0790044D70F /* XZThemeStyleCollection.m */,
-				DDACA19120957D14000C6484 /* XZThemeParser.h */,
-				DDACA19220957D14000C6484 /* XZThemeParser.m */,
 				DDACA1C02095DB60000C6484 /* NSObject+XZThemeSupporting.h */,
 				DDACA1C12095DBA1000C6484 /* NSObject+XZThemeSupporting.m */,
 				DDACA1B72095C74D000C6484 /* UIView+XZThemeSupporting.h */,
@@ -378,6 +376,7 @@
 				DDACA19E20959C7B000C6484 /* XZTheme+UIView.swift in Sources */,
 				DDACA1AA2095BE3E000C6484 /* XZThemeDefines.m in Sources */,
 				DDF4A13C2094D0790044D70F /* XZThemeStyleCollection.m in Sources */,
+				DD7690DB2096F4F900C9B3F0 /* XZThemeParser.swift in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
 				DDACA1AE2095C433000C6484 /* XZTheme+UIViewController.swift in Sources */,
 				DDACA1A82095B8D1000C6484 /* XZTheme+UITabBarItem.swift in Sources */,
@@ -390,7 +389,6 @@
 				DDACA1A42095A93D000C6484 /* XZTheme+UIButton.swift in Sources */,
 				DDACA1B02095C5DC000C6484 /* XZTheme+UINavigationBar.swift in Sources */,
 				DDF4A1152094D0580044D70F /* XZTheme.swift in Sources */,
-				DDACA19320957D14000C6484 /* XZThemeParser.m in Sources */,
 				DDACA19920959996000C6484 /* XZThemeCollection.m in Sources */,
 				DDACA1A22095A599000C6484 /* XZTheme+UIImageView.swift in Sources */,
 			);
