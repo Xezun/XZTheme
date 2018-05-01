@@ -62,11 +62,9 @@ extension Theme.Style {
 
 extension UILabel {
     
-    /// 默认情况下，UILabel 不会传递主题事件到它的子视图。
-    open override func forwardsThemeAppearanceUpdate() -> Bool {
-        return false
-    }
-    
+    /// 自动应用的样式：.text, .textColor, .font, .shadowColor, .highlightedTextColor, .attributedText 。
+    ///
+    /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         

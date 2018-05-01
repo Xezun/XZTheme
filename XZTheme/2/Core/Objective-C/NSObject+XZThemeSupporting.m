@@ -77,7 +77,7 @@ static const void * const _needsThemeAppearanceUpdate  = &_needsThemeAppearanceU
     }
     XZThemeStyleCollection *themeStyles = [themes themeStylesIfLoadedForTheme:newTheme];
     // 配置了主题，但是无当前主题配置，应用默认主题。
-    if (themeStyles == nil) {
+    if (themeStyles == nil && ![newTheme isEqual:XZTheme.defaultTheme]) {
         themeStyles = [themes themeStylesIfLoadedForTheme:XZTheme.defaultTheme];
     }
     // 默认主题也没有配置。

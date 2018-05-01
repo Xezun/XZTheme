@@ -37,10 +37,10 @@ extension Theme.Style {
         set { setValue(newValue, forThemeAttribute: .highlightedImage) }
     }
     
-    //    public var images: [UIImage]? {
-    //        get { return image(forThemeAttribute: .images)?.images }
-    //        set { setValue(newValue, forThemeAttribute: .images)   }
-    //    }
+    public var images: [UIImage]? {
+        get { return images(forThemeAttribute: .images)         }
+        set { setValue(newValue, forThemeAttribute: .images)    }
+    }
     
     public var animationImages: [UIImage]? {
         get { return image(forThemeAttribute: .animationImages)?.images }

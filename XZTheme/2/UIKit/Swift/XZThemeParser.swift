@@ -10,15 +10,72 @@ import Foundation
 import XZKit
 
 /// 主题属性值解析器。
-/// 配置主题属性值时，使用实际值可能会更效率，但是内存能不允许。
+/// 配置主题属性值时，使用实际值可能会更效率，但是内存可能不允许。
 /// 例如主题样式包含大量图片，虽然 XZTheme 样式存储会随对象一起销毁，但是为了避免某些极端情况的内存问题，XZTheme 允许其它值来设置主题样式，比如图片名字。
 /// 在默认规则下， ThemeParser 的作用是负责将样式配置值转换成实际使用值。
 public protocol ThemeParser {
+    
+    /// 将主题属性值解析为 UIColor 对象。
+    /// - Note: 在默认实现中，支持使用十六进制颜色值，整数(0xAABBCCFF)或字符串(#FF0099/#F0F/#E2FA237F) 。
+    ///
+    /// - Parameter value: 主题属性值。
+    /// - Returns: UIColor 对象。
     func parse(_ value: Any?) -> UIColor?
+    
+    /// 将主题属性值解析为 UIImage 对象。
+    /// - Note: 支持使用资源图片名字。
+    /// - Note: 支持 animatedImage，格式如下。
+    /// ```json
+    /// { name: "imageName", duration: 1.2 }
+    /// { name: ["image_a", "image_b"], duration: 1.2 }
+    /// ```
+    ///
+    /// - Parameter value: 主图属性值。
+    /// - Returns: UIImage 对象。
     func parse(_ value: Any?) -> UIImage?
+    
+    /// 将主题属性值解析为 UIImage 集合（一般是作为动图使用）。
+    /// - Note: 支持使用字符串或字符串数组。
+    ///
+    /// - Parameter value: 主题属性值。
+    /// - Returns: [UIImage]
     func parse(_ value: Any?) -> [UIImage]?
+    
+    /// 将主题属性值解析为 UIFont 对象，支持使用字体名称或大小。
+    /// - 如果值类型为 String，将作为字体名称，使用系统默认字体大小创建字体对象。
+    /// - 如果值类型为 CGFloat/Int/Double ，将作为字体大小，使用系统字体创建对象。
+    /// - 支持使用如下格式字典。
+    /// ```
+    /// {name: "fontName", size: 15.0 }
+    /// {size: 16.0, weight: 400 }  // 使用系统默认字体。
+    /// ```
+    /// - Parameter value: 主题属性值。
+    /// - Returns: UIFont 对象。
     func parse(_ value: Any?) -> UIFont?
+    
+    /// 富文本解析。
+    /// 如果值已经是 NSAttributedString 则直接返回原始值。
+    /// 如果值为字符串，则直接通过此字符串构造 NSAttributedString 。
+    /// 如果格式为字典，其目前仅支持如下格式：
+    /// ```json
+    /// {
+    ///     "type": "html"
+    ///     "content": "<b>This is the text.</b>"
+    /// }
+    /// ```
+    ///
+    /// - Parameter value: 待解析的值。
+    /// - Returns: 富文本。
     func parse(_ value: Any?) -> NSAttributedString?
+    
+    /// 富文本属性。
+    /// 目前支持配置字典格式如：
+    /// ```
+    /// {font: "所有支持的字体解析格式", color: "所有支持的颜色解析格式", backgroundColor: "所有支持的颜色解析格式"}
+    /// ```
+    ///
+    /// - Parameter value: 主题属性值。
+    /// - Returns: 富文本属性。
     func parse(_ value: Any?) -> [NSAttributedStringKey: Any]?
 }
 
@@ -45,11 +102,33 @@ extension ThemeParser {
         if let number = value as? ColorValue {
             return UIColor.init(number)
         }
+        if let number = value as? Int {
+            return UIColor.init(ColorValue(number))
+        }
         if let string = value as? String {
             return UIColor.init(string)
         }
-        XZLog("XZTheme: Unparsable color value (%@), clear color returned.", value)
-        return UIColor.clear
+        XZLog("XZTheme: Unparsable color value (%@), nil returned.", value)
+        return nil
+    }
+    
+    public func parse(_ value: Any?) -> UIImage? {
+        guard let value = value else { return nil }
+        if let image = value as? UIImage {
+            return image
+        }
+        if let imageName = value as? String {
+            return UIImage(named: imageName)
+        }
+        if let dict = value as? [String: Any] {
+            if let images: [UIImage] = self.parse(dict["name"]) {
+                if let duration = dict["duration"] as? TimeInterval {
+                    return UIImage.animatedImage(with: images, duration: duration)
+                }
+            }
+        }
+        XZLog("XZTheme: Unparsable image value (%@), nil returned.", value)
+        return nil
     }
     
     func parse(_ value: Any?) -> [UIImage]? {
@@ -73,26 +152,6 @@ extension ThemeParser {
         return nil
     }
     
-    
-    public func parse(_ value: Any?) -> UIImage? {
-        guard let value = value else { return nil }
-        if let image = value as? UIImage {
-            return image
-        }
-        if let imageName = value as? String {
-            return UIImage(named: imageName)
-        }
-        if let dict = value as? [String: Any] {
-            if let images: [UIImage] = self.parse(dict["name"]) {
-                if let duration = dict["duration"] as? TimeInterval {
-                    return UIImage.animatedImage(with: images, duration: duration)
-                }
-            }
-        }
-        XZLog("XZTheme: Unparsable image value (%@), nil returned.", value)
-        return nil
-    }
-    
     public func parse(_ value: Any?) -> UIFont? {
         guard let value = value else { return nil }
         if let font = value as? UIFont {
@@ -103,6 +162,12 @@ extension ThemeParser {
         }
         if let fontSize = value as? CGFloat {
             return UIFont.systemFont(ofSize: fontSize)
+        }
+        if let fontSize = value as? Double {
+            return UIFont.systemFont(ofSize: CGFloat(fontSize))
+        }
+        if let fontSize = value as? Int {
+            return UIFont.systemFont(ofSize: CGFloat(fontSize))
         }
         guard let dict = value as? [String: Any] else { return nil }
         
@@ -125,19 +190,6 @@ extension ThemeParser {
         return UIFont.systemFont(ofSize: UIFont.systemFontSize)
     }
     
-    /// 富文本解析。
-    /// 如果值已经是 NSAttributedString 则直接返回原始值。
-    /// 如果值为字符串，则直接通过此字符串构造 NSAttributedString 。
-    /// 如果格式为字典，其目前仅支持如下格式：
-    /// ```json
-    /// {
-    ///     "type": "html"
-    ///     "content": "<b>This is the text.</b>"
-    /// }
-    /// ```
-    ///
-    /// - Parameter value: 待解析的值。
-    /// - Returns: 富文本。
     func parse(_ value: Any?) -> NSAttributedString? {
         guard let value = value else { return nil }
         if let attributedString = value as? NSAttributedString {
@@ -167,7 +219,6 @@ extension ThemeParser {
         XZLog("XZTheme: Unparsable AttributedString value (%@), nil returned.", value)
         return nil
     }
-    
     
     func parse(_ value: Any?) -> [NSAttributedStringKey : Any]? {
         guard let value = value else { return nil }

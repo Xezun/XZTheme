@@ -10,21 +10,12 @@ import UIKit
 
 extension Theme.Attribute {
     
+    /// UIViewController.statusBarStyle
     public static let statusBarStyle = Theme.Attribute.init("statusBarStyle")
     
 }
 
 extension Theme.Style {
-    
-    
-    public func statusBarStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIStatusBarStyle {
-        if let statusBarStyle = value(forThemeAttribute: themeAttribute) as? UIStatusBarStyle {
-            return statusBarStyle
-        } else if let statusBarStyle = UIStatusBarStyle.init(rawValue: integerValue(forThemeAttribute: themeAttribute)) {
-            return statusBarStyle
-        }
-        return .default
-    }
     
     public var statusBarStyle: UIStatusBarStyle {
         get { return statusBarStyle(forThemeAttribute: .statusBarStyle) }
@@ -35,6 +26,10 @@ extension Theme.Style {
 
 extension UIViewController {
     
+    
+    /// 自动应用样式：.title, .statusBarStyle 。
+    ///
+    /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
