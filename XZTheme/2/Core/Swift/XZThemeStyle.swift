@@ -9,7 +9,82 @@
 import Foundation
 import XZKit
 
+extension Theme {
+    
+    @objc(XZThemeStyle1) public class Style1: NSObject {
+        @objc public unowned let object: ThemeSupporting
+        @objc(initWithObject:) public init(_ object: ThemeSupporting) {
+            self.object = object
+            super.init()
+        }
+        
+        internal lazy var attributedValues = [Theme.Attribute: Any?]()
+        
+        public var themeAttributes: [Theme.Attribute] {
+            return Array(attributedValues.keys)
+        }
+        
+        public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
+            attributedValues[themeAttribute] = value
+            object.setNeedsThemeAppearanceUpdate()
+        }
+        
+        public func updateValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
+            attributedValues.updateValue(value, forKey: themeAttribute)
+            object.setNeedsThemeAppearanceUpdate()
+        }
+        
+        public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any?? {
+            object.setNeedsThemeAppearanceUpdate()
+            return attributedValues.removeValue(forKey: themeAttribute)
+        }
+        
+        public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any?? {
+            return attributedValues[themeAttribute]
+        }
+        
+        public subscript(themeAttribute: Theme.Attribute) -> Any?? {
+            get { return attributedValues[themeAttribute]     }
+            set { attributedValues[themeAttribute] = newValue }
+        }
+        
+    }
+    
+    
+    
+}
 
+extension Theme.Style1 {
+    
+    @objc(XZThemeStyleCollection1) public final class Collection: Theme.Style1 {
+        
+        internal lazy var statedStyles = [Theme.State: Theme.Style]()
+        
+        public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
+            if let themeStyle = statedStyles[themeState] {
+                return themeStyle
+            }
+            let themeStyle = Theme.Style.init(self.object)
+            setThemeStyle(themeStyle, forThemeState: themeState)
+            return themeStyle
+        }
+        
+        public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
+            return statedStyles[themeState]
+        }
+        
+        public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
+            statedStyles[themeState] = themeStyle
+            object.setNeedsThemeAppearanceUpdate()
+        }
+        
+    }
+    
+}
+
+extension Theme.Style1.Collection {
+    
+}
 
 extension Theme.Style {
     

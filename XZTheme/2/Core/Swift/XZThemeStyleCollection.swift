@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 extension Theme.Style.Collection {
     
     /// 更新指定状态样式的链式编程支持。

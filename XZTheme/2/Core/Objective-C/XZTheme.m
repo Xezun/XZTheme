@@ -10,6 +10,7 @@
 #import "XZThemeStyle.h"
 #import "XZThemeStyleCollection.h"
 #import "NSObject+XZThemeSupporting.h"
+#import "Example-Swift.h"
 @import ObjectiveC;
 
 

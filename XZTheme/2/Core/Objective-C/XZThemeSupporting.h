@@ -12,7 +12,7 @@
 @class XZTheme, XZThemeCollection, XZThemeStyleCollection, XZThemeStyle;
 
 /// 本协议描述了支持主题功能的对象具有的属性和方法。
-@protocol XZThemeSupporting <NSObject>
+NS_SWIFT_NAME(ThemeSupporting) @protocol XZThemeSupporting <NSObject>
 /// 是否传递主题变更事件。
 /// @note 在 NSObject 实现中，该方法返回 YES 。
 /// @note 在 UI 控件中，此属性会影响主题事件是否传递给其子视图。
