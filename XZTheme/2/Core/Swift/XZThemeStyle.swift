@@ -24,6 +24,10 @@ extension Theme {
             return Array(attributedValues.keys)
         }
         
+        public func containsThemeAttribute(_ themeAttribute: Theme.Attribute) -> Bool {
+            return attributedValues[themeAttribute] != nil
+        }
+        
         public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
             attributedValues[themeAttribute] = value
             object.setNeedsThemeAppearanceUpdate()
@@ -34,18 +38,24 @@ extension Theme {
             object.setNeedsThemeAppearanceUpdate()
         }
         
-        public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any?? {
+        public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
             object.setNeedsThemeAppearanceUpdate()
-            return attributedValues.removeValue(forKey: themeAttribute)
+            if let value = attributedValues.removeValue(forKey: themeAttribute) {
+                return value
+            }
+            return nil
         }
         
-        public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any?? {
-            return attributedValues[themeAttribute]
+        public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
+            if let value = attributedValues[themeAttribute] {
+                return value
+            }
+            return nil
         }
         
-        public subscript(themeAttribute: Theme.Attribute) -> Any?? {
-            get { return attributedValues[themeAttribute]     }
-            set { attributedValues[themeAttribute] = newValue }
+        public subscript(themeAttribute: Theme.Attribute) -> Any? {
+            get { return value(forThemeAttribute: themeAttribute)       }
+            set { setValue(newValue, forThemeAttribute: themeAttribute) }
         }
         
     }
