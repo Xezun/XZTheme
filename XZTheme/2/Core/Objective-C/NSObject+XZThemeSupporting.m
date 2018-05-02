@@ -11,6 +11,7 @@
 #import "XZThemeDefines.h"
 #import "XZTheme.h"
 #import "XZThemeCollection.h"
+#import "Example-Swift.h"
 
 static const void * const _themes                      = &_themes;
 static const void * const _appliedTheme                = &_appliedTheme;

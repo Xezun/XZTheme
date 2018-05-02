@@ -57,7 +57,7 @@ extension Theme.Style {
 
 extension UIButton {
     
-    open override func forwardsThemeAppearanceUpdate() -> Bool {
+    open override var forwardsThemeAppearanceUpdate: Bool {
         return false
     }
     

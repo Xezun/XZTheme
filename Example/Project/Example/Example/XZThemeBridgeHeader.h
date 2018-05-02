@@ -29,17 +29,16 @@
 // MARK: - 方案二
 
 // Core
-#import "XZThemeDefines.h"
-#import "XZThemeSupporting.h"
-#import "XZTheme.h"
-#import "XZThemeCollection.h"
-#import "XZThemeStyle.h"
-#import "XZThemeStyleCollection.h"
+//#import "XZThemeDefines.h"
+//#import "XZThemeSupporting.h"
+//#import "XZTheme.h"
+//#import "XZThemeCollection.h"
+//#import "XZThemeStyle.h"
+//#import "XZThemeStyleCollection.h"
 //#import "XZThemeParser.h"
-#import "NSObject+XZThemeSupporting.h"
+//#import "NSObject+XZThemeSupporting.h"
 #import "UIView+XZThemeSupporting.h"
-#import "NSObject+XZThemeSupporting.h"
-
+#import "UIViewController+XZThemeSupporting.h"
 
 // UIKit
 #import "UIViewController+XZTheme.h"

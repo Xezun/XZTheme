@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XZThemeSupporting.h"
+#import "Example-Swift.h"
 
+@protocol XZThemeSupporting;
 @class XZTheme, XZThemeCollection, XZThemeStyleCollection, XZThemeStyle;
 
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。

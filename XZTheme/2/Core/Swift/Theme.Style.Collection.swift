@@ -1,16 +1,36 @@
 //
-//  XZThemeStyleCollection.swift
+//  Theme.Style.Collection.swift
 //  Example
 //
-//  Created by mlibai on 2018/4/29.
+//  Created by mlibai on 2018/5/2.
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
 import Foundation
 
-
-
 extension Theme.Style.Collection {
+    
+    public var themeStates: [Theme.State] {
+        return Array(statedStyles.keys)
+    }
+    
+    public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
+        if let themeStyle = statedStyles[themeState] {
+            return themeStyle
+        }
+        let themeStyle = Theme.Style.init(self.object)
+        setThemeStyle(themeStyle, forThemeState: themeState)
+        return themeStyle
+    }
+    
+    public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
+        return statedStyles[themeState]
+    }
+    
+    public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
+        statedStyles[themeState] = themeStyle
+        object.setNeedsThemeAppearanceUpdate()
+    }
     
     /// 更新指定状态样式的链式编程支持。
     ///
@@ -18,7 +38,7 @@ extension Theme.Style.Collection {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ themeStyle: Theme.Style?, for themeState: Theme.State) -> Theme.Style.Collection {
+    @discardableResult open func setting(_ themeStyle: Theme.Style, for themeState: Theme.State) -> Theme.Style.Collection {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
@@ -33,11 +53,7 @@ extension Theme.Style.Collection {
     @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
         let themeStyle: Theme.Style = self.themeStyle(forThemeState: themeState)
         for item in configuration {
-            if let themeValue = item.value {
-                themeStyle.setValue(themeValue, forThemeAttribute: item.key)
-            } else {
-                themeStyle.setValue(NSNull(), forThemeAttribute: item.key)
-            }
+            themeStyle.updateValue(item.value, forThemeAttribute: item.key)
         }
         return self
     }
@@ -51,4 +67,7 @@ extension Theme.Style.Collection {
             setting(item.value, for: item.key)
         }
     }
+    
 }
+
+

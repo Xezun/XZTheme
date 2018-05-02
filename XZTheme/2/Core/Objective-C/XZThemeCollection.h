@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "XZThemeDefines.h"
 #import "XZThemeSupporting.h"
+#import "Example-Swift.h"
 
 @class XZTheme, XZThemeStyleCollection;
 

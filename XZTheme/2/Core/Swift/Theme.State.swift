@@ -1,14 +1,14 @@
 //
-//  XZThemeDefines.swift
+//  Theme.State.swift
 //  Example
 //
-//  Created by mlibai on 2018/4/29.
+//  Created by mlibai on 2018/5/2.
 //  Copyright © 2018年 mlibai. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-extension Theme.State: ExpressibleByStringLiteral {
+extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
     public typealias StringLiteralType = String
     
@@ -19,6 +19,18 @@ extension Theme.State: ExpressibleByStringLiteral {
         self.init(rawValue: value)
     }
     
+    public var hashValue: Int {
+        return rawValue.hashValue
+    }
+    
+}
+
+extension Theme.State {
+    public static let normal: Theme.State        = ":normal"
+    public static let selected: Theme.State      = ":selected"
+    public static let highlighted: Theme.State   = ":highlighted"
+    public static let disabled: Theme.State      = ":disabled"
+    public static let focused: Theme.State       = ":focused"
 }
 
 extension UIControlState {
@@ -34,17 +46,4 @@ extension UIControlState {
         }
     }
     
-}
-
-
-extension Theme.Attribute: ExpressibleByStringLiteral {
-    
-    public typealias StringLiteralType = String
-    
-    /// 通过字符串字面量创建主题属性。
-    ///
-    /// - Parameter value: 字符串字面量
-    public init(stringLiteral value: String) {
-        self.init(rawValue: value)
-    }
 }
