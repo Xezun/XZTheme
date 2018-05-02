@@ -1,6 +1,6 @@
 //
 //  UIView+XZTheme.m
-//  Example
+//  XZKit
 //
 //  Created by mlibai on 2018/4/24.
 //  Copyright © 2018年 mlibai. All rights reserved.
