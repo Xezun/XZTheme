@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'XZTheme'
   s.version          = '1.0.0'
-  s.summary          = 'The OMKit is an iOS develop libiray.'
+  s.summary          = 'XZTheme 是一款高效、简介的 iOS 主题管理组件。'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,8 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-      OMKit is a framework for iOS.
-      Powered by Onemena.
+      XZTheme 是 XZKit 框架中的一个组件，目前已开源。
                        DESC
 
   s.homepage         = 'https://github.com/XZKit'

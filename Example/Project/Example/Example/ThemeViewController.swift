@@ -59,21 +59,31 @@ class ThemeViewController: UIViewController {
 
         button.frame = CGRect.init(x: 100, y: 100, width: 150, height: 40)
 
-        button.themes.day.normal.title                  = "Normal Day"
-        button.themes.day.normal.titleColor             = UIColor(0x0000FFFF)
-        button.themes.day.normal.backgroundImage        = UIImage(filled: 0xCCCCCCFF)
-
-        button.themes.day.highlighted.title             = "Highlighted Day"
-        button.themes.day.highlighted.titleColor        = UIColor(0x9999FFFF)
-        button.themes.day.highlighted.backgroundImage   = UIImage(filled: 0xDDDDDDFF)
-
-        button.themes.night.normal.title                = "Normal Night"
-        button.themes.night.normal.titleColor           = UIColor(0x008800FF)
-        button.themes.night.normal.backgroundImage      = UIImage(filled: 0x555555ff)
-
-        button.themes.night.highlighted.title           = "Highlighted Night"
-        button.themes.night.highlighted.titleColor      = UIColor(0x007700FF)
-        button.themes.night.highlighted.backgroundImage = UIImage(filled: 0x444444FF)
+        button.themes.day.setThemeStyles(byUsing: [
+            .normal: [
+                .title: "Day normal",
+                .titleColor: 0x0000FFFF,
+                .backgroundImage: UIImage(filled: 0xCCCCCCFF)
+            ],
+            .highlighted: [
+                .title: "Day highlighted",
+                .titleColor: 0x9999FFFF,
+                .backgroundImage: UIImage(filled: 0xDDDDDDFF)
+            ]
+        ])
+        
+        button.themes.day.setThemeStyles(byUsing: [
+            .normal: [
+                .title: "Night normal",
+                .titleColor: 0x008800FF,
+                .backgroundImage: UIImage(filled: 0x555555ff)
+            ],
+            .highlighted: [
+                .title: "Night highlighted",
+                .titleColor: 0x007700FF,
+                .backgroundImage: UIImage(filled: 0x444444FF)
+            ]
+        ])
 
         view.addSubview(button)
     }
