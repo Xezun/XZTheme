@@ -12,7 +12,7 @@ extension UINavigationItem {
     
     /// 当被标记为需要更新主题时，其 backBarButtonItem、leftBarButtonItems、rightBarButtonItems 会被标记为需要更新。
     open override func setNeedsThemeAppearanceUpdate() {
-        if needsThemeAppearanceUpdate() {
+        if needsUpdateThemeAppearance {
             return
         }
         super.setNeedsThemeAppearanceUpdate()

@@ -46,7 +46,7 @@ extension Theme.Style {
 
 extension UINavigationBar {
     
-    open override func forwardsThemeAppearanceUpdate() -> Bool {
+    open override var forwardsThemeAppearanceUpdate: Bool {
         return false
     }
  

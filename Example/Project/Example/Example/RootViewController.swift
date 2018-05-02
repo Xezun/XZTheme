@@ -13,20 +13,20 @@ class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.navigationController?.navigationBar.themes.day
-//            .setting(UIColor.white, for: .barTintColor)
-//            .setting(UIColor.black, for: .tintColor)
-//            .setting(UIImage(filled: 0xccccccFF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
-//            .setting(UIBarStyle.default, for: .barStyle)
-//
-//        self.navigationController?.navigationBar.themes.night
-//            .setting(UIColor(0x252525FF), for: .barTintColor)
-//            .setting(UIColor(0x707070FF), for: .tintColor)
-//            .setting(UIImage(filled: 0x555555FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
-//            .setting(UIBarStyle.black, for: .barStyle)
-//
-//        view.themes.day.backgroundColor = UIColor.white
-//        view.themes.night.backgroundColor = UIColor(0x303030ff)
+        self.navigationController?.navigationBar.themes.day
+            .setting(UIColor.white, for: .barTintColor)
+            .setting(UIColor.black, for: .tintColor)
+            .setting(UIImage(filled: 0xccccccFF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.default, for: .barStyle)
+
+        self.navigationController?.navigationBar.themes.night
+            .setting(UIColor(0x252525FF), for: .barTintColor)
+            .setting(UIColor(0x707070FF), for: .tintColor)
+            .setting(UIImage(filled: 0x555555FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.black, for: .barStyle)
+
+        view.themes.day.backgroundColor = UIColor.white
+        view.themes.night.backgroundColor = UIColor(0x303030ff)
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,11 +40,11 @@ class RootViewController: UIViewController {
     
     
     @IBAction func nightAction(_ sender: Any) {
-//        Theme.night.apply(true)
+        Theme.night.apply(true)
     }
     
     @IBAction func dayAction(_ sender: Any) {
-//        Theme.day.apply(true)
+        Theme.day.apply(true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
