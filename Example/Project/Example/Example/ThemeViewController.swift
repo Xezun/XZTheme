@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XZTheme
 
 extension Theme {
     static var day: Theme {
@@ -72,7 +73,7 @@ class ThemeViewController: UIViewController {
             ]
         ])
         
-        button.themes.day.setThemeStyles(byUsing: [
+        button.themes.night.setThemeStyles(byUsing: [
             .normal: [
                 .title: "Night normal",
                 .titleColor: 0x008800FF,

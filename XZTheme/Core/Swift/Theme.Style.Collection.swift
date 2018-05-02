@@ -59,13 +59,6 @@ extension Theme.Style.Collection {
 
 extension Theme.Style.Collection {
     
-    /// 主题样式集合中的所有主题状态。
-    /// - Note: 样式集合将主题样式按状态分类存储。
-    /// - Note: 状态至少包含 normal 。
-    public var themeStates: [Theme.State] {
-        return [Theme.State.normal] + Array(statedStyles.keys)
-    }
-    
     /// 获取指定状态的主题样式。
     /// - Note: 如果主题样式不存在，将自动创建。
     ///
@@ -156,7 +149,7 @@ extension Array where Element == Theme.State {
     ///
     /// - Parameter themeStyleCollection: 主题样式集合。
     public init(_ themeStyleCollection: Theme.Style.Collection) {
-        self.init(themeStyleCollection.statedStyles.keys)
+        self.init([Theme.State.normal] + themeStyleCollection.statedStyles.keys)
     }
 }
 

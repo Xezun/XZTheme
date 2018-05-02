@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XZTheme
 
 class RootViewController: UIViewController {
 

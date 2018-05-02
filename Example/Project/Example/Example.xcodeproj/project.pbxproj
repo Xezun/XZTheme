@@ -16,28 +16,6 @@
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
 		DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */; };
-		DD85E96F209A0E010088F0AB /* UIView+XZThemeSupporting.m in Sources */ = {isa = PBXBuildFile; fileRef = DD85E953209A0E010088F0AB /* UIView+XZThemeSupporting.m */; };
-		DD85E970209A0E010088F0AB /* UIViewController+XZThemeSupporting.m in Sources */ = {isa = PBXBuildFile; fileRef = DD85E956209A0E010088F0AB /* UIViewController+XZThemeSupporting.m */; };
-		DD85E971209A0E010088F0AB /* ThemeStyle+Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E959209A0E010088F0AB /* ThemeStyle+Parser.swift */; };
-		DD85E972209A0E010088F0AB /* Theme+UINavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95A209A0E010088F0AB /* Theme+UINavigationItem.swift */; };
-		DD85E973209A0E010088F0AB /* Theme+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95B209A0E010088F0AB /* Theme+UILabel.swift */; };
-		DD85E974209A0E010088F0AB /* Theme+UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95C209A0E010088F0AB /* Theme+UIScrollView.swift */; };
-		DD85E975209A0E010088F0AB /* Theme+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95D209A0E010088F0AB /* Theme+UIButton.swift */; };
-		DD85E976209A0E010088F0AB /* Theme+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95E209A0E010088F0AB /* Theme+UIImageView.swift */; };
-		DD85E977209A0E010088F0AB /* ThemeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E95F209A0E010088F0AB /* ThemeParser.swift */; };
-		DD85E978209A0E010088F0AB /* Theme+UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E960209A0E010088F0AB /* Theme+UINavigationBar.swift */; };
-		DD85E979209A0E010088F0AB /* Theme+UITabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E961209A0E010088F0AB /* Theme+UITabBar.swift */; };
-		DD85E97A209A0E010088F0AB /* Theme+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E962209A0E010088F0AB /* Theme+UIView.swift */; };
-		DD85E97B209A0E010088F0AB /* Theme+UITabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E963209A0E010088F0AB /* Theme+UITabBarItem.swift */; };
-		DD85E97C209A0E010088F0AB /* Theme+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E964209A0E010088F0AB /* Theme+UIViewController.swift */; };
-		DD85E97D209A0E010088F0AB /* UIViewController+XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = DD85E966209A0E010088F0AB /* UIViewController+XZTheme.m */; };
-		DD85E985209A0E3B0088F0AB /* ThemeSupporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E97E209A0E3B0088F0AB /* ThemeSupporting.swift */; };
-		DD85E986209A0E3B0088F0AB /* Theme.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E97F209A0E3B0088F0AB /* Theme.Collection.swift */; };
-		DD85E987209A0E3B0088F0AB /* Theme.Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E980209A0E3B0088F0AB /* Theme.Attribute.swift */; };
-		DD85E988209A0E3B0088F0AB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E981209A0E3B0088F0AB /* Theme.swift */; };
-		DD85E989209A0E3B0088F0AB /* Theme.State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E982209A0E3B0088F0AB /* Theme.State.swift */; };
-		DD85E98A209A0E3B0088F0AB /* Theme.Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E983209A0E3B0088F0AB /* Theme.Style.swift */; };
-		DD85E98B209A0E3B0088F0AB /* Theme.Style.Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD85E984209A0E3B0088F0AB /* Theme.Style.Collection.swift */; };
 		DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDACA1E920961C3F000C6484 /* RootViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,31 +34,6 @@
 		DD3DA9302080471F00A642C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeNavigationController.swift; sourceTree = "<group>"; };
-		DD85E953209A0E010088F0AB /* UIView+XZThemeSupporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XZThemeSupporting.m"; sourceTree = "<group>"; };
-		DD85E954209A0E010088F0AB /* UIViewController+XZThemeSupporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+XZThemeSupporting.h"; sourceTree = "<group>"; };
-		DD85E955209A0E010088F0AB /* UIView+XZThemeSupporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XZThemeSupporting.h"; sourceTree = "<group>"; };
-		DD85E956209A0E010088F0AB /* UIViewController+XZThemeSupporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XZThemeSupporting.m"; sourceTree = "<group>"; };
-		DD85E959209A0E010088F0AB /* ThemeStyle+Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThemeStyle+Parser.swift"; sourceTree = "<group>"; };
-		DD85E95A209A0E010088F0AB /* Theme+UINavigationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UINavigationItem.swift"; sourceTree = "<group>"; };
-		DD85E95B209A0E010088F0AB /* Theme+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UILabel.swift"; sourceTree = "<group>"; };
-		DD85E95C209A0E010088F0AB /* Theme+UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UIScrollView.swift"; sourceTree = "<group>"; };
-		DD85E95D209A0E010088F0AB /* Theme+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UIButton.swift"; sourceTree = "<group>"; };
-		DD85E95E209A0E010088F0AB /* Theme+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UIImageView.swift"; sourceTree = "<group>"; };
-		DD85E95F209A0E010088F0AB /* ThemeParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeParser.swift; sourceTree = "<group>"; };
-		DD85E960209A0E010088F0AB /* Theme+UINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UINavigationBar.swift"; sourceTree = "<group>"; };
-		DD85E961209A0E010088F0AB /* Theme+UITabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UITabBar.swift"; sourceTree = "<group>"; };
-		DD85E962209A0E010088F0AB /* Theme+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UIView.swift"; sourceTree = "<group>"; };
-		DD85E963209A0E010088F0AB /* Theme+UITabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UITabBarItem.swift"; sourceTree = "<group>"; };
-		DD85E964209A0E010088F0AB /* Theme+UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Theme+UIViewController.swift"; sourceTree = "<group>"; };
-		DD85E966209A0E010088F0AB /* UIViewController+XZTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XZTheme.m"; sourceTree = "<group>"; };
-		DD85E967209A0E010088F0AB /* UIViewController+XZTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+XZTheme.h"; sourceTree = "<group>"; };
-		DD85E97E209A0E3B0088F0AB /* ThemeSupporting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeSupporting.swift; sourceTree = "<group>"; };
-		DD85E97F209A0E3B0088F0AB /* Theme.Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Collection.swift; sourceTree = "<group>"; };
-		DD85E980209A0E3B0088F0AB /* Theme.Attribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Attribute.swift; sourceTree = "<group>"; };
-		DD85E981209A0E3B0088F0AB /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		DD85E982209A0E3B0088F0AB /* Theme.State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.State.swift; sourceTree = "<group>"; };
-		DD85E983209A0E3B0088F0AB /* Theme.Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Style.swift; sourceTree = "<group>"; };
-		DD85E984209A0E3B0088F0AB /* Theme.Style.Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.Style.Collection.swift; sourceTree = "<group>"; };
 		DDACA1E920961C3F000C6484 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,7 +87,6 @@
 		DD3DA9252080471E00A642C0 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				DD85E948209A0E010088F0AB /* XZTheme */,
 				DD2321692080798900989B0E /* XZThemeBridgeHeader.h */,
 				DD3DA9262080471E00A642C0 /* AppDelegate.swift */,
 				DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */,
@@ -148,87 +100,6 @@
 				DD04FC592084F61F00463A17 /* readme.md */,
 			);
 			path = Example;
-			sourceTree = "<group>";
-		};
-		DD85E948209A0E010088F0AB /* XZTheme */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E949209A0E010088F0AB /* Core */,
-				DD85E957209A0E010088F0AB /* UIKit */,
-			);
-			name = XZTheme;
-			path = ../../../../XZTheme;
-			sourceTree = "<group>";
-		};
-		DD85E949209A0E010088F0AB /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E94A209A0E010088F0AB /* Swift */,
-				DD85E952209A0E010088F0AB /* Objective-C */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		DD85E94A209A0E010088F0AB /* Swift */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E980209A0E3B0088F0AB /* Theme.Attribute.swift */,
-				DD85E97F209A0E3B0088F0AB /* Theme.Collection.swift */,
-				DD85E982209A0E3B0088F0AB /* Theme.State.swift */,
-				DD85E984209A0E3B0088F0AB /* Theme.Style.Collection.swift */,
-				DD85E983209A0E3B0088F0AB /* Theme.Style.swift */,
-				DD85E981209A0E3B0088F0AB /* Theme.swift */,
-				DD85E97E209A0E3B0088F0AB /* ThemeSupporting.swift */,
-			);
-			path = Swift;
-			sourceTree = "<group>";
-		};
-		DD85E952209A0E010088F0AB /* Objective-C */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E955209A0E010088F0AB /* UIView+XZThemeSupporting.h */,
-				DD85E953209A0E010088F0AB /* UIView+XZThemeSupporting.m */,
-				DD85E954209A0E010088F0AB /* UIViewController+XZThemeSupporting.h */,
-				DD85E956209A0E010088F0AB /* UIViewController+XZThemeSupporting.m */,
-			);
-			path = "Objective-C";
-			sourceTree = "<group>";
-		};
-		DD85E957209A0E010088F0AB /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E958209A0E010088F0AB /* Swift */,
-				DD85E965209A0E010088F0AB /* Objective-C */,
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
-		DD85E958209A0E010088F0AB /* Swift */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E959209A0E010088F0AB /* ThemeStyle+Parser.swift */,
-				DD85E95A209A0E010088F0AB /* Theme+UINavigationItem.swift */,
-				DD85E95B209A0E010088F0AB /* Theme+UILabel.swift */,
-				DD85E95C209A0E010088F0AB /* Theme+UIScrollView.swift */,
-				DD85E95D209A0E010088F0AB /* Theme+UIButton.swift */,
-				DD85E95E209A0E010088F0AB /* Theme+UIImageView.swift */,
-				DD85E95F209A0E010088F0AB /* ThemeParser.swift */,
-				DD85E960209A0E010088F0AB /* Theme+UINavigationBar.swift */,
-				DD85E961209A0E010088F0AB /* Theme+UITabBar.swift */,
-				DD85E962209A0E010088F0AB /* Theme+UIView.swift */,
-				DD85E963209A0E010088F0AB /* Theme+UITabBarItem.swift */,
-				DD85E964209A0E010088F0AB /* Theme+UIViewController.swift */,
-			);
-			path = Swift;
-			sourceTree = "<group>";
-		};
-		DD85E965209A0E010088F0AB /* Objective-C */ = {
-			isa = PBXGroup;
-			children = (
-				DD85E967209A0E010088F0AB /* UIViewController+XZTheme.h */,
-				DD85E966209A0E010088F0AB /* UIViewController+XZTheme.m */,
-			);
-			path = "Objective-C";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,10 +181,12 @@
 			inputPaths = (
 				"${SRCROOT}/../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
 				"${PODS_ROOT}/XZKit/Products/XZKit.framework",
+				"${BUILT_PRODUCTS_DIR}/XZTheme/XZTheme.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XZKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XZTheme.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,30 +219,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */,
-				DD85E976209A0E010088F0AB /* Theme+UIImageView.swift in Sources */,
-				DD85E975209A0E010088F0AB /* Theme+UIButton.swift in Sources */,
-				DD85E988209A0E3B0088F0AB /* Theme.swift in Sources */,
-				DD85E97C209A0E010088F0AB /* Theme+UIViewController.swift in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
-				DD85E987209A0E3B0088F0AB /* Theme.Attribute.swift in Sources */,
-				DD85E970209A0E010088F0AB /* UIViewController+XZThemeSupporting.m in Sources */,
-				DD85E979209A0E010088F0AB /* Theme+UITabBar.swift in Sources */,
-				DD85E974209A0E010088F0AB /* Theme+UIScrollView.swift in Sources */,
-				DD85E978209A0E010088F0AB /* Theme+UINavigationBar.swift in Sources */,
-				DD85E972209A0E010088F0AB /* Theme+UINavigationItem.swift in Sources */,
-				DD85E986209A0E3B0088F0AB /* Theme.Collection.swift in Sources */,
-				DD85E973209A0E010088F0AB /* Theme+UILabel.swift in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
-				DD85E97D209A0E010088F0AB /* UIViewController+XZTheme.m in Sources */,
-				DD85E96F209A0E010088F0AB /* UIView+XZThemeSupporting.m in Sources */,
-				DD85E985209A0E3B0088F0AB /* ThemeSupporting.swift in Sources */,
-				DD85E97B209A0E010088F0AB /* Theme+UITabBarItem.swift in Sources */,
-				DD85E98B209A0E3B0088F0AB /* Theme.Style.Collection.swift in Sources */,
-				DD85E98A209A0E3B0088F0AB /* Theme.Style.swift in Sources */,
-				DD85E977209A0E010088F0AB /* ThemeParser.swift in Sources */,
-				DD85E97A209A0E010088F0AB /* Theme+UIView.swift in Sources */,
-				DD85E971209A0E010088F0AB /* ThemeStyle+Parser.swift in Sources */,
-				DD85E989209A0E3B0088F0AB /* Theme.State.swift in Sources */,
 				DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,10 +371,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mlibai.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -543,10 +391,7 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mlibai.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

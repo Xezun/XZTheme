@@ -64,7 +64,7 @@ extension UIButton {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for themeState in themeStyles.themeStates {
+        for themeState in Array.init(themeStyles) {
             guard let controlState = UIControlState(themeState) else { continue }
             let themeStyle = themeStyles.themeStyle(forThemeState: themeState)
             

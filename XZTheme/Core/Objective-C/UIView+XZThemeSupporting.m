@@ -7,7 +7,7 @@
 //
 
 #import "UIView+XZThemeSupporting.h"
-#import "Example-Swift.h"
+#import "XZTheme/XZTheme-Swift.h"
 @import ObjectiveC;
 
 @implementation UIView (XZThemeSupporting)

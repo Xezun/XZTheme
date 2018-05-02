@@ -83,7 +83,7 @@ button.themes.day.setThemeStyles(byUsing: [
     ]
 ])
 
-button.themes.day.setThemeStyles(byUsing: [
+button.themes.night.setThemeStyles(byUsing: [
     .normal: [
         .title: "Night normal",
         .titleColor: 0x008800FF,
