@@ -1,6 +1,6 @@
 //
-//  XZThemeStyle.m
-//  XZTheme
+//  ThemeStyle.m
+//  Theme
 //
 //  Created by mlibai on 2018/4/23.
 //  Copyright © 2018年 mlibai. All rights reserved.

@@ -1,5 +1,5 @@
 //
-//  XZTheme+UITabBarItem.swift
+//  Theme+UITabBarItem.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/4/29.

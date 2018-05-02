@@ -1,5 +1,5 @@
 //
-//  XZTheme+UIScrollView.swift
+//  Theme+UIScrollView.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/5/1.

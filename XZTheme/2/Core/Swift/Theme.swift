@@ -39,6 +39,7 @@ import UIKit
 /// @todo 通过字典、JSON串来配置样式。
 /// XZTheme
 
+
 extension Notification.Name {
     /// 当主题发生改变时，所发送通知的名称。
     public static let ThemeDidChange = Notification.Name.init("com.mlibai.XZKit.theme.changed")
@@ -50,12 +51,14 @@ extension Theme {
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
     public static let UserDefaultsKey: String = "com.mlibai.XZKit.theme.default"
     /// 默认主题。
-    /// @note 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
-    /// @note 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
-    /// @note 建议使用默认主题 + 自定义主题组合。
-    @objc(defaultTheme) public static let `default`: Theme = Theme.init(name: "default")
+    /// - Note: 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
+    /// - Note: 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
+    /// - Note: 建议使用默认主题 + 自定义主题组合。
+    @objc(defaultTheme)
+    public static let `default`: Theme = Theme.init(name: "default")
     /// 当前主题，默认 Theme.default 。
-    @objc(currentTheme) public private(set) static var current: Theme = {
+    @objc(currentTheme)
+    public private(set) static var current: Theme = {
         if let themeName = UserDefaults.standard.string(forKey: Theme.UserDefaultsKey) {
             return Theme.init(name: themeName)
         }
@@ -69,7 +72,8 @@ extension Theme {
     /// - Note: 控制器也会在其将要显示时，判断主题从而决定是否更新主题外观。
     ///
     /// - Parameter animated: 是否渐变主题应用的过程。
-    @objc(apply:) public func apply(_ animated: Bool) {
+    @objc(apply:)
+    public func apply(_ animated: Bool) {
         guard Theme.current != self else {
             return
         }
@@ -100,15 +104,19 @@ extension Theme {
 @objc(XZTheme) public final class Theme: NSObject {
 
     /// 主题名称。
+    /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
     public let name: String
+    
     /// 构造主题对象。
     ///
     /// - Parameter name: 主题名称。
     public init(name: String) {
         self.name = name
+        super.init()
     }
     
-    /// Theme.Collection 是 Theme 的集合，它管理了对象所支持的主题和样式配置。
+    /// Theme.Collection 用于描述对象的主题的集合。
+    /// - Note: 在集合中，按主题分类存储了所有的样式配置。
     /// - Note: 可使用 Array.init(_:Theme.Collection) 将集合转换为普通数组。
     @objc(XZThemeCollection) public final class Collection: NSObject {
         /// 当前 XZThemeCollection 所属的对象。
@@ -122,7 +130,8 @@ extension Theme {
         internal lazy var themedStyles = [Theme: Theme.Style.Collection]()
     }
     
-    /// 主题样式。
+    /// 主题样式，负责存储主题属性。
+    /// - Note: 使用 Array.init(_:Theme.Style) 可以取得所有已配置的属性。
     @objc(XZThemeStyle) public class Style: NSObject {
         @objc public unowned let object: ThemeSupporting
         @objc(initWithObject:) public init(_ object: ThemeSupporting) {
@@ -131,7 +140,8 @@ extension Theme {
         }
         internal lazy var attributedValues = [Theme.Attribute: Any?]()
         
-        /// 主题样式集合。
+        /// 主题样式集合：同一主题下，按状态分类的所有主题样式集合。
+        /// - Note: 使用 Array.init(_:Theme.Style.Collection) 可以取得所有状态。
         @objc(XZThemeStyleCollection) public final class Collection: Theme.Style {
             internal lazy var statedStyles = [Theme.State: Theme.Style]()
         }

@@ -115,7 +115,8 @@ extension Theme.Style.Collection {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ themeStyle: Theme.Style, for themeState: Theme.State) -> Theme.Style.Collection {
+    @discardableResult
+    public func setting(_ themeStyle: Theme.Style, for themeState: Theme.State) -> Theme.Style.Collection {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
@@ -127,7 +128,8 @@ extension Theme.Style.Collection {
     ///   - configuration: 主题样式配置。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
-    @discardableResult open func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
+    @discardableResult
+    public func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
         let themeStyle: Theme.Style = self.themeStyle(forThemeState: themeState)
         for item in configuration {
             themeStyle.updateValue(item.value, forThemeAttribute: item.key)
@@ -139,12 +141,23 @@ extension Theme.Style.Collection {
     /// - Note: 得益于 Swift 的字面量构造法，即使指定类型，构造配置字典并不是很繁琐。
     /// - Note: 灵活的配置字典可能会方便构造，但是对性能来说不一定值得。
     /// - Parameter configuration: 样式配置字典。
-    open func setThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
+    public func setThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
         for item in configuration {
             setting(item.value, for: item.key)
         }
     }
     
+}
+
+
+extension Array where Element == Theme.State {
+    
+    /// 获取主题样式集合中所有已配置的状态。
+    ///
+    /// - Parameter themeStyleCollection: 主题样式集合。
+    public init(_ themeStyleCollection: Theme.Style.Collection) {
+        self.init(themeStyleCollection.statedStyles.keys)
+    }
 }
 
 

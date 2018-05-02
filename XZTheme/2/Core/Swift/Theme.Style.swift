@@ -10,11 +10,6 @@ import Foundation
 
 extension Theme.Style {
     
-    /// 主题样式中的所有属性。
-    public var themeAttributes: [Theme.Attribute] {
-        return Array(attributedValues.keys)
-    }
-    
     /// 主题样式是否包含主题属性。
     /// - Note: 因为属性值可以为 nil ，所以判断是否包含属性，不能根据其值来判断。
     ///
@@ -47,8 +42,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
-        object.setNeedsThemeAppearanceUpdate()
         if let value = attributedValues.removeValue(forKey: themeAttribute) {
+            object.setNeedsThemeAppearanceUpdate()
             return value
         }
         return nil
@@ -90,9 +85,20 @@ extension Theme.Style {
     /// - Parameters:
     ///   - value: 主题属性值。
     ///   - themeAttribute: 主题属性。
-    @discardableResult public func updating(_ value: Any?, for themeAttribute: Theme.Attribute) -> Theme.Style {
+    @discardableResult
+    public func updating(_ value: Any?, for themeAttribute: Theme.Attribute) -> Theme.Style {
         updateValue(value, forThemeAttribute: themeAttribute)
         return self
     }
 }
 
+
+extension Array where Element == Theme.Attribute {
+    
+    /// 获取主题样式中所有已配置值的主题属性。
+    ///
+    /// - Parameter themeStyle: 主题样式。
+    public init(_ themeStyle: Theme.Style) {
+        self.init(themeStyle.attributedValues.keys)
+    }
+}

@@ -53,7 +53,7 @@ import UIKit
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject: ThemeSupporting {
 
-    /// 当前对象的所有主题集合，懒加载。
+    /// 当前对象的所有主题，懒加载。
     @objc(xz_themes) open var themes: Theme.Collection {
         if let themes = self.themesIfLoaded {
             return themes

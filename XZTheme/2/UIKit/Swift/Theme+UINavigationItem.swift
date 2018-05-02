@@ -1,5 +1,5 @@
 //
-//  XZTheme+UINavigationItem.swift
+//  Theme+UINavigationItem.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/4/29.

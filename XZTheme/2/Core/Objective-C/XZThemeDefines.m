@@ -1,5 +1,5 @@
 //
-//  XZThemeDefines.m
+//  ThemeDefines.m
 //  XZKit
 //
 //  Created by mlibai on 2018/4/29.

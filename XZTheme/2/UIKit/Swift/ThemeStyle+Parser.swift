@@ -1,5 +1,5 @@
 //
-//  XZTheme.swift
+//  Theme.swift
 //  XZKit
 //
 //  Created by mlibai on 2017/10/25.

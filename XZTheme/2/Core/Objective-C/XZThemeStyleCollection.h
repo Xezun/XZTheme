@@ -1,5 +1,5 @@
 //
-//  XZThemeStyleSet.h
+//  ThemeStyleSet.h
 //  XZKit
 //
 //  Created by mlibai on 2018/4/24.

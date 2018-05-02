@@ -1,5 +1,5 @@
 //
-//  XZTheme+UIView.swift
+//  Theme+UIView.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/4/29.

@@ -1,5 +1,5 @@
 //
-//  XZThemeParser.swift
+//  ThemeParser.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/4/30.
