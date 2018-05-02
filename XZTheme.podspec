@@ -21,12 +21,13 @@ Pod::Spec.new do |s|
       XZTheme 是 XZKit 框架中的一个组件，目前已开源。
                        DESC
 
-  s.homepage         = 'https://github.com/XZKit'
+  s.homepage         = 'https://github.com/mlibai/XZTheme'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'mlibai' => 'mlibai@163.com' }
   s.source           = { :git => 'https://github.com/mlibai/XZTheme.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.swift_version    = "4.0"
 
   s.ios.deployment_target = '8.0'
 
