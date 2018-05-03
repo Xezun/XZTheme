@@ -78,13 +78,13 @@ label.themes.night.textColor       = UIColor(0x707070ff)
 navigationBar.themes.day
     .setting(UIColor.white, for: .barTintColor)
     .setting(UIColor.black, for: .tintColor)
-    .setting(UIImage(filled: 0xccccccFF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+    .setting("nav_shadow_1", for: .shadowImage)
     .setting(UIBarStyle.default, for: .barStyle)
 
 navigationBar.themes.night
     .setting(UIColor(0x252525FF), for: .barTintColor)
     .setting(UIColor(0x707070FF), for: .tintColor)
-    .setting(UIImage(filled: 0x555555FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+    .setting("nav_shadow_2", for: .shadowImage)
     .setting(UIBarStyle.black, for: .barStyle)
 ```
 
@@ -143,8 +143,6 @@ Swift 4.0
 
 ## 安装集成
 
-
-
 ```ruby
 pod "XZTheme"
 ```
@@ -154,7 +152,7 @@ pod "XZTheme"
 
 ## 联系作者
 
-[mlibai@163.com](mailto://mlibai@163.com)
+[mlibai@163.com](mailto:mlibai@163.com)
 
 ## License
 
