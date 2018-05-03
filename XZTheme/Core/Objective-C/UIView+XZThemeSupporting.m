@@ -27,7 +27,7 @@
     
     // 不在父视图上的控件没有显示，不需要操作。
     if (newSuperview == nil) { return; }
-    // 如果视图没有配置过主题，不需要操作，不代表子视图没有配置主题。
+    // 如果视图没有配置过主题，不需要操作，但是不代表子视图没有配置主题。
     // if (self.xz_themesIfLoaded == nil) { return; }
     // 如果已应用的主题与当前主题一致，不需要操作。
     if ([self.xz_appliedTheme isEqual:[XZTheme currentTheme]]) {
