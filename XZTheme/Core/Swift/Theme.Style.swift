@@ -15,7 +15,7 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 是否包含。
-    public func containsThemeAttribute(_ themeAttribute: Theme.Attribute) -> Bool {
+    @objc public func containsThemeAttribute(_ themeAttribute: Theme.Attribute) -> Bool {
         return attributedValues[themeAttribute] != nil
     }
     
@@ -24,7 +24,7 @@ extension Theme.Style {
     ///
     /// - Parameter value: 主题属性值。
     /// - Parameter themeAttribute: 主题属性。
-    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
+    @objc public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues[themeAttribute] = value
         object.setNeedsThemeAppearanceUpdate()
     }
@@ -33,7 +33,7 @@ extension Theme.Style {
     ///
     /// - Parameter value: 主题属性值。
     /// - Parameter themeAttribute: 主题属性。
-    public func updateValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
+    @objc public func updateValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues.updateValue(value, forKey: themeAttribute)
         object.setNeedsThemeAppearanceUpdate()
     }
@@ -41,7 +41,7 @@ extension Theme.Style {
     /// 删除主题属性值。
     ///
     /// - Parameter themeAttribute: 主题属性。
-    public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
+    @objc public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
         if let value = attributedValues.removeValue(forKey: themeAttribute) {
             object.setNeedsThemeAppearanceUpdate()
             return value
@@ -53,7 +53,7 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
+    @objc public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
         if let value = attributedValues[themeAttribute] {
             return value
         }
@@ -63,7 +63,7 @@ extension Theme.Style {
     /// 获取/添加/更新/删除主题属性值。
     ///
     /// - Parameter themeAttribute: 主题属性。
-    public subscript(themeAttribute: Theme.Attribute) -> Any? {
+    @objc public subscript(themeAttribute: Theme.Attribute) -> Any? {
         get { return value(forThemeAttribute: themeAttribute)       }
         set { setValue(newValue, forThemeAttribute: themeAttribute) }
     }

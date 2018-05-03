@@ -11,47 +11,47 @@ import Foundation
 extension Theme.Style.Collection {
     
     /// 默认状态样式，Theme.State.normal 状态下的主题样式，当前集合自身。
-    public var normal: Theme.Style {
+    @objc(normalThemeStyle) public var normal: Theme.Style {
         return self
     }
     
     /// Theme.State.highlighted 状态下的主题样式，懒加载。
-    public var highlighted: Theme.Style {
+    @objc(highlightedThemeStyle) public var highlighted: Theme.Style {
         return themeStyle(forThemeState: .highlighted)
     }
     
     /// Theme.State.selected 状态下的主题样式，懒加载。
-    public var selected: Theme.Style {
+    @objc(selectedThemeStyle) public var selected: Theme.Style {
         return themeStyle(forThemeState: .selected)
     }
     
     /// Theme.State.disabled 状态下的主题样式，懒加载。
-    public var disabled: Theme.Style {
+    @objc(disabledThemeStyle) public var disabled: Theme.Style {
         return themeStyle(forThemeState: .disabled)
     }
     
     /// Theme.State.focused 状态下的主题样式，懒加载。
-    public var focused: Theme.Style {
+    @objc(focusedThemeStyle) public var focused: Theme.Style {
         return themeStyle(forThemeState: .focused)
     }
     
     /// Theme.State.highlighted 状态下的主题样式，非懒加载。
-    public var highlightedIfLoaded: Theme.Style? {
+    @objc(highlightedThemeStyleIfLoaded) public var highlightedIfLoaded: Theme.Style? {
         return themeStyle(forThemeState: .highlighted)
     }
     
      /// Theme.State.selected 状态下的主题样式，非懒加载。
-    public var selectedIfLoaded: Theme.Style? {
+    @objc(selectedThemeStyleIfLoaded) public var selectedIfLoaded: Theme.Style? {
         return themeStyle(forThemeState: .selected)
     }
     
     /// Theme.State.disabled 状态下的主题样式，非懒加载。
-    public var disabledIfLoaded: Theme.Style? {
+    @objc(disabledThemeStyleIfLoaded) public var disabledIfLoaded: Theme.Style? {
         return themeStyle(forThemeState: .disabled)
     }
     
     /// Theme.State.focused 状态下的主题样式，非懒加载。
-    public var focusedIfLoaded: Theme.Style? {
+    @objc(focusedThemeStyleIfLoaded) public var focusedIfLoaded: Theme.Style? {
         return themeStyle(forThemeState: .focused)
     }
     
@@ -64,7 +64,7 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
+    @objc public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
@@ -77,7 +77,7 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
+    @objc public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
         if themeState == .normal {
             return self
         }
@@ -91,7 +91,7 @@ extension Theme.Style.Collection {
     /// - Parameters:
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题状态。
-    public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
+    @objc public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
         if themeState == .normal {
             return
         }

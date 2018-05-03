@@ -41,11 +41,11 @@ class RootViewController: UIViewController {
     
     
     @IBAction func nightAction(_ sender: Any) {
-        Theme.night.apply(true)
+        Theme.night.apply(animated: true)
     }
     
     @IBAction func dayAction(_ sender: Any) {
-        Theme.day.apply(true)
+        Theme.day.apply(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

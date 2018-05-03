@@ -41,15 +41,15 @@ import UIKit
 
 
 extension Notification.Name {
-    /// 当主题发生改变时，所发送通知的名称。
+    /// XZTheme 主题变更事件。当主题发生改变时，发送 Notification 所使用的名称。
     public static let ThemeDidChange = Notification.Name.init("com.mlibai.XZKit.theme.changed")
 }
 
 extension Theme {
     /// 应用主题动画时长，0.5 秒。
-    public static let AnimationDuration: TimeInterval = 0.5
+    @objc public static let AnimationDuration: TimeInterval = 0.5
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
-    public static let UserDefaultsKey: String = "com.mlibai.XZKit.theme.default"
+    @objc public static let UserDefaultsKey: String = "com.mlibai.XZKit.theme.default"
     /// 默认主题。
     /// - Note: 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
     /// - Note: 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
@@ -72,8 +72,7 @@ extension Theme {
     /// - Note: 控制器也会在其将要显示时，判断主题从而决定是否更新主题外观。
     ///
     /// - Parameter animated: 是否渐变主题应用的过程。
-    @objc(apply:)
-    public func apply(_ animated: Bool) {
+    @objc(applyThemeAnimated:) public func apply(animated: Bool) {
         guard Theme.current != self else {
             return
         }
@@ -105,12 +104,12 @@ extension Theme {
 
     /// 主题名称。
     /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
-    public let name: String
+    @objc public let name: String
     
     /// 构造主题对象。
     ///
     /// - Parameter name: 主题名称。
-    public init(name: String) {
+    @objc public init(name: String) {
         self.name = name
         super.init()
     }
@@ -122,7 +121,7 @@ extension Theme {
         /// 当前 XZThemeCollection 所属的对象。
         /// - Note: 因为运行时的值绑定机制，被绑定的值生命周期可能比对象的生命周期长，所以该属性需谨慎使用。
         @objc public unowned let object: ThemeSupporting
-        @objc(initWithObject:) public init(_ object: ThemeSupporting) {
+        @objc public init(_ object: ThemeSupporting) {
             self.object = object
             super.init()
         }
@@ -134,7 +133,7 @@ extension Theme {
     /// - Note: 使用 Array.init(_:Theme.Style) 可以取得所有已配置的属性。
     @objc(XZThemeStyle) public class Style: NSObject {
         @objc public unowned let object: ThemeSupporting
-        @objc(initWithObject:) public init(_ object: ThemeSupporting) {
+        @objc public init(_ object: ThemeSupporting) {
             self.object = object
             super.init()
         }

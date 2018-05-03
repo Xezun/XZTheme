@@ -15,6 +15,7 @@
 		DD3DA92C2080471E00A642C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92A2080471E00A642C0 /* Main.storyboard */; };
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
+		DD43B393209AD66300E83379 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD43B392209AD66300E83379 /* NewsViewController.m */; };
 		DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */; };
 		DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDACA1E920961C3F000C6484 /* RootViewController.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +34,8 @@
 		DD3DA92D2080471F00A642C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3DA9302080471F00A642C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD43B391209AD66300E83379 /* NewsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		DD43B392209AD66300E83379 /* NewsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeNavigationController.swift; sourceTree = "<group>"; };
 		DDACA1E920961C3F000C6484 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +95,8 @@
 				DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */,
 				DDACA1E920961C3F000C6484 /* RootViewController.swift */,
 				DD3DA9282080471E00A642C0 /* ThemeViewController.swift */,
+				DD43B391209AD66300E83379 /* NewsViewController.h */,
+				DD43B392209AD66300E83379 /* NewsViewController.m */,
 				DD3DA92A2080471E00A642C0 /* Main.storyboard */,
 				DD3DA92D2080471F00A642C0 /* Assets.xcassets */,
 				DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */,
@@ -220,6 +225,7 @@
 			files = (
 				DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
+				DD43B393209AD66300E83379 /* NewsViewController.m in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
 				DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */,
 			);
@@ -371,7 +377,10 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mlibai.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -391,7 +400,10 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mlibai.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

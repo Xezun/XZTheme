@@ -25,7 +25,7 @@ extension Theme.Collection {
     ///
     /// - Parameter theme: 主题。
     /// - Returns: 主题样式集合。
-    public func themeStylesIfLoaded(forTheme theme: Theme) -> Theme.Style.Collection? {
+    @objc public func themeStylesIfLoaded(forTheme theme: Theme) -> Theme.Style.Collection? {
         return themedStyles[theme]
     }
     
@@ -33,7 +33,7 @@ extension Theme.Collection {
     ///
     /// - Parameter theme: 主题。
     /// - Returns: 主题样式。
-    public func themeStyles(forTheme theme: Theme) -> Theme.Style.Collection {
+    @objc public func themeStyles(forTheme theme: Theme) -> Theme.Style.Collection {
         if let themeStyles = themedStyles[theme] {
             return themeStyles
         }
@@ -46,7 +46,7 @@ extension Theme.Collection {
     ///
     /// - Parameter themeStyles: 主题样式。
     /// - Parameter theme: 主题。
-    public func setThemeStyles(_ themeStyles: Theme.Style.Collection, forTheme theme: Theme) {
+    @objc public func setThemeStyles(_ themeStyles: Theme.Style.Collection, forTheme theme: Theme) {
         themedStyles[theme] = themeStyles
         object.setNeedsThemeAppearanceUpdate()
     }
