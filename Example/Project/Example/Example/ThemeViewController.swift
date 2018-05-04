@@ -87,6 +87,8 @@ class ThemeViewController: UIViewController {
         ])
 
         view.addSubview(button)
+        
+        let cell: UITableViewCell
     }
     
     override func didReceiveMemoryWarning() {
