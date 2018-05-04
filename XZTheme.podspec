@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XZTheme'
-  s.version          = '0.0.1'
-  s.summary          = 'XZTheme 是一款高效、简介的 iOS 主题管理组件。'
+  s.version          = '0.0.2'
+  s.summary          = 'XZTheme 是一款高效、简介的 iOS 主题管理框架。'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
