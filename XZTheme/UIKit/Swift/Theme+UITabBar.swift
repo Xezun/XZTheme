@@ -29,19 +29,6 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    /// 如果存储的值不是 UIBarStyle 或 UIBarStyle 有效原始值，则返回 UIBarStyle.default 。
-    ///
-    /// - Parameter themeAttribute: 主题属性。
-    /// - Returns: 主题属性值 UIBarStyle 。
-    public func barStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIBarStyle {
-        if let barStyle = value(forThemeAttribute: themeAttribute) as? UIBarStyle {
-            return barStyle
-        } else if let barStyle = UIBarStyle(rawValue: integerValue(forThemeAttribute: themeAttribute)) {
-            return barStyle
-        }
-        return .default
-    }
-    
     public var barTintColor: UIColor? {
         get { return color(forThemeAttribute: .barTintColor)        }
         set { setValue(newValue, forThemeAttribute: .barTintColor)  }

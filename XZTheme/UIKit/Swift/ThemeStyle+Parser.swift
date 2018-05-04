@@ -213,15 +213,14 @@ extension Theme.Style {
         return .default
     }
     
-    
     /// 获取已设置的主题属性值：UITableViewCellSeparatorStyle 。如下值将可以自动转换。
     /// 1. UITableViewCellSeparatorStyle 原始值（Int）。
-    /// 2. 字符串 default、black、white 。
+    /// 2. 字符串 none、singleLine、singleLineEtched 。
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
     public func separatorStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellSeparatorStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .none }
+        guard let value = value(forThemeAttribute: themeAttribute) else { return .singleLine }
         if let separatorStyle = value as? UITableViewCellSeparatorStyle {
             return separatorStyle
         }
@@ -240,7 +239,28 @@ extension Theme.Style {
         return .singleLine
     }
     
-    
+    /// 如果存储的值不是 UIBarStyle 或 UIBarStyle 有效原始值，则返回 UIBarStyle.default 。
+    /// 字符串 default、black 可转换对应的 UIBarStyle 值。
+    ///
+    /// - Parameter themeAttribute: 主题属性。
+    /// - Returns: 主题属性值 UIBarStyle 。
+    public func barStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIBarStyle {
+        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+        if let barStyle = value as? UIBarStyle {
+            return barStyle
+        }
+        if let number = value as? Int, let barStyle = UIBarStyle(rawValue: number) {
+            return barStyle
+        }
+        if let aString = value as? String {
+            switch aString {
+            case "none":  return .default
+            case "black": return .black
+            default: break
+            }
+        }
+        return .default
+    }
     
 }
 
