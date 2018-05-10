@@ -11,6 +11,13 @@ import UIKit
 /// 本协议描述了支持主题功能的对象具有的属性和方法。
 @objc(XZThemeSupporting) public protocol ThemeSupporting: NSObjectProtocol {
     
+    /// 主题标识符。
+    /// - 设置主题标识符后，框架将自动缓存（磁盘）主题配置或从配置文件中读取配置。
+    @objc(xz_themeIdentifier) var themeIdentifier: Theme.Identifier? { get set }
+    
+    /// 在主题发生改变时，是否自动应用主题。前提是配置了主题样式或设置了主题标识符。默认 true 。
+    @objc(xz_shouldAutomaticallyUpdateThemeAppearance) var shouldAutomaticallyUpdateThemeAppearance: Bool { get }
+    
     /// 是否传递主题变更事件。
     /// - Note: 在 NSObject 实现中，该方法返回 YES 。
     /// - Note: 在 UI 控件中，此属性会影响主题事件是否传递给其子视图。
@@ -32,6 +39,7 @@ import UIKit
     @objc(xz_updateThemeAppearanceIfNeeded) func updateThemeAppearanceIfNeeded()
     
     /// 当需要应用主题时，此方法会被调用。
+    /// - Note: 如果主题发生改变，则此方法一定会被调用（如果控件正在显示或将来会被显示）。
     /// - Note: 在 NSObject 默认实现中，当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
     /// - Note: 如果当前没有配置任何主题，则不会执行任何操作。
     /// - Note: 默认情况下此方法将检查是否已配置主题样式，并调用 `-xz_updateAppearanceWithThemeStyles:` 方法。
@@ -52,7 +60,7 @@ import UIKit
 
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject: ThemeSupporting {
-
+    
     /// 当前对象的所有主题，懒加载。
     @objc(xz_themes) open var themes: Theme.Collection {
         if let themes = self.themesIfLoaded {
@@ -60,6 +68,10 @@ extension NSObject: ThemeSupporting {
         }
         let themes = Theme.Collection.init(self)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        
+        /// 如果将通知添加到 NSObject 上，则释放通知是个问题。
+        /// 如果将通知添加到 Theme.Collection 上，那么 Theme.Collection 对象的 object 应该改为 weak 。
+        
         return themes
     }
     
@@ -85,6 +97,19 @@ extension NSObject: ThemeSupporting {
             return false
         }
         set { objc_setAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
+    }
+    
+    
+    
+    // MARK: - 协议
+    
+    open var themeIdentifier: Theme.Identifier? {
+        get { return themesIfLoaded?.themeIdentifier }
+        set { themes.themeIdentifier = newValue      }
+    }
+    
+    open var shouldAutomaticallyUpdateThemeAppearance: Bool {
+        return true;
     }
     
     open var forwardsThemeAppearanceUpdate: Bool {
@@ -136,6 +161,11 @@ extension NSObject: ThemeSupporting {
 
 extension UIView {
     
+    /// 默认返回 false ，UIKit 控件自己可以管理主题。
+    open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
+        return false
+    }
+    
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
     /// - Note: 子类可通过 forwardsThemeAppearanceUpdate 属性来控制该行为。
     open override func setNeedsThemeAppearanceUpdate() {
@@ -184,11 +214,23 @@ extension UIViewController {
 }
 
 
-private struct AssociationKey {
+
+extension Theme.Collection {
     
+    /// Theme.Collection 的主题标识符为其所有者的主题标识符。
+    public override var themeIdentifier: Theme.Identifier? {
+        get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
+        set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
+    }
+    
+}
+
+
+private struct AssociationKey {
     static var themes: Int = 0
     static var appliedTheme: Int = 1
-    static var needsUpdateThemeAppearance: Int = 2
+    static var themeIdentifier: Int = 2
+    static var needsUpdateThemeAppearance: Int = 3
 }
 
 

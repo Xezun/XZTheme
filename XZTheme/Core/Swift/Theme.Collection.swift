@@ -37,7 +37,8 @@ extension Theme.Collection {
         if let themeStyles = themedStyles[theme] {
             return themeStyles
         }
-        let themeStyles = Theme.Style.Collection.init(self.object)
+        guard let object = self.object else { fatalError("The Theme.Colletion has no owner, so it can not contain any Theme.Style.") }
+        let themeStyles = Theme.Style.Collection.init(object)
         setThemeStyles(themeStyles, forTheme: theme)
         return themeStyles
     }
@@ -48,7 +49,7 @@ extension Theme.Collection {
     /// - Parameter theme: 主题。
     @objc public func setThemeStyles(_ themeStyles: Theme.Style.Collection, forTheme theme: Theme) {
         themedStyles[theme] = themeStyles
-        object.setNeedsThemeAppearanceUpdate()
+        object?.setNeedsThemeAppearanceUpdate()
     }
 }
 
