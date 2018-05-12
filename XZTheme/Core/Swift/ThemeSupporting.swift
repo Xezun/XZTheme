@@ -86,20 +86,15 @@ extension NSObject: ThemeSupporting {
     /// 当前已应用的主题。
     /// - Note: 已应用的主题不等于当前主题，特别是当控件未显示时。
     /// - Note: 如果为对象配置当前主题的主题样式，那么使用的是默认主题的主题样式。
-    @objc(xz_appliedTheme) open private(set) var appliedTheme: Theme? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.appliedTheme) as? Theme }
-        set { objc_setAssociatedObject(self, &AssociationKey.appliedTheme, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
+    @objc(xz_appliedTheme) open internal(set) var appliedTheme: Theme? {
+        get { return themesIfLoaded?.appliedTheme       }
+        set { themesIfLoaded?.appliedTheme = newValue   }
     }
     
     /// 是否已经被标记需要更新主题。
-    @objc(xz_needsUpdateThemeAppearance) open private(set) var needsUpdateThemeAppearance: Bool {
-        get {
-            if let needsUpdateThemeAppearance = objc_getAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance) as? Bool {
-                return needsUpdateThemeAppearance
-            }
-            return false
-        }
-        set { objc_setAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
+    @objc(xz_needsUpdateThemeAppearance) open internal(set) var needsUpdateThemeAppearance: Bool {
+        get { return themesIfLoaded?.needsUpdateThemeAppearance ?? false }
+        set { themes.needsUpdateThemeAppearance = newValue }
     }
     
     
@@ -240,23 +235,8 @@ extension UIBarButtonItem {
 }
 
 
-
-extension Theme.Collection {
-    
-    /// Theme.Collection 的主题标识符为其所有者的主题标识符。
-    public override var themeIdentifier: Theme.Identifier? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
-        set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
-    }
-    
-}
-
-
 private struct AssociationKey {
     static var themes: Int = 0
-    static var appliedTheme: Int = 1
-    static var themeIdentifier: Int = 2
-    static var needsUpdateThemeAppearance: Int = 3
 }
 
 

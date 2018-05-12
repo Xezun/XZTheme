@@ -68,7 +68,7 @@ extension Theme.Style.Collection {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        let themeStyle = Theme.Style.init(self.object)
+        let themeStyle = Theme.Style.init(self.collection)
         setThemeStyle(themeStyle, forThemeState: themeState)
         return themeStyle
     }
@@ -95,11 +95,11 @@ extension Theme.Style.Collection {
         if themeState == .normal {
             return
         }
-        guard themeStyle.object === self.object else {
+        guard themeStyle.collection === self.collection else {
             return
         }
         statedStyles[themeState] = themeStyle
-        object.setNeedsThemeAppearanceUpdate()
+        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 更新指定状态样式的链式编程支持。
@@ -148,7 +148,7 @@ extension Array where Element == Theme.State {
     /// 获取主题样式集合中所有已配置的状态。
     ///
     /// - Parameter themeStyleCollection: 主题样式集合。
-    public init(_ themeStyleCollection: Theme.Style.Collection) {
+    public init(themeStyleCollection: Theme.Style.Collection) {
         self.init([Theme.State.normal] + themeStyleCollection.statedStyles.keys)
     }
 }

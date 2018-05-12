@@ -37,8 +37,7 @@ extension Theme.Collection {
         if let themeStyles = themedStyles[theme] {
             return themeStyles
         }
-        guard let object = self.object else { fatalError("The Theme.Colletion has no owner, so it can not contain any Theme.Style.") }
-        let themeStyles = Theme.Style.Collection.init(object)
+        let themeStyles = Theme.Style.Collection.init(self)
         setThemeStyles(themeStyles, forTheme: theme)
         return themeStyles
     }
@@ -51,19 +50,6 @@ extension Theme.Collection {
         themedStyles[theme] = themeStyles
         object?.setNeedsThemeAppearanceUpdate()
     }
-}
-
-extension Theme.Collection: NSCoding {
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.themedStyles, forKey: "XZTheme.Collection.themedStyles")
-    }
-    
-    public convenience init?(coder aDecoder: NSCoder) {
-        guard let themedStyles = aDecoder.decodeObject(forKey: "XZTheme.Collection.themedStyles") as? [Theme: Theme.Style.Collection] else { return nil }
-        
-    }
-    
 }
 
 extension Array where Element == Theme {

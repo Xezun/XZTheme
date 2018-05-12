@@ -26,7 +26,7 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     @objc public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues[themeAttribute] = value
-        object.setNeedsThemeAppearanceUpdate()
+        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 添加/更新/删除主题属性值。
@@ -35,7 +35,7 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     @objc public func updateValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues.updateValue(value, forKey: themeAttribute)
-        object.setNeedsThemeAppearanceUpdate()
+        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 删除主题属性值。
@@ -43,7 +43,7 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     @objc public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
         if let value = attributedValues.removeValue(forKey: themeAttribute) {
-            object.setNeedsThemeAppearanceUpdate()
+            collection.object?.setNeedsThemeAppearanceUpdate()
             return value
         }
         return nil
@@ -98,7 +98,7 @@ extension Array where Element == Theme.Attribute {
     /// 获取主题样式中所有已配置值的主题属性。
     ///
     /// - Parameter themeStyle: 主题样式。
-    public init(_ themeStyle: Theme.Style) {
+    public init(themeStyle: Theme.Style) {
         self.init(themeStyle.attributedValues.keys)
     }
 }

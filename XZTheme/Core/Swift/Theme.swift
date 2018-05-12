@@ -83,46 +83,130 @@ extension Theme {
         super.init()
     }
     
+    // MARK: - 组件
+    
     /// Theme.Collection 用于描述对象的主题的集合。
     /// - Note: 在集合中，按主题分类存储了所有的样式配置。
     /// - Note: 可使用 Array.init(_:Theme.Collection) 将集合转换为普通数组。
     @objc(XZThemeCollection) public final class Collection: NSObject {
         /// 当前 XZThemeCollection 所属的对象。
         @objc public private(set) weak var object: ThemeSupporting?
-        internal override init() {
-        }
-        @objc public convenience init(_ object: ThemeSupporting) {
-            self.init()
+        @objc public init(_ object: ThemeSupporting) {
             self.object = object
+            super.init()
             if object.shouldAutomaticallyUpdateThemeAppearance {
                 NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
             }
+            
+            // TODO: - 判断是否有配置文件。如果有读取配置文件，并记录。
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         deinit {
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
             NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
+        
         /// 按主题分类的主题样式集合。
-        internal lazy var themedStyles = [Theme: Theme.Style.Collection]()
+        public private(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]?
+        
+        public var themedStyles: [Theme: Theme.Style.Collection] {
+            if let themedStyles = themedStylesIfLoaded {
+                return themedStyles
+            }
+            
+            // TODO: - 判断 tmp 目录是否有缓存，如果有加载缓存，否则创建新的。
+    
+            themedStylesIfLoaded = [Theme: Theme.Style.Collection]()
+            return themedStylesIfLoaded!
+        }
+        
+        private var _themeIdentifier: Theme.Identifier?
+        private var _appliedTheme: Theme?
+        private var _needsUpdateThemeAppearance: Bool = false
+        
+        /// Theme.Collection 的主题集合是其自身。
+        public override var themes: Theme.Collection {
+            return self;
+        }
+        
+        /// Theme.Collection 的主题标识符为其所有者的主题标识符。
+        public override var themeIdentifier: Theme.Identifier? {
+            get { return _themeIdentifier       }
+            set { _themeIdentifier = newValue   }
+        }
+        
+        /// 始终返回 false 。
+        public internal(set) override var needsUpdateThemeAppearance: Bool {
+            get { return _needsUpdateThemeAppearance     }
+            set { _needsUpdateThemeAppearance = newValue }
+        }
+        
+        /// 所有者当前已应用的主题。
+        public internal(set) override var appliedTheme: Theme? {
+            get { return _appliedTheme      }
+            set { _appliedTheme = newValue  }
+        }
+        
         /// 标记所有者主题需要更新。
         public override func setNeedsThemeAppearanceUpdate() {
             object?.setNeedsThemeAppearanceUpdate()
         }
         
-        @objc public func didReceiveMemoryWarning() {
-        
+        /// Theme.Collection 自身不支持主题，所以该方法不执行任何操作。
+        public override func updateThemeAppearanceIfNeeded() {
+            
         }
+        
+        /// Theme.Collection 自身不支持主题，所以该方法不执行任何操作。
+        public override func updateAppearance(with newTheme: Theme) {
+            
+        }
+        
+        /// 当发生内存警告时，Theme.Collection 将尝试将样式缓存到 tmp 目录，并释放相关资源。
+        @objc public func didReceiveMemoryWarning() {
+            /// 如果当前对象已销毁，则立即释放所有样式。
+            guard let object = self.object else {
+                themedStylesIfLoaded?.removeAll()
+                return
+            }
+            /// 如果当前对象没有样式标识符，不缓存。待确定。
+            
+            /// 通过配置文件和代码配置的，毕竟有可能是混合用的。
+            
+            /// 没有样式，也就不需要释放了。
+            guard let themedStyles = themedStylesIfLoaded else { return }
+            
+            /// 将样式转换成字典。
+            var dictionary: [String: [String: [String: Any?]]] = [:]
+            for themedStyle in themedStyles {
+                var statedStyles = [String: [String: Any?]]()
+                for statedStyle in themedStyle.value.statedStyles {
+                    var attributedValues = [String: Any?]()
+                    for attributedValue in statedStyle.value.attributedValues {
+                        attributedValues.updateValue(attributedValue.value, forKey: attributedValue.key.rawValue)
+                    }
+                    statedStyles[statedStyle.key.rawValue] = attributedValues
+                }
+                dictionary[themedStyle.key.name] = statedStyles
+            }
+            
+            // TODO: - 将样式字典缓存到 tmp 目录。
+            
+        }
+        
     }
     
     /// 主题样式，负责存储主题属性。
     /// - Note: 使用 Array.init(_:Theme.Style) 可以取得所有已配置的属性。
     @objc(XZThemeStyle) public class Style: NSObject {
-        @objc public unowned let object: ThemeSupporting
-        @objc public init(_ object: ThemeSupporting) {
-            self.object = object
+        /// 样式所属的主题集合。
+        @objc public unowned let collection: Theme.Collection
+        @objc public init(_ collection: Theme.Collection) {
+            self.collection = collection
             super.init()
         }
+        /// 按样式属性存储的属性值。
         internal lazy var attributedValues = [Theme.Attribute: Any?]()
         
         /// 主题样式集合：同一主题下，按状态分类的所有主题样式集合。
@@ -197,21 +281,6 @@ extension Theme: NSCopying {
         return false
     }
     
-}
-
-
-
-
-extension Theme: NSCoding {
-    
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.name, forKey: "XZTheme.name")
-    }
-    
-    public convenience init?(coder aDecoder: NSCoder) {
-        guard let name = aDecoder.decodeObject(forKey: "XZTheme.name") as? String else { return nil }
-        self.init(name: name)
-    }
 }
 
 
