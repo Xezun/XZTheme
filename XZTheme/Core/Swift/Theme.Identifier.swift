@@ -30,7 +30,6 @@ extension Theme.Identifier: ExpressibleByStringLiteral, Equatable, Hashable {
         return rawValue.hashValue
     }
     
-    
 }
 
 extension Theme.Identifier: _ObjectiveCBridgeable {

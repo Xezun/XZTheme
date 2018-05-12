@@ -89,23 +89,29 @@ extension Theme {
     @objc(XZThemeCollection) public final class Collection: NSObject {
         /// 当前 XZThemeCollection 所属的对象。
         @objc public private(set) weak var object: ThemeSupporting?
-        @objc public init(_ object: ThemeSupporting) {
+        internal override init() {
+        }
+        @objc public convenience init(_ object: ThemeSupporting) {
+            self.init()
             self.object = object
-            super.init()
-            
             if object.shouldAutomaticallyUpdateThemeAppearance {
-                let selector = #selector(setNeedsThemeAppearanceUpdate)
-                NotificationCenter.default.addObserver(self, selector: selector, name: .ThemeDidChange, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
             }
         }
         deinit {
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
+            NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         /// 按主题分类的主题样式集合。
         internal lazy var themedStyles = [Theme: Theme.Style.Collection]()
         /// 标记所有者主题需要更新。
         public override func setNeedsThemeAppearanceUpdate() {
             object?.setNeedsThemeAppearanceUpdate()
+        }
+        
+        @objc public func didReceiveMemoryWarning() {
+        
         }
     }
     
@@ -154,6 +160,9 @@ extension Theme {
         }
     }
     
+    /// 主题标识符。
+    /// - Note: 主题配置文件中的标识。
+    /// - Note: 主题缓存所用。
     public struct Identifier: RawRepresentable {
         public typealias RawValue = String
         public let rawValue: String
@@ -193,7 +202,17 @@ extension Theme: NSCopying {
 
 
 
-
+extension Theme: NSCoding {
+    
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.name, forKey: "XZTheme.name")
+    }
+    
+    public convenience init?(coder aDecoder: NSCoder) {
+        guard let name = aDecoder.decodeObject(forKey: "XZTheme.name") as? String else { return nil }
+        self.init(name: name)
+    }
+}
 
 
 

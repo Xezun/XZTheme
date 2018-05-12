@@ -53,6 +53,18 @@ extension Theme.Collection {
     }
 }
 
+extension Theme.Collection: NSCoding {
+    
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.themedStyles, forKey: "XZTheme.Collection.themedStyles")
+    }
+    
+    public convenience init?(coder aDecoder: NSCoder) {
+        guard let themedStyles = aDecoder.decodeObject(forKey: "XZTheme.Collection.themedStyles") as? [Theme: Theme.Style.Collection] else { return nil }
+        
+    }
+    
+}
 
 extension Array where Element == Theme {
     

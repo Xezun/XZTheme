@@ -15,7 +15,10 @@ import UIKit
     /// - 设置主题标识符后，框架将自动缓存（磁盘）主题配置或从配置文件中读取配置。
     @objc(xz_themeIdentifier) var themeIdentifier: Theme.Identifier? { get set }
     
-    /// 在主题发生改变时，是否自动应用主题。前提是配置了主题样式或设置了主题标识符。默认 true 。
+    /// 在主题发生改变时，是否自动应用主题。默认 true 。
+    /// - Note: 当对象首次配置主题样式或设置主题标识符时，此属性决定 XZTheme 是否自动管理对象的主题。
+    /// - Note: 被管理的对象通过监听通知，在主题变更时，调用对象的 `setNeedsThemeAppearanceUpdate` 方法来切换主题。
+    /// - Note: 如果对象的主题有其自己的管理机制（比如 `UIView`），重写此属性并返回 false ，以停用 XZTheme 的自动管理。
     @objc(xz_shouldAutomaticallyUpdateThemeAppearance) var shouldAutomaticallyUpdateThemeAppearance: Bool { get }
     
     /// 是否传递主题变更事件。
@@ -161,7 +164,7 @@ extension NSObject: ThemeSupporting {
 
 extension UIView {
     
-    /// 默认返回 false ，UIKit 控件自己可以管理主题。
+    /// UIView 控件拥有自己管理主题机制，此属性返回 false 。
     open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
         return false
     }
@@ -183,6 +186,11 @@ extension UIView {
 }
 
 extension UIViewController {
+    
+    /// UIViewController 拥有自己管理主题机制，此属性返回 false 。
+    open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
+        return false
+    }
     
     /// 当控制被标记为需要更新主题时，同时标记其 childViewControllers、presentedViewController、navigationItem、toolbarItems、tabBarItem 等属性。
     open override func setNeedsThemeAppearanceUpdate() {
@@ -211,6 +219,24 @@ extension UIViewController {
         
         self.presentedViewController?.setNeedsThemeAppearanceUpdate()
     }
+}
+
+extension UINavigationItem {
+    
+    /// UINavigationItem 拥有自己管理主题机制，此属性返回 false 。
+    open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
+        return false
+    }
+    
+}
+
+extension UIBarButtonItem {
+    
+    /// UIBarButtonItem 拥有自己管理主题机制，此属性返回 false 。
+    open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
+        return false
+    }
+    
 }
 
 
