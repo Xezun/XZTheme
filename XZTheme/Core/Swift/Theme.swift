@@ -213,8 +213,14 @@ extension Theme {
     @objc(XZThemeStyle) public class Style: NSObject {
         /// 样式所属的主题集合。
         @objc public unowned let collection: Theme.Collection
-        @objc public init(_ collection: Theme.Collection) {
+        /// 当前样式所属的主题。
+        @objc public unowned let theme: Theme
+        /// 当前样式所属性的样式状态。
+        @objc public let state: Theme.State
+        @objc public init(theme: Theme, collection: Theme.Collection, state: Theme.State) {
+            self.theme = theme
             self.collection = collection
+            self.state = state
             super.init()
         }
         

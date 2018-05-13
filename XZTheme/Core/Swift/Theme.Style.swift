@@ -10,12 +10,21 @@ import Foundation
 
 extension Theme.Style {
     
+    /// 当前样式所属对象的全局样式（与当前样式同主题同状态）。
+    @objc public var defaultThemeStyle: Theme.Style? {
+        // TODO: self 在这里能取到类对象吗？
+        return collection.object?.self.themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
+    }
+    
     /// 主题样式是否包含主题属性。
     /// - Note: 因为属性值可以为 nil ，所以判断是否包含属性，不能根据其值来判断。
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 是否包含。
     @objc public func containsThemeAttribute(_ themeAttribute: Theme.Attribute) -> Bool {
+        if let contains = self.defaultThemeStyle?.containsThemeAttribute(themeAttribute) {
+            return contains
+        }
         return attributedValues[themeAttribute] != nil
     }
     
@@ -55,6 +64,10 @@ extension Theme.Style {
     /// - Returns: 主题属性值。
     @objc public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
         if let value = attributedValues[themeAttribute] {
+            return value
+        }
+        /// 读取全局配置。
+        if let value = self.defaultThemeStyle?.value(forThemeAttribute: themeAttribute) {
             return value
         }
         return nil
