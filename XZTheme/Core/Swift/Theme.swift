@@ -103,12 +103,12 @@ extension Theme {
             // TODO: - 判断是否有缓存，如果有读取缓存（通过类名+主题标识符来唯一标识缓存，避免相同的样式反复缓存）。否则。
             // TODO: - 判断是否有配置文件。如果有读取配置文件，并记录。
             
-            NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
+            // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         deinit {
             /// TODO: - 缓存样式
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
-            NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
+            // NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
         /// 按主题分类的主题样式集合。
