@@ -57,7 +57,7 @@ extension Array where Element == Theme {
     /// 将 Theme.Collection 对象转换为 Theme 数组。
     ///
     /// - Parameter themeCollection: Theme.Collection 对象。
-    public init(_ themeCollection: Theme.Collection) {
-        self.init(themeCollection.themedStyles.keys)
+    public init(_ themes: Theme.Collection) {
+        self.init(themes.themedStyles.keys)
     }
 }

@@ -90,10 +90,12 @@ extension Theme {
     /// - Note: 可使用 Array.init(_:Theme.Collection) 将集合转换为普通数组。
     @objc(XZThemeCollection) public final class Collection: NSObject {
         /// 当前 XZThemeCollection 所属的对象。
-        @objc public private(set) weak var object: ThemeSupporting?
-        @objc public init(_ object: ThemeSupporting) {
+        @objc public private(set) weak var object: NSObject?
+        ///
+        @objc public init(_ object: NSObject?) {
             self.object = object
             super.init()
+            guard let object = object else { return }
             if object.shouldAutomaticallyUpdateThemeAppearance {
                 NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
             }
@@ -112,17 +114,22 @@ extension Theme {
         }
         
         /// 按主题分类的主题样式集合。
-        public private(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]?
+        public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]?
         
-        public var themedStyles: [Theme: Theme.Style.Collection] {
-            if let themedStyles = themedStylesIfLoaded {
-                return themedStyles
+        public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
+            get {
+                if let themedStyles = themedStylesIfLoaded {
+                    return themedStyles
+                }
+                
+                // TODO: - 判断 tmp 目录是否有缓存，如果有加载缓存，否则创建新的。
+                
+                themedStylesIfLoaded = [Theme: Theme.Style.Collection]()
+                return themedStylesIfLoaded!
             }
-            
-            // TODO: - 判断 tmp 目录是否有缓存，如果有加载缓存，否则创建新的。
-    
-            themedStylesIfLoaded = [Theme: Theme.Style.Collection]()
-            return themedStylesIfLoaded!
+            set {
+                themedStylesIfLoaded = newValue
+            }
         }
         
         private var _themeIdentifier: Theme.Identifier?
@@ -210,13 +217,41 @@ extension Theme {
             self.collection = collection
             super.init()
         }
+        
+        public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]?
+        
         /// 按样式属性存储的属性值。
-        internal lazy var attributedValues = [Theme.Attribute: Any?]()
+        public internal(set) var attributedValues: [Theme.Attribute: Any?] {
+            get {
+                if let attributedValues = self.attributedValuesIfLoaded {
+                    return attributedValues
+                }
+                attributedValuesIfLoaded = [Theme.Attribute: Any?]()
+                return attributedValuesIfLoaded!
+            }
+            set {
+                attributedValuesIfLoaded = newValue
+            }
+        }
+        
+        
         
         /// 主题样式集合：同一主题下，按状态分类的所有主题样式集合。
         /// - Note: 使用 Array.init(_:Theme.Style.Collection) 可以取得所有状态。
         @objc(XZThemeStyleCollection) public final class Collection: Theme.Style {
-            internal lazy var statedStyles = [Theme.State: Theme.Style]()
+            public internal(set) var statedStylesIfLoaded: [Theme.State: Theme.Style]?
+            public internal(set) var statedStyles: [Theme.State: Theme.Style] {
+                get {
+                    if let statedStyles = self.statedStylesIfLoaded {
+                        return statedStyles
+                    }
+                    statedStylesIfLoaded = [Theme.State: Theme.Style]()
+                    return statedStylesIfLoaded!
+                }
+                set {
+                    statedStylesIfLoaded = newValue
+                }
+            }
         }
     }
     
