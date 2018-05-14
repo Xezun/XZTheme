@@ -12,8 +12,8 @@ extension Theme.Style {
     
     /// 当前样式所属对象的全局样式（与当前样式同主题同状态）。
     @objc public var defaultThemeStyle: Theme.Style? {
-        // TODO: self 在这里能取到类对象吗？
-        return collection.object?.self.themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
+        guard let object = self.object else { return nil }
+        return type(of: object).themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
     }
     
     /// 主题样式是否包含主题属性。
@@ -22,10 +22,10 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 是否包含。
     @objc public func containsThemeAttribute(_ themeAttribute: Theme.Attribute) -> Bool {
-        if let contains = self.defaultThemeStyle?.containsThemeAttribute(themeAttribute) {
-            return contains
+        guard attributedValuesIfLoaded?[themeAttribute] == nil else {
+            return true
         }
-        return attributedValues[themeAttribute] != nil
+        return self.defaultThemeStyle?.containsThemeAttribute(themeAttribute) == true
     }
     
     /// 添加/更新/删除主题属性值。
@@ -35,7 +35,6 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     @objc public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues[themeAttribute] = value
-        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 添加/更新/删除主题属性值。
@@ -44,15 +43,13 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     @objc public func updateValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute) {
         attributedValues.updateValue(value, forKey: themeAttribute)
-        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 删除主题属性值。
     ///
     /// - Parameter themeAttribute: 主题属性。
     @objc public func removeValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
-        if let value = attributedValues.removeValue(forKey: themeAttribute) {
-            collection.object?.setNeedsThemeAppearanceUpdate()
+        if let value = attributedValuesIfLoaded?.removeValue(forKey: themeAttribute) {
             return value
         }
         return nil
@@ -63,7 +60,7 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
     @objc public func value(forThemeAttribute themeAttribute: Theme.Attribute) -> Any? {
-        if let value = attributedValues[themeAttribute] {
+        if let value = attributedValuesIfLoaded?[themeAttribute] {
             return value
         }
         /// 读取全局配置。
@@ -103,15 +100,21 @@ extension Theme.Style {
         updateValue(value, forThemeAttribute: themeAttribute)
         return self
     }
-}
-
-
-extension Array where Element == Theme.Attribute {
     
-    /// 获取主题样式中所有已配置值的主题属性。
+    
+    /// 从另外一个样式中复制属性和值。
+    /// - Note: 当前样式中已有的值，将会被替换。
+    /// - Note: 不会复制被复制样式相关联的全局样式。
     ///
-    /// - Parameter themeStyle: 主题样式。
-    public init(themeStyle: Theme.Style) {
-        self.init(themeStyle.attributedValues.keys)
+    /// - Parameter themeStyle: 被复制的样式。
+    @objc public func addValuesAndAttributes(from themeStyle: Theme.Style) {
+        guard let attributedValues = themeStyle.attributedValuesIfLoaded else { return }
+        for attributedValue in attributedValues {
+            updateValue(attributedValue.value, forThemeAttribute: attributedValue.key)
+        }
     }
+    
 }
+
+
+

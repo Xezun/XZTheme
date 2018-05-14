@@ -30,7 +30,6 @@ extension Theme.Attribute: ExpressibleByStringLiteral, Equatable, Hashable {
         return rawValue.hashValue
     }
     
-    
 }
 
 extension Theme.Attribute: _ObjectiveCBridgeable {

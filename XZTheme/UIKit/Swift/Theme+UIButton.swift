@@ -64,29 +64,34 @@ extension UIButton {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for themeState in Array.init(themeStyles: themeStyles) {
+        let themeStates: [Theme.State] = [.normal, .selected, .highlighted, .disabled, .focused]
+        
+        for themeState in themeStates {
             guard let controlState = UIControlState(themeState) else { continue }
-            let themeStyle = themeStyles.themeStyle(forThemeState: themeState)
             
-            if themeStyle.containsThemeAttribute(.title) {
+            guard let themeStyle = themeStyles.themeStyleIfLoaded(forThemeState: themeState) ?? themeStyles.defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState) else { continue }
+
+            if themeStyles.containsThemeAttribute(.title, forThemeState: themeState) {
                 self.setTitle(themeStyle.title, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.titleColor) {
+            if themeStyles.containsThemeAttribute(.titleColor) {
                 self.setTitleColor(themeStyle.titleColor, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.titleShadowColor) {
+            if themeStyles.containsThemeAttribute(.titleShadowColor) {
                 self.setTitleShadowColor(themeStyle.titleShadowColor, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.image) {
+            if themeStyles.containsThemeAttribute(.image) {
                 self.setImage(themeStyle.image, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
+            if themeStyles.containsThemeAttribute(.backgroundImage) {
                 self.setBackgroundImage(themeStyle.backgroundImage, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.attributedTitle) {
+            if themeStyles.containsThemeAttribute(.attributedTitle) {
                 self.setAttributedTitle(themeStyle.attributedTitle, for: controlState);
             }
         }
+        
+        
         
     }
 }

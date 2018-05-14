@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import XZKit
 
 extension Notification.Name {
     /// XZTheme 主题变更事件。当主题发生改变时，发送 Notification 所使用的名称。
@@ -15,16 +15,19 @@ extension Notification.Name {
 }
 
 extension Theme {
+    
     /// 应用主题动画时长，0.5 秒。
     @objc public static let AnimationDuration: TimeInterval = 0.5
+    
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
     @objc public static let UserDefaultsKey: String = "com.mlibai.XZKit.theme.default"
-    /// 默认主题。
-    /// - Note: 如果对象没有设置任何主题样式，那么该主题为默认生效的主题。
-    /// - Note: 如果应用主题时，某对象的主题配置不存在，会默认查找一次默认主题。
-    /// - Note: 建议使用默认主题 + 自定义主题组合。
+    
+    /// 当前主题的默认主题。
+    /// - Note: 如果从没有应用过主题，那么当前主题为本主题。
+    /// - Note: 在默认规则下，对象应用主题时，如果没有找到主题样式，会尝试读取默认主题下的样式。
     @objc(defaultTheme)
     public static let `default`: Theme = Theme.init(name: "default")
+    
     /// 当前主题，默认 Theme.default 。
     @objc(currentTheme)
     public private(set) static var current: Theme = {
@@ -83,19 +86,27 @@ extension Theme {
         super.init()
     }
     
-    // MARK: - 组件
+    // MARK: - 定义：主题集
     
-    /// Theme.Collection 用于描述对象的主题的集合。
+    /// 用于描述对象的主题的集合（以后简称主题集）。
     /// - Note: 在集合中，按主题分类存储了所有的样式配置。
     /// - Note: 可使用 Array.init(_:Theme.Collection) 将集合转换为普通数组。
     @objc(XZThemeCollection) public final class Collection: NSObject {
-        /// 当前 XZThemeCollection 所属的对象。
+        
+        /// 主题集的所有者。
+        /// - Note: 因为主题集与其所有者是值绑定的关系，生命周期可能比所有者略长，因此这里使用了 weak 属性。
         @objc public private(set) weak var object: NSObject?
+        
+        /// 构造主题集，必须与所有者一同构造。
+        /// - Note: 对象的默认主题集无所有者。
         ///
+        /// - Parameter object: 所有者。
         @objc public init(_ object: NSObject?) {
             self.object = object
             super.init()
-            guard let object = object else { return }
+            // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
+            guard let object = self.object else { return }
+            
             if object.shouldAutomaticallyUpdateThemeAppearance {
                 NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
             }
@@ -107,15 +118,22 @@ extension Theme {
             
             // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
+        
         deinit {
             /// TODO: - 缓存样式
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
             // NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
-        /// 按主题分类的主题样式集合。
-        public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]?
+        /// 按主题分类的主题样式集合，非懒加载。
+        /// - Note: 更改主题样式集合会标记所有需要更新主题。
+        public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
+            didSet {
+                object?.setNeedsThemeAppearanceUpdate()
+            }
+        }
         
+        /// 按主题分类的主题样式集合，懒加载。
         public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
             get {
                 if let themedStyles = themedStylesIfLoaded {
@@ -132,22 +150,25 @@ extension Theme {
             }
         }
         
+        /// 所有者的主题标识符。
         private var _themeIdentifier: Theme.Identifier?
+        /// 所有者已应用的主题。
         private var _appliedTheme: Theme?
+        /// 所有者是否需要更新主题的标记。
         private var _needsUpdateThemeAppearance: Bool = false
         
-        /// Theme.Collection 的主题集合是其自身。
+        /// 主题集不支持主题设置，改属性返回所有者的主题集，即其自身。
         public override var themes: Theme.Collection {
-            return self;
+            return self
         }
         
-        /// Theme.Collection 的主题标识符为其所有者的主题标识符。
+        /// 主题集的主题标识符为其所有者的主题标识符。
         public override var themeIdentifier: Theme.Identifier? {
             get { return _themeIdentifier       }
             set { _themeIdentifier = newValue   }
         }
         
-        /// 始终返回 false 。
+        /// 所有者是否已标记需要更新主题。
         public internal(set) override var needsUpdateThemeAppearance: Bool {
             get { return _needsUpdateThemeAppearance     }
             set { _needsUpdateThemeAppearance = newValue }
@@ -164,21 +185,22 @@ extension Theme {
             object?.setNeedsThemeAppearanceUpdate()
         }
         
-        /// Theme.Collection 自身不支持主题，所以该方法不执行任何操作。
+        /// 主题集不支持主题设置，所以该方法不执行任何操作。
         public override func updateThemeAppearanceIfNeeded() {
-            
+            XZLog("主题集不支持主题设置，updateThemeAppearanceIfNeeded 方法不执行任何操作。")
         }
         
-        /// Theme.Collection 自身不支持主题，所以该方法不执行任何操作。
+        /// 主题集不支持主题设置，所以该方法不执行任何操作。
         public override func updateAppearance(with newTheme: Theme) {
-            
+            XZLog("主题集不支持主题设置，updateAppearance(with:) 方法不执行任何操作。")
         }
         
         /// 当发生内存警告时，Theme.Collection 将尝试将样式缓存到 tmp 目录，并释放相关资源。
+        /// - Note: 目前该函数的功能没有实现。
         @objc public func didReceiveMemoryWarning() {
             /// 如果当前对象已销毁，则立即释放所有样式。
             guard let object = self.object else {
-                themedStylesIfLoaded?.removeAll()
+                self.themedStylesIfLoaded?.removeAll()
                 return
             }
             /// 如果当前对象没有样式标识符，不缓存。待确定。
@@ -203,30 +225,50 @@ extension Theme {
             }
             
             // TODO: - 将样式字典缓存到 tmp 目录。
-            
+            XZLog("缓存机制暂未实现：%@。", object)
         }
         
     }
     
-    /// 主题样式，负责存储主题属性。
-    /// - Note: 使用 Array.init(_:Theme.Style) 可以取得所有已配置的属性。
+    
+    // MARK: - 定义：主题样式。
+    
+    /// 主题样式，用于存储主题外观样式属性以及属性值的对象。
+    /// - Note: 使用 Array.init(themeStyles:) 可以取得所有已配置的属性。
     @objc(XZThemeStyle) public class Style: NSObject {
-        /// 样式所属的主题集合。
-        @objc public unowned let collection: Theme.Collection
+        
+        /// 样式的所有者。
+        @objc public private(set) weak var object: NSObject?
+        
         /// 当前样式所属的主题。
-        @objc public unowned let theme: Theme
-        /// 当前样式所属性的样式状态。
+        @objc public let theme: Theme
+        
+        /// 当前样式的主题状态。
         @objc public let state: Theme.State
-        @objc public init(theme: Theme, collection: Theme.Collection, state: Theme.State) {
-            self.theme = theme
-            self.collection = collection
-            self.state = state
+        
+        /// 构造主题样式。默认构造的为 normal 状态下的主题样式。
+        ///
+        /// - Parameters:
+        ///   - object: 所有者。
+        ///   - theme: 主题。
+        ///   - state: 样式状态，默认 .normal 。
+        @objc public init(object: NSObject?, theme: Theme, state: Theme.State = .normal) {
+            self.theme  = theme
+            self.object = object
+            self.state  = state
             super.init()
         }
         
-        public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]?
+        /// 按属性存储的属性值，非懒加载。
+        /// - Note: 更新样式属性值会标记所有者需要更新主题。
+        public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]? {
+            didSet {
+                object?.setNeedsThemeAppearanceUpdate()
+            }
+        }
         
-        /// 按样式属性存储的属性值。
+        /// 按样式属性存储的属性值，懒加载。
+        /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public internal(set) var attributedValues: [Theme.Attribute: Any?] {
             get {
                 if let attributedValues = self.attributedValuesIfLoaded {
@@ -241,11 +283,35 @@ extension Theme {
         }
         
         
-        
-        /// 主题样式集合：同一主题下，按状态分类的所有主题样式集合。
+        // MARK: - 定义：主题样式集
+
+        /// 主题样式集：同一主题下，按状态分类的所有主题样式集合。
         /// - Note: 使用 Array.init(_:Theme.Style.Collection) 可以取得所有状态。
         @objc(XZThemeStyleCollection) public final class Collection: Theme.Style {
-            public internal(set) var statedStylesIfLoaded: [Theme.State: Theme.Style]?
+            
+            /// 构造主题样式集。主题样式集默认为 normal 状态，不能指定其它主题状态。
+            ///
+            /// - Parameters:
+            ///   - object: 所有者。
+            ///   - theme: 主题。
+            @objc public init(object: NSObject?, theme: Theme) {
+                super.init(object: object, theme: theme, state: .normal)
+            }
+            
+            /// 按主题状态存储的主题样式集合，非懒加载。
+            /// - Note: 会标记所有者需要更新主题。
+            /// - Note: 该集合不包含 normal 状态的主题。
+            /// - Note: 该集合不包含全局样式。
+            public internal(set) var statedStylesIfLoaded: [Theme.State: Theme.Style]? {
+                didSet {
+                    object?.setNeedsThemeAppearanceUpdate()
+                }
+            }
+            
+            /// 按主题状态存储的主题样式集合，懒加载。
+            /// - Note: 会标记所有者需要更新主题。
+            /// - Note: 该集合不包含 normal 状态的主题。
+            /// - Note: 该集合不包含全局样式。
             public internal(set) var statedStyles: [Theme.State: Theme.Style] {
                 get {
                     if let statedStyles = self.statedStylesIfLoaded {
@@ -261,6 +327,9 @@ extension Theme {
         }
     }
     
+    
+    // MARK: - 定义：主题属性。
+    
     /// 主题样式属性。
     /// - Note: 主题样式属性一般情况下与对象的外观属性相对应。
     /// - Note: 主题样式属性名应该符合正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
@@ -275,7 +344,7 @@ extension Theme {
         }
     }
     
-    /// 主题样式属性状态。
+    /// 主题样式状态。
     /// - Note: 主题状态一般情况下与触控状态相对应。
     /// - Note: 主题状态名应该符合正则 /^\:[A-Za-z]+$/ 。
     public struct State: RawRepresentable {

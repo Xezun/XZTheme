@@ -12,6 +12,7 @@ import UIKit
 extension NSObject {
     
     /// 全局样式。
+    /// - Note: 更改全局样式不会影响已设置主题的控件。
     @objc(xz_themes)
     open static var themes: Theme.Collection {
         if let themes = self.themesIfLoaded {
@@ -186,6 +187,7 @@ extension UIView {
             subview.setNeedsThemeAppearanceUpdate()
         }
     }
+    
 }
 
 extension UIViewController {

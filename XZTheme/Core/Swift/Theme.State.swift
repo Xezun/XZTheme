@@ -26,6 +26,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
 }
 
 extension Theme.State: _ObjectiveCBridgeable {
+    
     public func _bridgeToObjectiveC() -> NSString {
         return rawValue as NSString
     }

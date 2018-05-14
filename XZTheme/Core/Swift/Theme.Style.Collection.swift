@@ -37,27 +37,33 @@ extension Theme.Style.Collection {
     
     /// Theme.State.highlighted 状态下的主题样式，非懒加载。
     @objc(highlightedThemeStyleIfLoaded) public var highlightedIfLoaded: Theme.Style? {
-        return themeStyle(forThemeState: .highlighted)
+        return themeStyleIfLoaded(forThemeState: .highlighted)
     }
     
      /// Theme.State.selected 状态下的主题样式，非懒加载。
     @objc(selectedThemeStyleIfLoaded) public var selectedIfLoaded: Theme.Style? {
-        return themeStyle(forThemeState: .selected)
+        return themeStyleIfLoaded(forThemeState: .selected)
     }
     
     /// Theme.State.disabled 状态下的主题样式，非懒加载。
     @objc(disabledThemeStyleIfLoaded) public var disabledIfLoaded: Theme.Style? {
-        return themeStyle(forThemeState: .disabled)
+        return themeStyleIfLoaded(forThemeState: .disabled)
     }
     
     /// Theme.State.focused 状态下的主题样式，非懒加载。
     @objc(focusedThemeStyleIfLoaded) public var focusedIfLoaded: Theme.Style? {
-        return themeStyle(forThemeState: .focused)
+        return themeStyleIfLoaded(forThemeState: .focused)
     }
     
 }
 
 extension Theme.Style.Collection {
+    
+    /// 全局的主题样式集。
+    @objc public var defaultThemeStyles: Theme.Style.Collection? {
+        guard let object = self.object else { return nil }
+        return type(of: object).themes.themeStylesIfLoaded(forTheme: self.theme)
+    }
     
     /// 获取指定状态的主题样式。
     /// - Note: 如果主题样式不存在，将自动创建。
@@ -68,12 +74,13 @@ extension Theme.Style.Collection {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        let themeStyle = Theme.Style.init(self.collection)
+        let themeStyle = Theme.Style.init(object: self.object, theme: self.theme, state: themeState)
         setThemeStyle(themeStyle, forThemeState: themeState)
         return themeStyle
     }
     
     /// 获取指定状态的主题样式，如果已创建。
+    /// - Note: 该方法不会返回全局的主题样式集，以避免全局主题样式被意外修改。
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
@@ -81,6 +88,7 @@ extension Theme.Style.Collection {
         if themeState == .normal {
             return self
         }
+        // return self.defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState)
         return statedStyles[themeState]
     }
     
@@ -95,11 +103,10 @@ extension Theme.Style.Collection {
         if themeState == .normal {
             return
         }
-        guard themeStyle.collection === self.collection else {
+        guard themeStyle.object === self.object else {
             return
         }
         statedStyles[themeState] = themeStyle
-        collection.object?.setNeedsThemeAppearanceUpdate()
     }
     
     /// 更新指定状态样式的链式编程支持。
@@ -140,17 +147,86 @@ extension Theme.Style.Collection {
         }
     }
     
+    /// 从另外一个样式集中复制所有样式。
+    /// - Note: 如果相同状态的样式已存在，则合并两个样式，否则添加。
+    /// - Note: 被复制的主题集相关联的全局样式不会被复制。
+    ///
+    /// - Parameter themeStyles: 被复制的主题集。
+    @objc public func addThemeStyle(from themeStyles: Theme.Style.Collection) {
+        guard let statedThemeStyles = themeStyles.statedStylesIfLoaded else { return }
+        for statedThemeStyle in statedThemeStyles {
+            if let oldValue = self.themeStyleIfLoaded(forThemeState: statedThemeStyle.key) {
+                oldValue.addValuesAndAttributes(from: statedThemeStyle.value)
+            } else {
+                self.setThemeStyle(statedThemeStyle.value, forThemeState: statedThemeStyle.key)
+            }
+        }
+    }
+    
+    
+    /// 获取指定状态下的主题属性值。
+    /// - Note: 如果没有配置主题样式，会尝试读取全局主题样式。
+    ///
+    /// - Parameters:
+    ///   - themeAttribute: 主题属性。
+    ///   - themeState: 主题状态。
+    /// - Returns: 主题属性值。
+    public func value(forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) -> Any? {
+        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
+            return themeStyle.value(forThemeAttribute: themeAttribute)
+        }
+        return defaultThemeStyles?.value(forThemeAttribute: themeAttribute, forThemeState: themeState)
+    }
+    
+    
+    /// 设置指定状态下的主题属性值。
+    ///
+    /// - Parameters:
+    ///   - value: 主题属性值。
+    ///   - themeAttribute: 主题属性。
+    ///   - themeState: 主题状态。
+    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
+        self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
+    }
+    
+    /// 判断样式中是否包含指定状态下的主题属性。
+    ///
+    /// - Parameters:
+    ///   - themeAttribute: 主题属性。
+    ///   - themeState: 主题状态。
+    /// - Returns: 是否包含。
+    public func containsThemeAttribute(_ themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) -> Bool {
+        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
+            return themeStyle.containsThemeAttribute(themeAttribute)
+        }
+        return defaultThemeStyles?.containsThemeAttribute(themeAttribute) == true
+    }
+    
 }
 
 
 extension Array where Element == Theme.State {
     
     /// 获取主题样式集合中所有已配置的状态。
+    /// - Note: 包括样式集所有者的全局样式中已配置的状态。
     ///
-    /// - Parameter themeStyleCollection: 主题样式集合。
-    public init(themeStyles: Theme.Style.Collection) {
-        self.init([Theme.State.normal] + themeStyles.statedStyles.keys)
+    /// - Parameter themeStyleCollection: 主题样式集。
+    public init?(themeStyles: Theme.Style.Collection) {
+        if let defaultKeys = themeStyles.defaultThemeStyles?.statedStylesIfLoaded?.keys {
+            var defaultStates = Array.init(defaultKeys)
+            if let states = themeStyles.statedStylesIfLoaded?.keys {
+                for state in states {
+                    if !defaultStates.contains(state) {
+                        defaultStates.append(state)
+                    }
+                }
+            }
+            self = [.normal] + defaultStates
+        } else if let states = themeStyles.statedStylesIfLoaded?.keys {
+            self = [.normal] + Array.init(states)
+        } else {
+            return nil
+        }
     }
+    
 }
-
-
