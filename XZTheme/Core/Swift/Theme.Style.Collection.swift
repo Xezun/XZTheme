@@ -157,10 +157,10 @@ extension Theme.Style.Collection {
     }
     
     
-    /// 全局的主题样式集。
+    /// 当前所有者的全局的主题样式集。
     @objc public var defaultThemeStyles: Theme.Style.Collection? {
         guard let object = self.object else { return nil }
-        return type(of: object).themes.themeStylesIfLoaded(forTheme: self.theme)
+        return type(of: object).themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)
     }
     
     /// 获取指定状态下的主题属性值。

@@ -66,8 +66,8 @@ extension NSObject {
     /// - Note: 如果为对象配置当前主题的主题样式，那么使用的是默认主题的主题样式。
     @objc(xz_appliedTheme)
     open internal(set) var appliedTheme: Theme? {
-        get { return self.themesIfLoaded?.appliedTheme       }
-        set { self.themes.appliedTheme = newValue   }
+        get { return self.themesIfLoaded?.appliedTheme }
+        set { self.themes.appliedTheme = newValue      }
     }
     
     /// 是否已经被标记需要更新主题。
@@ -147,7 +147,7 @@ extension NSObject {
         }
         
         // 配置了主题，但是无当前主题配置，应用默认主题，以避免控件没有样式。
-        if let themeStyles = themes.themeStylesIfLoaded(forTheme: .default) {
+        if let themeStyles = themes.effectiveThemeStylesIfLoaded(forTheme: .default) {
             self.updateAppearance(with: themeStyles)
         }
     }
