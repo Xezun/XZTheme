@@ -59,12 +59,6 @@ extension Theme.Style.Collection {
 
 extension Theme.Style.Collection {
     
-    /// 全局的主题样式集。
-    @objc public var defaultThemeStyles: Theme.Style.Collection? {
-        guard let object = self.object else { return nil }
-        return type(of: object).themes.themeStylesIfLoaded(forTheme: self.theme)
-    }
-    
     /// 获取指定状态的主题样式。
     /// - Note: 如果主题样式不存在，将自动创建。
     ///
@@ -88,7 +82,6 @@ extension Theme.Style.Collection {
         if themeState == .normal {
             return self
         }
-        // return self.defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState)
         return statedStyles[themeState]
     }
     
@@ -164,6 +157,12 @@ extension Theme.Style.Collection {
     }
     
     
+    /// 全局的主题样式集。
+    @objc public var defaultThemeStyles: Theme.Style.Collection? {
+        guard let object = self.object else { return nil }
+        return type(of: object).themes.themeStylesIfLoaded(forTheme: self.theme)
+    }
+    
     /// 获取指定状态下的主题属性值。
     /// - Note: 如果没有配置主题样式，会尝试读取全局主题样式。
     ///
@@ -202,31 +201,17 @@ extension Theme.Style.Collection {
         return defaultThemeStyles?.containsThemeAttribute(themeAttribute) == true
     }
     
-}
-
-
-extension Array where Element == Theme.State {
-    
-    /// 获取主题样式集合中所有已配置的状态。
-    /// - Note: 包括样式集所有者的全局样式中已配置的状态。
+    /// 指定状态下，当前生效的主题样式。
+    /// - Note: 如果当前对象没有配置该状态的样式，则返回全局设置下的指定样式（如果有）。
     ///
-    /// - Parameter themeStyleCollection: 主题样式集。
-    public init?(themeStyles: Theme.Style.Collection) {
-        if let defaultKeys = themeStyles.defaultThemeStyles?.statedStylesIfLoaded?.keys {
-            var defaultStates = Array.init(defaultKeys)
-            if let states = themeStyles.statedStylesIfLoaded?.keys {
-                for state in states {
-                    if !defaultStates.contains(state) {
-                        defaultStates.append(state)
-                    }
-                }
-            }
-            self = [.normal] + defaultStates
-        } else if let states = themeStyles.statedStylesIfLoaded?.keys {
-            self = [.normal] + Array.init(states)
-        } else {
-            return nil
+    /// - Parameter themeState: 主题状态。
+    /// - Returns: 主题样式。
+    @objc public func effectiveThemeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
+        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
+            return themeStyle
         }
+        return defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState)
     }
-    
 }
+
+

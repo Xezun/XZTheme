@@ -49,4 +49,18 @@ extension Theme.Collection {
     @objc public func setThemeStyles(_ themeStyles: Theme.Style.Collection, forTheme theme: Theme) {
         themedStyles[theme] = themeStyles
     }
+    
+    
+    @objc public var defaultThemes: Theme.Collection? {
+        guard let object = self.object else { return nil }
+        return type(of: object).themesIfLoaded
+    }
+    
+    @objc public func effectiveThemeStylesIfLoaded(forTheme theme: Theme) -> Theme.Style.Collection? {
+        if let themeStyles = themeStylesIfLoaded(forTheme: theme) {
+            return themeStyles
+        }
+        return self.defaultThemes?.effectiveThemeStylesIfLoaded(forTheme: theme)
+    }
+    
 }

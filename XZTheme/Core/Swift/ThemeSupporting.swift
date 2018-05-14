@@ -141,7 +141,7 @@ extension NSObject {
         guard let themes = self.themesIfLoaded else { return }
         
         // 应用主题样式。
-        if let themeStyles = themes.themeStylesIfLoaded(forTheme: newTheme) {
+        if let themeStyles = themes.effectiveThemeStylesIfLoaded(forTheme: newTheme) {
             self.updateAppearance(with: themeStyles)
             return;
         }

@@ -69,7 +69,7 @@ extension UIButton {
         for themeState in themeStates {
             guard let controlState = UIControlState(themeState) else { continue }
             
-            guard let themeStyle = themeStyles.themeStyleIfLoaded(forThemeState: themeState) ?? themeStyles.defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState) else { continue }
+            guard let themeStyle = themeStyles.effectiveThemeStyleIfLoaded(forThemeState: themeState) else { continue }
 
             if themeStyles.containsThemeAttribute(.title, forThemeState: themeState) {
                 self.setTitle(themeStyle.title, for: controlState);
