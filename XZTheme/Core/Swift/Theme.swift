@@ -214,7 +214,7 @@ extension Theme {
             var dictionary: [String: [String: [String: Any?]]] = [:]
             for themedStyle in themedStyles {
                 var statedStyles = [String: [String: Any?]]()
-                for statedStyle in themedStyle.value.statedStyles {
+                for statedStyle in themedStyle.value.statedThemeStyles {
                     var attributedValues = [String: Any?]()
                     for attributedValue in statedStyle.value.attributedValues {
                         attributedValues.updateValue(attributedValue.value, forKey: attributedValue.key.rawValue)
@@ -302,7 +302,7 @@ extension Theme {
             /// - Note: 会标记所有者需要更新主题。
             /// - Note: 该集合不包含 normal 状态的主题。
             /// - Note: 该集合不包含全局样式。
-            public internal(set) var statedStylesIfLoaded: [Theme.State: Theme.Style]? {
+            public internal(set) var statedThemeStylesIfLoaded: [Theme.State: Theme.Style]? {
                 didSet {
                     object?.setNeedsThemeAppearanceUpdate()
                 }
@@ -312,16 +312,16 @@ extension Theme {
             /// - Note: 会标记所有者需要更新主题。
             /// - Note: 该集合不包含 normal 状态的主题。
             /// - Note: 该集合不包含全局样式。
-            public internal(set) var statedStyles: [Theme.State: Theme.Style] {
+            public internal(set) var statedThemeStyles: [Theme.State: Theme.Style] {
                 get {
-                    if let statedStyles = self.statedStylesIfLoaded {
+                    if let statedStyles = self.statedThemeStylesIfLoaded {
                         return statedStyles
                     }
-                    statedStylesIfLoaded = [Theme.State: Theme.Style]()
-                    return statedStylesIfLoaded!
+                    statedThemeStylesIfLoaded = [Theme.State: Theme.Style]()
+                    return statedThemeStylesIfLoaded!
                 }
                 set {
-                    statedStylesIfLoaded = newValue
+                    statedThemeStylesIfLoaded = newValue
                 }
             }
         }

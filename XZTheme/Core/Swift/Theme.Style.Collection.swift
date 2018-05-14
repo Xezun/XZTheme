@@ -59,8 +59,7 @@ extension Theme.Style.Collection {
 
 extension Theme.Style.Collection {
     
-    /// 获取指定状态的主题样式。
-    /// - Note: 如果主题样式不存在，将自动创建。
+    /// 获取指定状态的主题样式，如果主题样式不存在，将自动创建。
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
@@ -82,7 +81,7 @@ extension Theme.Style.Collection {
         if themeState == .normal {
             return self
         }
-        return statedStyles[themeState]
+        return statedThemeStyles[themeState]
     }
     
     /// 设置指定状态下的主题样式。
@@ -99,7 +98,7 @@ extension Theme.Style.Collection {
         guard themeStyle.object === self.object else {
             return
         }
-        statedStyles[themeState] = themeStyle
+        statedThemeStyles[themeState] = themeStyle
     }
     
     /// 更新指定状态样式的链式编程支持。
@@ -146,7 +145,7 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeStyles: 被复制的主题集。
     @objc public func addThemeStyle(from themeStyles: Theme.Style.Collection) {
-        guard let statedThemeStyles = themeStyles.statedStylesIfLoaded else { return }
+        guard let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded else { return }
         for statedThemeStyle in statedThemeStyles {
             if let oldValue = self.themeStyleIfLoaded(forThemeState: statedThemeStyle.key) {
                 oldValue.addValuesAndAttributes(from: statedThemeStyle.value)
