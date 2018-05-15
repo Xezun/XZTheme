@@ -13,7 +13,17 @@ extension Theme.Style {
     /// 当前样式所属对象的全局样式（与当前样式同主题同状态）。
     @objc public var defaultThemeStyle: Theme.Style? {
         guard let object = self.object else { return nil }
-        return type(of: object).themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
+        let objectClass = type(of: object)
+        if let themeIdentifier = object.themeIdentifier {
+            if let themes = objectClass.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
+                if let themeStyles = themes.themeStylesIfLoaded(forTheme: self.theme) {
+                    if let themeStyle = themeStyles.themeStyleIfLoaded(forThemeState: self.state) {
+                        return themeStyle
+                    }
+                }
+            }
+        }
+        return type(of: object).effectiveThemes(forThemeIdentifier: object.themeIdentifier)?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
     }
     
     /// 主题样式是否包含主题属性。

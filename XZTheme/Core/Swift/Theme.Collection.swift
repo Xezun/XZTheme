@@ -53,7 +53,7 @@ extension Theme.Collection {
     /// 当前所有者的全局主题集。
     @objc public var defaultThemes: Theme.Collection? {
         guard let object = self.object else { return nil }
-        return type(of: object).themesIfLoaded
+        return type(of: object).effectiveThemes(forThemeIdentifier: object.themeIdentifier)
     }
     
     /// 当前生效的主题样式集。如果所有者没有配置主题样式集，则返回全局主题样式集（如果有）。

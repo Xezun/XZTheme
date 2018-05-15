@@ -159,6 +159,14 @@ extension Theme.Style.Collection {
     /// 当前所有者的全局的主题样式集。
     @objc public var defaultThemeStyles: Theme.Style.Collection? {
         guard let object = self.object else { return nil }
+        let objectClass = type(of: object)
+        if let themeIdentifier = object.themeIdentifier {
+            if let themes = objectClass.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
+                if let themeStyles = themes.themeStylesIfLoaded(forTheme: self.theme) {
+                    return themeStyles
+                }
+            }
+        }
         return type(of: object).themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)
     }
     

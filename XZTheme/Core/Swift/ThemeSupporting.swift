@@ -11,22 +11,67 @@ import UIKit
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
     
-    /// 全局样式。
-    /// - Note: 更改全局样式不会影响已设置主题的控件。
+    /// 默认的主题集，即全局主题集。
+    /// - Note: 默认主题集不会影响已应用主题的对象。
+    /// - Note: 当应用主题时，所应用的主题集顺序为：对象独立主题集 -> 指定标识符的默认主题集 -> 默认主题集 。
+    /// - Note: 该默认主题集的标识符为 Theme.Identifier.notAnIdentifier 。
     @objc(xz_themes)
     open static var themes: Theme.Collection {
-        if let themes = self.themesIfLoaded {
+        return themes(forThemeIdentifier: .notAnIdentifier)
+    }
+    
+    /// 类成员的默认的主题集，如果已加载。
+    /// - Note: 默认主题集不会影响已应用主题的对象。
+    /// - Note: 当应用主题时，所应用的主题集顺序为：对象独立主题集 -> 指定标识符的默认主题集 -> 默认主题集 。
+    /// - Note: 该默认主题集的标识符为 Theme.Identifier.notAnIdentifier 。
+    @objc(xz_themesIfLoaded)
+    open static var themesIfLoaded: Theme.Collection? {
+        return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
+    }
+    
+    /// 指定主题标识符的默认主题集，懒加载。
+    ///
+    /// - Parameter themeIdentifier: 主题标识符。
+    /// - Returns: 主题集。
+    @objc(xz_themesForThemeIdentifier:)
+    open static func themes(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection {
+        if var themesDictionary = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] {
+            if let themes = themesDictionary[themeIdentifier] {
+                return themes
+            }
+            let themes = Theme.Collection.init(nil)
+            themesDictionary[themeIdentifier] = themes
+            objc_setAssociatedObject(self, &AssociationKey.themes, themesDictionary, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return themes
         }
         let themes = Theme.Collection.init(nil)
-        objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociationKey.themes, [themes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return themes
     }
     
-    /// 当前对象的所有主题，如果已加载。
-    @objc(xz_themesIfLoaded)
-    open static var themesIfLoaded: Theme.Collection? {
-        return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection
+    /// 指定主题标识符的默认主题集，非懒加载。
+    ///
+    /// - Parameter themeIdentifier: 主题标识符。
+    /// - Returns: 主题集。
+    @objc(xz_themesIfLoadedForThemeIdentifier:)
+    open static func themesIfLoaded(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection? {
+        guard let themes = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] else {
+            return nil
+        }
+        return themes[themeIdentifier]
+    }
+    
+    /// 获取当前有效的默认主题集。如果没有标识符或指定的标识符没有配置默认主题集，则返回类默认主题集。
+    ///
+    /// - Parameter themeIdentifier: 主题标识符。
+    /// - Returns: 主题集。
+    @objc(xz_effectiveThemesForThemeIdentifier:)
+    open static func effectiveThemes(forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
+        guard let themeIdentifier = themeIdentifier else { return self.themesIfLoaded }
+        if let themes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
+            return themes
+        }
+        return self.themesIfLoaded
     }
     
     /// 当前对象的所有主题，懒加载。
