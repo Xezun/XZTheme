@@ -39,13 +39,21 @@ extension NSObject {
             if let themes = themesDictionary[themeIdentifier] {
                 return themes
             }
-            let themes = Theme.Collection.init(nil)
+            let themes = Theme.Collection.init(nil, superThemes: nil)
+            switch themeIdentifier {
+            case .notAnIdentifier:
+                for item in themesDictionary {
+                    item.value.superThemes = themes
+                }
+            default:
+                themes.superThemes = themesDictionary[.notAnIdentifier]
+            }
             themesDictionary[themeIdentifier] = themes
             objc_setAssociatedObject(self, &AssociationKey.themes, themesDictionary, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return themes
         }
-        let themes = Theme.Collection.init(nil)
-        objc_setAssociatedObject(self, &AssociationKey.themes, [themes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        let themes = Theme.Collection.init(nil, superThemes: nil)
+        objc_setAssociatedObject(self, &AssociationKey.themes, [themeIdentifier: themes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return themes
     }
     
@@ -74,13 +82,17 @@ extension NSObject {
         return self.themesIfLoaded
     }
     
-    /// 当前对象的所有主题，懒加载。
+}
+
+extension NSObject {
+    
+    /// 当前对象主题集，懒加载。
     @objc(xz_themes)
     open var themes: Theme.Collection {
         if let themes = self.themesIfLoaded {
             return themes
         }
-        let themes = Theme.Collection.init(self)
+        let themes = Theme.Collection.init(nil, superThemes: nil)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         
         /// 如果将通知添加到 NSObject 上，则释放通知是个问题。
@@ -89,12 +101,19 @@ extension NSObject {
         return themes
     }
     
-    /// 当前对象的所有主题，如果已加载。
+    /// 当前对象主题集，如果已加载。
     @objc(xz_themesIfLoaded)
     open var themesIfLoaded: Theme.Collection? {
         return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection
     }
     
+    /// 当前对象生效的主题集，可能是对象独立的主题集，也可能是全局默认的主题集，如果当前对象设置了标识符，可能是指定标识符的默认主题。
+    open var effectiveThemes: Theme.Collection? {
+        if let themes = self.themesIfLoaded {
+            return themes
+        }
+        return type(of: self).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
+    }
     
     
     
@@ -102,8 +121,8 @@ extension NSObject {
     /// - 设置主题标识符后，框架将自动缓存（磁盘）主题配置或从配置文件中读取配置。
     @objc(xz_themeIdentifier)
     open var themeIdentifier: Theme.Identifier? {
-        get { return self.themesIfLoaded?.themeIdentifier }
-        set { self.themes.themeIdentifier = newValue      }
+        get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
+        set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
     
     /// 当前已应用的主题。
@@ -111,15 +130,15 @@ extension NSObject {
     /// - Note: 如果为对象配置当前主题的主题样式，那么使用的是默认主题的主题样式。
     @objc(xz_appliedTheme)
     open internal(set) var appliedTheme: Theme? {
-        get { return self.themesIfLoaded?.appliedTheme }
-        set { self.themes.appliedTheme = newValue      }
+        get { return objc_getAssociatedObject(self, &AssociationKey.appliedTheme) as? Theme }
+        set { objc_setAssociatedObject(self, &AssociationKey.appliedTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     /// 是否已经被标记需要更新主题。
     @objc(xz_needsUpdateThemeAppearance)
     open internal(set) var needsUpdateThemeAppearance: Bool {
-        get { return self.themesIfLoaded?.needsUpdateThemeAppearance ?? false }
-        set { self.themes.needsUpdateThemeAppearance = newValue }
+        get { return (objc_getAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance) as? Bool) == true }
+        set { objc_setAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
     
     /// 在主题发生改变时，是否自动应用主题。默认 true 。
@@ -183,16 +202,16 @@ extension NSObject {
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with newTheme: Theme) {
         // 如果没有配置主题，不执行操作。
-        guard let themes = self.themesIfLoaded else { return }
+        guard let themes = self.effectiveThemes else { return }
         
-        // 应用主题样式。
-        if let themeStyles = themes.effectiveThemeStylesIfLoaded(forTheme: newTheme) {
+        // 获取当前主题的主题样式并应用。
+        if let themeStyles = themes.effectiveThemeStyles(forTheme: newTheme) {
             self.updateAppearance(with: themeStyles)
             return;
         }
-        
-        // 配置了主题，但是无当前主题配置，应用默认主题，以避免控件没有样式。
-        if let themeStyles = themes.effectiveThemeStylesIfLoaded(forTheme: .default) {
+
+        // 当前无主题样式。配置了主题，但是无当前主题配置，应用默认主题，以避免控件没有样式。
+        if let themeStyles = themes.effectiveThemeStyles(forTheme: .default) {
             self.updateAppearance(with: themeStyles)
         }
     }
@@ -292,6 +311,9 @@ extension UIBarButtonItem {
 
 private struct AssociationKey {
     static var themes: Int = 0
+    static var themeIdentifier: Int = 1
+    static var appliedTheme: Int = 2
+    static var needsUpdateThemeAppearance: Int = 3
 }
 
 

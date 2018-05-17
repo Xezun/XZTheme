@@ -97,11 +97,29 @@ extension Theme {
         /// - Note: 因为主题集与其所有者是值绑定的关系，生命周期可能比所有者略长，因此这里使用了 weak 属性。
         @objc public private(set) weak var object: NSObject?
         
+        private weak var _superThemes: Theme.Collection?
+        
+        /// 父级主题集。主题样式查找的上一级。
+        /// - Note: 如果当前主题集有所有者，该属性返回所有者的全局主题集。
+        /// - Note: 带标识符的全局主题集，此属性返回默认的全局主题集。
+        public internal(set) var superThemes: Theme.Collection? {
+            get {
+                guard let object = self.object else { return _superThemes }
+                return type(of: object).effectiveThemes(forThemeIdentifier: themeIdentifier)
+            }
+            set {
+                _superThemes = newValue
+            }
+        }
+        
         /// 构造主题集，必须与所有者一同构造。
         /// - Note: 对象的默认主题集无所有者。
         ///
-        /// - Parameter object: 所有者。
-        @objc public init(_ object: NSObject?) {
+        /// - Parameters:
+        ///   - object: 所有者。
+        ///   - superThemes: （全局）主题集的上级主题集。
+        @objc public init(_ object: NSObject?, superThemes: Theme.Collection?) {
+            _superThemes = superThemes
             self.object = object
             super.init()
             // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
@@ -150,13 +168,6 @@ extension Theme {
             }
         }
         
-        /// 所有者的主题标识符。
-        private var _themeIdentifier: Theme.Identifier?
-        /// 所有者已应用的主题。
-        private var _appliedTheme: Theme?
-        /// 所有者是否需要更新主题的标记。
-        private var _needsUpdateThemeAppearance: Bool = false
-        
         /// 主题集不支持主题设置，改属性返回所有者的主题集，即其自身。
         public override var themes: Theme.Collection {
             return self
@@ -164,20 +175,20 @@ extension Theme {
         
         /// 主题集的主题标识符为其所有者的主题标识符。
         public override var themeIdentifier: Theme.Identifier? {
-            get { return _themeIdentifier       }
-            set { _themeIdentifier = newValue   }
+            get { return object?.themeIdentifier       }
+            set { object?.themeIdentifier = newValue   }
         }
         
         /// 所有者是否已标记需要更新主题。
         public internal(set) override var needsUpdateThemeAppearance: Bool {
-            get { return _needsUpdateThemeAppearance     }
-            set { _needsUpdateThemeAppearance = newValue }
+            get { return object?.needsUpdateThemeAppearance == true }
+            set { object?.needsUpdateThemeAppearance = newValue     }
         }
         
         /// 所有者当前已应用的主题。
         public internal(set) override var appliedTheme: Theme? {
-            get { return _appliedTheme      }
-            set { _appliedTheme = newValue  }
+            get { return object?.appliedTheme     }
+            set { object?.appliedTheme = newValue }
         }
         
         /// 标记所有者主题需要更新。
