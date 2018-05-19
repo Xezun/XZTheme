@@ -11,25 +11,25 @@ import UIKit
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
     
-    /// 默认的主题集，即全局主题集。
-    /// - Note: 默认主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，所应用的主题集顺序为：对象独立主题集 -> 指定标识符的默认主题集 -> 默认主题集 。
-    /// - Note: 该默认主题集的标识符为 Theme.Identifier.notAnIdentifier 。
+    /// 默认的全局主题集。
+    /// - Note: 修改全局主题集不会影响已应用主题的对象。
+    /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
+    /// - Note: 该主题集实际上是标识符为 Theme.Identifier.notAnIdentifier 的全局主题集。
     @objc(xz_themes)
     open static var themes: Theme.Collection {
         return themes(forThemeIdentifier: .notAnIdentifier)
     }
     
-    /// 类成员的默认的主题集，如果已加载。
-    /// - Note: 默认主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，所应用的主题集顺序为：对象独立主题集 -> 指定标识符的默认主题集 -> 默认主题集 。
-    /// - Note: 该默认主题集的标识符为 Theme.Identifier.notAnIdentifier 。
+    /// 默认的全局主题集。
+    /// - Note: 修改全局主题集不会影响已应用主题的对象。
+    /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
+    /// - Note: 该主题集实际上是标识符为 Theme.Identifier.notAnIdentifier 的全局主题集。
     @objc(xz_themesIfLoaded)
     open static var themesIfLoaded: Theme.Collection? {
         return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
     }
     
-    /// 指定主题标识符的默认主题集，懒加载。
+    /// 指定主题标识符的全局主题集，懒加载。
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
@@ -64,13 +64,13 @@ extension NSObject {
     /// - Returns: 主题集。
     @objc(xz_themesIfLoadedForThemeIdentifier:)
     open static func themesIfLoaded(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection? {
-        guard let themes = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] else {
+        guard let identifiedThemes = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] else {
             return nil
         }
-        return themes[themeIdentifier]
+        return identifiedThemes[themeIdentifier]
     }
     
-    /// 获取当前有效的默认主题集。如果没有标识符或指定的标识符没有配置默认主题集，则返回类默认主题集。
+    /// 获取当前有效的全局主题集，返回指定标识符的全局主题集或默认主题集。
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
@@ -84,6 +84,8 @@ extension NSObject {
     }
     
 }
+
+
 
 extension NSObject {
     
