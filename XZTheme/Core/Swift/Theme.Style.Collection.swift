@@ -67,7 +67,7 @@ extension Theme.Style.Collection {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        let themeStyle = Theme.Style.init(object: self.object, theme: self.theme, state: themeState)
+        let themeStyle = Theme.Style.init(object: self.object, themes: self.themes, theme: self.theme, state: themeState)
         setThemeStyle(themeStyle, forThemeState: themeState)
         return themeStyle
     }
@@ -139,86 +139,17 @@ extension Theme.Style.Collection {
         }
     }
     
-    /// 从另外一个样式集中复制所有样式。
-    /// - Note: 如果相同状态的样式已存在，则合并两个样式，否则添加。
-    /// - Note: 被复制的主题集相关联的全局样式不会被复制。
-    ///
-    /// - Parameter themeStyles: 被复制的主题集。
-    @objc public func addThemeStyle(from themeStyles: Theme.Style.Collection) {
-        guard let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded else { return }
-        for statedThemeStyle in statedThemeStyles {
-            if let oldValue = self.themeStyleIfLoaded(forThemeState: statedThemeStyle.key) {
-                oldValue.addValuesAndAttributes(from: statedThemeStyle.value)
-            } else {
-                self.setThemeStyle(statedThemeStyle.value, forThemeState: statedThemeStyle.key)
-            }
-        }
-    }
-    
-    
-    /// 当前所有者的全局的主题样式集。
-    @objc public var defaultThemeStyles: Theme.Style.Collection? {
-        guard let object = self.object else { return nil }
-        let objectClass = type(of: object)
-        if let themeIdentifier = object.themeIdentifier {
-            if let themes = objectClass.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-                if let themeStyles = themes.themeStylesIfLoaded(forTheme: self.theme) {
-                    return themeStyles
-                }
-            }
-        }
-        return type(of: object).themesIfLoaded?.themeStylesIfLoaded(forTheme: self.theme)
-    }
-    
-    /// 获取指定状态下的主题属性值。
-    /// - Note: 如果没有配置主题样式，会尝试读取全局主题样式。
-    ///
-    /// - Parameters:
-    ///   - themeAttribute: 主题属性。
-    ///   - themeState: 主题状态。
-    /// - Returns: 主题属性值。
-    public func value(forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) -> Any? {
-        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
-            return themeStyle.value(forThemeAttribute: themeAttribute)
-        }
-        return defaultThemeStyles?.value(forThemeAttribute: themeAttribute, forThemeState: themeState)
-    }
-    
-    
-    /// 设置指定状态下的主题属性值。
-    ///
-    /// - Parameters:
-    ///   - value: 主题属性值。
-    ///   - themeAttribute: 主题属性。
-    ///   - themeState: 主题状态。
-    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
-        self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
-    }
-    
-    /// 判断样式中是否包含指定状态下的主题属性。
-    ///
-    /// - Parameters:
-    ///   - themeAttribute: 主题属性。
-    ///   - themeState: 主题状态。
-    /// - Returns: 是否包含。
-    public func containsThemeAttribute(_ themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) -> Bool {
-        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
-            return themeStyle.containsThemeAttribute(themeAttribute)
-        }
-        return defaultThemeStyles?.containsThemeAttribute(themeAttribute) == true
-    }
-    
-    /// 指定状态下，当前生效的主题样式。
-    /// - Note: 如果当前对象没有配置该状态的样式，则返回全局设置下的指定样式（如果有）。
+    /// 如果当前主题样式集，没有配置指定状态下的主题样式，那么该方法尝试获取主题集的父集中指定的主题样式。
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    @objc public func effectiveThemeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
-        if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
+    @objc public func effectiveThemeStyle(forThemeState themeState: Theme.State) -> Theme.Style? {
+        if let themeStyle = self.themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        return defaultThemeStyles?.themeStyleIfLoaded(forThemeState: themeState)
+        return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
+    
 }
 
 

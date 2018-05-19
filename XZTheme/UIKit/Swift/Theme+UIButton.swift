@@ -69,24 +69,24 @@ extension UIButton {
         for themeState in themeStates {
             guard let controlState = UIControlState(themeState) else { continue }
             
-            guard let themeStyle = themeStyles.effectiveThemeStyleIfLoaded(forThemeState: themeState) else { continue }
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
 
-            if themeStyles.containsThemeAttribute(.title, forThemeState: themeState) {
+            if themeStyle.containsThemeAttribute(.title) {
                 self.setTitle(themeStyle.title, for: controlState);
             }
-            if themeStyles.containsThemeAttribute(.titleColor) {
+            if themeStyle.containsThemeAttribute(.titleColor) {
                 self.setTitleColor(themeStyle.titleColor, for: controlState);
             }
-            if themeStyles.containsThemeAttribute(.titleShadowColor) {
+            if themeStyle.containsThemeAttribute(.titleShadowColor) {
                 self.setTitleShadowColor(themeStyle.titleShadowColor, for: controlState);
             }
-            if themeStyles.containsThemeAttribute(.image) {
+            if themeStyle.containsThemeAttribute(.image) {
                 self.setImage(themeStyle.image, for: controlState);
             }
-            if themeStyles.containsThemeAttribute(.backgroundImage) {
+            if themeStyle.containsThemeAttribute(.backgroundImage) {
                 self.setBackgroundImage(themeStyle.backgroundImage, for: controlState);
             }
-            if themeStyles.containsThemeAttribute(.attributedTitle) {
+            if themeStyle.containsThemeAttribute(.attributedTitle) {
                 self.setAttributedTitle(themeStyle.attributedTitle, for: controlState);
             }
         }

@@ -99,17 +99,20 @@ extension Theme {
         
         private weak var _superThemes: Theme.Collection?
         
-        /// 父级主题集。主题样式查找的上一级。
+        /// 父级主题集，当前主题集的默认主题集。查找样式时，首先查找当前主题集，如果不存在，则尝试查找父级主题集。
         /// - Note: 如果当前主题集有所有者，该属性返回所有者的全局主题集。
         /// - Note: 带标识符的全局主题集，此属性返回默认的全局主题集。
-        public internal(set) var superThemes: Theme.Collection? {
-            get {
-                guard let object = self.object else { return _superThemes }
-                return type(of: object).effectiveThemes(forThemeIdentifier: themeIdentifier)
-            }
-            set {
-                _superThemes = newValue
-            }
+        public var superThemes: Theme.Collection? {
+            guard let object = self.object else { return _superThemes }
+            return type(of: object).effectiveThemes(forThemeIdentifier: themeIdentifier)
+        }
+        
+        @objc public convenience init(object: NSObject) {
+            self.init(object, superThemes: nil)
+        }
+        
+        @objc public convenience init(superThemes: Theme.Collection?) {
+            self.init(nil, superThemes: superThemes)
         }
         
         /// 构造主题集，必须与所有者一同构造。
@@ -118,7 +121,7 @@ extension Theme {
         /// - Parameters:
         ///   - object: 所有者。
         ///   - superThemes: （全局）主题集的上级主题集。
-        @objc public init(_ object: NSObject?, superThemes: Theme.Collection?) {
+        private init(_ object: NSObject?, superThemes: Theme.Collection?) {
             _superThemes = superThemes
             self.object = object
             super.init()
@@ -141,6 +144,13 @@ extension Theme {
             /// TODO: - 缓存样式
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
             // NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
+        }
+        
+        /// 将主题集设置为当前主题集的子级。
+        ///
+        /// - Parameter themes: 子级主题集。
+        public func addSubthemes(_ themes: Theme.Collection) {
+            themes._superThemes = self
         }
         
         /// 按主题分类的主题样式集合，非懒加载。
@@ -257,16 +267,25 @@ extension Theme {
         /// 当前样式的主题状态。
         @objc public let state: Theme.State
         
+        /// 当前样式所属主题集。
+        private unowned let _themes: Theme.Collection
+        
+        /// 当前样式所有者的主题集（之一）。
+        public override var themes: Theme.Collection {
+            return _themes
+        }
+        
         /// 构造主题样式。默认构造的为 normal 状态下的主题样式。
         ///
         /// - Parameters:
         ///   - object: 所有者。
         ///   - theme: 主题。
         ///   - state: 样式状态，默认 .normal 。
-        @objc public init(object: NSObject?, theme: Theme, state: Theme.State = .normal) {
+        @objc public init(object: NSObject?, themes: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
             self.theme  = theme
             self.object = object
             self.state  = state
+            self._themes = themes
             super.init()
         }
         
@@ -303,10 +322,11 @@ extension Theme {
             /// 构造主题样式集。主题样式集默认为 normal 状态，不能指定其它主题状态。
             ///
             /// - Parameters:
-            ///   - object: 所有者。
+            ///   - object: 样式集的所有者。
+            ///   - themes: 样式集所在的主题集。
             ///   - theme: 主题。
-            @objc public init(object: NSObject?, theme: Theme) {
-                super.init(object: object, theme: theme, state: .normal)
+            @objc public init(object: NSObject?, themes: Theme.Collection, theme: Theme) {
+                super.init(object: object, themes: themes, theme: theme, state: .normal)
             }
             
             /// 按主题状态存储的主题样式集合，非懒加载。

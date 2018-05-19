@@ -10,21 +10,11 @@ import Foundation
 
 extension Theme.Style {
     
-    /// 当前样式所属对象的全局样式（与当前样式同主题同状态）。
-    @objc public var defaultThemeStyle: Theme.Style? {
-        guard let object = self.object else { return nil }
-        let objectClass = type(of: object)
-        if let themeIdentifier = object.themeIdentifier {
-            if let themes = objectClass.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-                if let themeStyles = themes.themeStylesIfLoaded(forTheme: self.theme) {
-                    if let themeStyle = themeStyles.themeStyleIfLoaded(forThemeState: self.state) {
-                        return themeStyle
-                    }
-                }
-            }
-        }
-        return type(of: object).effectiveThemes(forThemeIdentifier: object.themeIdentifier)?.themeStylesIfLoaded(forTheme: self.theme)?.themeStyleIfLoaded(forThemeState: self.state)
+    /// 当前主题样式所在主题集的父集中，与当前主题样式（主题、状态）相同的主题样式。
+    @objc public var superThemeStyle: Theme.Style? {
+        return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: self.state)
     }
+    
     
     /// 主题样式是否包含主题属性。
     /// - Note: 因为属性值可以为 nil ，所以判断是否包含属性，不能根据其值来判断。
@@ -35,7 +25,7 @@ extension Theme.Style {
         guard attributedValuesIfLoaded?[themeAttribute] == nil else {
             return true
         }
-        return self.defaultThemeStyle?.containsThemeAttribute(themeAttribute) == true
+        return self.superThemeStyle?.containsThemeAttribute(themeAttribute) == true
     }
     
     /// 添加/更新/删除主题属性值。
@@ -65,7 +55,7 @@ extension Theme.Style {
         return nil
     }
     
-    /// 获取已设置的主题属性值。
+    /// 获取已设置的主题属性值，返回值可能是全局主题集中的值。
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
@@ -74,7 +64,7 @@ extension Theme.Style {
             return value
         }
         /// 读取全局配置。
-        if let value = self.defaultThemeStyle?.value(forThemeAttribute: themeAttribute) {
+        if let value = self.superThemeStyle?.value(forThemeAttribute: themeAttribute) {
             return value
         }
         return nil
@@ -110,7 +100,6 @@ extension Theme.Style {
         updateValue(value, forThemeAttribute: themeAttribute)
         return self
     }
-    
     
     /// 从另外一个样式中复制属性和值。
     /// - Note: 当前样式中已有的值，将会被替换。
