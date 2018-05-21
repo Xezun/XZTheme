@@ -11,19 +11,19 @@ import UIKit
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
     
-    /// 默认的全局主题集。
+    /// 全局主题集，未指定标识符的全局主题，懒加载。
     /// - Note: 修改全局主题集不会影响已应用主题的对象。
     /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 该主题集实际上是标识符为 Theme.Identifier.notAnIdentifier 的全局主题集。
+    /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
     @objc(xz_themes)
     open static var themes: Theme.Collection {
         return themes(forThemeIdentifier: .notAnIdentifier)
     }
     
-    /// 默认的全局主题集。
+    /// 全局主题集，未指定标识符的全局主题，非懒加载。
     /// - Note: 修改全局主题集不会影响已应用主题的对象。
     /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 该主题集实际上是标识符为 Theme.Identifier.notAnIdentifier 的全局主题集。
+    /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
     @objc(xz_themesIfLoaded)
     open static var themesIfLoaded: Theme.Collection? {
         return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
@@ -89,7 +89,7 @@ extension NSObject {
 
 extension NSObject {
     
-    /// 当前对象主题集，懒加载。
+    /// 主题集，懒加载。
     @objc(xz_themes)
     open var themes: Theme.Collection {
         if let themes = self.themesIfLoaded {
@@ -104,7 +104,7 @@ extension NSObject {
         return themes
     }
     
-    /// 当前对象主题集，如果已加载。
+    /// 主题集，如果已加载。
     @objc(xz_themesIfLoaded)
     open var themesIfLoaded: Theme.Collection? {
         return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection
@@ -118,10 +118,7 @@ extension NSObject {
         return type(of: self).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
     }
     
-    
-    
     /// 主题标识符。
-    /// - 设置主题标识符后，框架将自动缓存（磁盘）主题配置或从配置文件中读取配置。
     @objc(xz_themeIdentifier)
     open var themeIdentifier: Theme.Identifier? {
         get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
@@ -144,13 +141,12 @@ extension NSObject {
         set { objc_setAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
     
-    /// 在主题发生改变时，是否自动应用主题。默认 true 。
-    /// - Note: 当对象首次配置主题样式或设置主题标识符时，此属性决定 XZTheme 是否自动管理对象的主题。
+    /// 在主题发生改变时，是否自动应用主题。默认 false 。
     /// - Note: 被管理的对象通过监听通知，在主题变更时，调用对象的 `setNeedsThemeAppearanceUpdate` 方法来切换主题。
     /// - Note: 如果对象的主题有其自己的管理机制（比如 `UIView`），重写此属性并返回 false ，以停用 XZTheme 的自动管理。
     @objc(xz_shouldAutomaticallyUpdateThemeAppearance)
     open var shouldAutomaticallyUpdateThemeAppearance: Bool {
-        return true;
+        return false;
     }
     
     /// 是否传递主题变更事件。
@@ -313,10 +309,10 @@ extension UIBarButtonItem {
 
 
 private struct AssociationKey {
-    static var themes: Int = 0
-    static var themeIdentifier: Int = 1
-    static var appliedTheme: Int = 2
-    static var needsUpdateThemeAppearance: Int = 3
+    static var themes:                      Int = 0
+    static var themeIdentifier:             Int = 1
+    static var appliedTheme:                Int = 2
+    static var needsUpdateThemeAppearance:  Int = 3
 }
 
 

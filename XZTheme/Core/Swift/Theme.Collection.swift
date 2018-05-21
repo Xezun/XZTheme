@@ -13,6 +13,24 @@ extension Theme.Collection {
     /// 获取默认主题的样式的快捷方法。
     /// - Note: 该方法等同于调用 themeStyle(forTheme:) 方法。
     /// - Note: 建议给自定义主题添加类似的访问方法。
+    /// ```
+    /// let view = UIView()
+    /// // 设置 default 主题的样式。
+    /// view.themes.default.backgroundColor = .white
+    /// ```
+    /// ```
+    /// // 自定义主题
+    /// extension Theme {
+    ///     /// 夜间主题
+    ///     static let night = Theme.init(name: "night")
+    /// }
+    /// // 便利访问方式
+    /// extension Theme.Colletion {
+    ///     var day: Theme.Style.Collection {
+    ///         return themeStyles(forTheme: .night)
+    ///     }
+    /// }
+    /// ```
     public var `default`: Theme.Style.Collection {
         return themeStyles(forTheme: .default)
     }
