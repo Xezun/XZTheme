@@ -214,6 +214,45 @@ Swift 是 iOS 语言趋势，也是 XZTheme 框架主要适配的语言。
 
 通过字典、JSON串来配置样式。
 
+1. 通过统一的文件配置所有的主题
+
+```
+// Theme.xss
+
+// default
+
+// 所有主题下的全局样式。
+SampeView {
+	font: 14.0;
+}
+
+// default 主题下的全局样式
+#default SampeView {
+    backgroundColor: #FFF;
+}
+
+// default 主题下指定标识符的全局样式。
+#default SampeView.id1 {
+    backgroundColor: #EEE;
+}
+
+// 标识符为 subview1 的视图的样式。
+.subview1 {
+
+}
+
+.subview1 .subview2 {
+	
+}
+
+// 子视图标识符为 subview1 的样式。
+#default SampeView .subview1 {
+
+}
+
+
+```
+
 
 ## 联系作者
 
