@@ -36,7 +36,7 @@ class ThemeViewController: UIViewController {
         view.themes.day.backgroundColor    = UIColor.white
         view.themes.night.backgroundColor  = UIColor(0x303030ff)
 
-        let label = OMLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
+        let label = XZLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
         label.text = "This is a label."
         label.backgroundColor = UIColor.lightGray
         view.addSubview(label)
@@ -94,12 +94,15 @@ class ThemeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    
 }
 
 
 
 
-@IBDesignable open class OMLabel: UILabel {
+@IBDesignable open class XZLabel: UILabel {
     
     @IBInspectable open var contentInsets: UIEdgeInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
     

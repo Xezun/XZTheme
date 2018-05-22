@@ -51,15 +51,24 @@ extension Theme.State: _ObjectiveCBridgeable {
 }
 
 extension Theme.State {
-    public static let normal:       Theme.State = ":normal"
-    public static let selected:     Theme.State = ":selected"
-    public static let highlighted:  Theme.State = ":highlighted"
-    public static let disabled:     Theme.State = ":disabled"
-    public static let focused:      Theme.State = ":focused"
+    
+    /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
+    public static let normal       : Theme.State = ":normal"
+    /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
+    public static let selected     : Theme.State = ":selected"
+    /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
+    public static let highlighted  : Theme.State = ":highlighted"
+    /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
+    public static let disabled     : Theme.State = ":disabled"
+    /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
+    public static let focused      : Theme.State = ":focused"
 }
 
 extension UIControlState {
     
+    /// 将主题状态转换为 UIControlState 。
+    ///
+    /// - Parameter themeState: 主题状态。
     public init?(_ themeState: Theme.State) {
         switch themeState {
         case .normal:       self = .normal

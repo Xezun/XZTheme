@@ -368,9 +368,9 @@ extension Theme {
     
     // MARK: - 定义：主题属性。
     
-    /// 主题样式属性。
-    /// - Note: 主题样式属性一般情况下与对象的外观属性相对应。
-    /// - Note: 主题样式属性名应该符合正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
+    /// 主题属性。
+    /// - Note: 主题属性一般情况下与对象的外观属性相对应。
+    /// - Note: 主题属性名应该符合正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
     public struct Attribute: RawRepresentable {
         public typealias RawValue = String
         public let rawValue: String
@@ -382,7 +382,7 @@ extension Theme {
         }
     }
     
-    /// 主题样式状态。
+    /// 主题状态。
     /// - Note: 主题状态一般情况下与触控状态相对应。
     /// - Note: 主题状态名应该符合正则 /^\:[A-Za-z]+$/ 。
     public struct State: RawRepresentable {

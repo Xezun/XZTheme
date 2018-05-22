@@ -6,32 +6,76 @@
 [![Platform](https://img.shields.io/badge/Platform-iOS-yellow.svg)](http://cocoapods.org/pods/XZTheme)
 [![Language](https://img.shields.io/badge/Language-Swift-red.svg)](http://cocoapods.org/pods/XZTheme)
 
-XZTheme 是 XZKit 组件，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
+>   XZTheme 是 XZKit 组件，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
 
+为了让 App 适应更多的人群、适应场景，为 App 设计合适的主题，越来越被开发者们重视，但是对于 iOS 开发，对于主题的支持，一直
+没有什么特别有效、方便、快捷的方法。
 
 
 ## 特性及原理
 
+系统原生 UIAppearance 方案，应该说是在实现主题方案中最直观的了，但是其局限性和性能却让人不敢恭维。本组件在借鉴 UIAppearance 机制的基础上，
+提高了组件性能以及适应性。
+
 ### 设计原理
 
-将控件（或对象，以下简称控件）的外观样式划分为属性名 `Theme.Attribute` 和属性值，这样就可以将样式 `Theme.Style` 按主题进行分类存储，再通过建立样式属性名和样式属性值与控件属性的对应关系，使得在主题变更时，可以通过读取样式属性来改变控件的属性。
+将主题外观样式按属性名和属性值并分类存储，再通过建立样式属性名和样式属性值与控件属性的对应关系，
+使得在主题变更时，可以通过读取已存储的样式属性，通过对应关系来直接来改变控件的属性。
 
 ### 运行机制
 
+
 #### 普通对象
 
-对于普通对象，只能通过监听  `Notification.Name.ThemeDidChange` 通知来自行改变主题。
+为每一个需要支持主题的对象，自动创建监听主题变更的对象（开发者也可以自定义），并在主题变更时，响应指定的方法。
 
 #### UIKit 控件及相关对象
 
-
+主题变更时，所有正在显示的视图，都将收到主题变更事件，而且这些都是自动的；而没有正在显示的视图，则在它们被添加到父视图上时，自动检测
+其已应用的主题与当前主题是否一致，并自动决定是否需要应用主题。
 
 ## 例子
 
-### 1. 自定义主题
+### 0. 最简单的例子 
 
-通过 `extension` 将自定义主题写成属性的形式，方便调用。`Theme.default` 是默认的主题，不过它不包含任何样式。
-如果你不喜欢这个名字，给它来个重命名。
+当主题发生改变时，UIView控件及其子类的 `updateAppearance(with: Theme)` 方法会被调用，直接在此方法中，根据主题来配置样式。
+这是本主题组件支持的最简单的方式，同时也是理论上效率、性能最高的方式。
+
+```swift
+override open func updateAppearance(with newTheme: Theme) {
+    switch newTheme {
+    case .day:
+        self.textColor = UIColor.black
+        
+    case .night:
+        self.textColor = UIColor.white
+        
+    default:
+        break
+    }
+}
+```
+
+而对于非 UIView 对象，需要写的实现的方法，仅比上面多一行代码。
+
+```swift
+open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
+    return true
+}
+```
+
+上面这个方法，返回 true 时，XZTheme 组件将自动调用 `updateAppearance(with: Theme)` 方法（通过 `setNeedsThemeAppearanceUpdate()` 方法）来告知对象切换主题了。
+不过，如果对象切换主题需要特殊处理来提高性能，比如可以延迟切换主题，那么开发者可以根据需要来确定是否需要监听通知。
+
+
+### 1. 准备工作
+
+上面的例子中，使用 `.day` 和 `.night` 来通过 `switch` 判断主题，是需要一些准备工作的。
+
+- 自定义主题
+
+通过 `extension` 将自定义主题写成属性的形式，方便调用。框架已经提供了一个 `Theme.default` 的默认主题拓展，它默认也不包含任何样式。
+默认主题在以下介绍的几种主题配置方案中，是建议使用的，如果你不喜欢这个名字，可以给它重命名。
 
 ```swift
 extension Theme {
@@ -42,7 +86,7 @@ extension Theme {
 }
 ```
 
-除此之外，设置获取主题样式配置的便利方法。
+- 在下面的几种方案中，你可能还需要设置获取主题样式配置的便利方法。
 
 ```swift
 extension Theme.Collection {
@@ -63,7 +107,7 @@ extension Theme.Collection {
 XZTheme 支持使用多种方式配置主题，而且支持使用多种值来设置。比如使用十六进制颜色值（#FFAA33、0xA2B2C3FF）来设置颜色，通过图片名称来设置图片。
 XZTheme 仅对 OC 开放了少量基本接口，毕竟 Swift 是 iOS 的未来，还没有使用 Swift 开发的同学，开始拥抱 Swift 吧。
 
-1. 设置函数
+1. 通过 setValue 方法来配置主题样式。
 
 这是最基本的设置样式值方式，其它形式的设置方式都是这种方式的便利方式。
 
@@ -72,7 +116,7 @@ view.themes.day.setValue(0xFFFFFFFF, forThemeAttribute: .backgroundColor)
 view.themes.night.setValue(0x303030ff, forThemeAttribute: .backgroundColor)
 ```
 
-2. 主题样式属性
+2. 通过主题属性，对于原生控件，这个看上去与 UIAppearance 很相似。
 
 主题样式几乎拥有大部分控件的样式属性，即使没有，也可以自行拓展，所以你可以直接访问属性来设置值。
 但是这种方式，就必须使用属性的实际值了。
@@ -88,7 +132,7 @@ label.themes.night.textColor       = UIColor(0x707070ff)
 
 ```
 
-3. 链式函数
+3. 通过 setting 方法，链式设置。
 
 链式函数在 Swift 中，比在 OC 中看起来优美多了，所以不必排斥这种写法了。这宗写法在 OC 中是不建议的，也没有开放相关接口。
 
@@ -139,6 +183,10 @@ button.themes.night.setThemeStyles(byUsing: [
     ]
 ])
 ```
+
+5. 全局主题
+
+为了提供主题样式的复用性，提供了设置全局样式的方法。
 
 ### 4. 切换主题
 

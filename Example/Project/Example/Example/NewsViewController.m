@@ -21,6 +21,9 @@
     [[self.view.xz_themes themeStylesForTheme:[[XZTheme alloc] initWithName:@"day"]].normalThemeStyle setValue:@"#FFFFFF" forThemeAttribute:@"backgroundColor"];
 }
 
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
