@@ -59,8 +59,8 @@ class ThemeViewController: UIViewController {
         let button = UIButton(type: .system)
 
         button.frame = CGRect.init(x: 100, y: 100, width: 150, height: 40)
-
-        button.themes.day.setThemeStyles(byUsing: [
+        
+        button.themes.day.updateThemeStyles(byUsing: [
             .normal: [
                 .title: "Day normal",
                 .titleColor: 0x0000FFFF,
@@ -73,7 +73,7 @@ class ThemeViewController: UIViewController {
             ]
         ])
         
-        button.themes.night.setThemeStyles(byUsing: [
+        button.themes.night.updateThemeStyles(byUsing: [
             .normal: [
                 .title: "Night normal",
                 .titleColor: 0x008800FF,

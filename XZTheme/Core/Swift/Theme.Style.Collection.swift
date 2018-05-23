@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import XZKit
 
 extension Theme.Style.Collection {
     
@@ -108,20 +109,20 @@ extension Theme.Style.Collection {
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
     @discardableResult
-    public func setting(_ themeStyle: Theme.Style, for themeState: Theme.State) -> Theme.Style.Collection {
+    public func settingThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) -> Theme.Style.Collection {
         setThemeStyle(themeStyle, forThemeState: themeState)
         return self
     }
     
     /// 通过主题样式配置更新主题样式的链式编程支持。
-    /// - Note: 属性值将以 NSNull 存储。
+    /// - Note: 如果指定状态的样式不存在，则自动创建。
     ///
     /// - Parameters:
     ///   - configuration: 主题样式配置。
     ///   - themeState: 主题样式状态。
     /// - Returns: 当前主题样式集合对象。
     @discardableResult
-    public func setting(_ configuration: [Theme.Attribute: Any?], for themeState: Theme.State) -> Theme.Style.Collection {
+    public func updatingThemeStyle(byUsing configuration: [Theme.Attribute: Any?], forThemeState themeState: Theme.State) -> Theme.Style.Collection {
         let themeStyle: Theme.Style = self.themeStyle(forThemeState: themeState)
         for item in configuration {
             themeStyle.updateValue(item.value, forThemeAttribute: item.key)
@@ -129,13 +130,13 @@ extension Theme.Style.Collection {
         return self
     }
     
-    /// 通过样式配置字典来配置样式。使用指定类型的字典，方便使用预定义的值。
+    /// 通过样式配置字典来更新样式配置。使用指定类型的字典，方便使用预定义的值。
     /// - Note: 得益于 Swift 的字面量构造法，即使指定类型，构造配置字典并不是很繁琐。
-    /// - Note: 灵活的配置字典可能会方便构造，但是对性能来说不一定值得。
+    ///
     /// - Parameter configuration: 样式配置字典。
-    public func setThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
+    public func updateThemeStyles(byUsing configuration: [Theme.State: [Theme.Attribute: Any?]]) {
         for item in configuration {
-            setting(item.value, for: item.key)
+            updatingThemeStyle(byUsing: item.value, forThemeState: item.key)
         }
     }
     
