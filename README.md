@@ -144,7 +144,8 @@ label.themes.night.textColor       = UIColor(0x707070ff)
 
 3. 通过 setting 方法，链式设置。
 
-链式函数在 Swift 中，比在 OC 中看起来优美多了，所以不必排斥这种写法了。这宗写法在 OC 中是不建议的，也没有开放相关接口。
+链式编程在 Swift 中，比在 OC 中看起来优美多了，所以不必排斥这种写法了。
+链式编程在 OC 中是不被建议使用的，也没有对 OC 开放相关接口。
 
 ```swift
 navigationBar.themes.day
