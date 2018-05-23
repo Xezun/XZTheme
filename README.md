@@ -1,10 +1,10 @@
 # XZTheme
 
-[![CI Status](https://img.shields.io/travis/rust-lang/rust.svg)](https://travis-ci.org/mlibai/XZTheme)
-[![Version](https://img.shields.io/badge/Version-0.0.1-blue.svg?style=flat)](http://cocoapods.org/pods/XZTheme)
+[![CI Status](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/mlibai/XZTheme)
+[![Version](https://img.shields.io/badge/Pod-0.0.3-blue.svg?style=flat)](http://cocoapods.org/pods/XZTheme)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](http://cocoapods.org/pods/XZTheme)
 [![Platform](https://img.shields.io/badge/Platform-iOS-yellow.svg)](http://cocoapods.org/pods/XZTheme)
-[![Language](https://img.shields.io/badge/Language-Swift-red.svg)](http://cocoapods.org/pods/XZTheme)
+[![Language](https://img.shields.io/badge/Swift-4.0-red.svg)](http://cocoapods.org/pods/XZTheme)
 
 >   XZTheme 是 XZKit 组件，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
 
