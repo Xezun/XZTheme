@@ -85,8 +85,17 @@ class ThemeViewController: UIViewController {
                 .backgroundImage: UIImage(filled: 0x444444FF)
             ]
         ])
-
         view.addSubview(button)
+        
+
+        let buttonRed = UIButton(type: .custom)
+        buttonRed.frame = CGRect.init(x: 100, y: 160, width: 150, height: 40)
+        buttonRed.themeIdentifier = "red"
+        buttonRed.setTitle("A red Button", for: .normal)
+        view.addSubview(buttonRed)
+        
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,7 +111,9 @@ class ThemeViewController: UIViewController {
 
 
 
-@IBDesignable open class XZLabel: UILabel {
+@IBDesignable
+
+open class XZLabel: UILabel {
     
     @IBInspectable open var contentInsets: UIEdgeInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
     

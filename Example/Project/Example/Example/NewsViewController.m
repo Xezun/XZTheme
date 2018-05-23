@@ -17,8 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[self.view.xz_themes themeStylesForTheme:[[XZTheme alloc] initWithName:@"day"]].normalThemeStyle setValue:@"#FFFFFF" forThemeAttribute:@"backgroundColor"];
 }
 
 

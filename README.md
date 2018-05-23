@@ -34,6 +34,16 @@
 主题变更时，所有正在显示的视图，都将收到主题变更事件，而且这些都是自动的；而没有正在显示的视图，则在它们被添加到父视图上时，自动检测
 其已应用的主题与当前主题是否一致，并自动决定是否需要应用主题。
 
+## 环境需求
+
+Swift 4.0
+
+## 安装集成
+
+```ruby
+pod "XZTheme"
+```
+
 ## 例子
 
 ### 0. 最简单的例子 
@@ -186,7 +196,87 @@ button.themes.night.setThemeStyles(byUsing: [
 
 5. 全局主题
 
-为了提供主题样式的复用性，提供了设置全局样式的方法。
+为了提供主题样式的复用性，提供了设置全局样式的方法，且设置全局样式，与设置实例对象的样式完全一样。
+
+全局样式的设置，可以放在 `application(_:didFinishLaunchingWithOptions)` 方法中。
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+    UIButton.themes.day
+        .setting(0x333333ff, for: .titleColor)
+        .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
+    
+    UIButton.themes.night
+        .setting(0x707070ff, for: .titleColor)
+        .setting(UIImage(filled: 0x252525ff), for: .backgroundImage)
+    
+    return true
+}
+```
+
+不过，对于自定义视图，建议自定义视图使用静态常量（`initialize()` 在 Swift 4 中被禁用了）。
+
+```swift
+static let isThemeInitialized: Bool = {
+    XZLabel.themes.day
+        .setting(0xffffffff, for: .backgroundColor)
+        .setting(0x000000ff, for: .textColor)
+    
+    XZLabel.themes.night
+        .setting(0x303030ff, for: .backgroundColor)
+        .setting(0x707070ff, for: .textColor)
+    return true
+}()
+
+public override init(frame: CGRect) {
+    super.init(frame: frame)
+    
+    _ = XZLabel.isThemeInitialized
+    
+    // ...
+}
+```
+
+为了提供全局样式的适应性，全局样式分带标识符的全局样式和不带标识符的全局样式。通过主题标识符，可以为对象提供多套全局样式。
+
+```swift
+UIButton.themes(forThemeIdentifier: "red").day
+    .setting(0xffffffff, for: .titleColor)
+    .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
+
+let buttonRed = UIButton(type: .custom)
+buttonRed.frame = CGRect.init(x: 100, y: 160, width: 150, height: 40)
+buttonRed.themeIdentifier = "red"
+buttonRed.setTitle("A red Button", for: .normal)
+view.addSubview(buttonRed)
+```
+
+如果对象同时存在全局样式和私有样式，那么，当查找某一样式时，它们生效的顺序是：
+
+    1. 首先检查私有样式是否包含该指定的样式的配置；
+    2. 检查当前对象标识符对应的带标识符的全局样式是否包含该指定的样式；
+    3. 检查不带标识符的全局样式是否包含该指定的样式。
+
+比如：
+
+```swift
+UIButton.themes.day
+    .setting(0x333333ff, for: .titleColor)
+    .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
+UIButton.themes(forThemeIdentifier: "red").day
+    .setting(0xffffffff, for: .titleColor)
+    .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
+
+let buttonRed = UIButton(type: .custom)
+buttonRed.frame = CGRect.init(x: 100, y: 160, width: 150, height: 40)
+buttonRed.themeIdentifier = "red"
+buttonRed.setTitle("A red Button", for: .normal)
+view.addSubview(buttonRed)
+```
+
+`buttonRed` 最终会显示白色文字、红色背景的按钮。
+
 
 ### 4. 切换主题
 
@@ -201,16 +291,6 @@ button.themes.night.setThemeStyles(byUsing: [
 @IBAction func dayAction(_ sender: Any) {
     Theme.day.apply(animated: true)
 }
-```
-
-## 环境需求
-
-Swift 4.0
-
-## 安装集成
-
-```ruby
-pod "XZTheme"
 ```
 
 ## 组件
@@ -245,6 +325,12 @@ pod "XZTheme"
 
 ### 内存消耗以及性能
 
+对象的私有主题配置，会随对象一起销毁，但是系统的对象，可能有多份相同的样式配置，
+目前可以通过全局样式来解决此问题。但是全局样式又带来了新的问题，全局样式不会自动销毁。
+后期考虑通过配置文件提供样式配置，懒加载主题样式，并自动释放未使用的主题样式。
+但是配置文件，根据实际开发经验，可能会造成维护成本增加，所以具体方案还在考虑中。
+还有其它的设计方案，比如根据标识符缓存主题配置到磁盘等，这些机制也在考虑范围内。
+不过，在主题不是很多的情况下，比如只支持 2 套或 3 套主题，关于内存的问题，基本上不用考虑。
 
 ### 对 OC 不如 Swift 友好
 

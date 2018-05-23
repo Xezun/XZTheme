@@ -25,6 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .setting(0x707070ff, for: .titleColor)
             .setting(UIImage(filled: 0x252525ff), for: .backgroundImage)
         
+        
+        UIButton.themes(forThemeIdentifier: "red").day
+            .setting(0xffffffff, for: .titleColor)
+            .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
+        
         return true
     }
 
