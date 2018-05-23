@@ -167,7 +167,7 @@ navigationBar.themes.night
 不过，作为可选选项，如果有合适的方式，XZTheme 将考虑再加入这个功能。
 
 ```swift
-button.themes.day.setThemeStyles(byUsing: [
+button.themes.day.updateThemeStyles(byUsing: [
     .normal: [
         .title: "Day normal",
         .titleColor: 0x0000FFFF,
@@ -180,7 +180,7 @@ button.themes.day.setThemeStyles(byUsing: [
     ]
 ])
 
-button.themes.night.setThemeStyles(byUsing: [
+button.themes.night.updateThemeStyles(byUsing: [
     .normal: [
         .title: "Night normal",
         .titleColor: 0x008800FF,
