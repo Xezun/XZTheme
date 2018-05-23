@@ -31,14 +31,14 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  # s.requires_arc = true
+  s.requires_arc = false
   # spec.requires_arc = 'Classes/Arc'
-  # s.requires_arc = [
-  #  'XZTheme/**/*.swift',
-  #  'XZTheme/**/UIView+XZThemeSupporting.m',
-  #  'XZTheme/**/UIViewController+XZThemeSupporting.m',
-  #  'XZTheme/**/UIViewController+XZTheme.m'
-  #]
+   s.requires_arc = [
+    'XZTheme/**/*.swift',
+    'XZTheme/**/UIView+XZThemeSupporting.m',
+    'XZTheme/**/UIViewController+XZThemeSupporting.m',
+    'XZTheme/**/UIViewController+XZTheme.m'
+  ]
 
   s.source_files = 'XZTheme/**/*'
   

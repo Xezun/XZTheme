@@ -9,8 +9,6 @@
 #import "XZTheme/XZTheme-Swift.h"
 @import ObjectiveC;
 
-//static const void * const _key = &_key;
-
 @implementation NSObject (XZThemeSupporting)
 
 + (void)load {
@@ -24,24 +22,21 @@
 }
 
 - (instancetype)initWithXZTheme {
-    // 是否需要此机制
-    // if ([objc_getAssociatedObject(self.class, &_key) boolValue] == NO) {
-    //     objc_setAssociatedObject(self.class, &_key, @(YES), OBJC_ASSOCIATION_COPY_NONATOMIC);
-    //     [self.class xz_initializeTheme];
-    // }
-    NSObject * __unsafe_unretained thisObject = [self initWithXZTheme];
-    // 访问 Swift 定义方法会莫名其妙的 retain 一次 ？！
-    if ([thisObject xz_shouldAutomaticallyUpdateThemeAppearance]) {
-        [thisObject xz_themes];
+#if NS_AUTOMATED_REFCOUNT_UNAVAILABLE
+    self = [self initWithXZTheme];
+    // OC 访问 Swift 定义的方法，当前对象会被 retain 一次。
+    if ([self xz_shouldAutomaticallyUpdateThemeAppearance]) {
+        [self xz_themes];
     }
-    return thisObject;
+    return self;
+#else
+    NSLog(@"%@ 需要使用 MRC 模式", [[NSString stringWithUTF8String:__FILE__] lastPathComponent])
+#endif
 }
 
 - (BOOL)xz_shouldAutomaticallyUpdateThemeAppearance {
     return NO;
 }
-//+ (void)xz_initializeTheme {
-//
-//}
+
 
 @end
