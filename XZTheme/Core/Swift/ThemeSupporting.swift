@@ -142,14 +142,14 @@ extension NSObject {
     }
     
     /// 在主题发生改变时，是否自动应用主题。默认 false 。
-    /// - Note: 即使使用了 `@objc` 标识，在 Swift 中定义的方法，与在 OC 中定义的方法，还是不完全一样。
+    /// - Note: 次方法已在 OC 中实现。即使使用了 `@objc` 标识，在 Swift 中定义的方法，与在 OC 中定义的方法，还是不完全一样。
     /// - Note: 对于所有 NSObject 子类，都可以通过重写此方法来启用由 XZTheme 框架默认实现的主题管理机制。
     /// - Note: 被管理的对象通过监听通知，在主题变更时，调用对象的 `setNeedsThemeAppearanceUpdate` 方法来切换主题。
     /// - Note: 如果对象的主题有其自己的管理机制（比如 `UIView`），重写此属性并返回 false ，以停用 XZTheme 的自动管理。
-    /// @objc(xz_shouldAutomaticallyUpdateThemeAppearance)
-    ///open var shouldAutomaticallyUpdateThemeAppearance: Bool {
-    ///    return false;
-    ///}
+    //@objc(xz_shouldAutomaticallyUpdateThemeAppearance)
+    //open var shouldAutomaticallyUpdateThemeAppearance: Bool {
+    //    return false;
+    //}
     
     /// 是否传递主题变更事件。
     /// - Note: 在 NSObject 实现中，该方法返回 YES 。

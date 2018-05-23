@@ -21,17 +21,14 @@
     });
 }
 
-- (instancetype)initWithXZTheme {
-#if NS_AUTOMATED_REFCOUNT_UNAVAILABLE
-    self = [self initWithXZTheme];
-    // OC 访问 Swift 定义的方法，当前对象会被 retain 一次。
+- (void *)initWithXZTheme {
+    // 使用 void * 来避免 ARC 自动添加 retain ，导致部分不需要 retain 的对象的异常 LOG 输出。
+    void * object = (void *)[self initWithXZTheme];
+    // OC 访问 Swift 定义的方法，当前对象会被 retain 一次，所以该方法由 OC 来定义。
     if ([self xz_shouldAutomaticallyUpdateThemeAppearance]) {
         [self xz_themes];
     }
-    return self;
-#else
-    NSLog(@"%@ 需要使用 MRC 模式", [[NSString stringWithUTF8String:__FILE__] lastPathComponent])
-#endif
+    return object;
 }
 
 - (BOOL)xz_shouldAutomaticallyUpdateThemeAppearance {
