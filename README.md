@@ -1,6 +1,6 @@
 # XZTheme
 
-[![CI Status](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/mlibai/XZTheme)
+[![CI Status](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/pods/XZTheme)
 [![Version](https://img.shields.io/badge/Pod-0.0.3-blue.svg?style=flat)](http://cocoapods.org/pods/XZTheme)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](http://cocoapods.org/pods/XZTheme)
 [![Platform](https://img.shields.io/badge/Platform-iOS-yellow.svg)](http://cocoapods.org/pods/XZTheme)
