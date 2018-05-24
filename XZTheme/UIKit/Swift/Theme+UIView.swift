@@ -68,17 +68,17 @@ extension UIView {
     ///
     /// **UIButton:** *title, titleColor, titleShadowColor, image, backgroundImage, attributedTitle.*
     ///
-    /// **UILabel:** *.text, .textColor, .font, .shadowColor, .highlightedTextColor, .attributedText.*
+    /// **UILabel:** *text, textColor, font, shadowColor, highlightedTextColor, attributedText.*
     ///
     /// **UINavigationBar:** *prefersLargeTitles, barTintColor, shadowImage, barStyle, isTranslucent, titleTextAttributes, backIndicatorImage, backIndicatorTransitionMaskImage.*
     ///
-    /// **UINavigationItem:** *<#Properties#>.*
+    /// **UINavigationItem:** *title, hidesBackButton, prompt, leftItemsSupplementBackButton, largeTitleDisplayMode, hidesSearchBarWhenScrolling.*
     ///
     /// **UIRefreshControl:** *attributedTitle.*
     ///
     /// **UIScrollView:** *indicatorStyle.*
     ///
-    /// **UITabBar:** *.barTintColor, .shadowImage, .backgroundImage, .selectionIndicatorImage, .barStyle, .isTranslucent, unselectedItemTintColor.*
+    /// **UITabBar:** *barTintColor, shadowImage, backgroundImage, selectionIndicatorImage, barStyle, isTranslucent, unselectedItemTintColor.*
     ///
     /// **UITabBarItem:** *selectedImage, image, title, landscapeImagePhone, largeContentSizeImage, titleTextAttributes.*
     ///
