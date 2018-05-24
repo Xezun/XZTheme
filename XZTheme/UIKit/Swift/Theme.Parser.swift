@@ -1,5 +1,5 @@
 //
-//  ThemeParser.swift
+//  Theme.Parser.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/4/30.
@@ -8,6 +8,21 @@
 
 import Foundation
 import XZKit
+
+extension Theme {
+    
+    /// 默认的主题样式属性解析器。
+    /// - Note: 此属性可写，即可以自定解析方法。
+    public static var parser: ThemeParser = Parser.init()
+    
+    /// 默认的主题样式解析器。
+    public final class Parser: ThemeParser {
+        
+    }
+    
+}
+
+
 
 /// 主题属性值解析器。
 /// 配置主题属性值时，使用实际值可能会更效率，但是内存可能不允许。
@@ -80,18 +95,6 @@ public protocol ThemeParser {
 }
 
 
-extension Theme {
-    
-    private final class Parser: ThemeParser {
-
-    }
-    
-    /// 默认的主题样式属性解析器。
-    /// - Note: 此属性可写，即可以自定解析方法。
-    public static var parser: ThemeParser = Parser.init()
-    
-}
-
 extension ThemeParser {
     
     public func parse(_ value: Any?) -> UIColor? {
@@ -131,7 +134,7 @@ extension ThemeParser {
         return nil
     }
     
-    func parse(_ value: Any?) -> [UIImage]? {
+    public func parse(_ value: Any?) -> [UIImage]? {
         guard let value = value else { return nil }
         if let imageName = value as? String {
             var images = [UIImage]()
@@ -190,7 +193,7 @@ extension ThemeParser {
         return UIFont.systemFont(ofSize: UIFont.systemFontSize)
     }
     
-    func parse(_ value: Any?) -> NSAttributedString? {
+    public func parse(_ value: Any?) -> NSAttributedString? {
         guard let value = value else { return nil }
         if let attributedString = value as? NSAttributedString {
             return attributedString
@@ -220,7 +223,7 @@ extension ThemeParser {
         return nil
     }
     
-    func parse(_ value: Any?) -> [NSAttributedStringKey : Any]? {
+    public func parse(_ value: Any?) -> [NSAttributedStringKey : Any]? {
         guard let value = value else { return nil }
         if let stringAttributes = value as? [NSAttributedStringKey: Any] {
             return stringAttributes
