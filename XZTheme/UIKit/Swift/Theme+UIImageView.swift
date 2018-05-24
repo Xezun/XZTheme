@@ -23,6 +23,8 @@ extension Theme.Attribute {
     public static let isAnimating                   = Theme.Attribute.init("isAnimating")
     /// UIImageView.isHighlighted
     public static let isHighlighted                 = Theme.Attribute.init("isHighlighted")
+    /// UIImageView.placeholder
+    // public static let placeholder              = Theme.Attribute.init("placeholder")
 }
 
 extension Theme.Style {
@@ -61,6 +63,11 @@ extension Theme.Style {
         get { return boolValue(forThemeAttribute: .isHighlighted)   }
         set { setValue(newValue, forThemeAttribute: .isHighlighted) }
     }
+    
+    public var placeholderImage: UIImage? {
+        get { return image(forThemeAttribute: .placeholder)  }
+        set { setValue(newValue, forThemeAttribute: .placeholder)  }
+    }
 }
 
 extension UIImageView {
@@ -94,6 +101,10 @@ extension UIImageView {
             } else {
                 self.stopAnimating();
             }
+        }
+        
+        if themeStyles.containsThemeAttribute(.placeholder) {
+            self.placeholder = themeStyles.placeholderImage
         }
     }
     

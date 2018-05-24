@@ -20,7 +20,8 @@ extension Theme.Attribute {
     public static let alpha             = Theme.Attribute.init("alpha");
     /// UIView.isOpaque
     public static let isOpaque          = Theme.Attribute.init("isOpaque");
-    
+    /// UIView.brightness
+    public static let brightness        = Theme.Attribute.init("brightness");
 }
 
 extension Theme.Style {
@@ -50,6 +51,10 @@ extension Theme.Style {
         set { setValue(newValue, forThemeAttribute: .alpha)          }
     }
     
+    public var brightness: CGFloat {
+        get { return CGFloat(doubleValue(forThemeAttribute: .brightness)) }
+        set { setValue(newValue, forThemeAttribute: .brightness)          }
+    }
 }
 
 extension UIView {
@@ -82,6 +87,10 @@ extension UIView {
         
         if themeStyles.containsThemeAttribute(.isOpaque) {
             self.isOpaque = themeStyles.isOpaque
+        }
+        
+        if themeStyles.containsThemeAttribute(.brightness) {
+            self.brightness = themeStyles.brightness
         }
     }
     
