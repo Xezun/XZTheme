@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XZKit
 
 extension Theme.Attribute {
     
@@ -16,6 +17,31 @@ extension Theme.Attribute {
 }
 
 extension Theme.Style {
+    
+    /// 获取已设置的主题属性值：UIStatusBarStyle 。如下值将可以自动转换。
+    /// 1. UIStatusBarStyle 原始值（Int）。
+    /// 2. 字符串 default、lightContent 。
+    ///
+    /// - Parameter themeAttribute: 主题属性。
+    /// - Returns: 主题属性值。
+    public func statusBarStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIStatusBarStyle {
+        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+        if let statusBarStyle = value as? UIStatusBarStyle {
+            return statusBarStyle
+        }
+        if let number = value as? Int, let statusBarStyle = UIStatusBarStyle.init(rawValue: number) {
+            return statusBarStyle
+        }
+        if let aString = value as? String {
+            switch aString {
+            case "default":      return .default
+            case "lightContent": return .lightContent
+            default: break
+            }
+        }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a UIStatusBarStyle value, `.default` returned.", value, themeAttribute)
+        return .default
+    }
     
     public var statusBarStyle: UIStatusBarStyle {
         get { return statusBarStyle(forThemeAttribute: .statusBarStyle) }

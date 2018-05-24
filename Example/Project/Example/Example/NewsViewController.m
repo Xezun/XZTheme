@@ -8,6 +8,7 @@
 
 #import "NewsViewController.h"
 @import XZTheme;
+@import WebKit;
 
 @interface NewsViewController ()
 
@@ -17,6 +18,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    WKWebView *webView;
+    
+    [webView evaluateJavaScript:@"window.history.back()" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        
+    }];
+    
+    [webView goToBackForwardListItem:webView.backForwardList.backItem];
+    
+    [webView goBack];
+    
 }
 
 

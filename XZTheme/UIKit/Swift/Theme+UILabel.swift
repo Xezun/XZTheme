@@ -62,9 +62,6 @@ extension Theme.Style {
 
 extension UILabel {
     
-    /// 自动应用的样式：.text, .textColor, .font, .shadowColor, .highlightedTextColor, .attributedText 。
-    ///
-    /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         

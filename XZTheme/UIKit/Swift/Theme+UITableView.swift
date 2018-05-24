@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import XZKit
 
 extension Theme.Attribute {
     
@@ -23,6 +23,34 @@ extension Theme.Attribute {
 }
 
 extension Theme.Style {
+    
+    /// 获取已设置的主题属性值：UITableViewCellSeparatorStyle 。如下值将可以自动转换。
+    /// 1. UITableViewCellSeparatorStyle 原始值（Int）。
+    /// 2. 字符串 none、singleLine、singleLineEtched 。
+    ///
+    /// - Parameter themeAttribute: 主题属性。
+    /// - Returns: 主题属性值。
+    public func tableViewCellSeparatorStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellSeparatorStyle {
+        guard let value = value(forThemeAttribute: themeAttribute) else { return .singleLine }
+        if let separatorStyle = value as? UITableViewCellSeparatorStyle {
+            return separatorStyle
+        }
+        if let number = value as? Int, let separatorStyle = UITableViewCellSeparatorStyle.init(rawValue: number) {
+            return separatorStyle
+        }
+        if let aString = value as? String {
+            switch aString {
+            case "none":                return .none
+            case "singleLine":          return .singleLine
+            case "singleLineEtched":    return .singleLineEtched
+            default: break
+            }
+        }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a UITableViewCellSeparatorStyle value, `.singleLine` returned.", value, themeAttribute)
+        return .singleLine
+    }
+    
+
 
     public var sectionIndexColor: UIColor? {
         get { return color(forThemeAttribute: .sectionIndexColor) }
@@ -40,7 +68,7 @@ extension Theme.Style {
     }
     
     public var separatorStyle: UITableViewCellSeparatorStyle {
-        get { return separatorStyle(forThemeAttribute: .separatorStyle)  }
+        get { return tableViewCellSeparatorStyle(forThemeAttribute: .separatorStyle)  }
         set { setValue(newValue, forThemeAttribute: .separatorStyle) }
     }
     

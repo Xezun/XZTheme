@@ -55,12 +55,42 @@ extension Theme.Style {
         get { return CGFloat(doubleValue(forThemeAttribute: .brightness)) }
         set { setValue(newValue, forThemeAttribute: .brightness)          }
     }
+    
 }
 
 extension UIView {
     
     /// 作为 UIView 控件，当主题改变时，其会自动应用如下属性：
-    /// - .backgroundColor、.tintColor、.isHidden、.alpha、.isOpaque
+    ///
+    /// **UIView:** *backgroundColor, tintColor, isHidden, alpha, isOpaque, brightness.*
+    ///
+    /// **UIImageView:** *image, highlightedImage, animationImages, highlightedAnimationImages, isHighlighted, isAnimating, placeholder.*
+    ///
+    /// **UIButton:** *title, titleColor, titleShadowColor, image, backgroundImage, attributedTitle.*
+    ///
+    /// **UILabel:** *.text, .textColor, .font, .shadowColor, .highlightedTextColor, .attributedText.*
+    ///
+    /// **UINavigationBar:** *prefersLargeTitles, barTintColor, shadowImage, barStyle, isTranslucent, titleTextAttributes, backIndicatorImage, backIndicatorTransitionMaskImage.*
+    ///
+    /// **UINavigationItem:** *<#Properties#>.*
+    ///
+    /// **UIRefreshControl:** *attributedTitle.*
+    ///
+    /// **UIScrollView:** *indicatorStyle.*
+    ///
+    /// **UITabBar:** *.barTintColor, .shadowImage, .backgroundImage, .selectionIndicatorImage, .barStyle, .isTranslucent, unselectedItemTintColor.*
+    ///
+    /// **UITabBarItem:** *selectedImage, image, title, landscapeImagePhone, largeContentSizeImage, titleTextAttributes.*
+    ///
+    /// **UITableView:** *sectionIndexColor, sectionIndexBackgroundColor, sectionIndexTrackingBackgroundColor, separatorStyle, separatorColor.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
     ///
     /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {

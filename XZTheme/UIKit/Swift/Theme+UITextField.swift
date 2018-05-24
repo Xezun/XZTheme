@@ -6,23 +6,19 @@
 //
 
 import Foundation
+import XZKit
 
 extension Theme.Attribute {
 
     public static let textAlignment = Theme.Attribute.init("textAlignment")
     public static let borderStyle   = Theme.Attribute.init("borderStyle")
-    public static let placeholder   = Theme.Attribute.init("placeholder")
+    //public static let placeholder   = Theme.Attribute.init("placeholder")
     public static let keyboardAppearance = Theme.Attribute.init("keyboardAppearance")
     public static let keyboardType = Theme.Attribute.init("keyboardType")
 }
 
 extension Theme.Style {
 
-    public var placeholderString: String? {
-        get { return stringValue(forThemeAttribute: .placeholder) }
-        set { setValue(newValue, forThemeAttribute: .placeholder) }
-    }
-    
     /// 支持 UIKeyboardAppearance、Int、String 等类型，默认 .default 。
     /// - Note: 支持的字符串 default、dark、light、alert 。
     /// - Note: 支持的数值为原始值。
@@ -46,7 +42,13 @@ extension Theme.Style {
             default: break
             }
         }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a UIKeyboardAppearance value, `.default` returned.", value, themeAttribute)
         return .default;
+    }
+    
+    public var placeholderString: String? {
+        get { return stringValue(forThemeAttribute: .placeholder) }
+        set { setValue(newValue, forThemeAttribute: .placeholder) }
     }
     
     /// 键盘外观。

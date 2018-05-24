@@ -9,6 +9,7 @@
 import UIKit
 
 extension Theme.Attribute {
+    
     /// UIImageView.image
     public static let image                         = Theme.Attribute.init("image");
     /// UIImageView.highlightedImage
@@ -23,8 +24,9 @@ extension Theme.Attribute {
     public static let isAnimating                   = Theme.Attribute.init("isAnimating")
     /// UIImageView.isHighlighted
     public static let isHighlighted                 = Theme.Attribute.init("isHighlighted")
-    /// UIImageView.placeholder
-    // public static let placeholder              = Theme.Attribute.init("placeholder")
+    /// - UIImageView.placeholder: placeholderImage
+    /// - UITextField.placeholder: placeholderString
+    public static let placeholder                   = Theme.Attribute.init("placeholder")
 }
 
 extension Theme.Style {
@@ -68,9 +70,11 @@ extension Theme.Style {
         get { return image(forThemeAttribute: .placeholder)  }
         set { setValue(newValue, forThemeAttribute: .placeholder)  }
     }
+    
 }
 
 extension UIImageView {
+    
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)

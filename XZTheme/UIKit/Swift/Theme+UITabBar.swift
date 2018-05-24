@@ -29,6 +29,29 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
+    /// 如果存储的值不是 UIBarStyle 或 UIBarStyle 有效原始值，则返回 UIBarStyle.default 。
+    /// 字符串 default、black 可转换对应的 UIBarStyle 值。
+    ///
+    /// - Parameter themeAttribute: 主题属性。
+    /// - Returns: 主题属性值 UIBarStyle 。
+    public func barStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIBarStyle {
+        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+        if let barStyle = value as? UIBarStyle {
+            return barStyle
+        }
+        if let number = value as? Int, let barStyle = UIBarStyle(rawValue: number) {
+            return barStyle
+        }
+        if let aString = value as? String {
+            switch aString {
+            case "none":  return .default
+            case "black": return .black
+            default: break
+            }
+        }
+        return .default
+    }
+    
     public var barTintColor: UIColor? {
         get { return color(forThemeAttribute: .barTintColor)        }
         set { setValue(newValue, forThemeAttribute: .barTintColor)  }
@@ -70,10 +93,6 @@ extension UITabBar {
         return false
     }
     
-    /// 除父类应用的属性以外，UITabBar 自动应用以下属性样式：
-    /// - .barTintColor, .shadowImage, .backgroundImage, .selectionIndicatorImage, .barStyle, .isTranslucent, unselectedItemTintColor
-    ///
-    /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
