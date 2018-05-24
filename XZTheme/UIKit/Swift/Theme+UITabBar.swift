@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XZKit
 
 extension Theme.Attribute {
     
@@ -49,6 +50,7 @@ extension Theme.Style {
             default: break
             }
         }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a UIBarStyle value, `.default` returned.", value, themeAttribute)
         return .default
     }
     
@@ -95,7 +97,7 @@ extension UITabBar {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
-        
+
         if themeStyles.containsThemeAttribute(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }

@@ -20,7 +20,7 @@ extension Theme.Attribute {
     public static let animationImages               = Theme.Attribute.init("animationImages")
     /// UIImageView.highlightedAnimationImages
     public static let highlightedAnimationImages    = Theme.Attribute.init("highlightedAnimationImages")
-    /// UIImageView.isAnimating
+    /// UIImageView.isAnimating, UIActivityIndicatorView.isAnimating
     public static let isAnimating                   = Theme.Attribute.init("isAnimating")
     /// UIImageView.isHighlighted
     public static let isHighlighted                 = Theme.Attribute.init("isHighlighted")

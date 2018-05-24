@@ -84,6 +84,14 @@ extension UIView {
     ///
     /// **UITableView:** *sectionIndexColor, sectionIndexBackgroundColor, sectionIndexTrackingBackgroundColor, separatorStyle, separatorColor.*
     ///
+    /// **UIActivityIndicatorView:** *activityIndicatorViewStyle, color, hidesWhenStopped, isAnimating.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
+    /// **<#View#>:** *<#Properties#>.*
+    ///
     /// **<#View#>:** *<#Properties#>.*
     ///
     /// **<#View#>:** *<#Properties#>.*
