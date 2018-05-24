@@ -7,6 +7,7 @@
 [![Language](https://img.shields.io/badge/Swift-4.0-red.svg)](http://cocoapods.org/pods/XZTheme)
 
 >   XZTheme 是 XZKit 组件，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
+>   组件目前处于持续开发过程中，但是目前核心部分已经完毕，能满足大部分需求，可以正常使用。
 
 为了让 App 适应更多的人群、适应场景，为 App 设计合适的主题，越来越被开发者们重视，但是对于 iOS 开发，对于主题的支持，一直
 没有什么特别有效、方便、快捷的方法。
