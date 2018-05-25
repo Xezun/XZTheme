@@ -28,21 +28,15 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
 extension Theme.State: OptionSet {
     
     public init() {
-        self = .normal
+        self.init(rawValue: String(), units: [])
     }
     
     public mutating func formUnion(_ other: Theme.State) {
         if self == other {
             return
         }
-        var stateItems = rawValue.components(separatedBy: ":")
-        let otherStateItems = other.rawValue.components(separatedBy: ":")
-        for otherItem in otherStateItems {
-            if !stateItems.contains(otherItem) {
-                stateItems.append(otherItem)
-            }
-        }
-        self = Theme.State.init(stateItems.joined(separator: ":"))
+        let newUnits = self.units.union(other.units)
+        self = Theme.State.init(rawValue: newUnits.joind(separator: ":"), units: newUnits)
     }
     
     public mutating func formIntersection(_ other: Theme.State) {

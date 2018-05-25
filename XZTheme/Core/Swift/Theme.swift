@@ -388,11 +388,36 @@ extension Theme {
     public struct State: RawRepresentable {
         public typealias RawValue = String
         public let rawValue: String
+        public let units: Set<State>
+        
+        private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
+        
         public init(rawValue: String) {
-            self.rawValue = rawValue
+            var unitStrings = Set<String>.init()
+            
+            for item in rawValue.components(separatedBy: ":") {
+                let string = item.trimmingCharacters(in: State.trimmingCharacterSet)
+                guard !string.isEmpty else { continue }
+                unitStrings.insert(string)
+            }
+            
+            switch unitStrings.count {
+            case 1:
+                self.init(rawValue: unitStrings.first!, units: [])
+            default:
+                // Set has 
+                let newValueString = ":" + unitStrings.sorted(by: { (item1, item2) -> Bool in
+                   return item1.compare(item2) == ComparisonResult.orderedAscending
+                }).joined(separator: ":")
+                self.init(rawValue: newValueString, units: Set(unitStrings.map({ (string) -> State in
+                    return State.init(rawValue: string, units: [])
+                })))
+            }
         }
-        public init(_ rawValue: String) {
-            self.init(rawValue: rawValue)
+        
+        public init(rawValue: String, units: Set<State>) {
+            self.rawValue = rawValue
+            self.units    = units
         }
     }
     

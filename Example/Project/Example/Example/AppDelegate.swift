@@ -8,6 +8,7 @@
 
 import UIKit
 import XZKit
+import XZTheme
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        
+        print(":normal".components(separatedBy: ":"))
         UIButton.themes.day
             .setting(0x333333ff, for: .titleColor)
             .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
@@ -28,6 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIButton.themes(forThemeIdentifier: "red").day
             .setting(0xffffffff, for: .titleColor)
             .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
+        
+        
+        if Theme.State.bottomBarPosition.contains(.bottomBarPosition) {
+            print(true)
+        }
         
         return true
     }
