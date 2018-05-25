@@ -46,7 +46,8 @@ extension Theme.Style {
         return .default;
     }
     
-    public var placeholderString: String? {
+    /// 与 Theme.Attribute.placeholder 属性相对应。
+    public var placeholderText: String? {
         get { return stringValue(forThemeAttribute: .placeholder) }
         set { setValue(newValue, forThemeAttribute: .placeholder) }
     }
@@ -100,7 +101,7 @@ extension UITextField {
         }
         
         if themeStyles.containsThemeAttribute(.placeholder) {
-            self.placeholder = themeStyles.placeholderString
+            self.placeholder = themeStyles.placeholderText
         }
         
         if themeStyles.containsThemeAttribute(.keyboardAppearance) {

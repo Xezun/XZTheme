@@ -24,8 +24,8 @@ extension Theme.Attribute {
     public static let isAnimating                   = Theme.Attribute.init("isAnimating")
     /// UIImageView.isHighlighted
     public static let isHighlighted                 = Theme.Attribute.init("isHighlighted")
-    /// - UIImageView.placeholder: placeholderImage
-    /// - UITextField.placeholder: placeholderString
+    /// UIImageView.placeholder: placeholderImage
+    /// UITextField.placeholder: placeholderText
     public static let placeholder                   = Theme.Attribute.init("placeholder")
 }
 
