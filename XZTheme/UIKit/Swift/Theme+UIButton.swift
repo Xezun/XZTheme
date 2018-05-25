@@ -66,7 +66,7 @@ extension UIButton {
         let themeStates: [Theme.State] = [.normal, .selected, .highlighted, .disabled, .focused]
         
         for themeState in themeStates {
-            guard let controlState = UIControlState(themeState) else { continue }
+            let controlState = UIControlState(themeState)
             
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
 

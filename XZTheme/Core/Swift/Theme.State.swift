@@ -25,6 +25,48 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
 }
 
+extension Theme.State: OptionSet {
+    
+    public init() {
+        self = .normal
+    }
+    
+    public mutating func formUnion(_ other: Theme.State) {
+        if self == other {
+            return
+        }
+        var stateItems = rawValue.components(separatedBy: ":")
+        let otherStateItems = other.rawValue.components(separatedBy: ":")
+        for otherItem in otherStateItems {
+            if !stateItems.contains(otherItem) {
+                stateItems.append(otherItem)
+            }
+        }
+        self = Theme.State.init(stateItems.joined(separator: ":"))
+    }
+    
+    public mutating func formIntersection(_ other: Theme.State) {
+        if self == other {
+            return
+        }
+        let stateItems = rawValue.components(separatedBy: ":")
+        let otherStateItems = other.rawValue.components(separatedBy: ":")
+        self = Theme.State.init(stateItems.filter({ (item) -> Bool in
+            return otherStateItems.contains(item)
+        }).joined(separator: ":"))
+    }
+    
+    public mutating func formSymmetricDifference(_ other: Theme.State) {
+        if self == other {
+            return
+        }
+        let stateItems = Set.init(rawValue.components(separatedBy: ":"))
+        self = Theme.State.init(stateItems.symmetricDifference(other.rawValue.components(separatedBy: ":")).joined(separator: ":"))
+    }
+    
+    
+}
+
 extension Theme.State: _ObjectiveCBridgeable {
     
     public func _bridgeToObjectiveC() -> NSString {
@@ -67,17 +109,27 @@ extension Theme.State {
 extension UIControlState {
     
     /// 将主题状态转换为 UIControlState 。
+    /// - Note: 默认值 .normal 。
     ///
     /// - Parameter themeState: 主题状态。
-    public init?(_ themeState: Theme.State) {
-        switch themeState {
-        case .normal:       self = .normal
-        case .selected:     self = .selected
-        case .highlighted:  self = .highlighted
-        case .focused:      if #available(iOS 9.0, *) { self = .focused } else { return nil }
-        case .disabled:     self = .disabled
-        default:            return nil
+    public init(_ themeState: Theme.State) {
+        var controlStates = [UIControlState]()
+        if themeState.contains(.normal) {
+            controlStates.append(.normal)
         }
+        if themeState.contains(.selected) {
+            controlStates.append(.selected)
+        }
+        if themeState.contains(.highlighted) {
+            controlStates.append(.highlighted)
+        }
+        if #available(iOS 9.0, *), themeState.contains(.focused) {
+            controlStates.append(.focused)
+        }
+        if themeState.contains(.disabled) {
+            controlStates.append(.disabled)
+        }
+        self.init(controlStates)
     }
     
 }

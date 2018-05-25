@@ -8,6 +8,73 @@
 
 import UIKit
 
+extension Theme.State {
+    
+    /// UIBarPosition.any
+    /// UIBarPosition.bottom
+    /// UIBarPosition.top
+    /// UIBarPosition.topAttached
+    
+    /// UIBarMetrics.default
+    public static let defaultBarMetrics       = Theme.State.init(":defaultBarMetrics")
+    /// UIBarMetrics.compact
+    public static let compactBarMetrics       = Theme.State.init(":compactBarMetrics")
+    /// UIBarMetrics.defaultPrompt
+    public static let defaultPromptBarMetrics = Theme.State.init(":defaultPromptBarMetrics")
+    /// UIBarMetrics.compactPrompt
+    public static let compactPromptBarMetrics = Theme.State.init(":compactPromptBarMetrics")
+    
+    /// 如果包含 UIBarMetrics 则返回，集合可能为空。
+    public var barMetrics: [UIBarMetrics] {
+        var barMetrics = [UIBarMetrics]()
+        if self.contains(.defaultBarMetrics) {
+            barMetrics.append(.default)
+        }
+        if self.contains(.compactBarMetrics) {
+            barMetrics.append(.compact)
+        }
+        if self.contains(.defaultPromptBarMetrics) {
+            barMetrics.append(.defaultPrompt)
+        }
+        if self.contains(.compactPromptBarMetrics) {
+            barMetrics.append(.compactPrompt)
+        }
+        return barMetrics
+    }
+    
+    /// UIBarPosition.any
+    public static let anyBarPosition         = Theme.State.init(":anyBarPosition")
+    /// UIBarPosition.bottom
+    public static let bottomBarPosition      = Theme.State.init(":bottomBarPosition")
+    /// UIBarPosition.top
+    public static let topBarPosition         = Theme.State.init(":topBarPosition")
+    /// UIBarPosition.topAttached
+    public static let topAttachedBarPosition = Theme.State.init(":topAttachedBarPosition")
+    
+    /// 如果包含 UIBarPosition 则返回，集合可能为空。
+    public var barPositions: [UIBarPosition] {
+        var barPositions = [UIBarPosition]()
+        if self.contains(.anyBarPosition) {
+            barPositions.append(UIBarPosition.any)
+        }
+        if self.contains(.bottomBarPosition) {
+            barPositions.append(UIBarPosition.bottom)
+        }
+        if self.contains(.topBarPosition) {
+            barPositions.append(UIBarPosition.top)
+        }
+        if self.contains(.topAttachedBarPosition) {
+            barPositions.append(UIBarPosition.topAttached)
+        }
+        return barPositions
+    }
+    
+}
+
+
+
+
+
 extension Theme.Attribute {
     
     /// UINavigationBar.largeTitleTextAttributes
@@ -85,6 +152,15 @@ extension UINavigationBar {
         
         if themeStyles.containsThemeAttribute(.backIndicatorTransitionMaskImage) {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
+        }
+        
+//        self.themes.themeStyles(forTheme: Theme.init(name: "day")).themeStyle(forThemeState: .defaultBarMetrics(forBarPosition: .any)).backgroundColor;
+        
+        if let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded {
+            for item in statedThemeStyles {
+                let barMet = item.key.barMetrics
+                let position = item.key.barPositions
+            }
         }
         
     }
