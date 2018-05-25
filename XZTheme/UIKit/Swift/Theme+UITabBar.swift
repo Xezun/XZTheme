@@ -11,7 +11,7 @@ import XZKit
 
 extension Theme.Attribute {
     
-    /// UITabBar.barTintColor
+    /// UITabBar, UISearchBar
     public static let barTintColor = Theme.Attribute.init("barTintColor")
     /// UITabBar.shadowImage
     public static let shadowImage = Theme.Attribute.init("shadowImage")
@@ -19,9 +19,9 @@ extension Theme.Attribute {
     public static let unselectedItemTintColor = Theme.Attribute.init("unselectedItemTintColor")
     /// UITabBar.selectionIndicatorImage
     public static let selectionIndicatorImage = Theme.Attribute.init("selectionIndicatorImage")
-    /// UITabBar.barStyle
+    /// UITabBar, UISearchBar
     public static let barStyle = Theme.Attribute.init("barStyle")
-    /// UITabBar.isTranslucent
+    /// UITabBar, UISearchBar
     public static let isTranslucent = Theme.Attribute.init("isTranslucent")
     // UITabBar.backgroundImage
     // See UIButton.
@@ -45,7 +45,7 @@ extension Theme.Style {
         }
         if let aString = value as? String {
             switch aString {
-            case "none":  return .default
+            case "default":  return .default
             case "black": return .black
             default: break
             }

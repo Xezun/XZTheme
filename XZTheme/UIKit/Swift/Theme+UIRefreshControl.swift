@@ -7,6 +7,19 @@
 
 import Foundation
 
+extension Theme.Attribute {
+    
+    public static let isRefreshing = Theme.Attribute.init("isRefreshing")
+}
+
+extension Theme.Style {
+    
+    public var isRefreshing: Bool {
+        get { return boolValue(forThemeAttribute: .isRefreshing) }
+        set { setValue(newValue, forThemeAttribute: .isRefreshing) }
+    }
+}
+
 
 extension UIRefreshControl {
     
@@ -17,6 +30,13 @@ extension UIRefreshControl {
             self.attributedTitle = themeStyles.attributedTitle
         }
         
+        if themeStyles.containsThemeAttribute(.isRefreshing) {
+            if themeStyles.isRefreshing {
+                self.beginRefreshing()
+            } else {
+                self.endRefreshing()
+            }
+        }
     }
     
 }

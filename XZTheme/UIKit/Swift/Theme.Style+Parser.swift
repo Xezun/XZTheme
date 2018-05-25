@@ -109,8 +109,21 @@ extension Theme.Style {
         if let string = value as? String {
             return string
         }
-        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a String value, `describing` returned.", value, themeAttribute)
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a String value, `String(describing:)` returned.", value, themeAttribute)
         return String.init(describing: value)
+    }
+    
+    /// 获取已设置的主题属性值：字符串数组。
+    ///
+    /// - Parameter themeAttribute: 主题属性。
+    /// - Returns: 属性值。
+    public func stringValues(forThemeAttribute themeAttribute: Theme.Attribute) -> [String]? {
+        guard let value = self.value(forThemeAttribute: themeAttribute) else { return nil }
+        if let string = value as? [String] {
+            return string
+        }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not an array of String value, `[String(describing:)]` returned.", value, themeAttribute)
+        return [String.init(describing: value)]
     }
     
     /// 获取已设置的主题属性值：图片。

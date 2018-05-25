@@ -15,8 +15,7 @@ extension Theme.Attribute {
     public static let title             = Theme.Attribute.init("title");
     /// UIButton.setTitleColor
     public static let titleColor        = Theme.Attribute.init("titleColor");
-    /// - UIButton.setBackgroundImage
-    /// - UITabBar.backgroundImage
+    /// UIButton, UITabBar, UISearchBar
     public static let backgroundImage   = Theme.Attribute.init("backgroundImage");
     /// UIButton.setTitleShadowColor
     public static let titleShadowColor  = Theme.Attribute.init("titleShadowColor");

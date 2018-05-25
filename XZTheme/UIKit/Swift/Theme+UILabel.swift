@@ -11,7 +11,7 @@ import UIKit
 
 extension Theme.Attribute {
     
-    /// UILabel.text
+    /// UILabel, UISearchBar
     public static let text                  = Theme.Attribute.init("text");
     /// UILabel.textColor
     public static let textColor             = Theme.Attribute.init("textColor");

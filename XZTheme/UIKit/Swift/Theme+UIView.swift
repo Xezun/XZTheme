@@ -74,7 +74,7 @@ extension UIView {
     ///
     /// **UINavigationItem:** *title, hidesBackButton, prompt, leftItemsSupplementBackButton, largeTitleDisplayMode, hidesSearchBarWhenScrolling.*
     ///
-    /// **UIRefreshControl:** *attributedTitle.*
+    /// **UIRefreshControl:** *attributedTitle, isRefreshing.*
     ///
     /// **UIScrollView:** *indicatorStyle.*
     ///
@@ -86,9 +86,9 @@ extension UIView {
     ///
     /// **UIActivityIndicatorView:** *activityIndicatorViewStyle, color, hidesWhenStopped, isAnimating.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UIPageControl:** *numberOfPages, currentPage, hidesForSinglePage, defersCurrentPageDisplay, pageIndicatorTintColor, currentPageIndicatorTintColor.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UIProgressView:** *progressViewStyle, progress, progressTintColor, trackTintColor, progressImage, trackImage.*
     ///
     /// **<#View#>:** *<#Properties#>.*
     ///

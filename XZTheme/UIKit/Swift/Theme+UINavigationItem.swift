@@ -11,7 +11,7 @@ import XZKit
 
 extension Theme.Attribute {
     
-    /// UINavigationItem.prompt
+    /// UINavigationItem, UISearchBar
     public static let prompt = Theme.Attribute.init("prompt")
     /// UINavigationItem.largeTitleDisplayMode
     public static let largeTitleDisplayMode = Theme.Attribute.init("largeTitleDisplayMode")
