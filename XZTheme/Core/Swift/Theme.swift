@@ -386,12 +386,23 @@ extension Theme {
     /// - Note: 主题状态一般情况下与触控状态相对应。
     /// - Note: 主题状态名必须符合正则 /^\:[A-Za-z]+$/ 。
     /// - Note: 主题状态可能是集合。
-    public struct State: OptionSet {
+    /// - Note: 空字符串不被视为有效的主题状态。
+    public struct State: OptionSet, CustomStringConvertible {
+        
+        /// 不是主题状态。
+        public static let notThemeState: Theme.State = .init(rawValue: "", children: [])
+        
         public typealias RawValue = String
+        
         /// 主题状态字符串。
         public let rawValue: String
+        
         /// 基本主题状态没有子元素。
         public let children: Set<State>
+        
+        public var description: String {
+            return "Theme.State(\(rawValue))"
+        }
         
         private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
         
@@ -419,30 +430,24 @@ extension Theme {
                     items.formUnion(child.children)
                 }
             }
-            self.rawValue = ":" + items.map({ (state) -> String in
-                return state.rawValue
-            }).sorted(by: { (str1, str2) -> Bool in
-                return str1.compare(str2) != .orderedDescending
-            }).joined(separator: ":")
-            self.children = items
+            switch items.count {
+            case 0:
+                self = .notThemeState
+            case 1:
+                self = items.first!
+            default:
+                let rawValue = ":" + items.map({ (state) -> String in
+                    return state.rawValue
+                }).sorted(by: { (str1, str2) -> Bool in
+                    return str1.compare(str2) != .orderedDescending
+                }).joined(separator: ":")
+                self.init(rawValue: rawValue, children: items)
+            }
         }
         
-        private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
-        
-        /// 将形如 :normal:selected 的字符串转化为主题状态。
-        ///
-        /// - Parameter rawValue: 字符串。
-        public init(_ aString: String) {
-            var children: Set<State> = []
-            
-            // 过滤字符
-            for item in aString.components(separatedBy: ":") {
-                let string = item.trimmingCharacters(in: State.trimmingCharacterSet)
-                guard !string.isEmpty else { continue }
-                children.insert(State.init(":" + string))
-            }
-            
-            self.init(children)
+        private init(rawValue: String, children: Set<State>) {
+            self.rawValue = rawValue;
+            self.children = children
         }
         
     }

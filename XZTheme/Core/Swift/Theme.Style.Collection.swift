@@ -102,6 +102,30 @@ extension Theme.Style.Collection {
         statedThemeStyles[themeState] = themeStyle
     }
     
+    /// 设置指定主题状态的主题属性值，如果指定状态的主题样式不存在，则自动创建。
+    ///
+    /// - Parameters:
+    ///   - value: 值。
+    ///   - themeAttribute: 主题属性。
+    ///   - themeState: 主题状态。
+    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
+        self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
+    }
+    
+    
+    /// 设置指定主题状态的主题属性值，链式函数。
+    ///
+    /// - Parameters:
+    ///   - value: 值。
+    ///   - themeAttribute: 主题属性。
+    ///   - themeState: 主题状态。
+    /// - Returns: 主题样式集对象。
+    @discardableResult
+    public func setting(_ value: Any?, for themeAttribute: Theme.Attribute, for themeState: Theme.State) -> Theme.Style.Collection {
+        self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
+        return self
+    }
+    
     /// 更新指定状态样式的链式编程支持。
     ///
     /// - Parameters:
@@ -152,5 +176,4 @@ extension Theme.Style.Collection {
     }
     
 }
-
 

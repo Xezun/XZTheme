@@ -9,20 +9,15 @@
 import UIKit
 
 extension Theme.State {
-    
-    /// UIBarPosition.any
-    /// UIBarPosition.bottom
-    /// UIBarPosition.top
-    /// UIBarPosition.topAttached
-    
+
     /// UIBarMetrics.default
-    public static let defaultBarMetrics       = Theme.State.init(":defaultBarMetrics")
+    public static let defaultBarMetrics       = Theme.State.init(rawValue: ":defaultBarMetrics")
     /// UIBarMetrics.compact
-    public static let compactBarMetrics       = Theme.State.init(":compactBarMetrics")
+    public static let compactBarMetrics       = Theme.State.init(rawValue: ":compactBarMetrics")
     /// UIBarMetrics.defaultPrompt
-    public static let defaultPromptBarMetrics = Theme.State.init(":defaultPromptBarMetrics")
+    public static let defaultPromptBarMetrics = Theme.State.init(rawValue: ":defaultPromptBarMetrics")
     /// UIBarMetrics.compactPrompt
-    public static let compactPromptBarMetrics = Theme.State.init(":compactPromptBarMetrics")
+    public static let compactPromptBarMetrics = Theme.State.init(rawValue: ":compactPromptBarMetrics")
     
     /// 主题状态中包含 UIBarMetrics ，至少包含 .default 。
     public var barMetrics: [UIBarMetrics] {
@@ -46,13 +41,13 @@ extension Theme.State {
     }
     
     /// UIBarPosition.any
-    public static let anyBarPosition         = Theme.State.init(":anyBarPosition")
+    public static let anyBarPosition         = Theme.State.init(rawValue: ":anyBarPosition")
     /// UIBarPosition.bottom
-    public static let bottomBarPosition      = Theme.State.init(":bottomBarPosition")
+    public static let bottomBarPosition      = Theme.State.init(rawValue: ":bottomBarPosition")
     /// UIBarPosition.top
-    public static let topBarPosition         = Theme.State.init(":topBarPosition")
+    public static let topBarPosition         = Theme.State.init(rawValue: ":topBarPosition")
     /// UIBarPosition.topAttached
-    public static let topAttachedBarPosition = Theme.State.init(":topAttachedBarPosition")
+    public static let topAttachedBarPosition = Theme.State.init(rawValue: ":topAttachedBarPosition")
     
     /// 主题状态中包含 UIBarMetrics ，至少包含 .any 。
     public var barPositions: [UIBarPosition] {

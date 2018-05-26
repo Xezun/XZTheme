@@ -7,16 +7,32 @@
 //
 
 import UIKit
+import XZKit
 
 extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
     public typealias StringLiteralType = String
     
+    private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
+    
     /// 通过字符串字面量创建主题属性状态。
+    /// - Note: 支持的字面量形式如 `":normal"` 或多个组合 `":normal:selected"` 。
     ///
     /// - Parameter value: 字符串字面量
     public init(stringLiteral value: String) {
-        self.init(rawValue: value)
+        var children: Set<Theme.State> = []
+        
+        // 过滤字符
+        for item in value.components(separatedBy: ":") {
+            let string = item.trimmingCharacters(in: Theme.State.trimmingCharacterSet)
+            guard !string.isEmpty else {
+                XZLog("Theme.State: Empty state string in `%@` was ignored.", value)
+                continue
+            }
+            children.insert(Theme.State.init(rawValue: ":" + string))
+        }
+        
+        self.init(children)
     }
     
     public var hashValue: Int {
@@ -25,11 +41,31 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
 }
 
+
+extension Theme.State: Sequence, IteratorProtocol {
+    
+    public mutating func next() -> Theme.State? {
+        if self.isEmpty {
+            return nil
+        }
+        if self.children.isEmpty {
+            let state = self
+            self = .notThemeState
+            return state
+        } else {
+            var children = self.children
+            let state = children.removeFirst()
+            self = Theme.State.init(children)
+            return state
+        }
+    }
+    
+}
+
 extension Theme.State {
     
     public init() {
-        self.rawValue = ""
-        self.children = []
+        self = .notThemeState
     }
     
     public var isEmpty: Bool {
@@ -69,8 +105,7 @@ extension Theme.State {
         }
         self = Theme.State.init(self.children.symmetricDifference(other.children))
     }
-    
-    
+
 }
 
 extension Theme.State: _ObjectiveCBridgeable {
@@ -118,35 +153,33 @@ extension UIControlState {
     /// - Note: 默认值 .normal 。
     ///
     /// - Parameter themeState: 主题状态。
-    public init(_ themeState: Theme.State) {
+    public init?(_ themeState: Theme.State) {
+        if themeState.isEmpty {
+            return nil
+        }
         if themeState.children.isEmpty {
             switch themeState {
             case .normal:       self = .normal
             case .selected:     self = .selected
             case .highlighted:  self = .highlighted
-            case .focused:      if #available(iOS 9.0, *) { self = .focused } else { self = .normal }
+            case .focused:      if #available(iOS 9.0, *) { self = .focused } else { return nil }
             case .disabled:     self = .disabled
-            default:            self = .normal
+            default:            return nil
             }
-            return;
+            return
         }
-        var controlStates = [UIControlState]()
-        if themeState.contains(.normal) {
-            controlStates.append(.normal)
+        var controlState = UIControlState.init(rawValue: 0)
+        for itemState in themeState {
+            switch itemState {
+            case .normal:       controlState.formUnion(.normal)
+            case .selected:     controlState.formUnion(.selected)
+            case .highlighted:  controlState.formUnion(.highlighted)
+            case .focused:      if #available(iOS 9.0, *) { controlState.formUnion(.focused) }
+            case .disabled:     controlState.formUnion(.disabled)
+            default:            break
+            }
         }
-        if themeState.contains(.selected) {
-            controlStates.append(.selected)
-        }
-        if themeState.contains(.highlighted) {
-            controlStates.append(.highlighted)
-        }
-        if #available(iOS 9.0, *), themeState.contains(.focused) {
-            controlStates.append(.focused)
-        }
-        if themeState.contains(.disabled) {
-            controlStates.append(.disabled)
-        }
-        self.init(controlStates)
+        self = controlState
     }
     
 }

@@ -8,6 +8,19 @@
 import Foundation
 import XZKit
 
+extension Theme.State {
+    
+    /// UISearchBarIcon.search
+    public static let searchBarIconSearch = Theme.State.init(rawValue: ":searchBarIconSearch")
+    /// UISearchBarIcon.clear
+    public static let searchBarIconClear = Theme.State.init(rawValue: ":searchBarIconClear")
+    /// UISearchBarIcon.bookmark
+    public static let searchBarIconBookmark = Theme.State.init(rawValue: ":searchBarIconBookmark")
+    /// UISearchBarIcon.resultsList
+    public static let searchBarIconResultsList = Theme.State.init(rawValue: ":searchBarIconResultsList")
+
+}
+
 extension Theme.Attribute {
     
     /// UISearchBar.showsBookmarkButton
@@ -252,6 +265,40 @@ extension UISearchBar {
         }
         
         // setBackgroundImage
+        全局样式中可能存在配置 statedThemeStylesIfLoaded 需要重新处理。
+        if let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded {
+            for statedThemeStyle in statedThemeStyles {
+                for barMetrics in statedThemeStyle.key.barMetrics {
+                    for barPosition in statedThemeStyle.key.barPositions {
+                        if statedThemeStyle.value.containsThemeAttribute(.backgroundImage) {
+                            self.setBackgroundImage(statedThemeStyle.value.backgroundImage, for: barPosition, barMetrics: barMetrics)
+                        }
+                    }
+                }
+            }
+        }
+        
+        // searchFieldBackgroundImage
+        
+        if themeStyles.containsThemeAttribute(.searchFieldBackgroundImage) {
+            self.setSearchFieldBackgroundImage(themeStyles.searchFieldBackgroundImage, for: .normal)
+        }
+        
+        if let themeStyle = themeStyles.selectedIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .selected)
+        }
+        
+        if let themeStyle = themeStyles.highlightedIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .highlighted)
+        }
+        
+        if let themeStyle = themeStyles.disabledIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .disabled)
+        }
+        
+        // open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
+        
+        
         
         if themeStyles.containsThemeAttribute(.searchFieldBackgroundPositionAdjustment) {
             self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
@@ -266,13 +313,6 @@ extension UISearchBar {
     }
     
 }
-
-
-//open func setBackgroundImage(_ backgroundImage: UIImage?, for barPosition: UIBarPosition, barMetrics: UIBarMetrics) // Use UIBarMetricsDefaultPrompt to set a separate backgroundImage for a search bar with a prompt
-//open func backgroundImage(for barPosition: UIBarPosition, barMetrics: UIBarMetrics) -> UIImage?
-
-//open func setSearchFieldBackgroundImage(_ backgroundImage: UIImage?, for state: UIControlState)
-//open func searchFieldBackgroundImage(for state: UIControlState) -> UIImage?
 
 //open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
 //open func image(for icon: UISearchBarIcon, state: UIControlState) -> UIImage?

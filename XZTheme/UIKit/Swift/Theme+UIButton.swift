@@ -15,7 +15,7 @@ extension Theme.Attribute {
     public static let title             = Theme.Attribute.init("title");
     /// UIButton.setTitleColor
     public static let titleColor        = Theme.Attribute.init("titleColor");
-    /// UIButton, UITabBar, UISearchBar
+    /// UIButton, UITabBar, UISearchBar, UINavigationBar
     public static let backgroundImage   = Theme.Attribute.init("backgroundImage");
     /// UIButton.setTitleShadowColor
     public static let titleShadowColor  = Theme.Attribute.init("titleShadowColor");
@@ -66,8 +66,7 @@ extension UIButton {
         let themeStates: [Theme.State] = [.normal, .selected, .highlighted, .disabled, .focused]
         
         for themeState in themeStates {
-            let controlState = UIControlState(themeState)
-            
+            guard let controlState = UIControlState(themeState) else { continue }    
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
 
             if themeStyle.containsThemeAttribute(.title) {

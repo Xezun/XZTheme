@@ -55,8 +55,6 @@ class ThemeViewController: UIViewController {
         label.themes.night.backgroundColor = UIColor(0x252525ff)
         label.themes.night.textColor       = UIColor(0x707070ff)
 
-        
-
         let button = UIButton(type: .system)
         button.frame = CGRect.init(x: 100, y: 100, width: 150, height: 40)
         button.themes.day.updateThemeStyles(byUsing: [
@@ -88,7 +86,7 @@ class ThemeViewController: UIViewController {
         
 
         let buttonRed = UIButton(type: .custom)
-        buttonRed.frame = CGRect.init(x: 100, y: 160, width: 150, height: 40)
+        buttonRed.frame           = CGRect.init(x: 100, y: 160, width: 150, height: 40)
         buttonRed.themeIdentifier = "red"
         buttonRed.setTitle("A red Button", for: .normal)
         view.addSubview(buttonRed)
