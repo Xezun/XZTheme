@@ -25,37 +25,49 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
 }
 
-extension Theme.State: OptionSet {
+extension Theme.State {
     
     public init() {
-        self.init(rawValue: String(), units: [])
+        self.rawValue = ""
+        self.children = []
+    }
+    
+    public var isEmpty: Bool {
+        return rawValue.isEmpty
+    }
+    
+    public func contains(_ member: Theme.State) -> Bool {
+        if self.rawValue == member.rawValue {
+            return true
+        }
+        if self.children.isEmpty {
+            return false
+        }
+        if member.children.isEmpty {
+            return self.children.contains(member)
+        }
+        return self.children.isSuperset(of: member.children)
     }
     
     public mutating func formUnion(_ other: Theme.State) {
         if self == other {
             return
         }
-        let newUnits = self.units.union(other.units)
-        self = Theme.State.init(rawValue: newUnits.joind(separator: ":"), units: newUnits)
+        self = Theme.State.init(self.children.union(other.children))
     }
     
     public mutating func formIntersection(_ other: Theme.State) {
         if self == other {
             return
         }
-        let stateItems = rawValue.components(separatedBy: ":")
-        let otherStateItems = other.rawValue.components(separatedBy: ":")
-        self = Theme.State.init(stateItems.filter({ (item) -> Bool in
-            return otherStateItems.contains(item)
-        }).joined(separator: ":"))
+        self = Theme.State.init(self.children.intersection(other.children))
     }
     
     public mutating func formSymmetricDifference(_ other: Theme.State) {
         if self == other {
             return
         }
-        let stateItems = Set.init(rawValue.components(separatedBy: ":"))
-        self = Theme.State.init(stateItems.symmetricDifference(other.rawValue.components(separatedBy: ":")).joined(separator: ":"))
+        self = Theme.State.init(self.children.symmetricDifference(other.children))
     }
     
     
@@ -68,7 +80,7 @@ extension Theme.State: _ObjectiveCBridgeable {
     }
     
     public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) {
-        result = Theme.State.init(source as String)
+        result = Theme.State.init(rawValue: source as String)
     }
     
     public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) -> Bool {
@@ -78,7 +90,7 @@ extension Theme.State: _ObjectiveCBridgeable {
     
     public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme.State {
         if let value = source as String? {
-            return Theme.State.init(value)
+            return Theme.State.init(rawValue: value as String)
         }
         return Theme.State.normal;
     }
@@ -89,15 +101,15 @@ extension Theme.State: _ObjectiveCBridgeable {
 extension Theme.State {
     
     /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
-    public static let normal       : Theme.State = ":normal"
+    public static let normal       = Theme.State.init(rawValue: ":normal")
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
-    public static let selected     : Theme.State = ":selected"
+    public static let selected     = Theme.State.init(rawValue: ":selected")
     /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
-    public static let highlighted  : Theme.State = ":highlighted"
+    public static let highlighted  = Theme.State.init(rawValue: ":highlighted")
     /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
-    public static let disabled     : Theme.State = ":disabled"
+    public static let disabled     = Theme.State.init(rawValue: ":disabled")
     /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
-    public static let focused      : Theme.State = ":focused"
+    public static let focused      = Theme.State.init(rawValue: ":focused")
 }
 
 extension UIControlState {
@@ -107,6 +119,17 @@ extension UIControlState {
     ///
     /// - Parameter themeState: 主题状态。
     public init(_ themeState: Theme.State) {
+        if themeState.children.isEmpty {
+            switch themeState {
+            case .normal:       self = .normal
+            case .selected:     self = .selected
+            case .highlighted:  self = .highlighted
+            case .focused:      if #available(iOS 9.0, *) { self = .focused } else { self = .normal }
+            case .disabled:     self = .disabled
+            default:            self = .normal
+            }
+            return;
+        }
         var controlStates = [UIControlState]()
         if themeState.contains(.normal) {
             controlStates.append(.normal)

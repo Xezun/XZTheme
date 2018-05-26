@@ -24,7 +24,7 @@ extension Theme.State {
     /// UIBarMetrics.compactPrompt
     public static let compactPromptBarMetrics = Theme.State.init(":compactPromptBarMetrics")
     
-    /// 如果包含 UIBarMetrics 则返回，集合可能为空。
+    /// 主题状态中包含 UIBarMetrics ，至少包含 .default 。
     public var barMetrics: [UIBarMetrics] {
         var barMetrics = [UIBarMetrics]()
         if self.contains(.defaultBarMetrics) {
@@ -39,6 +39,9 @@ extension Theme.State {
         if self.contains(.compactPromptBarMetrics) {
             barMetrics.append(.compactPrompt)
         }
+        if barMetrics.isEmpty {
+            barMetrics.append(.default)
+        }
         return barMetrics
     }
     
@@ -51,7 +54,7 @@ extension Theme.State {
     /// UIBarPosition.topAttached
     public static let topAttachedBarPosition = Theme.State.init(":topAttachedBarPosition")
     
-    /// 如果包含 UIBarPosition 则返回，集合可能为空。
+    /// 主题状态中包含 UIBarMetrics ，至少包含 .any 。
     public var barPositions: [UIBarPosition] {
         var barPositions = [UIBarPosition]()
         if self.contains(.anyBarPosition) {
@@ -65,6 +68,9 @@ extension Theme.State {
         }
         if self.contains(.topAttachedBarPosition) {
             barPositions.append(UIBarPosition.topAttached)
+        }
+        if barPositions.isEmpty {
+            barPositions.append(.any)
         }
         return barPositions
     }
@@ -85,6 +91,8 @@ extension Theme.Attribute {
     public static let backIndicatorTransitionMaskImage = Theme.Attribute.init(rawValue: "backIndicatorTransitionMaskImage")
     /// UINavigationBar.prefersLargeTitles
     public static let prefersLargeTitles = Theme.Attribute.init(rawValue: "prefersLargeTitles")
+    /// UINavigationBar
+    public static let titleVerticalPositionAdjustment = Theme.Attribute.init("titleVerticalPositionAdjustment")
 }
 
 extension Theme.Style {
@@ -107,6 +115,11 @@ extension Theme.Style {
     public var prefersLargeTitles: Bool {
         get { return boolValue(forThemeAttribute: .prefersLargeTitles)   }
         set { setValue(newValue, forThemeAttribute: .prefersLargeTitles) }
+    }
+    
+    public var titleVerticalPositionAdjustment: CGFloat {
+        get { return floatValue(forThemeAttribute: .titleVerticalPositionAdjustment) }
+        set { setValue(newValue, forThemeAttribute: .titleVerticalPositionAdjustment) }
     }
 }
 
@@ -154,12 +167,18 @@ extension UINavigationBar {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
         }
         
-//        self.themes.themeStyles(forTheme: Theme.init(name: "day")).themeStyle(forThemeState: .defaultBarMetrics(forBarPosition: .any)).backgroundColor;
-        
         if let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded {
             for item in statedThemeStyles {
-                let barMet = item.key.barMetrics
-                let position = item.key.barPositions
+                for barMetrics in item.key.barMetrics {
+                    for barPosition in item.key.barPositions {
+                        if item.value.containsThemeAttribute(.backgroundImage) {
+                            self.setBackgroundImage(item.value.backgroundImage, for: barPosition, barMetrics: barMetrics)
+                        }
+                    }
+                    if item.value.containsThemeAttribute(.titleVerticalPositionAdjustment) {
+                        self.setTitleVerticalPositionAdjustment(item.value.titleVerticalPositionAdjustment, for: barMetrics)
+                    }
+                }
             }
         }
         

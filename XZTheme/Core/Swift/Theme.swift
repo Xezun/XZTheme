@@ -384,41 +384,67 @@ extension Theme {
     
     /// 主题状态。
     /// - Note: 主题状态一般情况下与触控状态相对应。
-    /// - Note: 主题状态名应该符合正则 /^\:[A-Za-z]+$/ 。
-    public struct State: RawRepresentable {
+    /// - Note: 主题状态名必须符合正则 /^\:[A-Za-z]+$/ 。
+    /// - Note: 主题状态可能是集合。
+    public struct State: OptionSet {
         public typealias RawValue = String
+        /// 主题状态字符串。
         public let rawValue: String
-        public let units: Set<State>
+        /// 基本主题状态没有子元素。
+        public let children: Set<State>
+        
+        private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
+        
+        /// 基本主题状态构造方法。
+        ///
+        /// - Parameter rawValue: 主题状态原始值。
+        public init(rawValue: String) {
+            let range = NSMakeRange(0, rawValue.count)
+            guard NSEqualRanges(range, State.regularExpression.rangeOfFirstMatch(in: rawValue, options: .none, range: range)) else {
+                fatalError("The `\(rawValue)` is not an valid state rawValue, which must be matched the regular expression /^\\:[A-Za-z]+$/ .")
+            }
+            self.rawValue = rawValue
+            self.children = []
+        }
+        
+        /// 通过主题状态集合转换为新的主题状态。
+        ///
+        /// - Parameter rawValue: 主题状态原始值。
+        public init<T: Sequence>(_ children: T) where T.Element == State {
+            var items: Set<State> = []
+            for child in children {
+                if child.children.isEmpty {
+                    items.insert(child)
+                } else {
+                    items.formUnion(child.children)
+                }
+            }
+            self.rawValue = ":" + items.map({ (state) -> String in
+                return state.rawValue
+            }).sorted(by: { (str1, str2) -> Bool in
+                return str1.compare(str2) != .orderedDescending
+            }).joined(separator: ":")
+            self.children = items
+        }
         
         private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
         
-        public init(rawValue: String) {
-            var unitStrings = Set<String>.init()
+        /// 将形如 :normal:selected 的字符串转化为主题状态。
+        ///
+        /// - Parameter rawValue: 字符串。
+        public init(_ aString: String) {
+            var children: Set<State> = []
             
-            for item in rawValue.components(separatedBy: ":") {
+            // 过滤字符
+            for item in aString.components(separatedBy: ":") {
                 let string = item.trimmingCharacters(in: State.trimmingCharacterSet)
                 guard !string.isEmpty else { continue }
-                unitStrings.insert(string)
+                children.insert(State.init(":" + string))
             }
             
-            switch unitStrings.count {
-            case 1:
-                self.init(rawValue: unitStrings.first!, units: [])
-            default:
-                // Set has 
-                let newValueString = ":" + unitStrings.sorted(by: { (item1, item2) -> Bool in
-                   return item1.compare(item2) == ComparisonResult.orderedAscending
-                }).joined(separator: ":")
-                self.init(rawValue: newValueString, units: Set(unitStrings.map({ (string) -> State in
-                    return State.init(rawValue: string, units: [])
-                })))
-            }
+            self.init(children)
         }
         
-        public init(rawValue: String, units: Set<State>) {
-            self.rawValue = rawValue
-            self.units    = units
-        }
     }
     
     /// 主题标识符。
