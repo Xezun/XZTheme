@@ -100,7 +100,7 @@ extension UIView {
     ///
     /// **UITextView:** *text, font, textColor, textAlignment, isEditable, isSelectable, allowsEditingTextAttributes, attributedText, typingAttributes, clearsOnInsertion, linkTextAttributes, keyboardAppearance, keyboardType, returnKeyType, enablesReturnKeyAutomatically, isSecureTextEntry.*
     ///
-    /// **UIToolbar:**: *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
+    /// **UIToolbar:** *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
     ///
     /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {

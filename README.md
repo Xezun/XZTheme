@@ -335,7 +335,7 @@ view.addSubview(buttonRed)
 
 **UITextView:** *text, font, textColor, textAlignment, isEditable, isSelectable, allowsEditingTextAttributes, attributedText, typingAttributes, clearsOnInsertion, linkTextAttributes, keyboardAppearance, keyboardType, returnKeyType, enablesReturnKeyAutomatically, isSecureTextEntry.*
 
-**UIToolbar:**: *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
+**UIToolbar:** *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
 
 ## 开发备忘录
 
