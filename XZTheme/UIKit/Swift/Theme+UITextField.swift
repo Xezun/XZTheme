@@ -169,7 +169,7 @@ extension Theme.Style {
         set { setValue(newValue, forThemeAttribute: .defaultTextAttributes) }
     }
     
-    /// 与 Theme.Attribute.placeholder 属性相对应。
+    /// /// 该属性对应的主题属性为 `.placeholder` 。
     public var placeholderText: String? {
         get { return stringValue(forThemeAttribute: .placeholder) }
         set { setValue(newValue, forThemeAttribute: .placeholder) }

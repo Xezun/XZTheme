@@ -65,7 +65,7 @@ extension Theme.Style {
         set { setValue(newValue, forThemeAttribute: .isHighlighted) }
     }
     
-    /// For **UIImageView**.*placeholder*
+    /// 该属性对应的主题属性为 `.placeholder` 。
     public var placeholderImage: UIImage? {
         get { return image(forThemeAttribute: .placeholder)  }
         set { setValue(newValue, forThemeAttribute: .placeholder)  }
