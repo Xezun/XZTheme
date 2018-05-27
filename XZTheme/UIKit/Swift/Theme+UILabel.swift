@@ -89,6 +89,10 @@ extension UILabel {
             self.attributedText = themeStyles.attributedText
         }
         
+        if themeStyles.containsThemeAttribute(.adjustsFontSizeToFitWidth) {
+            self.adjustsFontSizeToFitWidth = themeStyles.adjustsFontSizeToFitWidth
+        }
+        
     }
     
 }

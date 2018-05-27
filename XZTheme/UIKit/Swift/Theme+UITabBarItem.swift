@@ -19,6 +19,8 @@ extension Theme.Attribute {
     public static let landscapeImagePhone = Theme.Attribute.init("landscapeImagePhone")
     /// UITabBarItem.largeContentSizeImage
     public static let largeContentSizeImage = Theme.Attribute.init("largeContentSizeImage")
+    /// UITabBarItem
+    public static let badgeTextAttributes = Theme.Attribute.init("badgeTextAttributes")
 }
 
 extension Theme.Style {
@@ -44,6 +46,10 @@ extension Theme.Style {
         set { setValue(newValue, forThemeAttribute: .largeContentSizeImage)}
     }
     
+    public var badgeTextAttributes: [String: Any]? {
+        get { return stringAttributes(forThemeAttribute: .badgeTextAttributes) }
+        set { setValue(newValue, forThemeAttribute: .badgeTextAttributes) }
+    }
 }
 
 extension UITabBarItem {
@@ -99,6 +105,15 @@ extension UITabBarItem {
             if let themeStyle = themeStyles.focusedIfLoaded {
                 if themeStyle.containsThemeAttribute(.titleTextAttributes) {
                     self.setTitleTextAttributes(themeStyle.titleTextAttributes, for: .focused)
+                }
+            }
+        }
+        
+        if #available(iOS 10.0, *) {
+            for item in Theme.State.UIControlStateItems {
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.badgeTextAttributes) {
+                    setBadgeTextAttributes(themeStyle.badgeTextAttributes, for: item.controlState)
                 }
             }
         }

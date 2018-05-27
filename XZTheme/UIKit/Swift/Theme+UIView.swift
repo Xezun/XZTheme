@@ -90,13 +90,13 @@ extension UIView {
     ///
     /// **UIProgressView:** *progressViewStyle, progress, progressTintColor, trackTintColor, progressImage, trackImage.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UISlider:** *isContinuous, minimumTrackTintColor, maximumTrackTintColor, thumbImage, minimumTrackImage, maximumTrackImage.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UISearchBar:** *barStyle, text, prompt, placeholder, showsBookmarkButton, showsCancelButton, showsSearchResultsButton, isSearchResultsButtonSelected, barTintColor, searchBarStyle, isTranslucent, scopeButtonTitles, showsScopeBar, backgroundImage, scopeBarBackgroundImage, backgroundImage(for:barMetrics:), searchFieldBackgroundImage, scopeBarButtonBackgroundImage, scopeBarButtonTitleTextAttributes, image, scopeBarButtonDividerImage, searchFieldBackgroundPositionAdjustment, searchTextPositionAdjustment, positionAdjustment.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UISwitch:** *onTintColor, thumbTintColor, onImage, offImage, isOn.*
     ///
-    /// **<#View#>:** *<#Properties#>.*
+    /// **UITextField:** *text, attributedText, textColor, font, textAlignment, borderStyle, defaultTextAttributes, placeholder, attributedPlaceholder, clearsOnBeginEditing, adjustsFontSizeToFitWidth, minimumFontSize, background, disabledBackground, allowsEditingTextAttributes, typingAttributes, clearButtonMode, leftViewMode, rightViewMode, clearsOnInsertion, keyboardAppearance, keyboardType, returnKeyType, enablesReturnKeyAutomatically, isSecureTextEntry.*
     ///
     /// **<#View#>:** *<#Properties#>.*
     ///

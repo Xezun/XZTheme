@@ -18,6 +18,85 @@ extension Theme.State {
     public static let searchBarIconBookmark = Theme.State.init(rawValue: ":searchBarIconBookmark")
     /// UISearchBarIcon.resultsList
     public static let searchBarIconResultsList = Theme.State.init(rawValue: ":searchBarIconResultsList")
+    
+    
+    /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
+    public static let normalForRight       = Theme.State.init(rawValue: ":rightNormal")
+    /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
+    public static let selectedForRight     = Theme.State.init(rawValue: ":rightSelected")
+    /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
+    public static let highlightedForRight  = Theme.State.init(rawValue: ":rightHighlighted")
+    /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
+    public static let disabledForRight     = Theme.State.init(rawValue: ":rightDisabled")
+    /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
+    public static let focusedForRight      = Theme.State.init(rawValue: ":rightFocused")
+    
+
+    public static let UIControlStateLeftRightItems: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] = {
+        var items: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] =  [
+            ([.normal, .normalForRight], .normal, .normal), ([.normal, .selectedForRight], .normal, .selected),
+            ([.normal, .highlightedForRight], .normal, .highlighted), ([.normal, .disabledForRight], .normal, .disabled),
+            // ([.normal, .focusedForRight], .normal, .focused),
+            
+            ([.selected, .normalForRight], .selected, .normal), ([.selected, .selectedForRight], .selected, .selected),
+            ([.selected, .highlightedForRight], .selected, .highlighted), ([.selected, .disabledForRight], .selected, .disabled),
+            // ([.selected, .focusedForRight], .selected, .focused),
+            
+            ([.highlighted, .normalForRight], .highlighted, .normal), ([.normal, .selectedForRight], .highlighted, .selected),
+            ([.highlighted, .highlightedForRight], .highlighted, .highlighted), ([.normal, .disabledForRight], .highlighted, .disabled),
+            // ([.highlighted, .focusedForRight], .highlighted, .focused),
+            
+            ([.disabled, .normalForRight], .disabled, .normal), ([.disabled, .selectedForRight], .disabled, .selected),
+            ([.disabled, .highlightedForRight], .disabled, .highlighted), ([.disabled, .disabledForRight], .disabled, .disabled)
+            // ([.disabled, .focusedForRight], .disabled, .focused),
+            
+            // ([.focused, .normalForRight], .focused, .normal), ([.focused, .selectedForRight], .focused, .selected),
+            // ([.focused, .highlightedForRight], .focused, .highlighted), ([.focused, .disabledForRight], .focused, .disabled)
+            // ([.focused, .focusedForRight], .focused, .focused)
+        ]
+        if #available(iOS 9.0, *) {
+            items.append(([.normal, .focusedForRight], .normal, .focused))
+            items.append(([.selected, .focusedForRight], .selected, .focused))
+            items.append(([.highlighted, .focusedForRight], .highlighted, .focused))
+            items.append(([.disabled, .focusedForRight], .disabled, .focused))
+            
+            items.append(([.focused, .normalForRight], .focused, .normal))
+            items.append(([.focused, .selectedForRight], .focused, .selected))
+            items.append(([.focused, .highlightedForRight], .focused, .highlighted))
+            items.append(([.focused, .disabledForRight], .focused, .disabled))
+            items.append(([.focused, .focusedForRight], .focused, .focused))
+        }
+        return items
+    } ()
+    
+    
+    
+    public static let UISearchBarIconItems: [(themeState: Theme.State, searchBarIcon: UISearchBarIcon)] = [
+        (.searchBarIconSearch, .search), (.searchBarIconClear, .clear), (.searchBarIconBookmark, .bookmark), (.searchBarIconResultsList, .resultsList)
+    ]
+    
+    public static let UIControlStateUISearchBarIconItems: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = {
+        var items: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = [
+            ([.normal, .searchBarIconSearch], .normal, .search), ([.normal, .searchBarIconClear], .normal, .clear),
+            ([.normal, .searchBarIconBookmark], .normal, .bookmark), ([.normal, .searchBarIconResultsList], .normal, .resultsList),
+            
+            ([.highlighted, .searchBarIconSearch], .highlighted, .search), ([.highlighted, .searchBarIconClear], .highlighted, .clear),
+            ([.highlighted, .searchBarIconBookmark], .highlighted, .bookmark), ([.highlighted, .searchBarIconResultsList], .highlighted, .resultsList),
+            
+            ([.selected, .searchBarIconSearch], .selected, .search), ([.selected, .searchBarIconClear], .selected, .clear),
+            ([.selected, .searchBarIconBookmark], .selected, .bookmark), ([.selected, .searchBarIconResultsList], .selected, .resultsList),
+            
+            ([.disabled, .searchBarIconSearch], .disabled, .search), ([.disabled, .searchBarIconClear], .disabled, .clear),
+            ([.disabled, .searchBarIconBookmark], .disabled, .bookmark), ([.disabled, .searchBarIconResultsList], .disabled, .resultsList)
+        ]
+        if #available(iOS 9.0, *) {
+            items.append(([.focused, .searchBarIconSearch], .focused, .search))
+            items.append(([.focused, .searchBarIconClear], .focused, .clear))
+            items.append(([.focused, .searchBarIconBookmark], .focused, .bookmark))
+            items.append(([.focused, .searchBarIconResultsList], .focused, .resultsList))
+        }
+        return items
+    }()
 
 }
 
@@ -47,7 +126,7 @@ extension Theme.Attribute {
     public static let searchFieldBackgroundImage = Theme.Attribute.init("searchFieldBackgroundImage")
     /// UISearchBar.scopeBarButtonBackgroundImage
     public static let scopeBarButtonBackgroundImage = Theme.Attribute.init("scopeBarButtonBackgroundImage")
-    /// UISearchBar.scopeBarButtonDividerImage
+    /// UISearchBar 需使用 Theme.State.norml、Theme.State.normlForRight 分别代表左右的 UIControlState ，其它状态依此类推。
     public static let scopeBarButtonDividerImage = Theme.Attribute.init("scopeBarButtonDividerImage")
     /// UISearchBar.scopeBarButtonTitleTextAttributes
     public static let scopeBarButtonTitleTextAttributes = Theme.Attribute.init("scopeBarButtonTitleTextAttributes")
@@ -166,19 +245,8 @@ extension Theme.Style {
     }
     
     public var scopeBarButtonTitleTextAttributes: [String : Any]? {
-        get {
-            guard let stringAttributes = self.stringAttributes(forThemeAttribute: .scopeBarButtonTitleTextAttributes) else {
-                return nil
-            }
-            var titleTextAttributes = [String: Any]()
-            for item in stringAttributes {
-                titleTextAttributes[item.key.rawValue] = item.value
-            }
-            return titleTextAttributes
-        }
-        set {
-            setValue(newValue, forThemeAttribute: .scopeBarButtonTitleTextAttributes)
-        }
+        get { return stringAttributes(forThemeAttribute: .scopeBarButtonTitleTextAttributes) }
+        set { setValue(newValue, forThemeAttribute: .scopeBarButtonTitleTextAttributes) }
     }
     
     public var searchFieldBackgroundPositionAdjustment: UIOffset {
@@ -265,40 +333,44 @@ extension UISearchBar {
         }
         
         // setBackgroundImage
-        全局样式中可能存在配置 statedThemeStylesIfLoaded 需要重新处理。
-        if let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded {
-            for statedThemeStyle in statedThemeStyles {
-                for barMetrics in statedThemeStyle.key.barMetrics {
-                    for barPosition in statedThemeStyle.key.barPositions {
-                        if statedThemeStyle.value.containsThemeAttribute(.backgroundImage) {
-                            self.setBackgroundImage(statedThemeStyle.value.backgroundImage, for: barPosition, barMetrics: barMetrics)
-                        }
-                    }
-                }
+        for item in Theme.State.UIBarMetricsUIBarPositionItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.backgroundImage) {
+                setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)
             }
         }
         
         // searchFieldBackgroundImage
         
-        if themeStyles.containsThemeAttribute(.searchFieldBackgroundImage) {
-            self.setSearchFieldBackgroundImage(themeStyles.searchFieldBackgroundImage, for: .normal)
-        }
-        
-        if let themeStyle = themeStyles.selectedIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
-            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .selected)
-        }
-        
-        if let themeStyle = themeStyles.highlightedIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
-            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .highlighted)
-        }
-        
-        if let themeStyle = themeStyles.disabledIfLoaded, themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
-            self.setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: .disabled)
+        for item in Theme.State.UIControlStateItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+                setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: item.controlState)
+            }
+            if themeStyle.containsThemeAttribute(.scopeBarButtonBackgroundImage) {
+                setScopeBarButtonBackgroundImage(themeStyle.scopeBarButtonBackgroundImage, for: item.controlState)
+            }
+            if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
+                setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: item.controlState)
+            }
+            
         }
         
         // open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
         
+        for item in Theme.State.UIControlStateUISearchBarIconItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.image) {
+                setImage(themeStyle.image, for: item.searchBarIcon, state: item.controlState)
+            }
+        }
         
+        for item in Theme.State.UIControlStateLeftRightItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.scopeBarButtonDividerImage) {
+                setScopeBarButtonDividerImage(themeStyle.scopeBarButtonDividerImage, forLeftSegmentState: item.leftControlState, rightSegmentState: item.rightControlState)
+            }
+        }
         
         if themeStyles.containsThemeAttribute(.searchFieldBackgroundPositionAdjustment) {
             self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
@@ -310,28 +382,16 @@ extension UISearchBar {
         
         // setPositionAdjustment
         
+        for item in Theme.State.UISearchBarIconItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.positionAdjustment) {
+                setPositionAdjustment(themeStyle.positionAdjustment, for: item.searchBarIcon)
+            }
+        }
+        
     }
     
 }
-
-//open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
-//open func image(for icon: UISearchBarIcon, state: UIControlState) -> UIImage?
-
-//open func setScopeBarButtonBackgroundImage(_ backgroundImage: UIImage?, for state: UIControlState)
-//open func scopeBarButtonBackgroundImage(for state: UIControlState) -> UIImage?
-
-//open func setScopeBarButtonDividerImage(_ dividerImage: UIImage?, forLeftSegmentState leftState: UIControlState, rightSegmentState rightState: UIControlState)
-//open func scopeBarButtonDividerImage(forLeftSegmentState leftState: UIControlState, rightSegmentState rightState: UIControlState) -> UIImage?
-
-//open func setScopeBarButtonTitleTextAttributes(_ attributes: [String : Any]?, for state: UIControlState)
-//open func scopeBarButtonTitleTextAttributes(for state: UIControlState) -> [String : Any]?
-
-//open var searchFieldBackgroundPositionAdjustment: UIOffset
-//open var searchTextPositionAdjustment: UIOffset
-
-//open func setPositionAdjustment(_ adjustment: UIOffset, for icon: UISearchBarIcon)
-//open func positionAdjustment(for icon: UISearchBarIcon) -> UIOffset
-
 
 
 

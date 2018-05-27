@@ -175,6 +175,14 @@ extension Theme.Style {
         return Theme.parser.parse(value(forThemeAttribute: themeAttribute))
     }
     
+    public func stringAttributes(forThemeAttribute themeAttribute: Theme.Attribute) -> [String: Any]? {
+        guard let stringAttributes: [NSAttributedStringKey: Any] = Theme.parser.parse(self.value(forThemeAttribute: themeAttribute)) else { return nil }
+        var dict = [String: Any]()
+        for item in stringAttributes {
+            dict[item.key.rawValue] = item.value
+        }
+        return dict
+    }
 }
 
 

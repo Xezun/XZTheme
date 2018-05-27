@@ -136,6 +136,8 @@ extension Theme.State: _ObjectiveCBridgeable {
 extension Theme.State {
     
     /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
+    /// - Note: 对应 UISearchBar 为 LeftSegmentState 的触控状态，RightSegmentState 请使用 `.normalForRight` 。
+    /// - Note: 对于设置带触控状态的属性，仅支持基本状态。
     public static let normal       = Theme.State.init(rawValue: ":normal")
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
     public static let selected     = Theme.State.init(rawValue: ":selected")

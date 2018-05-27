@@ -8,6 +8,18 @@
 
 import UIKit
 
+extension Theme.State {
+    
+    /// Theme.State 对 UIControlState 的对应关系。
+    public static let UIControlStateItems: [(themeState: Theme.State, controlState: UIControlState)] = {
+        if #available(iOS 9.0, *) {
+            return [(.normal, .normal), (.selected, .selected), (.highlighted, .highlighted), (.disabled, .disabled), (.focused, .focused)]
+        } else {
+            return [(.normal, .normal), (.selected, .selected), (.highlighted, .highlighted), (.disabled, .disabled)]
+        }
+    }()
+    
+}
 
 extension Theme.Attribute {
     
@@ -56,36 +68,29 @@ extension Theme.Style {
 
 extension UIButton {
     
-    open override var forwardsThemeAppearanceUpdate: Bool {
-        return false
-    }
-    
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        let themeStates: [Theme.State] = [.normal, .selected, .highlighted, .disabled, .focused]
-        
-        for themeState in themeStates {
-            guard let controlState = UIControlState(themeState) else { continue }    
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+        for item in Theme.State.UIControlStateItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
 
             if themeStyle.containsThemeAttribute(.title) {
-                self.setTitle(themeStyle.title, for: controlState);
+                self.setTitle(themeStyle.title, for: item.controlState);
             }
             if themeStyle.containsThemeAttribute(.titleColor) {
-                self.setTitleColor(themeStyle.titleColor, for: controlState);
+                self.setTitleColor(themeStyle.titleColor, for: item.controlState);
             }
             if themeStyle.containsThemeAttribute(.titleShadowColor) {
-                self.setTitleShadowColor(themeStyle.titleShadowColor, for: controlState);
+                self.setTitleShadowColor(themeStyle.titleShadowColor, for: item.controlState);
             }
             if themeStyle.containsThemeAttribute(.image) {
-                self.setImage(themeStyle.image, for: controlState);
+                self.setImage(themeStyle.image, for: item.controlState);
             }
             if themeStyle.containsThemeAttribute(.backgroundImage) {
-                self.setBackgroundImage(themeStyle.backgroundImage, for: controlState);
+                self.setBackgroundImage(themeStyle.backgroundImage, for: item.controlState);
             }
             if themeStyle.containsThemeAttribute(.attributedTitle) {
-                self.setAttributedTitle(themeStyle.attributedTitle, for: controlState);
+                self.setAttributedTitle(themeStyle.attributedTitle, for: item.controlState);
             }
         }
         

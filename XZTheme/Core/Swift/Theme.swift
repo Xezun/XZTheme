@@ -385,7 +385,19 @@ extension Theme {
     /// 主题状态。
     /// - Note: 主题状态一般情况下与触控状态相对应。
     /// - Note: 主题状态名必须符合正则 /^\:[A-Za-z]+$/ 。
-    /// - Note: 主题状态可能是集合。
+    /// - Note: 主题状态可能是集合，用于设置多状态。比如 `UINavigationBar` 设置 `.backgroundImage` 属性。
+    /// ```
+    /// .setValue(
+    ///     "bg_bar_nav",
+    ///     forThemeAttribute: .backgroundImage,
+    ///     forThemeState: .defaultBarMetrics
+    /// )
+    /// .setValue(
+    ///     "bg_bar_nav",
+    ///     forThemeAttribute: .backgroundImage,
+    ///     forThemeState: [.defaultBarMetrics, .compactBarMetrics]
+    /// )
+    /// ```
     /// - Note: 空字符串不被视为有效的主题状态。
     public struct State: OptionSet, CustomStringConvertible {
         

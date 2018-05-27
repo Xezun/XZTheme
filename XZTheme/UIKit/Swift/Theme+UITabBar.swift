@@ -90,11 +90,6 @@ extension Theme.Style {
 
 extension UITabBar {
     
-    /// 默认情况下，UITabBar 不向其子视图发送主题变更事件。
-    open override var forwardsThemeAppearanceUpdate: Bool {
-        return false
-    }
-    
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
