@@ -67,11 +67,7 @@ extension Theme.State: Sequence, IteratorProtocol {
 }
 
 extension Theme.State {
-    
-    public init() {
-        self = .notThemeState
-    }
-    
+
     public var isEmpty: Bool {
         return rawValue.isEmpty
     }
@@ -99,75 +95,6 @@ extension Theme.State {
         return true
     }
     
-    public mutating func formUnion(_ other: Theme.State) {
-        if self == other {
-            return
-        }
-        var children = self.children;
-        if self.isPrimary {
-            children.append(self)
-        }
-        if other.isPrimary {
-            children.append(other)
-        } else {
-            children.append(contentsOf: other.children)
-        }
-        self = Theme.State.init(children)
-    }
-    
-    public mutating func formIntersection(_ other: Theme.State) {
-        if self == other {
-            return
-        }
-        if self.isPrimary {
-            if other.isPrimary || !other.children.contains(self) {
-                self = .notThemeState
-            }
-            return
-        }
-        if other.isPrimary {
-            if self.children.contains(other) {
-                self = other
-            } else {
-                self = .notThemeState
-            }
-            return
-        }
-        var children = [Theme.State]()
-        for m in 0 ..< self.children.count {
-            let state = self.children[m]
-            if other.contains(state) {
-                children.append(state)
-            }
-        }
-        self = Theme.State.init(children)
-    }
-    
-    public mutating func formSymmetricDifference(_ other: Theme.State) {
-        if self == other {
-            self = .notThemeState
-            return
-        }
-        var children1 = self.children
-        var children2 = other.children
-        var m = 0, n = 0, isFound = false
-        while m < children1.count {
-            n = 0
-            isFound = false
-            while n < children2.count {
-                if children1[m] == children1[n] {
-                    children1.remove(at: m)
-                    children2.remove(at: n)
-                    isFound = true
-                } else {
-                    n += 1
-                }
-            }
-            if !isFound { m += 1 }
-        }
-        self = Theme.State.init(children1 + children2)
-    }
-
 }
 
 extension Theme.State: _ObjectiveCBridgeable {

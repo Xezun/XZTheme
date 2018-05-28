@@ -401,7 +401,7 @@ extension Theme {
     /// - Note: 空字符串不被视为有效的主题状态。
     /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
     /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
-    public struct State: OptionSet, CustomStringConvertible {
+    public struct State: RawRepresentable, ExpressibleByArrayLiteral, CustomStringConvertible {
         
         /// 不是主题状态。
         public static let notThemeState: Theme.State = .init(rawValue: "", children: [])
@@ -442,8 +442,14 @@ extension Theme {
         ///
         /// - Parameter rawValue: 主题状态原始值。
         public init<T: Sequence>(_ children: T) where T.Element == State {
+            self.init(Array(children))
+        }
+        
+        public typealias ArrayLiteralElement = Theme.State
+        
+        public init(arrayLiteral elements: Theme.State...) {
             var items: [State] = []
-            for child in children {
+            for child in elements {
                 if child.isPrimary {
                     items.append(child)
                 } else {

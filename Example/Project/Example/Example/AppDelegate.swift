@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+
         UIButton.themes.day
             .setting(0x333333ff, for: .titleColor)
             .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
