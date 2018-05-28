@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 	#   * Finally, don't worry about the indent, CocoaPods strips it!
 
 	s.description      = <<-DESC
-							XZTheme 是 XZKit 框架中的一个组件，目前已开源。
+							XZTheme is a part of XZKit, an efficient iOS third framework. XZTheme depends on the XZKit.
 						DESC
 
 	s.homepage         = 'https://github.com/mlibai/XZTheme'
