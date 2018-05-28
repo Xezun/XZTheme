@@ -295,6 +295,8 @@ view.addSubview(buttonRed)
 }
 ```
 
+### 拓展主题支持
+
 ## 支持的控件和属性
 
 **UIView:** *backgroundColor, tintColor, isHidden, alpha, isOpaque, brightness.*
