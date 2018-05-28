@@ -13,31 +13,9 @@
 没有什么特别有效、方便、快捷的方法。
 
 
-## 特性及原理
-
-系统原生 UIAppearance 方案，应该说是在实现主题方案中最直观的了，但是其局限性和性能却让人不敢恭维。本组件在借鉴 UIAppearance 机制的基础上，
-提高了组件性能以及适应性。
-
-### 设计原理
-
-将主题外观样式按属性名和属性值并分类存储，再通过建立样式属性名和样式属性值与控件属性的对应关系，
-使得在主题变更时，可以通过读取已存储的样式属性，通过对应关系来直接来改变控件的属性。
-
-### 运行机制
-
-
-#### 普通对象
-
-为每一个需要支持主题的对象，自动创建监听主题变更的对象（开发者也可以自定义），并在主题变更时，响应指定的方法。
-
-#### UIKit 控件及相关对象
-
-主题变更时，所有正在显示的视图，都将收到主题变更事件，而且这些都是自动的；而没有正在显示的视图，则在它们被添加到父视图上时，自动检测
-其已应用的主题与当前主题是否一致，并自动决定是否需要应用主题。
-
 ## 环境需求
 
-Swift 4.0
+推荐使用 Swift 语言，支持最新 4.1 版本，框架同时兼容 Objective-C 语言。
 
 ## 安装集成
 
@@ -45,12 +23,13 @@ Swift 4.0
 pod "XZTheme"
 ```
 
-## 例子
+## 示例
 
-### 0. 最简单的例子 
+### 1. 主题事件
 
-当主题发生改变时，UIView控件及其子类的 `updateAppearance(with: Theme)` 方法会被调用，直接在此方法中，根据主题来配置样式。
-这是本主题组件支持的最简单的方式，同时也是理论上效率、性能最高的方式。
+框架为所有 `NSObject` 对象提供主题支持，并且特别的为 `UIView` 及子类控件的主题支持进行了优化。所有支持的类中，主题都应用都
+发生在主题事件方法 `updateAppearance(with: Theme)` 中。默认情况下，该方法会检查主题样式，并调用应用主题样式的方法。在不想
+配置主题样式的情况下，重写此方法，直接在此方法中配置控件外观，是最简单最直接的方法。
 
 ```swift
 override open func updateAppearance(with newTheme: Theme) {
@@ -67,7 +46,7 @@ override open func updateAppearance(with newTheme: Theme) {
 }
 ```
 
-而对于非 UIView 对象，需要写的实现的方法，仅比上面多一行代码。
+而对于非 UIView 对象，启用自动主题支持，需要重写下面的方法，并返回 `true` （默认 `false`)。 
 
 ```swift
 open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
@@ -75,18 +54,13 @@ open override var shouldAutomaticallyUpdateThemeAppearance: Bool {
 }
 ```
 
-上面这个方法，返回 true 时，XZTheme 组件将自动调用 `updateAppearance(with: Theme)` 方法（通过 `setNeedsThemeAppearanceUpdate()` 方法）来告知对象切换主题了。
-不过，如果对象切换主题需要特殊处理来提高性能，比如可以延迟切换主题，那么开发者可以根据需要来确定是否需要监听通知。
+### 2. 拓展主题
 
+- 2.1 添加自定义主题
 
-### 1. 准备工作
-
-上面的例子中，使用 `.day` 和 `.night` 来通过 `switch` 判断主题，是需要一些准备工作的。
-
-- 自定义主题
-
-通过 `extension` 将自定义主题写成属性的形式，方便调用。框架已经提供了一个 `Theme.default` 的默认主题拓展，它默认也不包含任何样式。
-默认主题在以下介绍的几种主题配置方案中，是建议使用的，如果你不喜欢这个名字，可以给它重命名。
+定义主题，只需要主题名字即可。框架提供了一个名为 `Theme.default` 的默认主题，用于在没有设置任何主题时，作为当前主题的占位符，
+同时也作为，如果控件缺少某一主题样式配置时的默认值。建议使用默认主题，并在默认主题下配置界面元素的默认外观。比如下面的代码表示
+定义了两个主题 `day`、`night` ，而 `day` 主题是默认主题的重命名版本。
 
 ```swift
 extension Theme {
@@ -97,40 +71,39 @@ extension Theme {
 }
 ```
 
-- 在下面的几种方案中，你可能还需要设置获取主题样式配置的便利方法。
+- 2.2 优化主题样式的访问方式
+
+当访问主题集 `.themes` 中指定主题下的主题样式（集）时，使用的是 `themeStyles(forTheme:)` 方法，一般情况下，可以通过下面的方法来简化
+此访问过程.
 
 ```swift
 extension Theme.Collection {
-
     var day: Theme.Style.Collection {
         return self.themeStyles(forTheme: .day)
     }
-
     var night: Theme.Style.Collection {
         return self.themeStyles(forTheme: .night)
     }
-
 }
 ```
 
-### 2. 配置主题
+- 2.3 如何使用已自定义
 
-XZTheme 支持使用多种方式配置主题，而且支持使用多种值来设置。比如使用十六进制颜色值（#FFAA33、0xA2B2C3FF）来设置颜色，通过图片名称来设置图片。
-XZTheme 仅对 OC 开放了少量基本接口，毕竟 Swift 是 iOS 的未来，还没有使用 Swift 开发的同学，开始拥抱 Swift 吧。
-
-1. 通过 setValue 方法来配置主题样式。
-
-这是最基本的设置样式值方式，其它形式的设置方式都是这种方式的便利方式。
+经过上面两步的自定义，那么访问对象指定主题下的样式集，就类似于下面的代码，不管是配置还是使用主题样式，看上去都显得自然多了。
 
 ```swift
-view.themes.day.setValue(0xFFFFFFFF, forThemeAttribute: .backgroundColor)
-view.themes.night.setValue(0x303030ff, forThemeAttribute: .backgroundColor)
+view.themes.day.backgroundColor = UIColor.white
 ```
 
-2. 通过主题属性，对于原生控件，这个看上去与 UIAppearance 很相似。
+### 3. 配置主题样式
 
-主题样式几乎拥有大部分控件的样式属性，即使没有，也可以自行拓展，所以你可以直接访问属性来设置值。
-但是这种方式，就必须使用属性的实际值了。
+由于框架对于大部分系统控件都已提供了自动应用主题样式的机制，所以大部分情况下，你需要做的仅仅是配置主题样式即可。
+
+- 3.1 直观属性法
+
+将主题样式划分为主题属性和值，并辅以主题状态，几乎可以直接通过属性赋值的方式，设置绝大部分外观样式，同时改方法也是最接近原生
+的方法。使用这种方法，需要使用者对控件的属性非常熟悉，因为主题样式对象几乎包含所有控件的属性，设置错了属性，既不会产生效
+果，也不会产生错误。
 
 ```swift
 label.themes.day.text              = "It's day now."
@@ -140,13 +113,21 @@ label.themes.day.textColor         = UIColor(0x333333ff)
 label.themes.night.text            = "It's night now."
 label.themes.night.backgroundColor = UIColor(0x252525ff)
 label.themes.night.textColor       = UIColor(0x707070ff)
-
 ```
 
-3. 通过 setting 方法，链式设置。
+- 3.2 通过 `setValue(_:forThemeAttribute:)` 方法来配置主题样式
 
-链式编程在 Swift 中，比在 OC 中看起来优美多了，所以不必排斥这种写法了。
-链式编程在 OC 中是不被建议使用的，也没有对 OC 开放相关接口。
+这种方式也是最基本的设置方式，其它形式的设置方式都可以看作是这种方式的便利方式，而且此方法，可以优化性能。比如可以使用
+十六进制的颜色值来设置需要设置 `UIColor` 对象的外观属性，可以使用图片名来设置需要使用 `UIImage` 对象的外观属性。
+
+```swift
+view.themes.day.setValue(0xFFFFFFFF, forThemeAttribute: .backgroundColor)
+view.themes.night.setValue("bg_view", forThemeAttribute: .backgroundImage)
+```
+
+- 3.3 通过链式函数 `setting(_:for:)` 来配置主题样式
+
+者主要是上一种方式的简化方法，避免反复获取主题样式集属性。
 
 ```swift
 navigationBar.themes.day
@@ -154,19 +135,13 @@ navigationBar.themes.day
     .setting(UIColor.black, for: .tintColor)
     .setting("nav_shadow_1", for: .shadowImage)
     .setting(UIBarStyle.default, for: .barStyle)
-
-navigationBar.themes.night
-    .setting(UIColor(0x252525FF), for: .barTintColor)
-    .setting(UIColor(0x707070FF), for: .tintColor)
-    .setting("nav_shadow_2", for: .shadowImage)
-    .setting(UIBarStyle.black, for: .barStyle)
 ```
 
-4. 配置字典
+- 3.4 配置字典
 
-如果调用方法让人感到厌烦，获取这里有一个看上去简单点的方法。
-配置字典和配置文件看起来很像，在 XZTheme 的前几个版本，XZTheme 是一直支持配置文件的功能，但是在实际使用才发现，维护配置文件真的很头疼。
-不过，作为可选选项，如果有合适的方式，XZTheme 将考虑再加入这个功能。
+在 XZTheme 的前几个版本，配置字典一直是作为主题配置文件而存在的功能，但是在使用中，发现维护配置文件其实非常困难。
+所以，目前 XZTheme 不准备加入配置文件的功能，而配置字典仅作为一种便利方式保留。不过，作为可选选项，如果有合适的方
+式，XZTheme 将考虑再加入配置文件的功能，最终的内存性能优化，只能靠配置文件了。
 
 ```swift
 button.themes.day.updateThemeStyles(byUsing: [
@@ -181,26 +156,12 @@ button.themes.day.updateThemeStyles(byUsing: [
         .backgroundImage: UIImage(filled: 0xDDDDDDFF)
     ]
 ])
-
-button.themes.night.updateThemeStyles(byUsing: [
-    .normal: [
-        .title: "Night normal",
-        .titleColor: 0x008800FF,
-        .backgroundImage: UIImage(filled: 0x555555ff)
-    ],
-    .highlighted: [
-        .title: "Night highlighted",
-        .titleColor: 0x007700FF,
-        .backgroundImage: UIImage(filled: 0x444444FF)
-    ]
-])
 ```
 
-5. 全局主题
+- 3.5 全局主题
 
-为了提供主题样式的复用性，提供了设置全局样式的方法，且设置全局样式，与设置实例对象的样式完全一样。
-
-全局样式的设置，可以放在 `application(_:didFinishLaunchingWithOptions)` 方法中。
+为了提高主题样式的复用性，框架支持设置全局样式，从而降低内存消耗，提高性能。在使用上，设置全局样式，与设置实例样式的操作完全，只是全局样式需要保证在控件创建前设置。
+例如在 `application(_:didFinishLaunchingWithOptions)` 方法中设置。
 
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -217,7 +178,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-不过，对于自定义视图，建议自定义视图使用静态常量（`initialize()` 在 Swift 4 中被禁用了）。
+对于自定义视图，建议自定义视图使用静态常量，来处理全局样式加载的问题。
 
 ```swift
 static let isThemeInitialized: Bool = {
@@ -240,7 +201,9 @@ public override init(frame: CGRect) {
 }
 ```
 
-为了提供全局样式的适应性，全局样式分带标识符的全局样式和不带标识符的全局样式。通过主题标识符，可以为对象提供多套全局样式。
+- 3.6 带标识符的全局主题
+
+全局样式分带标识符的全局样式和不带标识符的全局样式，从而方便为同一控件设置多套样式。
 
 ```swift
 UIButton.themes(forThemeIdentifier: "red").day
@@ -254,30 +217,34 @@ buttonRed.setTitle("A red Button", for: .normal)
 view.addSubview(buttonRed)
 ```
 
-如果对象同时存在全局样式和私有样式，那么，当查找某一样式时，它们生效的顺序是：
+- 3.7 样式优先级
 
-    1. 首先检查私有样式是否包含该指定的样式的配置；
-    2. 检查当前对象标识符对应的带标识符的全局样式是否包含该指定的样式；
-    3. 检查不带标识符的全局样式是否包含该指定的样式。
+如果对象同时存在全局样式和非全局样式，那么，当查找某一样式时，它们优先生效的顺序是：
 
-比如：
+ > 	非全局样式 -> 带标识符的全局样式 -> 不带标识符的全局样式
+
+
+ - 3.8 带状态的主题属性配置
+
+默认提供常见状态 `.normal, .highlighted, .selected, .disabled, .focused` 等状态的直接访问方式。
 
 ```swift
-UIButton.themes.day
-    .setting(0x333333ff, for: .titleColor)
-    .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
-UIButton.themes(forThemeIdentifier: "red").day
-    .setting(0xffffffff, for: .titleColor)
-    .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
-
-let buttonRed = UIButton(type: .custom)
-buttonRed.frame = CGRect.init(x: 100, y: 160, width: 150, height: 40)
-buttonRed.themeIdentifier = "red"
-buttonRed.setTitle("A red Button", for: .normal)
-view.addSubview(buttonRed)
+button.themes.day.normal.title = "normal title"
+button.themes.day.selected.title = "normal title"
 ```
 
-`buttonRed` 最终会显示白色文字、红色背景的按钮。
+而对于 `UIBarMetrics`、`UIBarPosition` 的非常见状态，特别是多个状态对应一个主题属性，可以通过复合的 `Theme.State` 来实现。 
+
+```swift
+navigationBar.themes.day.setValue(
+    "bg_bar_nav",
+    forThemeAttribute: .backgroundImage,
+    forThemeState: [.anyBarPosition, .defaultBarMetrics]
+)
+// 对应 setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics) 方法
+```
+
+`Theme.State` 的复合规则见注释文档。
 
 
 ### 4. 切换主题
@@ -294,6 +261,38 @@ view.addSubview(buttonRed)
     Theme.day.apply(animated: true)
 }
 ```
+
+## 特性
+
+系统原生 `UIAppearance` 方案，应该说是在实现主题方案中最直观的了，但是其局限性也很明显，而且性能让人不敢恭维。
+因此，如何设计一套易于使用，而且功能强大的主题框架，成为了本框架要解决的首要问题。在实际开发中，经过不断的尝试，
+前后经历了两年多时间，反复修改重构，最终形成了现在的版本。不能说现在的版本就是最优的解决方案，但是至少是经过深思熟虑的。
+
+### 易用
+
+### 高效
+
+### 可拓展
+
+
+## 设计原理
+
+将主题外观样式按属性名和属性值并分类存储，再通过建立样式属性名和样式属性值与控件属性的对应关系，
+使得在主题变更时，可以通过读取已存储的样式属性，通过对应关系来直接来改变控件的属性。
+
+### 运行机制
+
+
+#### 普通对象
+
+为每一个需要支持主题的对象，自动创建监听主题变更的对象（开发者也可以自定义），并在主题变更时，响应指定的方法。
+
+#### UIKit 控件及相关对象
+
+主题变更时，所有正在显示的视图，都将收到主题变更事件，而且这些都是自动的；而没有正在显示的视图，则在它们被添加到父视图上时，自动检测
+其已应用的主题与当前主题是否一致，并自动决定是否需要应用主题。
+
+
 
 ## 拓展主题支持
 

@@ -155,20 +155,20 @@ extension Theme {
         /// 将主题集设置为当前主题集的子级。
         ///
         /// - Parameter themes: 子级主题集。
-        public func addSubthemes(_ themes: Theme.Collection) {
+        @objc public func addSubthemes(_ themes: Theme.Collection) {
             themes._superThemes = self
         }
         
         /// 按主题分类的主题样式集合，非懒加载。
         /// - Note: 更改主题样式集合会标记所有需要更新主题。
-        public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
+        @objc public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
             didSet {
                 object?.setNeedsThemeAppearanceUpdate()
             }
         }
         
         /// 按主题分类的主题样式集合，懒加载。
-        public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
+        @objc public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
             get {
                 if let themedStyles = themedStylesIfLoaded {
                     return themedStyles

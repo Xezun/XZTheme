@@ -108,7 +108,7 @@ extension Theme.Style.Collection {
     ///   - value: 值。
     ///   - themeAttribute: 主题属性。
     ///   - themeState: 主题状态。
-    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
+    @objc public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
         self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
     }
     
