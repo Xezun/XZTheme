@@ -23,23 +23,15 @@ extension Theme.State {
         var items: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] =  [
             ([.normal, .normal], .normal, .normal), ([.normal, .selected], .normal, .selected),
             ([.normal, .highlighted], .normal, .highlighted), ([.normal, .disabled], .normal, .disabled),
-            // ([.normal, .focused], .normal, .focused),
-            
+
             ([.selected, .normal], .selected, .normal), ([.selected, .selected], .selected, .selected),
             ([.selected, .highlighted], .selected, .highlighted), ([.selected, .disabled], .selected, .disabled),
-            // ([.selected, .focused], .selected, .focused),
-            
+
             ([.highlighted, .normal], .highlighted, .normal), ([.normal, .selected], .highlighted, .selected),
             ([.highlighted, .highlighted], .highlighted, .highlighted), ([.normal, .disabled], .highlighted, .disabled),
-            // ([.highlighted, .focused], .highlighted, .focused),
             
             ([.disabled, .normal], .disabled, .normal), ([.disabled, .selected], .disabled, .selected),
             ([.disabled, .highlighted], .disabled, .highlighted), ([.disabled, .disabled], .disabled, .disabled)
-            // ([.disabled, .focused], .disabled, .focused),
-            
-            // ([.focused, .normal], .focused, .normal), ([.focused, .selected], .focused, .selected),
-            // ([.focused, .highlighted], .focused, .highlighted), ([.focused, .disabled], .focused, .disabled)
-            // ([.focused, .focused], .focused, .focused)
         ]
         if #available(iOS 9.0, *) {
             items.append(([.normal, .focused], .normal, .focused))

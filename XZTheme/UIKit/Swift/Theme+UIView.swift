@@ -102,6 +102,8 @@ extension UIView {
     ///
     /// **UIToolbar:** *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
     ///
+    /// **UISegmentedControl:** *isMomentary, apportionsSegmentWidthsByContent, backgroundImage, dividerImage, titleTextAttributes, contentPositionAdjustment.*
+    ///
     /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)

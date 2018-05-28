@@ -7,134 +7,157 @@
 
 import Foundation
 
+extension Theme.State {
+    
+    public static let UIControlStateLeftRightUIBarMetricsItems: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState,  barMetrics: UIBarMetrics)] = {
+        var items: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState,  barMetrics: UIBarMetrics)] = []
+        for left in Theme.State.UIControlStateItems {
+            for right in Theme.State.UIControlStateItems {
+                for bar in Theme.State.UIBarMetricsItems {
+                    items.append((
+                        themeState: [left.themeState, right.themeState, bar.themeState],
+                        leftControlState: left.controlState,
+                        rightControlState: right.controlState,
+                        barMetrics: bar.barMetrics
+                    ))
+                }
+            }
+        }
+        return items
+    } ()
+    
+    public static let UIControlStateUIBarMetricsItems: [(themeState: Theme.State, controlState: UIControlState, barMetrics: UIBarMetrics)] = {
+        var items: [(themeState: Theme.State, controlState: UIControlState, barMetrics: UIBarMetrics)] = [
+            ([.normal, .defaultBarMetrics], .normal, .default), ([.normal, .compactBarMetrics], .normal, .compact),
+            ([.normal, .defaultPromptBarMetrics], .normal, .defaultPrompt), ([.normal, .compactPromptBarMetrics], .normal, .compactPrompt),
+            
+            ([.selected, .defaultBarMetrics], .selected, .default), ([.selected, .compactBarMetrics], .selected, .compact),
+            ([.selected, .defaultPromptBarMetrics], .selected, .defaultPrompt), ([.selected, .compactPromptBarMetrics], .selected, .compactPrompt),
+            
+            ([.highlighted, .defaultBarMetrics], .highlighted, .default), ([.highlighted, .compactBarMetrics], .highlighted, .compact),
+            ([.highlighted, .defaultPromptBarMetrics], .highlighted, .defaultPrompt), ([.highlighted, .compactPromptBarMetrics], .highlighted, .compactPrompt),
+            
+            ([.disabled, .defaultBarMetrics], .disabled, .default), ([.disabled, .compactBarMetrics], .disabled, .compact),
+            ([.disabled, .defaultPromptBarMetrics], .disabled, .defaultPrompt), ([.disabled, .compactPromptBarMetrics], .disabled, .compactPrompt),
+        ]
+        if #available(iOS 9.0, *) {
+            items.append(([.focused, .defaultBarMetrics], .focused, .default))
+            items.append(([.focused, .compactBarMetrics], .focused, .compact))
+            items.append(([.focused, .defaultPromptBarMetrics], .focused, .defaultPrompt))
+            items.append(([.focused, .compactPromptBarMetrics], .focused, .compactPrompt))
+        }
+        return items
+    }()
+    
+    
+    /// UISegmentedControl
+    public static let anySegmentedControlSegment = Theme.State.init(rawValue: ":anySegmentedControlSegment")
+    /// UISegmentedControl
+    public static let leftSegmentedControlSegment = Theme.State.init(rawValue: ":leftSegmentedControlSegment")
+    /// UISegmentedControl
+    public static let centerSegmentedControlSegment = Theme.State.init(rawValue: ":centerSegmentedControlSegment")
+    /// UISegmentedControl
+    public static let rightSegmentedControlSegment = Theme.State.init(rawValue: ":rightSegmentedControlSegment")
+    /// UISegmentedControl
+    public static let aloneSegmentedControlSegment = Theme.State.init(rawValue: ":aloneSegmentedControlSegment")
+    
+    
+    public static let UISegmentedControlSegmentUIBarMetricsItems: [(themeState: Theme.State, segmentedControlSegment: UISegmentedControlSegment, barMetrics: UIBarMetrics)] = [
+        ([anySegmentedControlSegment, .defaultBarMetrics], .any, .default), ([anySegmentedControlSegment, .compactBarMetrics], .any, .compact),
+        ([anySegmentedControlSegment, .defaultPromptBarMetrics], .any, .defaultPrompt), ([anySegmentedControlSegment, .compactPromptBarMetrics], .any, .compactPrompt),
+        
+        ([leftSegmentedControlSegment, .defaultBarMetrics], .left, .default), ([leftSegmentedControlSegment, .compactBarMetrics], .left, .compact),
+        ([leftSegmentedControlSegment, .defaultPromptBarMetrics], .left, .defaultPrompt), ([leftSegmentedControlSegment, .compactPromptBarMetrics], .left, .compactPrompt),
+        
+        ([centerSegmentedControlSegment, .defaultBarMetrics], .center, .default), ([centerSegmentedControlSegment, .compactBarMetrics], .center, .compact),
+        ([centerSegmentedControlSegment, .defaultPromptBarMetrics], .center, .defaultPrompt), ([centerSegmentedControlSegment, .compactPromptBarMetrics], .center, .compactPrompt),
+        
+        ([rightSegmentedControlSegment, .defaultBarMetrics], .right, .default), ([rightSegmentedControlSegment, .compactBarMetrics], .right, .compact),
+        ([rightSegmentedControlSegment, .defaultPromptBarMetrics], .right, .defaultPrompt), ([rightSegmentedControlSegment, .compactPromptBarMetrics], .right, .compactPrompt),
+        
+        ([aloneSegmentedControlSegment, .defaultBarMetrics], .alone, .default), ([aloneSegmentedControlSegment, .compactBarMetrics], .alone, .compact),
+        ([aloneSegmentedControlSegment, .defaultPromptBarMetrics], .alone, .defaultPrompt), ([aloneSegmentedControlSegment, .compactPromptBarMetrics], .alone, .compactPrompt)
+    ]
+}
 
-//extension Theme.Attribute {
-//    
-//    public static let <#Attribute Name#> = Theme.Attribute.init("<#T##rawValue: String##String#>")
-//    
-//}
-//
-//extension Theme.Style {
-//    
-//    public var <#string#>: String? {
-//        get { return stringValue(forThemeAttribute: .<#T##Theme.Attribute#>) }
-//        set { setValue(newValue, forThemeAttribute: .<#T##Theme.Attribute#>) }
-//    }
-//    
-//    public var <#color#>: UIColor? {
-//        get { return color(forThemeAttribute: .<#T##Theme.Attribute#>) }
-//        set { setValue(newValue, forThemeAttribute: .<#T##Theme.Attribute#>) }
-//    }
-//    
-//    public var <#image#>: UIImage? {
-//        get { return image(forThemeAttribute: .<#T##Theme.Attribute#>) }
-//        set { setValue(newValue, forThemeAttribute: .<#T##Theme.Attribute#>)}
-//    }
-//    
-//    public var <#bool#>: Bool {
-//        get { return boolValue(forThemeAttribute: .<#T##Theme.Attribute#>)  }
-//        set { setValue(newValue, forThemeAttribute: .<#T##Theme.Attribute#>) }
-//    }
-//    
-//}
-//
+extension Theme.Attribute {
+    
+    /// UISegmentedControl
+    public static let isMomentary = Theme.Attribute.init("isMomentary")
+    /// UISegmentedControl
+    public static let apportionsSegmentWidthsByContent = Theme.Attribute.init("apportionsSegmentWidthsByContent")
+    /// UISegmentedControl
+    public static let dividerImage = Theme.Attribute.init("dividerImage")
+    /// UISegmentedControl
+    public static let contentPositionAdjustment = Theme.Attribute.init("contentPositionAdjustment")
+    
+    
+}
+
+extension Theme.Style {
+
+    public var isMomentary: Bool {
+        get { return boolValue(forThemeAttribute: .isMomentary)  }
+        set { setValue(newValue, forThemeAttribute: .isMomentary) }
+    }
+    
+    public var apportionsSegmentWidthsByContent: Bool {
+        get { return boolValue(forThemeAttribute: .apportionsSegmentWidthsByContent)  }
+        set { setValue(newValue, forThemeAttribute: .apportionsSegmentWidthsByContent) }
+    }
+    
+    public var dividerImage: UIImage? {
+        get { return image(forThemeAttribute: .dividerImage) }
+        set { setValue(newValue, forThemeAttribute: .dividerImage)}
+    }
+    
+    public var contentPositionAdjustment: UIOffset {
+        get { return offset(forThemeAttribute: .contentPositionAdjustment) }
+        set { setValue(newValue, forThemeAttribute: .contentPositionAdjustment) }
+    }
+}
+
 extension UISegmentedControl {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-//        open var isMomentary: Bool // if set, then we don't keep showing selected state after tracking ends. default is NO
-//        
-//        open var numberOfSegments: Int { get }
-//        
-//        
-//        // For segments whose width value is 0, setting this property to YES attempts to adjust segment widths based on their content widths. Default is NO.
-//        @available(iOS 5.0, *)
-//        open var apportionsSegmentWidthsByContent: Bool
-//        
-//        
-//        open func insertSegment(withTitle title: String?, at segment: Int, animated: Bool) // insert before segment number. 0..#segments. value pinned
-//        
-//        open func insertSegment(with image: UIImage?, at segment: Int, animated: Bool)
-//        
-//        open func removeSegment(at segment: Int, animated: Bool)
-//        
-//        open func removeAllSegments()
-//        
-//        
-//        open func setTitle(_ title: String?, forSegmentAt segment: Int) // can only have image or title, not both. must be 0..#segments - 1 (or ignored). default is nil
-//        
-//        open func titleForSegment(at segment: Int) -> String?
-//        
-//        
-//        open func setImage(_ image: UIImage?, forSegmentAt segment: Int) // can only have image or title, not both. must be 0..#segments - 1 (or ignored). default is nil
-//        
-//        open func imageForSegment(at segment: Int) -> UIImage?
-//        
-//        
-//        open func setWidth(_ width: CGFloat, forSegmentAt segment: Int) // set to 0.0 width to autosize. default is 0.0
-//        
-//        open func widthForSegment(at segment: Int) -> CGFloat
-//        
-//        
-//        open func setContentOffset(_ offset: CGSize, forSegmentAt segment: Int) // adjust offset of image or text inside the segment. default is (0,0)
-//        
-//        open func contentOffsetForSegment(at segment: Int) -> CGSize
-//        
-//        
-//        open func setEnabled(_ enabled: Bool, forSegmentAt segment: Int) // default is YES
-//        
-//        open func isEnabledForSegment(at segment: Int) -> Bool
-//        
-//        
-//        // ignored in momentary mode. returns last segment pressed. default is UISegmentedControlNoSegment until a segment is pressed
-//        // the UIControlEventValueChanged action is invoked when the segment changes via a user event. set to UISegmentedControlNoSegment to turn off selection
-//        open var selectedSegmentIndex: Int
-//        
-//        
-//        // The tintColor is inherited through the superview hierarchy. See UIView for more information.
-//        open var tintColor: UIColor!
-//        
-//        
-//        /* If backgroundImage is an image returned from -[UIImage resizableImageWithCapInsets:] the cap widths will be calculated from that information, otherwise, the cap width will be calculated by subtracting one from the image's width then dividing by 2. The cap widths will also be used as the margins for text placement. To adjust the margin use the margin adjustment methods.
-//         
-//         In general, you should specify a value for the normal state to be used by other states which don't have a custom value set.
-//         
-//         Similarly, when a property is dependent on the bar metrics, be sure to specify a value for UIBarMetricsDefault.
-//         In the case of the segmented control, appearance properties for UIBarMetricsCompact are only respected for segmented controls in the smaller navigation and toolbars.
-//         */
-//        @available(iOS 5.0, *)
-//        open func setBackgroundImage(_ backgroundImage: UIImage?, for state: UIControlState, barMetrics: UIBarMetrics)
-//        
-//        @available(iOS 5.0, *)
-//        open func backgroundImage(for state: UIControlState, barMetrics: UIBarMetrics) -> UIImage?
-//        
-//        
-//        /* To customize the segmented control appearance you will need to provide divider images to go between two unselected segments (leftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal), selected on the left and unselected on the right (leftSegmentState:UIControlStateSelected rightSegmentState:UIControlStateNormal), and unselected on the left and selected on the right (leftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateSelected).
-//         */
-//        @available(iOS 5.0, *)
-//        open func setDividerImage(_ dividerImage: UIImage?, forLeftSegmentState leftState: UIControlState, rightSegmentState rightState: UIControlState, barMetrics: UIBarMetrics)
-//        
-//        @available(iOS 5.0, *)
-//        open func dividerImage(forLeftSegmentState leftState: UIControlState, rightSegmentState rightState: UIControlState, barMetrics: UIBarMetrics) -> UIImage?
-//        
-//        
-//        /* You may specify the font, text color, and shadow properties for the title in the text attributes dictionary, using the keys found in NSAttributedString.h.
-//         */
-//        @available(iOS 5.0, *)
-//        open func setTitleTextAttributes(_ attributes: [AnyHashable : Any]?, for state: UIControlState)
-//        
-//        @available(iOS 5.0, *)
-//        open func titleTextAttributes(for state: UIControlState) -> [AnyHashable : Any]?
-//        
-//        
-//        /* For adjusting the position of a title or image within the given segment of a segmented control.
-//         */
-//        @available(iOS 5.0, *)
-//        open func setContentPositionAdjustment(_ adjustment: UIOffset, forSegmentType leftCenterRightOrAlone: UISegmentedControlSegment, barMetrics: UIBarMetrics)
-//        
-//        @available(iOS 5.0, *)
-//        open func contentPositionAdjustment(forSegmentType leftCenterRightOrAlone: UISegmentedControlSegment, barMetrics: UIBarMetrics) -> UIOffset
+        if themeStyles.containsThemeAttribute(.isMomentary) {
+            self.isMomentary = themeStyles.isMomentary
+        }
+        
+        if themeStyles.containsThemeAttribute(.apportionsSegmentWidthsByContent) {
+            self.apportionsSegmentWidthsByContent = themeStyles.apportionsSegmentWidthsByContent
+        }
+        
+        for item in Theme.State.UIControlStateUIBarMetricsItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.backgroundImage) {
+                setBackgroundImage(themeStyle.backgroundImage, for: item.controlState, barMetrics: item.barMetrics)
+            }
+        }
+
+        for item in Theme.State.UIControlStateLeftRightUIBarMetricsItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.dividerImage) {
+                setDividerImage(themeStyle.dividerImage, forLeftSegmentState: item.leftControlState, rightSegmentState: item.rightControlState, barMetrics: item.barMetrics)
+            }
+        }
+        
+        for item in Theme.State.UIControlStateItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.titleTextAttributes) {
+                setTitleTextAttributes(themeStyle.titleTextAttributes, for: item.controlState)
+            }
+        }
+        
+        for item in Theme.State.UISegmentedControlSegmentUIBarMetricsItems {
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            if themeStyle.containsThemeAttribute(.contentPositionAdjustment) {
+                setContentPositionAdjustment(themeStyle.contentPositionAdjustment, forSegmentType: item.segmentedControlSegment, barMetrics: item.barMetrics)
+            }
+        }
+
     }
     
 }

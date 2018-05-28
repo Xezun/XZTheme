@@ -337,6 +337,8 @@ view.addSubview(buttonRed)
 
 **UIToolbar:** *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
 
+**UISegmentedControl:** *isMomentary, apportionsSegmentWidthsByContent, backgroundImage, dividerImage, titleTextAttributes, contentPositionAdjustment.*
+
 ## 开发备忘录
 
 - 尝试使用泛型最终以失败告终。

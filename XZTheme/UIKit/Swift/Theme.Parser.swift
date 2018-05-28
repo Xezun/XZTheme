@@ -31,7 +31,7 @@ extension Theme {
 public protocol ThemeParser {
     
     /// 将主题属性值解析为 UIColor 对象。
-    /// - Note: 在默认实现中，支持使用十六进制颜色值，整数(0xAABBCCFF)或字符串(#FF0099/#F0F/#E2FA237F) 。
+    /// - Note: 在默认实现中，支持使用十六进制颜色值，格式如 0xAABBCCFF、`"#FF0099"`、`"#F0F"`、`"#E2FA237F"` 。
     ///
     /// - Parameter value: 主题属性值。
     /// - Returns: UIColor 对象。
