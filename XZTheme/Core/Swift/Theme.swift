@@ -399,7 +399,7 @@ extension Theme {
     /// )
     /// ```
     /// - Note: 空字符串不被视为有效的主题状态。
-    /// - Note: 因为 Theme.State 是无序集合。
+    /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
     public struct State: OptionSet, CustomStringConvertible {
         
         /// 不是主题状态。
@@ -411,7 +411,7 @@ extension Theme {
         public let rawValue: String
         
         /// 基本主题状态没有子元素。
-        public let children: Set<State>
+        public let children: [State]
         
         public var description: String {
             return "Theme.State(\(rawValue))"
@@ -435,30 +435,28 @@ extension Theme {
         ///
         /// - Parameter rawValue: 主题状态原始值。
         public init<T: Sequence>(_ children: T) where T.Element == State {
-            var items: Set<State> = []
+            var items: [State] = []
             for child in children {
                 if child.children.isEmpty {
-                    items.insert(child)
+                    items.append(child)
                 } else {
-                    items.formUnion(child.children)
+                    items.append(contentsOf: child.children)
                 }
             }
             switch items.count {
             case 0:
                 self = .notThemeState
             case 1:
-                self = items.first!
+                self = items[0]
             default:
-                let rawValue = ":" + items.map({ (state) -> String in
+                let rawValue = items.map({ (state) -> String in
                     return state.rawValue
-                }).sorted(by: { (str1, str2) -> Bool in
-                    return str1.compare(str2) != .orderedDescending
-                }).joined(separator: ":")
+                }).joined()
                 self.init(rawValue: rawValue, children: items)
             }
         }
         
-        private init(rawValue: String, children: Set<State>) {
+        private init(rawValue: String, children: [State]) {
             self.rawValue = rawValue;
             self.children = children
         }
