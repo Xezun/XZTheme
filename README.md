@@ -295,7 +295,7 @@ view.addSubview(buttonRed)
 }
 ```
 
-### 拓展主题支持
+## 拓展主题支持
 
 ## 支持的控件和属性
 
