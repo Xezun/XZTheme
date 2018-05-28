@@ -399,6 +399,7 @@ extension Theme {
     /// )
     /// ```
     /// - Note: 空字符串不被视为有效的主题状态。
+    /// - Note: 因为 Theme.State 是无序集合。
     public struct State: OptionSet, CustomStringConvertible {
         
         /// 不是主题状态。
