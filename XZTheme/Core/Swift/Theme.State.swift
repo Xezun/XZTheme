@@ -13,6 +13,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
     public typealias StringLiteralType = String
     
+    /// 过滤主题状态字符串中多余的空白字符。
     private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
     
     /// 通过字符串字面量创建主题属性状态。
@@ -20,7 +21,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     ///
     /// - Parameter value: 字符串字面量
     public init(stringLiteral value: String) {
-        var children: Set<Theme.State> = []
+        var children: [Theme.State] = []
         
         // 过滤字符
         for item in value.components(separatedBy: ":") {
@@ -29,7 +30,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
                 XZLog("Theme.State: Empty state string in `%@` was ignored.", value)
                 continue
             }
-            children.insert(Theme.State.init(rawValue: ":" + string))
+            children.append(Theme.State.init(rawValue: ":" + string))
         }
         
         self.init(children)
@@ -44,11 +45,14 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
 
 extension Theme.State: Sequence, IteratorProtocol {
     
+    /// 遍历主题状态中的所有基本元素，遍历顺序为正序。
+    ///
+    /// - Returns: 剩余未遍历的主题状态。
     public mutating func next() -> Theme.State? {
         if self.isEmpty {
             return nil
         }
-        if self.children.isEmpty {
+        if self.isPrimary {
             let state = self
             self = .notThemeState
             return state
@@ -76,34 +80,92 @@ extension Theme.State {
         if self.rawValue == member.rawValue {
             return true
         }
-        if self.children.isEmpty {
+        if self.isPrimary {
             return false
         }
-        if member.children.isEmpty {
+        if member.isPrimary {
             return self.children.contains(member)
         }
-        return self.children.isSuperset(of: member.children)
+        for m in 0 ..< self.children.count {
+            // 找到第一个相等的子元素。
+            guard self.children[m] == member.children[0] else { continue }
+            for n in 1 ..< member.children.count {
+                /// 遍历 member ，从第一个匹配位置开始，后续所有子元素都相等，否则返回 false 。
+                guard m + n < self.children.count, self.children[m + n] == member.children[n] else { return false }
+            }
+            // member 遍历完成，说明完全相同。
+            break
+        }
+        return true
     }
     
     public mutating func formUnion(_ other: Theme.State) {
         if self == other {
             return
         }
-        self = Theme.State.init(self.children.union(other.children))
+        var children = self.children;
+        if self.isPrimary {
+            children.append(self)
+        }
+        if other.isPrimary {
+            children.append(other)
+        } else {
+            children.append(contentsOf: other.children)
+        }
+        self = Theme.State.init(children)
     }
     
     public mutating func formIntersection(_ other: Theme.State) {
         if self == other {
             return
         }
-        self = Theme.State.init(self.children.intersection(other.children))
+        if self.isPrimary {
+            if other.isPrimary || !other.children.contains(self) {
+                self = .notThemeState
+            }
+            return
+        }
+        if other.isPrimary {
+            if self.children.contains(other) {
+                self = other
+            } else {
+                self = .notThemeState
+            }
+            return
+        }
+        var children = [Theme.State]()
+        for m in 0 ..< self.children.count {
+            let state = self.children[m]
+            if other.contains(state) {
+                children.append(state)
+            }
+        }
+        self = Theme.State.init(children)
     }
     
     public mutating func formSymmetricDifference(_ other: Theme.State) {
         if self == other {
+            self = .notThemeState
             return
         }
-        self = Theme.State.init(self.children.symmetricDifference(other.children))
+        var children1 = self.children
+        var children2 = other.children
+        var m = 0, n = 0, isFound = false
+        while m < children1.count {
+            n = 0
+            isFound = false
+            while n < children2.count {
+                if children1[m] == children1[n] {
+                    children1.remove(at: m)
+                    children2.remove(at: n)
+                    isFound = true
+                } else {
+                    n += 1
+                }
+            }
+            if !isFound { m += 1 }
+        }
+        self = Theme.State.init(children1 + children2)
     }
 
 }
@@ -136,7 +198,6 @@ extension Theme.State: _ObjectiveCBridgeable {
 extension Theme.State {
     
     /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
-    /// - Note: 对应 UISearchBar 为 LeftSegmentState 的触控状态，RightSegmentState 请使用 `.normalForRight` 。
     /// - Note: 对于设置带触控状态的属性，仅支持基本状态。
     public static let normal       = Theme.State.init(rawValue: ":normal")
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
@@ -147,6 +208,7 @@ extension Theme.State {
     public static let disabled     = Theme.State.init(rawValue: ":disabled")
     /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
     public static let focused      = Theme.State.init(rawValue: ":focused")
+    
 }
 
 extension UIControlState {
@@ -159,7 +221,7 @@ extension UIControlState {
         if themeState.isEmpty {
             return nil
         }
-        if themeState.children.isEmpty {
+        if themeState.isPrimary {
             switch themeState {
             case .normal:       self = .normal
             case .selected:     self = .selected

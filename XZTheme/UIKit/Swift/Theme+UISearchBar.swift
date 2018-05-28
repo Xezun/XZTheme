@@ -11,60 +11,47 @@ import XZKit
 extension Theme.State {
     
     /// UISearchBarIcon.search
-    public static let searchBarIconSearch = Theme.State.init(rawValue: ":searchBarIconSearch")
+    public static let searchSearchBarIcon = Theme.State.init(rawValue: ":searchSearchBarIcon")
     /// UISearchBarIcon.clear
-    public static let searchBarIconClear = Theme.State.init(rawValue: ":searchBarIconClear")
+    public static let clearSearchBarIcon = Theme.State.init(rawValue: ":clearSearchBarIcon")
     /// UISearchBarIcon.bookmark
-    public static let searchBarIconBookmark = Theme.State.init(rawValue: ":searchBarIconBookmark")
+    public static let bookmarkSearchBarIcon = Theme.State.init(rawValue: ":searchBarIconBookmark")
     /// UISearchBarIcon.resultsList
-    public static let searchBarIconResultsList = Theme.State.init(rawValue: ":searchBarIconResultsList")
-    
-    
-    /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
-    public static let normalForRight       = Theme.State.init(rawValue: ":rightNormal")
-    /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
-    public static let selectedForRight     = Theme.State.init(rawValue: ":rightSelected")
-    /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
-    public static let highlightedForRight  = Theme.State.init(rawValue: ":rightHighlighted")
-    /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
-    public static let disabledForRight     = Theme.State.init(rawValue: ":rightDisabled")
-    /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
-    public static let focusedForRight      = Theme.State.init(rawValue: ":rightFocused")
-    
+    public static let resultsListSearchBarIcon = Theme.State.init(rawValue: ":resultsListSearchBarIcon")
 
     public static let UIControlStateLeftRightItems: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] = {
         var items: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] =  [
-            ([.normal, .normalForRight], .normal, .normal), ([.normal, .selectedForRight], .normal, .selected),
-            ([.normal, .highlightedForRight], .normal, .highlighted), ([.normal, .disabledForRight], .normal, .disabled),
-            // ([.normal, .focusedForRight], .normal, .focused),
+            ([.normal, .normal], .normal, .normal), ([.normal, .selected], .normal, .selected),
+            ([.normal, .highlighted], .normal, .highlighted), ([.normal, .disabled], .normal, .disabled),
+            // ([.normal, .focused], .normal, .focused),
             
-            ([.selected, .normalForRight], .selected, .normal), ([.selected, .selectedForRight], .selected, .selected),
-            ([.selected, .highlightedForRight], .selected, .highlighted), ([.selected, .disabledForRight], .selected, .disabled),
-            // ([.selected, .focusedForRight], .selected, .focused),
+            ([.selected, .normal], .selected, .normal), ([.selected, .selected], .selected, .selected),
+            ([.selected, .highlighted], .selected, .highlighted), ([.selected, .disabled], .selected, .disabled),
+            // ([.selected, .focused], .selected, .focused),
             
-            ([.highlighted, .normalForRight], .highlighted, .normal), ([.normal, .selectedForRight], .highlighted, .selected),
-            ([.highlighted, .highlightedForRight], .highlighted, .highlighted), ([.normal, .disabledForRight], .highlighted, .disabled),
-            // ([.highlighted, .focusedForRight], .highlighted, .focused),
+            ([.highlighted, .normal], .highlighted, .normal), ([.normal, .selected], .highlighted, .selected),
+            ([.highlighted, .highlighted], .highlighted, .highlighted), ([.normal, .disabled], .highlighted, .disabled),
+            // ([.highlighted, .focused], .highlighted, .focused),
             
-            ([.disabled, .normalForRight], .disabled, .normal), ([.disabled, .selectedForRight], .disabled, .selected),
-            ([.disabled, .highlightedForRight], .disabled, .highlighted), ([.disabled, .disabledForRight], .disabled, .disabled)
-            // ([.disabled, .focusedForRight], .disabled, .focused),
+            ([.disabled, .normal], .disabled, .normal), ([.disabled, .selected], .disabled, .selected),
+            ([.disabled, .highlighted], .disabled, .highlighted), ([.disabled, .disabled], .disabled, .disabled)
+            // ([.disabled, .focused], .disabled, .focused),
             
-            // ([.focused, .normalForRight], .focused, .normal), ([.focused, .selectedForRight], .focused, .selected),
-            // ([.focused, .highlightedForRight], .focused, .highlighted), ([.focused, .disabledForRight], .focused, .disabled)
-            // ([.focused, .focusedForRight], .focused, .focused)
+            // ([.focused, .normal], .focused, .normal), ([.focused, .selected], .focused, .selected),
+            // ([.focused, .highlighted], .focused, .highlighted), ([.focused, .disabled], .focused, .disabled)
+            // ([.focused, .focused], .focused, .focused)
         ]
         if #available(iOS 9.0, *) {
-            items.append(([.normal, .focusedForRight], .normal, .focused))
-            items.append(([.selected, .focusedForRight], .selected, .focused))
-            items.append(([.highlighted, .focusedForRight], .highlighted, .focused))
-            items.append(([.disabled, .focusedForRight], .disabled, .focused))
+            items.append(([.normal, .focused], .normal, .focused))
+            items.append(([.selected, .focused], .selected, .focused))
+            items.append(([.highlighted, .focused], .highlighted, .focused))
+            items.append(([.disabled, .focused], .disabled, .focused))
             
-            items.append(([.focused, .normalForRight], .focused, .normal))
-            items.append(([.focused, .selectedForRight], .focused, .selected))
-            items.append(([.focused, .highlightedForRight], .focused, .highlighted))
-            items.append(([.focused, .disabledForRight], .focused, .disabled))
-            items.append(([.focused, .focusedForRight], .focused, .focused))
+            items.append(([.focused, .normal], .focused, .normal))
+            items.append(([.focused, .selected], .focused, .selected))
+            items.append(([.focused, .highlighted], .focused, .highlighted))
+            items.append(([.focused, .disabled], .focused, .disabled))
+            items.append(([.focused, .focused], .focused, .focused))
         }
         return items
     } ()
@@ -72,28 +59,28 @@ extension Theme.State {
     
     
     public static let UISearchBarIconItems: [(themeState: Theme.State, searchBarIcon: UISearchBarIcon)] = [
-        (.searchBarIconSearch, .search), (.searchBarIconClear, .clear), (.searchBarIconBookmark, .bookmark), (.searchBarIconResultsList, .resultsList)
+        (.searchSearchBarIcon, .search), (.clearSearchBarIcon, .clear), (.bookmarkSearchBarIcon, .bookmark), (.resultsListSearchBarIcon, .resultsList)
     ]
     
-    public static let UIControlStateUISearchBarIconItems: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = {
+    public static let UISearchBarIconUIControlStateItems: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = {
         var items: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = [
-            ([.normal, .searchBarIconSearch], .normal, .search), ([.normal, .searchBarIconClear], .normal, .clear),
-            ([.normal, .searchBarIconBookmark], .normal, .bookmark), ([.normal, .searchBarIconResultsList], .normal, .resultsList),
+            ([.searchSearchBarIcon, .normal], .normal, .search), ([.clearSearchBarIcon, .normal], .normal, .clear),
+            ([.bookmarkSearchBarIcon, .normal], .normal, .bookmark), ([.resultsListSearchBarIcon, .normal], .normal, .resultsList),
             
-            ([.highlighted, .searchBarIconSearch], .highlighted, .search), ([.highlighted, .searchBarIconClear], .highlighted, .clear),
-            ([.highlighted, .searchBarIconBookmark], .highlighted, .bookmark), ([.highlighted, .searchBarIconResultsList], .highlighted, .resultsList),
+            ([.searchSearchBarIcon, .highlighted], .highlighted, .search), ([.clearSearchBarIcon, .highlighted], .highlighted, .clear),
+            ([.bookmarkSearchBarIcon, .highlighted], .highlighted, .bookmark), ([.resultsListSearchBarIcon, .highlighted], .highlighted, .resultsList),
             
-            ([.selected, .searchBarIconSearch], .selected, .search), ([.selected, .searchBarIconClear], .selected, .clear),
-            ([.selected, .searchBarIconBookmark], .selected, .bookmark), ([.selected, .searchBarIconResultsList], .selected, .resultsList),
+            ([.searchSearchBarIcon, .selected], .selected, .search), ([.clearSearchBarIcon, .selected], .selected, .clear),
+            ([.bookmarkSearchBarIcon, .selected], .selected, .bookmark), ([.resultsListSearchBarIcon, .selected], .selected, .resultsList),
             
-            ([.disabled, .searchBarIconSearch], .disabled, .search), ([.disabled, .searchBarIconClear], .disabled, .clear),
-            ([.disabled, .searchBarIconBookmark], .disabled, .bookmark), ([.disabled, .searchBarIconResultsList], .disabled, .resultsList)
+            ([.searchSearchBarIcon, .disabled], .disabled, .search), ([.clearSearchBarIcon, .disabled], .disabled, .clear),
+            ([.bookmarkSearchBarIcon, .disabled], .disabled, .bookmark), ([.resultsListSearchBarIcon, .disabled], .disabled, .resultsList)
         ]
         if #available(iOS 9.0, *) {
-            items.append(([.focused, .searchBarIconSearch], .focused, .search))
-            items.append(([.focused, .searchBarIconClear], .focused, .clear))
-            items.append(([.focused, .searchBarIconBookmark], .focused, .bookmark))
-            items.append(([.focused, .searchBarIconResultsList], .focused, .resultsList))
+            items.append(([.searchSearchBarIcon, .focused], .focused, .search))
+            items.append(([.clearSearchBarIcon, .focused], .focused, .clear))
+            items.append(([.bookmarkSearchBarIcon, .focused], .focused, .bookmark))
+            items.append(([.resultsListSearchBarIcon, .focused], .focused, .resultsList))
         }
         return items
     }()
@@ -126,7 +113,7 @@ extension Theme.Attribute {
     public static let searchFieldBackgroundImage = Theme.Attribute.init("searchFieldBackgroundImage")
     /// UISearchBar.scopeBarButtonBackgroundImage
     public static let scopeBarButtonBackgroundImage = Theme.Attribute.init("scopeBarButtonBackgroundImage")
-    /// UISearchBar 需使用 Theme.State.norml、Theme.State.normlForRight 分别代表左右的 UIControlState ，其它状态依此类推。
+    /// UISearchBar 需使用 Theme.State.norml、Theme.State.norml 分别代表左右的 UIControlState ，其它状态依此类推。
     public static let scopeBarButtonDividerImage = Theme.Attribute.init("scopeBarButtonDividerImage")
     /// UISearchBar.scopeBarButtonTitleTextAttributes
     public static let scopeBarButtonTitleTextAttributes = Theme.Attribute.init("scopeBarButtonTitleTextAttributes")
@@ -333,7 +320,7 @@ extension UISearchBar {
         }
         
         // setBackgroundImage
-        for item in Theme.State.UIBarMetricsUIBarPositionItems {
+        for item in Theme.State.UIBarPositionUIBarMetricsItems {
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
             if themeStyle.containsThemeAttribute(.backgroundImage) {
                 setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)
@@ -358,7 +345,7 @@ extension UISearchBar {
         
         // open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
         
-        for item in Theme.State.UIControlStateUISearchBarIconItems {
+        for item in Theme.State.UISearchBarIconUIControlStateItems {
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
             if themeStyle.containsThemeAttribute(.image) {
                 setImage(themeStyle.image, for: item.searchBarIcon, state: item.controlState)

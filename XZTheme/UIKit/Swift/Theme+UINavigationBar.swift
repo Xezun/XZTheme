@@ -37,18 +37,18 @@ extension Theme.State {
     ]
     
     /// 所有 Theme.State 中 UIBarMetrics、UIBarPosition 的组合。
-    public static let UIBarMetricsUIBarPositionItems: [(themeState: Theme.State, barMetrics: UIBarMetrics, barPosition: UIBarPosition)] = [
-        ([.defaultBarMetrics, .anyBarPosition], .default, .any), ([.defaultBarMetrics, .bottomBarPosition], .default, .bottom),
-        ([.defaultBarMetrics, .topBarPosition], .default, .top), ([.defaultBarMetrics, .topAttachedBarPosition], .default, .topAttached),
+    public static let UIBarPositionUIBarMetricsItems: [(themeState: Theme.State, barMetrics: UIBarMetrics, barPosition: UIBarPosition)] = [
+        ([.anyBarPosition, .defaultBarMetrics], .default, .any), ([.bottomBarPosition, .defaultBarMetrics], .default, .bottom),
+        ([.topBarPosition, .defaultBarMetrics], .default, .top), ([.topAttachedBarPosition, .defaultBarMetrics], .default, .topAttached),
         
-        ([.compactBarMetrics, .anyBarPosition], .compact, .any), ([.compactBarMetrics, .bottomBarPosition], .compact, .bottom),
-        ([.compactBarMetrics, .topBarPosition], .compact, .top), ([.compactBarMetrics, .topAttachedBarPosition], .compact, .topAttached),
+        ([.anyBarPosition, .compactBarMetrics], .compact, .any), ([.bottomBarPosition, .compactBarMetrics], .compact, .bottom),
+        ([.topBarPosition, .compactBarMetrics], .compact, .top), ([.topAttachedBarPosition, .compactBarMetrics], .compact, .topAttached),
         
-        ([.defaultPromptBarMetrics, .anyBarPosition], .defaultPrompt, .any), ([.defaultPromptBarMetrics, .bottomBarPosition], .defaultPrompt, .bottom),
-        ([.defaultPromptBarMetrics, .topBarPosition], .defaultPrompt, .top), ([.defaultPromptBarMetrics, .topAttachedBarPosition], .defaultPrompt, .topAttached),
+        ([.anyBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .any), ([.bottomBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .bottom),
+        ([.topBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .top), ([.topAttachedBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .topAttached),
         
-        ([.compactPromptBarMetrics, .anyBarPosition], .compactPrompt, .any), ([.compactPromptBarMetrics, .bottomBarPosition], .compactPrompt, .bottom),
-        ([.compactPromptBarMetrics, .topBarPosition], .compactPrompt, .top), ([.compactPromptBarMetrics, .topAttachedBarPosition], .compactPrompt, .topAttached)
+        ([.anyBarPosition, .compactPromptBarMetrics], .compactPrompt, .any), ([.bottomBarPosition, .compactPromptBarMetrics], .compactPrompt, .bottom),
+        ([.topBarPosition, .compactPromptBarMetrics], .compactPrompt, .top), ([.topAttachedBarPosition, .compactPromptBarMetrics], .compactPrompt, .topAttached)
     ]
  
 }
@@ -149,7 +149,7 @@ extension UINavigationBar {
             }
         }
         
-        for item in Theme.State.UIBarMetricsUIBarPositionItems {
+        for item in Theme.State.UIBarPositionUIBarMetricsItems {
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
             if themeStyle.containsThemeAttribute(.backgroundImage) {
                 self.setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)

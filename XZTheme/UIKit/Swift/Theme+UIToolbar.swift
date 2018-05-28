@@ -32,7 +32,7 @@ extension UIToolbar {
             self.barTintColor = themeStyles.barTintColor
         }
 
-        for item in Theme.State.UIBarMetricsUIBarPositionItems {
+        for item in Theme.State.UIBarPositionUIBarMetricsItems {
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
             if themeStyle.containsThemeAttribute(.backgroundImage) {
                 setBackgroundImage(themeStyle.backgroundImage, forToolbarPosition: item.barPosition, barMetrics: item.barMetrics)

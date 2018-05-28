@@ -395,11 +395,12 @@ extension Theme {
     /// .setValue(
     ///     "bg_bar_nav",
     ///     forThemeAttribute: .backgroundImage,
-    ///     forThemeState: [.defaultBarMetrics, .compactBarMetrics]
+    ///     forThemeState: [.anyBarPosition, .compactBarMetrics]
     /// )
     /// ```
     /// - Note: 空字符串不被视为有效的主题状态。
     /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
+    /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
     public struct State: OptionSet, CustomStringConvertible {
         
         /// 不是主题状态。
@@ -413,10 +414,16 @@ extension Theme {
         /// 基本主题状态没有子元素。
         public let children: [State]
         
+        /// 是否为基本主题状态。
+        public var isPrimary: Bool {
+            return children.isEmpty;
+        }
+        
         public var description: String {
             return "Theme.State(\(rawValue))"
         }
         
+        /// 检查状态是否符合要求的正则。
         private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
         
         /// 基本主题状态构造方法。
@@ -437,7 +444,7 @@ extension Theme {
         public init<T: Sequence>(_ children: T) where T.Element == State {
             var items: [State] = []
             for child in children {
-                if child.children.isEmpty {
+                if child.isPrimary {
                     items.append(child)
                 } else {
                     items.append(contentsOf: child.children)
