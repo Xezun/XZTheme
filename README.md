@@ -268,15 +268,7 @@ navigationBar.themes.day.setValue(
 
 ## 特性
 
-系统原生 `UIAppearance` 方案，应该说是在实现主题方案中最直观的了，但是其局限性也很明显，而且性能让人不敢恭维。
-因此，如何设计一套易于使用，而且功能强大的主题框架，成为了本框架要解决的首要问题。在实际开发中，经过不断的尝试，
-前后经历了两年多时间，反复修改重构，最终形成了现在的版本。不能说现在的版本就是最优的解决方案，但是至少是经过深思熟虑的。
-
-### 易用
-
-### 高效
-
-### 可拓展
+易用、 高效、可拓展
 
 
 ## 设计原理
@@ -284,21 +276,43 @@ navigationBar.themes.day.setValue(
 将主题外观样式按属性名和属性值并分类存储，再通过建立样式属性名和样式属性值与控件属性的对应关系，
 使得在主题变更时，可以通过读取已存储的样式属性，通过对应关系来直接来改变控件的属性。
 
-### 运行机制
-
-
-#### 普通对象
-
-为每一个需要支持主题的对象，自动创建监听主题变更的对象（开发者也可以自定义），并在主题变更时，响应指定的方法。
-
-#### UIKit 控件及相关对象
-
-主题变更时，所有正在显示的视图，都将收到主题变更事件，而且这些都是自动的；而没有正在显示的视图，则在它们被添加到父视图上时，自动检测
-其已应用的主题与当前主题是否一致，并自动决定是否需要应用主题。
-
-
-
 ## 拓展主题支持
+
+- 1. 拓展主题属性
+
+```
+extension Theme.Attribute {
+    
+    /// UIView.backgroundColor
+    public static let backgroundColor   = Theme.Attribute.init("backgroundColor");
+
+}
+```
+
+- 2. 拓展主题样式
+```
+extension Theme.Style {
+    
+    public var backgroundColor: UIColor? {
+        get { return color(forThemeAttribute: .backgroundColor)        }
+        set { setValue(newValue, forThemeAttribute: .backgroundColor)  }
+    }
+}
+```
+
+- 3. 提供默认实现
+
+```
+extension UIView {
+    open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
+        super.updateAppearance(with: themeStyles)
+   
+        if themeStyles.containsThemeAttribute(.backgroundColor) {
+            self.backgroundColor = themeStyles.backgroundColor
+        }
+    }
+}
+```
 
 ## 支持的控件和属性
 
