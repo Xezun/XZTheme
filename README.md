@@ -233,7 +233,11 @@ button.themes.day.normal.title = "normal title"
 button.themes.day.selected.title = "normal title"
 ```
 
-而对于 `UIBarMetrics`、`UIBarPosition` 的非常见状态，特别是多个状态对应一个主题属性，可以通过复合的 `Theme.State` 来实现。 
+- 3.9 复合主题状态
+
+主题状态支持通过多个基本状态按照指定顺序组成复合主题状态，此机制是为了解决具有多种状态的属性的主题设置问题，主题状态的复合
+顺序也应该与设置方法中状态参数的顺序一致。例如 `UINavigationBar` 具有 `UIBarMetrics`、`UIBarPosition` 等非常见状态，其
+`backgroundImage` 属性就可以通过复合主题状态来实现。 
 
 ```swift
 navigationBar.themes.day.setValue(
@@ -241,10 +245,10 @@ navigationBar.themes.day.setValue(
     forThemeAttribute: .backgroundImage,
     forThemeState: [.anyBarPosition, .defaultBarMetrics]
 )
-// 对应 setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics) 方法
+// 与 UINavigationBar 的方法 setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics) 相对应。
 ```
 
-`Theme.State` 的复合规则见注释文档。
+\* *更多复合规则见 `Theme.State` 的注释文档。*
 
 
 ### 4. 切换主题
