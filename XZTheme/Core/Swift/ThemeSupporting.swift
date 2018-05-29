@@ -152,7 +152,7 @@ extension NSObject {
     //}
     
     /// 是否传递主题变更事件。
-    /// - Note: 在 NSObject 实现中，该方法返回 YES 。
+    /// - Note: 在 NSObject 实现中，该方法返回 true 。
     /// - Note: 在 UI 控件中，此属性会影响主题事件是否传递给其子视图。
     /// - Note: 在某些 UI 控件中，一般是独立的基础组件，该方法返回 NO 。
     @objc(xz_forwardsThemeAppearanceUpdate)
@@ -202,6 +202,11 @@ extension NSObject {
     /// - Parameter newTheme: 待应用的主题。
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with newTheme: Theme) {
+        // 如果当前已应用的主题与待应用的主题一致，不操作的话，那么修改主题配置后，可能导致无法应用新的配置。
+        // 但是会不会造成某些情况下，主题被重复应用，有待验证。
+        // guard newTheme != self.appliedTheme else {
+        //     return
+        // }
         // 如果没有配置主题，不执行操作。
         guard let themes = self.effectiveThemes else { return }
         

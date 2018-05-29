@@ -18,19 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        UIButton.themes.day
-            .setting(0x333333ff, for: .titleColor)
-            .setting(UIImage(filled: 0xCCCCCCFF), for: .backgroundImage)
-        
-        UIButton.themes.night
-            .setting(0x707070ff, for: .titleColor)
-            .setting(UIImage(filled: 0x252525ff), for: .backgroundImage)
-        
-        UIButton.themes(forThemeIdentifier: "red").day
-            .setting(0xffffffff, for: .titleColor)
-            .setting(UIImage(filled: 0xff0000ff), for: .backgroundImage)
-        
-        
         return true
     }
 

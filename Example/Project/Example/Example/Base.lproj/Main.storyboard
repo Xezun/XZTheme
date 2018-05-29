@@ -9,29 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Theme View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="ThemeViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HBs-qD-bNw"/>
-                        <viewControllerLayoutGuide type="bottom" id="bU0-WN-vqK"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="jMi-tC-wff"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1884" y="116"/>
-        </scene>
-        <!--Root View Controller-->
+        <!--XZTheme-->
         <scene sceneID="ewD-4T-Yxl">
             <objects>
-                <viewController id="KsT-Zg-Xho" customClass="RootViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="XZTheme" id="KsT-Zg-Xho" customClass="RootViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U6q-UJ-gk2"/>
                         <viewControllerLayoutGuide type="bottom" id="H9a-Ai-bdu"/>
@@ -39,37 +20,24 @@
                     <view key="view" contentMode="scaleToFill" id="udx-OY-0Ul">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zdt-lf-Qfb">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="t6h-Ub-wJ0"/>
-                                </constraints>
-                                <state key="normal" title="Next"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="XZTheme" id="xZd-qb-uto">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="OCD-b6-uYh">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Rw-Wf-jrd">
+                                <rect key="frame" x="332" y="8.5" width="27" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="icon_theme_day"/>
+                                <state key="selected" image="icon_theme_night"/>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="Xui-4P-3ag"/>
+                                    <action selector="themeButtonAction:" destination="KsT-Zg-Xho" eventType="touchUpInside" id="eWG-l8-aKd"/>
                                 </connections>
                             </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Zdt-lf-Qfb" secondAttribute="trailing" id="GYp-8C-UfY"/>
-                            <constraint firstItem="H9a-Ai-bdu" firstAttribute="top" secondItem="Zdt-lf-Qfb" secondAttribute="bottom" id="UyD-83-Kao"/>
-                            <constraint firstItem="Zdt-lf-Qfb" firstAttribute="leading" secondItem="udx-OY-0Ul" secondAttribute="leading" id="z4G-tl-LPH"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="xZd-qb-uto">
-                        <barButtonItem key="leftBarButtonItem" title="Night" id="i9k-Av-SPV">
-                            <connections>
-                                <action selector="nightAction:" destination="KsT-Zg-Xho" id="4rp-O0-KiA"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Day" id="zT8-30-Tau">
-                            <connections>
-                                <action selector="dayAction:" destination="KsT-Zg-Xho" id="Fdz-NF-0Z5"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="themeButton" destination="9Rw-Wf-jrd" id="qkl-zB-mfz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5o0-5E-wQv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -94,4 +62,8 @@
             <point key="canvasLocation" x="117.59999999999999" y="117.39130434782609"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_theme_day" width="27" height="27"/>
+        <image name="icon_theme_night" width="27" height="27"/>
+    </resources>
 </document>

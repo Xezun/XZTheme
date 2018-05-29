@@ -508,7 +508,7 @@ extension Theme: NSCopying {
     
     public override func isEqual(_ object: Any?) -> Bool {
         if let theme = object as? Theme {
-            return self == theme
+            return self.name == theme.name
         }
         return false
     }
