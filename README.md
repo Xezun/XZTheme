@@ -15,7 +15,7 @@
 
 ## 环境需求
 
-推荐使用 Swift 语言，支持最新 4.1 版本，框架同时兼容 Objective-C 语言。
+推荐使用 Swift 语言，支持最新 4.1 版本，同时兼容 Objective-C 语言。
 
 ## 安装集成
 
@@ -127,7 +127,7 @@ view.themes.night.setValue("bg_view", forThemeAttribute: .backgroundImage)
 
 - 3.3 通过链式函数 `setting(_:for:)` 来配置主题样式
 
-者主要是上一种方式的简化方法，避免反复获取主题样式集属性。
+链式编程可以少写一部分代码，同时简化了函数命名，使其看起来更简洁。
 
 ```swift
 navigationBar.themes.day
@@ -178,7 +178,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
-对于自定义视图，建议自定义视图使用静态常量，来处理全局样式加载的问题。
+对于自定义视图，建议自定义视图使用静态常量，来处理全局样式加载的时机。
 
 ```swift
 static let isThemeInitialized: Bool = {
@@ -221,7 +221,7 @@ view.addSubview(buttonRed)
 
 如果对象同时存在全局样式和非全局样式，那么，当查找某一样式时，它们优先生效的顺序是：
 
- > 	非全局样式 -> 带标识符的全局样式 -> 不带标识符的全局样式
+ > 	**非全局样式** -> **带标识符的全局样式** -> **不带标识符的全局样式**
 
 
  - 3.8 带状态的主题属性配置
