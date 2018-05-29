@@ -253,15 +253,14 @@ navigationBar.themes.day.setValue(
 
 ### 4. 切换主题
 
-切换主题提供了一个简单的渐变过渡效果，当前你也可以关掉这个效果自己做。
-另外，主题在切换后会自己记录，并在下次启动时自动应用。
+框架为切换主题默认提供了一个简单的渐变过渡效果，以避免主题切换过程过于突兀。另外框架会自动记录已应用主题，并在 App 启动时自动启用。
 
 ```swift
-@IBAction func nightAction(_ sender: Any) {
+@IBAction func nightButtonAction(_ sender: Any) {
     Theme.night.apply(animated: true)
 }
 
-@IBAction func dayAction(_ sender: Any) {
+@IBAction func dayButtonAction(_ sender: Any) {
     Theme.day.apply(animated: true)
 }
 ```
