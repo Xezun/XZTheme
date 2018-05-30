@@ -245,6 +245,11 @@ extension UIView {
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
     /// - Note: 子类可通过 forwardsThemeAppearanceUpdate 属性来控制该行为。
+    /// - Note: 此方法会在以下情况自动调用：
+    ///     - 添加到父视图，且已应用的主题与当前主题不一致时；
+    ///     - 主题配置发生改变时；
+    ///     - 新到主题应用时（如果 View 正在 window 上显示）；
+    ///     - 父视图的此方法被调用时。
     open override func setNeedsThemeAppearanceUpdate() {
         guard !self.needsUpdateThemeAppearance else {
             return
