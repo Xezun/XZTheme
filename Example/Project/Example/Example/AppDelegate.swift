@@ -18,6 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        // , [[.anyBarPosition, .bottomBarPosition], .clearSearchBarIcon]
+        let state: Theme.State = [[.normal, .highlighted], [.selected, .highlighted]]
+        print(state)
+        
+        for item in state {
+            print(item)
+        }
+        
         return true
     }
 

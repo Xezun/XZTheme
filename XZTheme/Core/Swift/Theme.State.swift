@@ -18,6 +18,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
     /// 通过字符串字面量创建主题属性状态。
     /// - Note: 支持的字面量形式如 `":normal"` 或多个组合 `":normal:selected"` 。
+    /// - Note: 会自动忽略一些空白字符。
     ///
     /// - Parameter value: 字符串字面量
     public init(stringLiteral value: String) {
@@ -54,7 +55,7 @@ extension Theme.State: Sequence, IteratorProtocol {
         }
         if self.isPrimary {
             let state = self
-            self = .notThemeState
+            self = .Empty
             return state
         } else {
             var children = self.children
@@ -67,11 +68,11 @@ extension Theme.State: Sequence, IteratorProtocol {
 }
 
 extension Theme.State {
-
-    public var isEmpty: Bool {
-        return rawValue.isEmpty
-    }
     
+    /// 判断主题状态是否包含另一状态，或者某一主题状态是否为当前主题状态的。
+    ///
+    /// - Parameter member: <#member description#>
+    /// - Returns: <#return value description#>
     public func contains(_ member: Theme.State) -> Bool {
         if self.rawValue == member.rawValue {
             return true

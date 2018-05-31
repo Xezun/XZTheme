@@ -398,20 +398,25 @@ extension Theme {
     ///     forThemeState: [.anyBarPosition, .compactBarMetrics]
     /// )
     /// ```
-    /// - Note: 空字符串不被视为有效的主题状态。
     /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
     /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
     public struct State: RawRepresentable, ExpressibleByArrayLiteral, CustomStringConvertible {
         
-        /// 不是主题状态。
-        public static let notThemeState: Theme.State = .init(rawValue: "", children: [])
+        /// 特殊值，空状态。
+        /// - Note: Empty 是基本主题状态。
+        public static let Empty: Theme.State = .init(rawValue: " ", children: [])
+        
+        /// 主题状态是否为 Theme.State.Empty 。
+        public var isEmpty: Bool {
+            return self == Theme.State.Empty
+        }
         
         public typealias RawValue = String
         
-        /// 主题状态字符串。
+        /// 主题状态原始值，比较主题状态是否相等的依据。
         public let rawValue: String
         
-        /// 基本主题状态没有子元素。
+        /// 基本主题状态没有子元素；复合主题状态此属性为其所有基本主题状态。
         public let children: [State]
         
         /// 是否为基本主题状态。
@@ -438,35 +443,51 @@ extension Theme {
             self.children = []
         }
         
+        private static func append(_ states: inout [Theme.State], element: Theme.State) {
+            if element.isPrimary {
+                states.append(element)
+            } else {
+                for child in element.children {
+                    append(&states, element: child)
+                }
+            }
+        }
+        
         /// 通过主题状态集合转换为新的主题状态。
         ///
         /// - Parameter rawValue: 主题状态原始值。
-        public init<T: Sequence>(_ children: T) where T.Element == State {
-            self.init(Array(children))
+        public init(_ elements: Array<Theme.State>) {
+            switch elements.count {
+            case 0:
+                self = .Empty
+            case 1:
+                // 如果只有有一个且是基本元素，不会创建复合状态，否则创建只有一个复合状态的复合状态。
+                // 这是为了保证基本状态没有子状态，复合元素在遍历时，不会遍历到子状态的子状态。
+                // 但是这样的话，可能导致 [:normal:selected] 与 :normal:selected 是不同的状态。
+                if elements[0].isPrimary {
+                    self = elements[0]
+                } else {
+                    fallthrough
+                }
+                
+            default:
+                // 如果元素是由复合元素构成的，则 rawValue 用 [] 包裹。
+                // 那么 rawValue 形式可能有 :normal、:normal:selected、:normal[:selected:highlighted]、[:normal:highlighted][:selected:highlighted]、
+                let rawValue = elements.map({ (element) -> String in
+                    if element.isPrimary {
+                        return element.rawValue
+                    } else {
+                        return "[\(element.rawValue)]"
+                    }
+                }).joined()
+                self.init(rawValue: rawValue, children: elements)
+            }
         }
         
         public typealias ArrayLiteralElement = Theme.State
         
         public init(arrayLiteral elements: Theme.State...) {
-            var items: [State] = []
-            for child in elements {
-                if child.isPrimary {
-                    items.append(child)
-                } else {
-                    items.append(contentsOf: child.children)
-                }
-            }
-            switch items.count {
-            case 0:
-                self = .notThemeState
-            case 1:
-                self = items[0]
-            default:
-                let rawValue = items.map({ (state) -> String in
-                    return state.rawValue
-                }).joined()
-                self.init(rawValue: rawValue, children: items)
-            }
+            self.init(elements)
         }
         
         private init(rawValue: String, children: [State]) {
