@@ -37,6 +37,7 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
         self.init(children)
     }
     
+    /// 主题状态的 hashValue 为其原始值的 hashValue 。
     public var hashValue: Int {
         return rawValue.hashValue
     }
@@ -55,46 +56,36 @@ extension Theme.State: Sequence, IteratorProtocol {
         }
         if self.isPrimary {
             let state = self
-            self = .Empty
+            self = .normal
             return state
         } else {
             var children = self.children
-            let state = children.removeFirst()
+            let state = children.removeLast()
             self = Theme.State.init(children)
             return state
+        }
+    }
+    
+    
+    /// 遍历主题状态中的所有基本元素。
+    /// - Note: 与 for-in 不同，当复合状态的子元素也是复合状态时，此方法会自动遍历更深层次的。
+    /// - Note: 遍历的顺序与 for-in 相同。
+    ///
+    /// - Parameter body: 遍历子元素所使用的闭包。
+    /// - Throws: 抛出异常结束遍历或遍历过程中发生的异常。
+    public func forEachPrimaryThemeState(_ body: (Theme.State) throws -> Void) rethrows {
+        for themeState in self {
+            if themeState.isPrimary {
+                try body(themeState)
+            } else {
+                try themeState.forEachPrimaryThemeState(body)
+            }
         }
     }
     
 }
 
 extension Theme.State {
-    
-    /// 判断主题状态是否包含另一状态，或者某一主题状态是否为当前主题状态的。
-    ///
-    /// - Parameter member: <#member description#>
-    /// - Returns: <#return value description#>
-    public func contains(_ member: Theme.State) -> Bool {
-        if self.rawValue == member.rawValue {
-            return true
-        }
-        if self.isPrimary {
-            return false
-        }
-        if member.isPrimary {
-            return self.children.contains(member)
-        }
-        for m in 0 ..< self.children.count {
-            // 找到第一个相等的子元素。
-            guard self.children[m] == member.children[0] else { continue }
-            for n in 1 ..< member.children.count {
-                /// 遍历 member ，从第一个匹配位置开始，后续所有子元素都相等，否则返回 false 。
-                guard m + n < self.children.count, self.children[m + n] == member.children[n] else { return false }
-            }
-            // member 遍历完成，说明完全相同。
-            break
-        }
-        return true
-    }
     
 }
 
@@ -125,9 +116,6 @@ extension Theme.State: _ObjectiveCBridgeable {
 
 extension Theme.State {
     
-    /// 表示对象在正常或者默认状态下，一般与 UIControlState.normal 相对应。
-    /// - Note: 对于设置带触控状态的属性，仅支持基本状态。
-    public static let normal       = Theme.State.init(rawValue: ":normal")
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
     public static let selected     = Theme.State.init(rawValue: ":selected")
     /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
@@ -145,23 +133,9 @@ extension UIControlState {
     /// - Note: 默认值 .normal 。
     ///
     /// - Parameter themeState: 主题状态。
-    public init?(_ themeState: Theme.State) {
-        if themeState.isEmpty {
-            return nil
-        }
-        if themeState.isPrimary {
-            switch themeState {
-            case .normal:       self = .normal
-            case .selected:     self = .selected
-            case .highlighted:  self = .highlighted
-            case .focused:      if #available(iOS 9.0, *) { self = .focused } else { return nil }
-            case .disabled:     self = .disabled
-            default:            return nil
-            }
-            return
-        }
+    public init(_ themeState: Theme.State) {
         var controlState = UIControlState.init(rawValue: 0)
-        for itemState in themeState {
+        themeState.forEachPrimaryThemeState({ (itemState) in
             switch itemState {
             case .normal:       controlState.formUnion(.normal)
             case .selected:     controlState.formUnion(.selected)
@@ -170,7 +144,7 @@ extension UIControlState {
             case .disabled:     controlState.formUnion(.disabled)
             default:            break
             }
-        }
+        })
         self = controlState
     }
     

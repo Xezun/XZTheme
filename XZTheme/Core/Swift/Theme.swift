@@ -402,28 +402,31 @@ extension Theme {
     /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
     public struct State: RawRepresentable, ExpressibleByArrayLiteral, CustomStringConvertible {
         
-        /// 特殊值，空状态。
-        /// - Note: Empty 是基本主题状态。
-        public static let Empty: Theme.State = .init(rawValue: " ", children: [])
-        
-        /// 主题状态是否为 Theme.State.Empty 。
-        public var isEmpty: Bool {
-            return self == Theme.State.Empty
-        }
-        
         public typealias RawValue = String
+        
+        /// 特殊值，正常状态，没有状态描述时的状态，与 UIControlState.normal 相对应。
+        /// - Note: 基本状态、空状态。
+        /// - Note: 任何状态与 `normal` 状态组成的复合状态与其自身相等。例如 `[:normal, .selected]` 与 `:selected` 相等，但是前者为复合状态，后者为基本状态。
+        public static let normal: Theme.State = .init(rawValue: "", children: [])
         
         /// 主题状态原始值，比较主题状态是否相等的依据。
         public let rawValue: String
         
-        /// 基本主题状态没有子元素；复合主题状态此属性为其所有基本主题状态。
+        /// 基本主题状态没有子元素，复合状态子元素为复合状态或基本状态。
+        /// - Note: 为了优化 for-in 遍历性能，子元素的顺序是复合的顺序的逆序。
         public let children: [State]
         
-        /// 是否为基本主题状态。
+        /// 只有主题状态 Theme.State.normal 此属性为 true 。
+        public var isEmpty: Bool {
+            return self == Theme.State.normal
+        }
+        
+       /// 是否为基本主题状态。
         public var isPrimary: Bool {
             return children.isEmpty;
         }
         
+        /// 主题状态默认描述文本格式为：Theme.State(:selected)
         public var description: String {
             return "Theme.State(\(rawValue))"
         }
@@ -431,7 +434,7 @@ extension Theme {
         /// 检查状态是否符合要求的正则。
         private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
         
-        /// 基本主题状态构造方法。
+        /// 基本主题状态构造方法，字符串格式必须符合格式：`/^\:[A-Za-z]+$` 。
         ///
         /// - Parameter rawValue: 主题状态原始值。
         public init(rawValue: String) {
@@ -443,36 +446,28 @@ extension Theme {
             self.children = []
         }
         
-        private static func append(_ states: inout [Theme.State], element: Theme.State) {
-            if element.isPrimary {
-                states.append(element)
-            } else {
-                for child in element.children {
-                    append(&states, element: child)
-                }
-            }
-        }
-        
-        /// 通过主题状态集合转换为新的主题状态。
+        /// 将主题状态集合转换复合主题状态。
+        /// - Note: 空数组将获得 .normal 状态。
+        /// - Note: 单个主题状态，无法组成新复合状态。
+        /// - Note: 复合状态可以再次被复合成新的复合状态，且与原来不相等。
         ///
         /// - Parameter rawValue: 主题状态原始值。
         public init(_ elements: Array<Theme.State>) {
             switch elements.count {
             case 0:
-                self = .Empty
+                /// 空数组不会创建新的状态。
+                self = .normal
             case 1:
-                // 如果只有有一个且是基本元素，不会创建复合状态，否则创建只有一个复合状态的复合状态。
-                // 这是为了保证基本状态没有子状态，复合元素在遍历时，不会遍历到子状态的子状态。
-                // 但是这样的话，可能导致 [:normal:selected] 与 :normal:selected 是不同的状态。
-                if elements[0].isPrimary {
-                    self = elements[0]
-                } else {
-                    fallthrough
-                }
-                
+                /// 单个元素不会复合成新的状态。
+                self = elements[0]
             default:
                 // 如果元素是由复合元素构成的，则 rawValue 用 [] 包裹。
-                // 那么 rawValue 形式可能有 :normal、:normal:selected、:normal[:selected:highlighted]、[:normal:highlighted][:selected:highlighted]、
+                // 那么 rawValue 形式可能有以下几种形式：
+                // 1. :selected
+                // 2. :selected:highlighted
+                // 3. [:selected:highlighted]:focused
+                // 4. [:selected:highlighted][:selected:focused]
+                // 5. [[:selected:highlighted]:focused]:disabled
                 let rawValue = elements.map({ (element) -> String in
                     if element.isPrimary {
                         return element.rawValue
@@ -480,7 +475,7 @@ extension Theme {
                         return "[\(element.rawValue)]"
                     }
                 }).joined()
-                self.init(rawValue: rawValue, children: elements)
+                self.init(rawValue: rawValue, children: elements.reversed())
             }
         }
         
