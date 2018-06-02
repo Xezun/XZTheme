@@ -9,21 +9,24 @@
 import UIKit
 import XZTheme
 
-class ThemeViewController: UIViewController {
+class ThemeViewController: UITableViewController {
     
-    @IBOutlet weak var navigationBarThemeButton: UIButton!
+    @IBOutlet weak var themeButton: UIButton!
+    @IBOutlet weak var themeLabel: UILabel!
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationBarThemeButton.themeIdentifier = "Test"
-        navigationBarThemeButton.themes.day
-            .setting("icon_theme_night", for: .image, for: .normal)
 
-        navigationBarThemeButton.themes.night
-            .setting("icon_theme_day", for: .image, for: .normal)
+        themeButton.themes.day.normal.setting("icon_theme_night", for: .image)
+        themeButton.themes.night.normal.setting("icon_theme_day", for: .image)
         
+        themeLabel.themes.day.text              = "It's day now."
+        themeLabel.themes.day.backgroundColor   = UIColor(0xf5f5f5ff)
+        themeLabel.themes.day.textColor         = UIColor(0x333333ff)
+        
+        themeLabel.themes.night.text            = "It's night now."
+        themeLabel.themes.night.backgroundColor = UIColor(0x252525ff)
+        themeLabel.themes.night.textColor       = UIColor(0x707070ff)
         
         self.navigationController?.navigationBar.themes.day
             .setting(UIColor.white, for: .barTintColor)
@@ -51,13 +54,7 @@ class ThemeViewController: UIViewController {
         view.addConstraint(lc1)
         view.addConstraint(lc2)
 
-        label.themes.day.text              = "It's day now."
-        label.themes.day.backgroundColor   = UIColor(0xf5f5f5ff)
-        label.themes.day.textColor         = UIColor(0x333333ff)
 
-        label.themes.night.text            = "It's night now."
-        label.themes.night.backgroundColor = UIColor(0x252525ff)
-        label.themes.night.textColor       = UIColor(0x707070ff)
         
     }
     
@@ -67,7 +64,7 @@ class ThemeViewController: UIViewController {
     }
     
     
-    @IBAction func navigationBarThemeButtonAction(_ sender: UIButton) {
+    @IBAction func themeButtonAction(_ switch: UIButton) {
         switch Theme.current {
         case .day: Theme.night.apply(animated: true)
         case .night: Theme.day.apply(animated: true)
