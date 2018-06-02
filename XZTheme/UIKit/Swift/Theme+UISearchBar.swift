@@ -19,64 +19,6 @@ extension Theme.State {
     /// UISearchBarIcon.resultsList
     public static let resultsListSearchBarIcon = Theme.State.init(rawValue: ":resultsListSearchBarIcon")
 
-    public static let UIControlStateLeftRightItems: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] = {
-        var items: [(themeState: Theme.State, leftControlState: UIControlState, rightControlState: UIControlState)] =  [
-            ([.normal, .normal], .normal, .normal), ([.normal, .selected], .normal, .selected),
-            ([.normal, .highlighted], .normal, .highlighted), ([.normal, .disabled], .normal, .disabled),
-
-            ([.selected, .normal], .selected, .normal), ([.selected, .selected], .selected, .selected),
-            ([.selected, .highlighted], .selected, .highlighted), ([.selected, .disabled], .selected, .disabled),
-
-            ([.highlighted, .normal], .highlighted, .normal), ([.normal, .selected], .highlighted, .selected),
-            ([.highlighted, .highlighted], .highlighted, .highlighted), ([.normal, .disabled], .highlighted, .disabled),
-            
-            ([.disabled, .normal], .disabled, .normal), ([.disabled, .selected], .disabled, .selected),
-            ([.disabled, .highlighted], .disabled, .highlighted), ([.disabled, .disabled], .disabled, .disabled)
-        ]
-        if #available(iOS 9.0, *) {
-            items.append(([.normal, .focused], .normal, .focused))
-            items.append(([.selected, .focused], .selected, .focused))
-            items.append(([.highlighted, .focused], .highlighted, .focused))
-            items.append(([.disabled, .focused], .disabled, .focused))
-            
-            items.append(([.focused, .normal], .focused, .normal))
-            items.append(([.focused, .selected], .focused, .selected))
-            items.append(([.focused, .highlighted], .focused, .highlighted))
-            items.append(([.focused, .disabled], .focused, .disabled))
-            items.append(([.focused, .focused], .focused, .focused))
-        }
-        return items
-    } ()
-    
-    
-    
-    public static let UISearchBarIconItems: [(themeState: Theme.State, searchBarIcon: UISearchBarIcon)] = [
-        (.searchSearchBarIcon, .search), (.clearSearchBarIcon, .clear), (.bookmarkSearchBarIcon, .bookmark), (.resultsListSearchBarIcon, .resultsList)
-    ]
-    
-    public static let UISearchBarIconUIControlStateItems: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = {
-        var items: [(themeState: Theme.State, controlState: UIControlState, searchBarIcon: UISearchBarIcon)] = [
-            ([.searchSearchBarIcon, .normal], .normal, .search), ([.clearSearchBarIcon, .normal], .normal, .clear),
-            ([.bookmarkSearchBarIcon, .normal], .normal, .bookmark), ([.resultsListSearchBarIcon, .normal], .normal, .resultsList),
-            
-            ([.searchSearchBarIcon, .highlighted], .highlighted, .search), ([.clearSearchBarIcon, .highlighted], .highlighted, .clear),
-            ([.bookmarkSearchBarIcon, .highlighted], .highlighted, .bookmark), ([.resultsListSearchBarIcon, .highlighted], .highlighted, .resultsList),
-            
-            ([.searchSearchBarIcon, .selected], .selected, .search), ([.clearSearchBarIcon, .selected], .selected, .clear),
-            ([.bookmarkSearchBarIcon, .selected], .selected, .bookmark), ([.resultsListSearchBarIcon, .selected], .selected, .resultsList),
-            
-            ([.searchSearchBarIcon, .disabled], .disabled, .search), ([.clearSearchBarIcon, .disabled], .disabled, .clear),
-            ([.bookmarkSearchBarIcon, .disabled], .disabled, .bookmark), ([.resultsListSearchBarIcon, .disabled], .disabled, .resultsList)
-        ]
-        if #available(iOS 9.0, *) {
-            items.append(([.searchSearchBarIcon, .focused], .focused, .search))
-            items.append(([.clearSearchBarIcon, .focused], .focused, .clear))
-            items.append(([.bookmarkSearchBarIcon, .focused], .focused, .bookmark))
-            items.append(([.resultsListSearchBarIcon, .focused], .focused, .resultsList))
-        }
-        return items
-    }()
-
 }
 
 extension Theme.Attribute {
@@ -309,6 +251,13 @@ extension UISearchBar {
         
         if themeStyles.containsThemeAttribute(.scopeBarBackgroundImage) {
             self.scopeBarBackgroundImage = themeStyles.scopeBarBackgroundImage
+        }
+        
+        let themeStates = themeStyles.effectiveThemeStates
+        
+        
+        for themeState in themeStates {
+            
         }
         
         // setBackgroundImage

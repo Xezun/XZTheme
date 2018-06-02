@@ -28,33 +28,34 @@ extension Theme.State {
     public static let topBarPosition         = Theme.State.init(rawValue: ":topBarPosition")
     /// UIBarPosition.topAttached
     public static let topAttachedBarPosition = Theme.State.init(rawValue: ":topAttachedBarPosition")
-    
-    
-    /// 所有 Theme.State 中 UIBarMetrics 的对应关系。
-    public static let UIBarMetricsItems: [(themeState: Theme.State, barMetrics: UIBarMetrics)] = [
-        (.defaultBarMetrics, .default), (.compactBarMetrics, .compact),
-        (.defaultPromptBarMetrics, .defaultPrompt), (.compactPromptBarMetrics, .compactPrompt)
-    ]
-    
-    /// 所有 Theme.State 中 UIBarMetrics、UIBarPosition 的组合。
-    public static let UIBarPositionUIBarMetricsItems: [(themeState: Theme.State, barMetrics: UIBarMetrics, barPosition: UIBarPosition)] = [
-        ([.anyBarPosition, .defaultBarMetrics], .default, .any), ([.bottomBarPosition, .defaultBarMetrics], .default, .bottom),
-        ([.topBarPosition, .defaultBarMetrics], .default, .top), ([.topAttachedBarPosition, .defaultBarMetrics], .default, .topAttached),
-        
-        ([.anyBarPosition, .compactBarMetrics], .compact, .any), ([.bottomBarPosition, .compactBarMetrics], .compact, .bottom),
-        ([.topBarPosition, .compactBarMetrics], .compact, .top), ([.topAttachedBarPosition, .compactBarMetrics], .compact, .topAttached),
-        
-        ([.anyBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .any), ([.bottomBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .bottom),
-        ([.topBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .top), ([.topAttachedBarPosition, .defaultPromptBarMetrics], .defaultPrompt, .topAttached),
-        
-        ([.anyBarPosition, .compactPromptBarMetrics], .compactPrompt, .any), ([.bottomBarPosition, .compactPromptBarMetrics], .compactPrompt, .bottom),
-        ([.topBarPosition, .compactPromptBarMetrics], .compactPrompt, .top), ([.topAttachedBarPosition, .compactPromptBarMetrics], .compactPrompt, .topAttached)
-    ]
  
 }
 
+extension UIBarMetrics {
+    
+    public init?(_ themeState: Theme.State) {
+        switch themeState {
+        case .defaultBarMetrics:       self = .default
+        case .compactBarMetrics:       self = .compact
+        case .defaultPromptBarMetrics: self = .defaultPrompt
+        case .compactPromptBarMetrics: self = .compactPrompt
+        default: return nil
+        }
+    }
+}
 
-
+extension UIBarPosition {
+    
+    public init?(_ themeState: Theme.State) {
+        switch themeState {
+        case .anyBarPosition:         self = .any
+        case .topBarPosition:         self = .top
+        case .bottomBarPosition:      self = .bottom
+        case .topAttachedBarPosition: self = .topAttached
+        default: return nil
+        }
+    }
+}
 
 
 extension Theme.Attribute {
@@ -139,22 +140,28 @@ extension UINavigationBar {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
         }
         
-        for item in Theme.State.UIBarMetricsItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.titleVerticalPositionAdjustment) {
-                self.setTitleVerticalPositionAdjustment(themeStyle.titleVerticalPositionAdjustment, for: item.barMetrics)
-            }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
-                self.setBackgroundImage(themeStyle.backgroundImage, for: item.barMetrics)
+        let themeStates = themeStyles.effectiveThemeStates
+        
+        for themeState in themeStates {
+            if themeState.isPrimary {
+                guard let barMetrics = UIBarMetrics.init(themeState) else { continue }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.titleVerticalPositionAdjustment) {
+                    self.setTitleVerticalPositionAdjustment(themeStyle.titleVerticalPositionAdjustment, for: barMetrics)
+                }
+                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                    self.setBackgroundImage(themeStyle.backgroundImage, for: barMetrics)
+                }
+            } else if themeState.children.count >= 2 {
+                guard let barPosition = UIBarPosition.init(themeState.children[0]) else { continue }
+                guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else { continue }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                    self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
+                }
             }
         }
         
-        for item in Theme.State.UIBarPositionUIBarMetricsItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
-                self.setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)
-            }
-        }
     }
     
 }

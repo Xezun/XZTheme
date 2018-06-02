@@ -8,19 +8,6 @@
 
 import UIKit
 
-extension Theme.State {
-    
-    /// Theme.State 对 UIControlState 的对应关系。
-    public static let UIControlStateItems: [(themeState: Theme.State, controlState: UIControlState)] = {
-        if #available(iOS 9.0, *) {
-            return [(.normal, .normal), (.selected, .selected), (.highlighted, .highlighted), (.disabled, .disabled), (.focused, .focused)]
-        } else {
-            return [(.normal, .normal), (.selected, .selected), (.highlighted, .highlighted), (.disabled, .disabled)]
-        }
-    }()
-    
-}
-
 extension Theme.Attribute {
     
     /// UIButton.setTitle
@@ -71,30 +58,29 @@ extension UIButton {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for item in Theme.State.UIControlStateItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-
+        for themeState in themeStyles.effectiveThemeStates {
+            guard let controlState = UIControlState.init(themeState) else { continue }
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+            
             if themeStyle.containsThemeAttribute(.title) {
-                self.setTitle(themeStyle.title, for: item.controlState);
+                self.setTitle(themeStyle.title, for: controlState);
             }
             if themeStyle.containsThemeAttribute(.titleColor) {
-                self.setTitleColor(themeStyle.titleColor, for: item.controlState);
+                self.setTitleColor(themeStyle.titleColor, for: controlState);
             }
             if themeStyle.containsThemeAttribute(.titleShadowColor) {
-                self.setTitleShadowColor(themeStyle.titleShadowColor, for: item.controlState);
+                self.setTitleShadowColor(themeStyle.titleShadowColor, for: controlState);
             }
             if themeStyle.containsThemeAttribute(.image) {
-                self.setImage(themeStyle.image, for: item.controlState);
+                self.setImage(themeStyle.image, for: controlState);
             }
             if themeStyle.containsThemeAttribute(.backgroundImage) {
-                self.setBackgroundImage(themeStyle.backgroundImage, for: item.controlState);
+                self.setBackgroundImage(themeStyle.backgroundImage, for: controlState);
             }
             if themeStyle.containsThemeAttribute(.attributedTitle) {
-                self.setAttributedTitle(themeStyle.attributedTitle, for: item.controlState);
+                self.setAttributedTitle(themeStyle.attributedTitle, for: controlState);
             }
         }
-        
-        
         
     }
 }

@@ -45,30 +45,10 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
 }
 
 
-extension Theme.State: Sequence, IteratorProtocol {
-    
-    /// 遍历主题状态中的所有基本元素，遍历顺序为正序。
-    ///
-    /// - Returns: 剩余未遍历的主题状态。
-    public mutating func next() -> Theme.State? {
-        if self.isEmpty {
-            return nil
-        }
-        if self.isPrimary {
-            let state = self
-            self = .normal
-            return state
-        } else {
-            var children = self.children
-            let state = children.removeLast()
-            self = Theme.State.init(children)
-            return state
-        }
-    }
-    
+extension Theme.State {
     
     /// 遍历主题状态中的所有基本元素。
-    /// - Note: 与 for-in 不同，当复合状态的子元素也是复合状态时，此方法会自动遍历更深层次的。
+    /// - Note: 与 for-in 不同，当复合状态的子元素也是复合状态时，此方法会遍历更深层次的主题状态。
     /// - Note: 遍历的顺序与 for-in 相同。
     ///
     /// - Parameter body: 遍历子元素所使用的闭包。
@@ -129,22 +109,26 @@ extension Theme.State {
 
 extension UIControlState {
     
-    /// 将主题状态转换为 UIControlState 。
+    /// 将主题状态转换为 UIControlState，如果 themeState 中包含不可转换为 UIControlState 的主题状态，将返回 nil 。
     /// - Note: 默认值 .normal 。
     ///
     /// - Parameter themeState: 主题状态。
-    public init(_ themeState: Theme.State) {
+    public init?(_ themeState: Theme.State) {
         var controlState = UIControlState.init(rawValue: 0)
-        themeState.forEachPrimaryThemeState({ (itemState) in
-            switch itemState {
-            case .normal:       controlState.formUnion(.normal)
-            case .selected:     controlState.formUnion(.selected)
-            case .highlighted:  controlState.formUnion(.highlighted)
-            case .focused:      if #available(iOS 9.0, *) { controlState.formUnion(.focused) }
-            case .disabled:     controlState.formUnion(.disabled)
-            default:            break
-            }
-        })
+        do {
+            try themeState.forEachPrimaryThemeState({ (itemState) in
+                switch itemState {
+                case .normal:       controlState.formUnion(.normal)
+                case .selected:     controlState.formUnion(.selected)
+                case .highlighted:  controlState.formUnion(.highlighted)
+                case .focused:      if #available(iOS 9.0, *) { controlState.formUnion(.focused) }
+                case .disabled:     controlState.formUnion(.disabled)
+                default:            throw NSError.init(domain: NSCocoaErrorDomain, code: -1, userInfo: nil)
+                }
+            })
+        } catch {
+            return nil
+        }
         self = controlState
     }
     

@@ -400,20 +400,19 @@ extension Theme {
     /// ```
     /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
     /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
-    public struct State: RawRepresentable, ExpressibleByArrayLiteral, CustomStringConvertible {
+    public struct State: RawRepresentable, ExpressibleByArrayLiteral, CustomStringConvertible, Sequence, IteratorProtocol {
         
         public typealias RawValue = String
         
-        /// 特殊值，正常状态，没有状态描述时的状态，与 UIControlState.normal 相对应。
+        /// 特殊值，正常状态，没有状态描述时的状态。在触控状态中，与 UIControlState.normal 相对应。
         /// - Note: 基本状态、空状态。
-        /// - Note: 任何状态与 `normal` 状态组成的复合状态与其自身相等。例如 `[:normal, .selected]` 与 `:selected` 相等，但是前者为复合状态，后者为基本状态。
-        public static let normal: Theme.State = .init(rawValue: "", children: [])
+        /// - Note: 任何状态与 `normal` 状态组成的复合状态与其自身相等。例如 `[.normal, .selected]` 与 `:selected` 相等，但是前者为复合状态，后者为基本状态。
+        public static let normal = Theme.State.init(rawValue: "", children: [])
         
         /// 主题状态原始值，比较主题状态是否相等的依据。
         public let rawValue: String
         
         /// 基本主题状态没有子元素，复合状态子元素为复合状态或基本状态。
-        /// - Note: 为了优化 for-in 遍历性能，子元素的顺序是复合的顺序的逆序。
         public let children: [State]
         
         /// 只有主题状态 Theme.State.normal 此属性为 true 。
@@ -428,6 +427,9 @@ extension Theme {
         
         /// 主题状态默认描述文本格式为：Theme.State(:selected)
         public var description: String {
+            if rawValue.isEmpty {
+                return "Theme.State(:normal)"
+            }
             return "Theme.State(\(rawValue))"
         }
         
@@ -435,6 +437,7 @@ extension Theme {
         private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
         
         /// 基本主题状态构造方法，字符串格式必须符合格式：`/^\:[A-Za-z]+$` 。
+        /// - Note: 字符串 `":normal"` 被作为创建 .normal 状态特殊值处理。
         ///
         /// - Parameter rawValue: 主题状态原始值。
         public init(rawValue: String) {
@@ -442,13 +445,35 @@ extension Theme {
             guard NSEqualRanges(range, State.regularExpression.rangeOfFirstMatch(in: rawValue, options: .none, range: range)) else {
                 fatalError("The `\(rawValue)` is not an valid state rawValue, which must be matched the regular expression /^\\:[A-Za-z]+$/ .")
             }
-            self.rawValue = rawValue
-            self.children = []
+            if rawValue == ":normal" {
+                self = .normal
+            } else {
+                self.rawValue = rawValue
+                self.children = []
+            }
+        }
+        
+        
+        /// 判断两个主题状态是否完全相等，原始值相等，且都为基本状态或复合状态。
+        ///
+        /// - Parameters:
+        ///   - lhs: 主题状态。
+        ///   - rhs: 主题状态。
+        /// - Returns: 主题状态是否全等。
+        public static func ===(lhs: Theme.State, rhs: Theme.State) -> Bool {
+            return lhs.rawValue == rhs.rawValue && lhs.isPrimary == rhs.isPrimary
         }
         
         /// 将主题状态集合转换复合主题状态。
         /// - Note: 空数组将获得 .normal 状态。
-        /// - Note: 单个主题状态，无法组成新复合状态。
+        /// - Note: 单个元素也可以复合，且与原来不相等。
+        /// - Note: 任何状态与 .normal 复合等于对其自身进行复合。
+        /// ```
+        /// let state1: Theme.State = .highlighted
+        /// let state2: Theme.State = [.normal, .highlighted]
+        /// print(state1 == state2) // prints true
+        /// print(state1 === state2) // prints false
+        /// ```
         /// - Note: 复合状态可以再次被复合成新的复合状态，且与原来不相等。
         ///
         /// - Parameter rawValue: 主题状态原始值。
@@ -457,25 +482,19 @@ extension Theme {
             case 0:
                 /// 空数组不会创建新的状态。
                 self = .normal
-            case 1:
-                /// 单个元素不会复合成新的状态。
-                self = elements[0]
             default:
                 // 如果元素是由复合元素构成的，则 rawValue 用 [] 包裹。
                 // 那么 rawValue 形式可能有以下几种形式：
-                // 1. :selected
-                // 2. :selected:highlighted
-                // 3. [:selected:highlighted]:focused
-                // 4. [:selected:highlighted][:selected:focused]
-                // 5. [[:selected:highlighted]:focused]:disabled
+                // 1. 基本状态 :selected
+                // 2. 基本状态的复合 [:selected:highlighted]
+                // 3. 基本状态与复合状态的复合 [[:selected:highlighted]:focused]
+                // 4. 复合状态与复合状态的复合 [[:selected:highlighted][:selected:focused]]
+                // 5. 复合状态的复合 [[:selected:highlighted]]
+                // 6. 多重复合 [[[:selected:highlighted]:focused]:disabled]
                 let rawValue = elements.map({ (element) -> String in
-                    if element.isPrimary {
-                        return element.rawValue
-                    } else {
-                        return "[\(element.rawValue)]"
-                    }
+                    element.rawValue
                 }).joined()
-                self.init(rawValue: rawValue, children: elements.reversed())
+                self.init(rawValue: "[\(rawValue)]", children: elements)
             }
         }
         
@@ -485,9 +504,32 @@ extension Theme {
             self.init(elements)
         }
         
+        /// 指定初始化方法。私有构造方法，避免构造出不合法的主题状态。
         private init(rawValue: String, children: [State]) {
             self.rawValue = rawValue;
             self.children = children
+        }
+        
+        /// 遍历主题状态中的所有基本元素，遍历顺序为正序。
+        ///
+        /// - Returns: 剩余未遍历的主题状态。
+        public mutating func next() -> Theme.State? {
+            // 空状态
+            if self.isEmpty {
+                return nil
+            }
+            // 基本状态
+            if self.isPrimary {
+                let state = self
+                self = .normal
+                return state
+            }
+            // 复合状态
+            // 复合状态在遍历的过程中，原始值不变，只改变其 children
+            // 如果 children 变为一个了，则停止遍历。
+            let state = children[0]
+            self = children.count == 1 ? .normal : Theme.State.init(rawValue: rawValue, children: Array.init(children.suffix(from: 1)))
+            return state
         }
         
     }

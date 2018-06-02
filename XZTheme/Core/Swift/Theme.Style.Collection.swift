@@ -175,12 +175,13 @@ extension Theme.Style.Collection {
         return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
     
+    /// 获取当前主题下所有已配置的主题状态，包括 `.normal` 状态。
     public var effectiveThemeStates: Set<Theme.State> {
         if statedThemeStylesIfLoaded == nil {
             return [.normal]
         }
         
-        var effectiveThemeStates: Set<Theme.State> = [Theme.State.normal]
+        var effectiveThemeStates: Set<Theme.State> = [.normal]
         
         var themes: Theme.Collection? = self.themes
         
