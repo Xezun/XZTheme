@@ -15,9 +15,8 @@
 		DD3DA92C2080471E00A642C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92A2080471E00A642C0 /* Main.storyboard */; };
 		DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92D2080471F00A642C0 /* Assets.xcassets */; };
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
-		DD43B393209AD66300E83379 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD43B392209AD66300E83379 /* NewsViewController.m */; };
 		DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */; };
-		DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDACA1E920961C3F000C6484 /* RootViewController.swift */; };
+		DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4BFDE20C2FB7700E544A1 /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,10 +33,8 @@
 		DD3DA92D2080471F00A642C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD3DA9302080471F00A642C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DD43B391209AD66300E83379 /* NewsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
-		DD43B392209AD66300E83379 /* NewsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeNavigationController.swift; sourceTree = "<group>"; };
-		DDACA1E920961C3F000C6484 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		DDA4BFDE20C2FB7700E544A1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,11 +89,9 @@
 			children = (
 				DD2321692080798900989B0E /* XZThemeBridgeHeader.h */,
 				DD3DA9262080471E00A642C0 /* AppDelegate.swift */,
+				DDA4BFDE20C2FB7700E544A1 /* Theme.swift */,
 				DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */,
-				DDACA1E920961C3F000C6484 /* RootViewController.swift */,
 				DD3DA9282080471E00A642C0 /* ThemeViewController.swift */,
-				DD43B391209AD66300E83379 /* NewsViewController.h */,
-				DD43B392209AD66300E83379 /* NewsViewController.m */,
 				DD3DA92A2080471E00A642C0 /* Main.storyboard */,
 				DD3DA92D2080471F00A642C0 /* Assets.xcassets */,
 				DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */,
@@ -224,10 +219,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */,
+				DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
-				DD43B393209AD66300E83379 /* NewsViewController.m in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
-				DDACA1EA20961C3F000C6484 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

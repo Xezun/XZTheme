@@ -9,32 +9,36 @@
 import UIKit
 import XZTheme
 
-extension Theme {
-    static var day: Theme {
-        return Theme.default
-    }
-    static let night = Theme(name: "night")
-}
-
-extension Theme.Collection {
-
-    var day: Theme.Style.Collection {
-        return self.themeStyles(forTheme: .day)
-    }
-
-    var night: Theme.Style.Collection {
-        return self.themeStyles(forTheme: .night)
-    }
-
-}
-
 class ThemeViewController: UIViewController {
+    
+    @IBOutlet weak var navigationBarThemeButton: UIButton!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.themes.day.backgroundColor    = UIColor.white
-        view.themes.night.backgroundColor  = UIColor(0x303030ff)
+        navigationBarThemeButton.themeIdentifier = "Test"
+        navigationBarThemeButton.themes.day
+            .setting("icon_theme_night", for: .image, for: .normal)
+
+        navigationBarThemeButton.themes.night
+            .setting("icon_theme_day", for: .image, for: .normal)
+        
+        
+        self.navigationController?.navigationBar.themes.day
+            .setting(UIColor.white, for: .barTintColor)
+            .setting(UIColor.black, for: .tintColor)
+            .setting(UIImage(filled: 0xccccccFF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.default, for: .barStyle)
+        
+        self.navigationController?.navigationBar.themes.night
+            .setting(UIColor(0x252525FF), for: .barTintColor)
+            .setting(UIColor(0x707070FF), for: .tintColor)
+            .setting(UIImage(filled: 0x555555FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
+            .setting(UIBarStyle.black, for: .barStyle)
+        
+        view.themes.day.backgroundColor = UIColor.white
+        view.themes.night.backgroundColor = UIColor(0x303030ff)
 
         let label = XZLabel.init(frame: CGRect.init(x: 100, y: 100, width: 100, height: 100))
         label.text = "This is a label."
@@ -54,44 +58,6 @@ class ThemeViewController: UIViewController {
         label.themes.night.text            = "It's night now."
         label.themes.night.backgroundColor = UIColor(0x252525ff)
         label.themes.night.textColor       = UIColor(0x707070ff)
-
-        let button = UIButton(type: .system)
-        button.frame = CGRect.init(x: 100, y: 100, width: 150, height: 40)
-        button.themes.day.updateThemeStyles(byUsing: [
-            .normal: [
-                .title: "Day normal",
-                .titleColor: 0x0000FFFF,
-                .backgroundImage: UIImage(filled: 0xCCCCCCFF)
-            ],
-            .highlighted: [
-                .title: "Day highlighted",
-                .titleColor: 0x9999FFFF,
-                .backgroundImage: UIImage(filled: 0xDDDDDDFF)
-            ]
-        ])
-        
-        button.themes.night.updateThemeStyles(byUsing: [
-            .normal: [
-                .title: "Night normal",
-                .titleColor: 0x008800FF,
-                .backgroundImage: UIImage(filled: 0x555555ff)
-            ],
-            .highlighted: [
-                .title: "Night highlighted",
-                .titleColor: 0x007700FF,
-                .backgroundImage: UIImage(filled: 0x444444FF)
-            ]
-        ])
-        view.addSubview(button)
-        
-
-        let buttonRed = UIButton(type: .custom)
-        buttonRed.frame           = CGRect.init(x: 100, y: 160, width: 150, height: 40)
-        buttonRed.themeIdentifier = "red"
-        buttonRed.setTitle("A red Button", for: .normal)
-        view.addSubview(buttonRed)
-        
-        
         
     }
     
@@ -101,6 +67,14 @@ class ThemeViewController: UIViewController {
     }
     
     
+    @IBAction func navigationBarThemeButtonAction(_ sender: UIButton) {
+        switch Theme.current {
+        case .day: Theme.night.apply(animated: true)
+        case .night: Theme.day.apply(animated: true)
+        default:
+            fatalError("Not Supported Theme")
+        }
+    }
     
     
 }

@@ -12,7 +12,7 @@
         <!--XZTheme-->
         <scene sceneID="ewD-4T-Yxl">
             <objects>
-                <viewController title="XZTheme" id="KsT-Zg-Xho" customClass="RootViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="XZTheme" id="KsT-Zg-Xho" customClass="ThemeViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U6q-UJ-gk2"/>
                         <viewControllerLayoutGuide type="bottom" id="H9a-Ai-bdu"/>
@@ -27,16 +27,16 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Rw-Wf-jrd">
                                 <rect key="frame" x="332" y="8.5" width="27" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icon_theme_day"/>
+                                <state key="normal" image="icon_theme_night"/>
                                 <state key="selected" image="icon_theme_night"/>
                                 <connections>
-                                    <action selector="themeButtonAction:" destination="KsT-Zg-Xho" eventType="touchUpInside" id="eWG-l8-aKd"/>
+                                    <action selector="navigationBarThemeButtonAction:" destination="KsT-Zg-Xho" eventType="touchUpInside" id="a9R-AX-t35"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="themeButton" destination="9Rw-Wf-jrd" id="qkl-zB-mfz"/>
+                        <outlet property="navigationBarThemeButton" destination="9Rw-Wf-jrd" id="Fqk-Ct-tua"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5o0-5E-wQv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -63,7 +63,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_theme_day" width="27" height="27"/>
         <image name="icon_theme_night" width="27" height="27"/>
     </resources>
 </document>

@@ -7,10 +7,3 @@
 //
 
 
-// Core
-//#import "UIView+XZThemeSupporting.h"
-//#import "UIViewController+XZThemeSupporting.h"
-
-// UIKit
-//#import "UIViewController+XZTheme.h"
-
