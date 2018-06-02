@@ -175,5 +175,29 @@ extension Theme.Style.Collection {
         return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
     
+    public var effectiveThemeStates: Set<Theme.State> {
+        if statedThemeStylesIfLoaded == nil {
+            return [.normal]
+        }
+        
+        var effectiveThemeStates: Set<Theme.State> = [Theme.State.normal]
+        
+        var themes: Theme.Collection? = self.themes
+        
+        while themes != nil {
+            if let statedThemeStyles = themes!.themeStyles(forTheme: self.theme).statedThemeStylesIfLoaded {
+                for item in statedThemeStyles {
+                    effectiveThemeStates.insert(item.key)
+                }
+            }
+            themes = themes?.superThemes
+        }
+        
+        return effectiveThemeStates
+    }
+    
+    
 }
+
+
 
