@@ -404,10 +404,15 @@ extension Theme {
         
         public typealias RawValue = String
         
-        /// 特殊值，正常状态，没有状态描述时的状态。在触控状态中，与 UIControlState.normal 相对应。
+        /// 特殊值，空状态。
         /// - Note: 基本状态、空状态。
         /// - Note: 任何状态与 `normal` 状态组成的复合状态与其自身相等。例如 `[.normal, .selected]` 与 `:selected` 相等，但是前者为复合状态，后者为基本状态。
-        public static let normal = Theme.State.init(rawValue: "", children: [])
+        public static let Empty = Theme.State.init(rawValue: "", isSimple: true, children: [])
+        
+        /// 是否为 Theme.State.Empty 。
+        public var isEmpty: Bool {
+            return self == .Empty
+        }
         
         /// 主题状态原始值，比较主题状态是否相等的依据。
         public let rawValue: String
@@ -415,20 +420,35 @@ extension Theme {
         /// 基本主题状态没有子元素，复合状态子元素为复合状态或基本状态。
         public let children: [State]
         
-        /// 只有主题状态 Theme.State.normal 此属性为 true 。
-        public var isEmpty: Bool {
-            return self == Theme.State.normal
-        }
+        /// 是否为简单状态。
+        /// - Note: 基本状态为简单状态，如 `:normal` 。
+        /// ```
+        /// print(Theme.State.normal.isSimple) // prints true
+        /// ```
+        /// - Note: 基本状态组成的复合状态，是简单状态。
+        /// ```
+        /// let themeState: Theme.State = [.normal, .highlighted]
+        /// print(themeState.isSimple) // prints true
+        /// ```
+        /// - Note: 复合状态与其它状态组成的复合状态不是简单状态。
+        /// ```
+        /// let themeState: Theme.State = [
+        ///     [.normal, .highlighted],
+        ///     [.selected, .highlighted]
+        /// ]
+        /// print(themeState.isSimple) // prints false
+        /// ```
+        public let isSimple: Bool
         
-       /// 是否为基本主题状态。
+        /// 是否为基本主题状态。
         public var isPrimary: Bool {
-            return children.isEmpty;
+            return children.isEmpty
         }
-        
+       
         /// 主题状态默认描述文本格式为：Theme.State(:selected)
         public var description: String {
-            if rawValue.isEmpty {
-                return "Theme.State(:normal)"
+            if self.isEmpty {
+                return "Theme.State.Empty"
             }
             return "Theme.State(\(rawValue))"
         }
@@ -445,23 +465,7 @@ extension Theme {
             guard NSEqualRanges(range, State.regularExpression.rangeOfFirstMatch(in: rawValue, options: .none, range: range)) else {
                 fatalError("The `\(rawValue)` is not an valid state rawValue, which must be matched the regular expression /^\\:[A-Za-z]+$/ .")
             }
-            if rawValue == ":normal" {
-                self = .normal
-            } else {
-                self.rawValue = rawValue
-                self.children = []
-            }
-        }
-        
-        
-        /// 判断两个主题状态是否完全相等，原始值相等，且都为基本状态或复合状态。
-        ///
-        /// - Parameters:
-        ///   - lhs: 主题状态。
-        ///   - rhs: 主题状态。
-        /// - Returns: 主题状态是否全等。
-        public static func ===(lhs: Theme.State, rhs: Theme.State) -> Bool {
-            return lhs.rawValue == rhs.rawValue && lhs.isPrimary == rhs.isPrimary
+            self.init(rawValue: rawValue, isSimple: true, children: [])
         }
         
         /// 将主题状态集合转换复合主题状态。
@@ -481,20 +485,26 @@ extension Theme {
             switch elements.count {
             case 0:
                 /// 空数组不会创建新的状态。
-                self = .normal
+                self = .Empty
             default:
                 // 如果元素是由复合元素构成的，则 rawValue 用 [] 包裹。
                 // 那么 rawValue 形式可能有以下几种形式：
                 // 1. 基本状态 :selected
-                // 2. 基本状态的复合 [:selected:highlighted]
-                // 3. 基本状态与复合状态的复合 [[:selected:highlighted]:focused]
-                // 4. 复合状态与复合状态的复合 [[:selected:highlighted][:selected:focused]]
+                // 2. 基本状态的复合 :selected:highlighted
+                // 3. 基本状态与复合状态的复合 [:selected:highlighted]:focused
+                // 4. 复合状态与复合状态的复合 [:selected:highlighted][:selected:focused]
                 // 5. 复合状态的复合 [[:selected:highlighted]]
-                // 6. 多重复合 [[[:selected:highlighted]:focused]:disabled]
+                // 6. 多重复合 [[:selected:highlighted]:focused]:disabled
+                var isSimple = true
                 let rawValue = elements.map({ (element) -> String in
-                    element.rawValue
+                    // 只要子元素存在复合状态，就判定为非简单状态。
+                    if element.children.count > 0 {
+                        isSimple = false
+                        return "[\(element.rawValue)]"
+                    }
+                    return element.rawValue
                 }).joined()
-                self.init(rawValue: "[\(rawValue)]", children: elements)
+                self.init(rawValue: rawValue, isSimple: isSimple, children: elements)
             }
         }
         
@@ -505,8 +515,9 @@ extension Theme {
         }
         
         /// 指定初始化方法。私有构造方法，避免构造出不合法的主题状态。
-        private init(rawValue: String, children: [State]) {
-            self.rawValue = rawValue;
+        private init(rawValue: String, isSimple: Bool, children: [State]) {
+            self.rawValue = rawValue
+            self.isSimple = isSimple
             self.children = children
         }
         
@@ -514,22 +525,29 @@ extension Theme {
         ///
         /// - Returns: 剩余未遍历的主题状态。
         public mutating func next() -> Theme.State? {
-            // 空状态
+            // 遍历的终点
             if self.isEmpty {
                 return nil
-            }
-            // 基本状态
-            if self.isPrimary {
-                let state = self
-                self = .normal
-                return state
             }
             // 复合状态
             // 复合状态在遍历的过程中，原始值不变，只改变其 children
             // 如果 children 变为一个了，则停止遍历。
-            let state = children[0]
-            self = children.count == 1 ? .normal : Theme.State.init(rawValue: rawValue, children: Array.init(children.suffix(from: 1)))
-            return state
+            switch children.count {
+            case 0:     // 基本状态
+                let state = self
+                self = .Empty
+                return state
+            case 1:
+                let state = children[0]
+                self = .Empty
+                return state
+            default:
+                let state = children[0]
+                // 这里会产生一个不合法的状态
+                self = Theme.State.init(rawValue: rawValue, isSimple: isSimple, children: Array.init(children.suffix(from: 1)))
+                return state
+            }
+            
         }
         
     }

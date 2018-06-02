@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XZKit
 
 extension Theme.State {
 
@@ -140,11 +141,17 @@ extension UINavigationBar {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
         }
         
-        let themeStates = themeStyles.effectiveThemeStates
+        // 保证先应用简单状态，后应用复合状态。
+        let themeStates = themeStyles.effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
+            return state2.isPrimary
+        })
         
         for themeState in themeStates {
             if themeState.isPrimary {
-                guard let barMetrics = UIBarMetrics.init(themeState) else { continue }
+                guard let barMetrics = UIBarMetrics.init(themeState) else {
+                    XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
+                    continue
+                }
                 guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                 if themeStyle.containsThemeAttribute(.titleVerticalPositionAdjustment) {
                     self.setTitleVerticalPositionAdjustment(themeStyle.titleVerticalPositionAdjustment, for: barMetrics)
@@ -153,12 +160,17 @@ extension UINavigationBar {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barMetrics)
                 }
             } else if themeState.children.count >= 2 {
-                guard let barPosition = UIBarPosition.init(themeState.children[0]) else { continue }
-                guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else { continue }
+                guard let barPosition = UIBarPosition.init(themeState.children[0]),
+                    let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+                        XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
+                        continue
+                }
                 guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                 if themeStyle.containsThemeAttribute(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                 }
+            } else {
+                XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
             }
         }
         

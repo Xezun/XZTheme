@@ -53,13 +53,18 @@ extension Theme.Style {
     
 }
 
+import XZKit
+
 extension UIButton {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
         for themeState in themeStyles.effectiveThemeStates {
-            guard let controlState = UIControlState.init(themeState) else { continue }
+            guard let controlState = UIControlState.init(themeState) else {
+                XZLog("Unapplied Theme.State %@ for UIButton.", themeState)
+                continue
+            }
             guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
             
             if themeStyle.containsThemeAttribute(.title) {

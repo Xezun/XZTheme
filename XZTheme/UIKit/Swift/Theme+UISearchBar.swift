@@ -21,6 +21,19 @@ extension Theme.State {
 
 }
 
+extension UISearchBarIcon {
+    
+    public init?(_ themeState: Theme.State) {
+        switch themeState {
+        case .searchSearchBarIcon:      self = .search
+        case .clearSearchBarIcon:       self = .clear
+        case .bookmarkSearchBarIcon:    self = .bookmark
+        case .resultsListSearchBarIcon: self = .resultsList
+        default: return nil
+        }
+    }
+}
+
 extension Theme.Attribute {
     
     /// UISearchBar.showsBookmarkButton
@@ -257,48 +270,112 @@ extension UISearchBar {
         
         
         for themeState in themeStates {
-            
-        }
-        
-        // setBackgroundImage
-        for item in Theme.State.UIBarPositionUIBarMetricsItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
-                setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)
+            if themeState.isSimple {
+                if themeState.isPrimary, let searchBarIcon = UISearchBarIcon.init(themeState) {
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    if themeStyle.containsThemeAttribute(.positionAdjustment) {
+                        setPositionAdjustment(themeStyle.positionAdjustment, for: searchBarIcon)
+                    }
+                } else if let controlState = UIControlState.init(themeState) {
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    if themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+                        setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: controlState)
+                    }
+                    if themeStyle.containsThemeAttribute(.scopeBarButtonBackgroundImage) {
+                        setScopeBarButtonBackgroundImage(themeStyle.scopeBarButtonBackgroundImage, for: controlState)
+                    }
+                    if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
+                        setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: controlState)
+                    }
+                } else if themeState.children.count >= 2 {
+                    guard let searchBarIcon = UISearchBarIcon.init(themeState.children[0]),
+                        let controlState = UIControlState.init(themeState.children[1]) else {
+                            XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                            continue
+                    }
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    if themeStyle.containsThemeAttribute(.image) {
+                        setImage(themeStyle.image, for: searchBarIcon, state: controlState)
+                    }
+                } else {
+                    XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                }
+            } else if themeState.children.count >= 2 {
+                if let barPosition = UIBarPosition.init(themeState.children[0]) {
+                    guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+                        XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                        continue
+                    }
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    // setBackgroundImage
+                    if themeStyle.containsThemeAttribute(.backgroundImage) {
+                        self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
+                    }
+                } else if let searchBarIcon = UISearchBarIcon.init(themeState.children[0]) {
+                    guard let controlState = UIControlState.init(themeState.children[1]) else {
+                        XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                        continue
+                    }
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    if themeStyle.containsThemeAttribute(.image) {
+                        setImage(themeStyle.image, for: searchBarIcon, state: controlState)
+                    }
+                } else if let leftControlState = UIControlState.init(themeState.children[0]) {
+                    guard let rightControlState = UIControlState.init(themeState.children[1]) else {
+                        XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                        continue
+                    }
+                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                    if themeStyle.containsThemeAttribute(.scopeBarButtonDividerImage) {
+                        setScopeBarButtonDividerImage(themeStyle.scopeBarButtonDividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState)
+                    }
+                } else {
+                    XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
+                }
+            } else {
+                XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
             }
         }
+        
+//        // setBackgroundImage
+//        for item in Theme.State.UIBarPositionUIBarMetricsItems {
+//            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+//            if themeStyle.containsThemeAttribute(.backgroundImage) {
+//                setBackgroundImage(themeStyle.backgroundImage, for: item.barPosition, barMetrics: item.barMetrics)
+//            }
+//        }
         
         // searchFieldBackgroundImage
         
-        for item in Theme.State.UIControlStateItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
-                setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: item.controlState)
-            }
-            if themeStyle.containsThemeAttribute(.scopeBarButtonBackgroundImage) {
-                setScopeBarButtonBackgroundImage(themeStyle.scopeBarButtonBackgroundImage, for: item.controlState)
-            }
-            if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
-                setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: item.controlState)
-            }
-            
-        }
+//        for item in Theme.State.UIControlStateItems {
+//            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+//            if themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+//                setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: item.controlState)
+//            }
+//            if themeStyle.containsThemeAttribute(.scopeBarButtonBackgroundImage) {
+//                setScopeBarButtonBackgroundImage(themeStyle.scopeBarButtonBackgroundImage, for: item.controlState)
+//            }
+//            if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
+//                setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: item.controlState)
+//            }
+//
+//        }
         
         // open func setImage(_ iconImage: UIImage?, for icon: UISearchBarIcon, state: UIControlState)
         
-        for item in Theme.State.UISearchBarIconUIControlStateItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.image) {
-                setImage(themeStyle.image, for: item.searchBarIcon, state: item.controlState)
-            }
-        }
+//        for item in Theme.State.UISearchBarIconUIControlStateItems {
+//            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+//            if themeStyle.containsThemeAttribute(.image) {
+//                setImage(themeStyle.image, for: item.searchBarIcon, state: item.controlState)
+//            }
+//        }
         
-        for item in Theme.State.UIControlStateLeftRightItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.scopeBarButtonDividerImage) {
-                setScopeBarButtonDividerImage(themeStyle.scopeBarButtonDividerImage, forLeftSegmentState: item.leftControlState, rightSegmentState: item.rightControlState)
-            }
-        }
+//        for item in Theme.State.UIControlStateLeftRightItems {
+//            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+//            if themeStyle.containsThemeAttribute(.scopeBarButtonDividerImage) {
+//                setScopeBarButtonDividerImage(themeStyle.scopeBarButtonDividerImage, forLeftSegmentState: item.leftControlState, rightSegmentState: item.rightControlState)
+//            }
+//        }
         
         if themeStyles.containsThemeAttribute(.searchFieldBackgroundPositionAdjustment) {
             self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
@@ -310,12 +387,12 @@ extension UISearchBar {
         
         // setPositionAdjustment
         
-        for item in Theme.State.UISearchBarIconItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.positionAdjustment) {
-                setPositionAdjustment(themeStyle.positionAdjustment, for: item.searchBarIcon)
-            }
-        }
+//        for item in Theme.State.UISearchBarIconItems {
+//            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+//            if themeStyle.containsThemeAttribute(.positionAdjustment) {
+//                setPositionAdjustment(themeStyle.positionAdjustment, for: item.searchBarIcon)
+//            }
+//        }
         
     }
     

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import XZKit
 
 extension Theme.State {
     /// 所有 Theme.State 中 UIBarPosition 的对应关系。
@@ -14,6 +15,8 @@ extension Theme.State {
         (.topAttachedBarPosition, .topAttached), (.anyBarPosition, .any)
     ]
 }
+
+
 
 extension UIToolbar {
     
@@ -31,18 +34,36 @@ extension UIToolbar {
         if themeStyles.containsThemeAttribute(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }
-
-        for item in Theme.State.UIBarPositionUIBarMetricsItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
-                setBackgroundImage(themeStyle.backgroundImage, forToolbarPosition: item.barPosition, barMetrics: item.barMetrics)
+        
+        for themeState in themeStyles.effectiveThemeStates {
+            if themeState.isPrimary {
+                
+            } else if themeState.children.count >= 2 {
+                
             }
         }
-        
-        for item in Theme.State.UIBarPositionItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
-            if themeStyle.containsThemeAttribute(.shadowImage) {
-                setShadowImage(themeStyle.shadowImage, forToolbarPosition: item.barPosition)
+        for themeState in themeStyles.effectiveThemeStates {
+            if themeState.isPrimary {
+                guard let barPosition = UIBarPosition.init(themeState) else {
+                    XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
+                    continue
+                }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.shadowImage) {
+                    setShadowImage(themeStyle.shadowImage, forToolbarPosition: barPosition)
+                }
+            } else if themeState.children.count >= 2 {
+                guard let barPosition = UIBarPosition.init(themeState.children[0]),
+                    let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+                        XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
+                        continue
+                }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                    setBackgroundImage(themeStyle.backgroundImage, forToolbarPosition: barPosition, barMetrics: barMetrics)
+                }
+            } else {
+                XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
             }
         }
         

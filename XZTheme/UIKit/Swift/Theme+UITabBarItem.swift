@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import XZKit
 
 extension Theme.Attribute {
     
@@ -110,15 +110,19 @@ extension UITabBarItem {
         }
         
         if #available(iOS 10.0, *) {
-            for item in Theme.State.UIControlStateItems {
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+            for themeState in themeStyles.effectiveThemeStates {
+                guard let controlState = UIControlState.init(themeState) else {
+                    XZLog("Unapplied Theme.State %@ for UITabBarItem.", themeState)
+                    continue
+                }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                
                 if themeStyle.containsThemeAttribute(.badgeTextAttributes) {
-                    setBadgeTextAttributes(themeStyle.badgeTextAttributes, for: item.controlState)
+                    setBadgeTextAttributes(themeStyle.badgeTextAttributes, for: controlState)
                 }
             }
         }
         
-
     }
     
 }

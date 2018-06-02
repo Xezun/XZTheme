@@ -13,28 +13,11 @@ extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
     
     public typealias StringLiteralType = String
     
-    /// 过滤主题状态字符串中多余的空白字符。
-    private static let trimmingCharacterSet = CharacterSet.whitespacesAndNewlines.union(CharacterSet.init(charactersIn: ":"))
-    
-    /// 通过字符串字面量创建主题属性状态。
-    /// - Note: 支持的字面量形式如 `":normal"` 或多个组合 `":normal:selected"` 。
-    /// - Note: 会自动忽略一些空白字符。
+    /// 通过字符串字面量创建主题属性状态，只支持基本主题状态。
     ///
     /// - Parameter value: 字符串字面量
     public init(stringLiteral value: String) {
-        var children: [Theme.State] = []
-        
-        // 过滤字符
-        for item in value.components(separatedBy: ":") {
-            let string = item.trimmingCharacters(in: Theme.State.trimmingCharacterSet)
-            guard !string.isEmpty else {
-                XZLog("Theme.State: Empty state string in `%@` was ignored.", value)
-                continue
-            }
-            children.append(Theme.State.init(rawValue: ":" + string))
-        }
-        
-        self.init(children)
+        self.init(rawValue: value)
     }
     
     /// 主题状态的 hashValue 为其原始值的 hashValue 。
@@ -55,7 +38,7 @@ extension Theme.State {
     /// - Throws: 抛出异常结束遍历或遍历过程中发生的异常。
     public func forEachPrimaryThemeState(_ body: (Theme.State) throws -> Void) rethrows {
         for themeState in self {
-            if themeState.isPrimary {
+            if themeState.children.isEmpty {
                 try body(themeState)
             } else {
                 try themeState.forEachPrimaryThemeState(body)
@@ -96,6 +79,8 @@ extension Theme.State: _ObjectiveCBridgeable {
 
 extension Theme.State {
     
+    /// 表示对象在被选中的状态下，一般与 UIControlState.normal 相对应。
+    public static let normal        = Theme.State.init(rawValue: ":normal")
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
     public static let selected     = Theme.State.init(rawValue: ":selected")
     /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。

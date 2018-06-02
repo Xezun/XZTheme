@@ -57,6 +57,7 @@ extension Theme.Style {
     }
 }
 
+import XZKit
 
 extension UISlider {
     
@@ -75,18 +76,23 @@ extension UISlider {
             self.maximumTrackTintColor = themeStyles.maximumTrackTintColor
         }
         
-        for item in Theme.State.UIControlStateItems {
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: item.themeState) else { continue }
+        for themeState in themeStyles.effectiveThemeStates {
+            guard let controlState = UIControlState.init(themeState) else {
+                XZLog("Unapplied Theme.State %@ for UISlider.", themeState)
+                continue
+            }
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+            
             if themeStyle.containsThemeAttribute(.thumbImage) {
-                self.setThumbImage(themeStyle.thumbImage, for: item.controlState)
+                self.setThumbImage(themeStyle.thumbImage, for: controlState)
             }
             
             if themeStyle.containsThemeAttribute(.minimumTrackImage) {
-                self.setMinimumTrackImage(themeStyle.minimumTrackImage, for: item.controlState)
+                self.setMinimumTrackImage(themeStyle.minimumTrackImage, for: controlState)
             }
             
             if themeStyle.containsThemeAttribute(.maximumTrackImage) {
-                self.setMaximumTrackImage(themeStyle.maximumTrackImage, for: item.controlState)
+                self.setMaximumTrackImage(themeStyle.maximumTrackImage, for: controlState)
             }
         }
     }
