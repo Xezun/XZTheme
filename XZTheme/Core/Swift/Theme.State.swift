@@ -9,16 +9,7 @@
 import UIKit
 import XZKit
 
-extension Theme.State: ExpressibleByStringLiteral, Equatable, Hashable {
-    
-    public typealias StringLiteralType = String
-    
-    /// 通过字符串字面量创建主题属性状态，只支持基本主题状态。
-    ///
-    /// - Parameter value: 字符串字面量
-    public init(stringLiteral value: String) {
-        self.init(rawValue: value)
-    }
+extension Theme.State: Equatable, Hashable {
     
     /// 主题状态的 hashValue 为其原始值的 hashValue 。
     public var hashValue: Int {
@@ -59,7 +50,7 @@ extension Theme.State: _ObjectiveCBridgeable {
     }
     
     public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) {
-        result = Theme.State.init(rawValue: source as String)
+        result = Theme.State.init(rawValue: source as String, rawType: Any.self, isOptionSetElement: false)
     }
     
     public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) -> Bool {
@@ -69,7 +60,7 @@ extension Theme.State: _ObjectiveCBridgeable {
     
     public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme.State {
         if let value = source as String? {
-            return Theme.State.init(rawValue: value as String)
+            return Theme.State.init(rawValue: value as String, rawType: Any.self, isOptionSetElement: false)
         }
         return Theme.State.normal;
     }
@@ -80,15 +71,15 @@ extension Theme.State: _ObjectiveCBridgeable {
 extension Theme.State {
     
     /// 表示对象在被选中的状态下，一般与 UIControlState.normal 相对应。
-    public static let normal        = Theme.State.init(rawValue: ":normal")
+    public static let normal        = Theme.State.init(rawValue: ":normal", rawType: UIControlState.self, isOptionSetElement: true)
     /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
-    public static let selected     = Theme.State.init(rawValue: ":selected")
+    public static let selected     = Theme.State.init(rawValue: ":selected", rawType: UIControlState.self, isOptionSetElement: true)
     /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
-    public static let highlighted  = Theme.State.init(rawValue: ":highlighted")
+    public static let highlighted  = Theme.State.init(rawValue: ":highlighted", rawType: UIControlState.self, isOptionSetElement: true)
     /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
-    public static let disabled     = Theme.State.init(rawValue: ":disabled")
+    public static let disabled     = Theme.State.init(rawValue: ":disabled", rawType: UIControlState.self, isOptionSetElement: true)
     /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
-    public static let focused      = Theme.State.init(rawValue: ":focused")
+    public static let focused      = Theme.State.init(rawValue: ":focused", rawType: UIControlState.self, isOptionSetElement: true)
     
 }
 

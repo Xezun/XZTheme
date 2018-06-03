@@ -18,6 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+        let type1: Any = UIControlState.self
+        
+        let type2: Any = UIBarMetrics.self
+        
+        print(type(of: type1))
+        print(type(of: type2))
+        
+        print(type(of: type1) == type(of: type2))
+        
+        
+        
         // , [[.anyBarPosition, .bottomBarPosition], .clearSearchBarIcon]
         let state: Theme.State = [[.normal, .highlighted], [.selected, .highlighted]]
         print(state)

@@ -31,59 +31,44 @@
         <scene sceneID="otF-Kx-4Ot">
             <objects>
                 <tableViewController id="oJn-pa-MmJ" customClass="ThemeViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Psu-Ny-FOP">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Psu-Ny-FOP" customClass="ThemeTableView" customModule="Example" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection id="0Pe-Fv-ZRV">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="9qo-q6-vY2">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Tsm-kL-aIc" customClass="ThemeSwitchTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9qo-q6-vY2" id="M5I-7y-KEp">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tsm-kL-aIc" id="HLX-Tk-eN9">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p3M-Xq-AdO">
-                                                    <rect key="frame" x="10" y="11" width="35" height="21"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_theme" translatesAutoresizingMaskIntoConstraints="NO" id="wTw-cA-8CG">
+                                                    <rect key="frame" x="10" y="10" width="24" height="24"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLp-gZ-RgT">
+                                                    <rect key="frame" x="42" y="11" width="35" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndU-ee-hfg">
-                                                    <rect key="frame" x="338" y="8" width="27" height="27"/>
-                                                    <state key="normal" image="icon_theme_night"/>
-                                                    <connections>
-                                                        <action selector="themeButtonAction:" destination="oJn-pa-MmJ" eventType="touchUpInside" id="7Pe-ET-Nsl"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="p3M-Xq-AdO" firstAttribute="centerY" secondItem="M5I-7y-KEp" secondAttribute="centerY" id="82R-zA-rem"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="p3M-Xq-AdO" secondAttribute="trailing" constant="20" symbolic="YES" id="AJr-j2-Cfd"/>
-                                                <constraint firstAttribute="trailing" secondItem="ndU-ee-hfg" secondAttribute="trailing" constant="10" id="Q7Z-mf-4wA"/>
-                                                <constraint firstItem="p3M-Xq-AdO" firstAttribute="leading" secondItem="M5I-7y-KEp" secondAttribute="leading" constant="10" id="VrT-HC-hmd"/>
-                                                <constraint firstItem="ndU-ee-hfg" firstAttribute="centerY" secondItem="M5I-7y-KEp" secondAttribute="centerY" id="sH6-AK-01D"/>
+                                                <constraint firstItem="yLp-gZ-RgT" firstAttribute="leading" secondItem="wTw-cA-8CG" secondAttribute="trailing" constant="8" id="7HB-Qn-Gve"/>
+                                                <constraint firstItem="yLp-gZ-RgT" firstAttribute="centerY" secondItem="HLX-Tk-eN9" secondAttribute="centerY" id="8VG-Br-8Vk"/>
+                                                <constraint firstItem="wTw-cA-8CG" firstAttribute="centerY" secondItem="HLX-Tk-eN9" secondAttribute="centerY" id="LWC-aY-aSG"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yLp-gZ-RgT" secondAttribute="trailing" constant="20" symbolic="YES" id="kNt-XQ-KjN"/>
+                                                <constraint firstItem="wTw-cA-8CG" firstAttribute="leading" secondItem="HLX-Tk-eN9" secondAttribute="leading" constant="10" id="uzD-yR-n8g"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Tsm-kL-aIc">
-                                        <rect key="frame" x="0.0" y="79" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tsm-kL-aIc" id="HLX-Tk-eN9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="GDn-oh-pvC">
-                                        <rect key="frame" x="0.0" y="123" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GDn-oh-pvC" id="UK5-Lk-Gtt">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="42" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="iconImageView" destination="wTw-cA-8CG" id="qjw-8y-XEQ"/>
+                                            <outlet property="titleLabel" destination="yLp-gZ-RgT" id="MGN-03-WLr"/>
+                                            <segue destination="Q5U-wn-K0R" kind="show" id="Utx-cV-3hs"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -93,18 +78,84 @@
                             <outlet property="delegate" destination="oJn-pa-MmJ" id="fGi-l2-JOS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="XZTheme" id="BdM-Nw-tTS"/>
-                    <connections>
-                        <outlet property="themeButton" destination="ndU-ee-hfg" id="JQF-HP-fFC"/>
-                        <outlet property="themeLabel" destination="p3M-Xq-AdO" id="UfA-Fo-GcJ"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="XZTheme" id="BdM-Nw-tTS">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="2pq-9E-IAP"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ua-I7-wHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1032.8" y="117.39130434782609"/>
         </scene>
+        <!--Apply Theme-->
+        <scene sceneID="IUf-lL-dk1">
+            <objects>
+                <tableViewController title="Apply Theme" id="Q5U-wn-K0R" customClass="ThemeApplyViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="yz4-ir-jYw" customClass="ThemeTableView" customModule="Example" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="rPn-P6-ogs">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="aax-L3-ETa" imageView="Mga-0U-ko2" style="IBUITableViewCellStyleDefault" id="CsH-bv-Y0d" customClass="ThemeApplyTableViewCell" customModule="Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CsH-bv-Y0d" id="Bhz-zW-uGY">
+                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aax-L3-ETa">
+                                                    <rect key="frame" x="58" y="0.0" width="277" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icon_sun_day" id="Mga-0U-ko2">
+                                                    <rect key="frame" x="16" y="8" width="27" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="583-fo-8Uc" imageView="wal-bA-vwO" style="IBUITableViewCellStyleDefault" id="jV4-fQ-gga" customClass="ThemeApplyTableViewCell" customModule="Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="79" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jV4-fQ-gga" id="Gy7-DP-31a">
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Night" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="583-fo-8Uc">
+                                                    <rect key="frame" x="58" y="0.0" width="282" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" image="icon_moon_day" id="wal-bA-vwO">
+                                                    <rect key="frame" x="16" y="8" width="27" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Q5U-wn-K0R" id="xjP-b5-Kw5"/>
+                            <outlet property="delegate" destination="Q5U-wn-K0R" id="5lZ-e6-Xab"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="epK-Ko-Rbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1911" y="117"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="icon_theme_night" width="27" height="27"/>
+        <image name="icon_moon_day" width="27" height="27"/>
+        <image name="icon_sun_day" width="27" height="27"/>
+        <image name="icon_theme" width="24" height="24"/>
     </resources>
 </document>

@@ -11,15 +11,15 @@ import XZKit
 extension Theme.State {
     
     /// UISegmentedControl
-    public static let anySegmentedControlSegment = Theme.State.init(rawValue: ":anySegmentedControlSegment")
+    public static let anySegmentedControlSegment = Theme.State.init(rawValue: ":anySegmentedControlSegment", rawType: UISegmentedControlSegment.self)
     /// UISegmentedControl
-    public static let leftSegmentedControlSegment = Theme.State.init(rawValue: ":leftSegmentedControlSegment")
+    public static let leftSegmentedControlSegment = Theme.State.init(rawValue: ":leftSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
     /// UISegmentedControl
-    public static let centerSegmentedControlSegment = Theme.State.init(rawValue: ":centerSegmentedControlSegment")
+    public static let centerSegmentedControlSegment = Theme.State.init(rawValue: ":centerSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
     /// UISegmentedControl
-    public static let rightSegmentedControlSegment = Theme.State.init(rawValue: ":rightSegmentedControlSegment")
+    public static let rightSegmentedControlSegment = Theme.State.init(rawValue: ":rightSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
     /// UISegmentedControl
-    public static let aloneSegmentedControlSegment = Theme.State.init(rawValue: ":aloneSegmentedControlSegment")
+    public static let aloneSegmentedControlSegment = Theme.State.init(rawValue: ":aloneSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
 
 }
 
@@ -89,7 +89,7 @@ extension UISegmentedControl {
         
         
         for themeState in themeStyles.effectiveThemeStates {
-            if themeState.isSimple {
+            if themeState.isOptionSetElement {
                 if let controlState = UIControlState.init(themeState) {
                     guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                     if themeStyle.containsThemeAttribute(.titleTextAttributes) {

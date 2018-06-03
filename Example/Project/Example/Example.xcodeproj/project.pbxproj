@@ -10,6 +10,8 @@
 		6CAF8036A0D63FD2C63C0E53 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C855A1BA20E43821E3736CD5 /* Pods_Example.framework */; };
 		DD04FC582084EDA300463A17 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC572084EDA300463A17 /* Theme.plist */; };
 		DD04FC5A2084F61F00463A17 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC592084F61F00463A17 /* readme.md */; };
+		DD0C9E5220C4208B00C3C96F /* ThemeApplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C9E5120C4208B00C3C96F /* ThemeApplyViewController.swift */; };
+		DD0C9E5420C4215600C3C96F /* ThemeApplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0C9E5320C4215600C3C96F /* ThemeApplyTableViewCell.swift */; };
 		DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3DA9262080471E00A642C0 /* AppDelegate.swift */; };
 		DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3DA9282080471E00A642C0 /* ThemeViewController.swift */; };
 		DD3DA92C2080471E00A642C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92A2080471E00A642C0 /* Main.storyboard */; };
@@ -17,6 +19,9 @@
 		DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */; };
 		DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */; };
 		DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4BFDE20C2FB7700E544A1 /* Theme.swift */; };
+		DDA4BFE320C3B84400E544A1 /* ThemeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4BFE220C3B84400E544A1 /* ThemeTableViewCell.swift */; };
+		DDA4BFE520C3B8CA00E544A1 /* ThemeSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4BFE420C3B8CA00E544A1 /* ThemeSwitchTableViewCell.swift */; };
+		DDA4BFE720C3BE0900E544A1 /* ThemeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4BFE620C3BE0900E544A1 /* ThemeTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +30,8 @@
 		C855A1BA20E43821E3736CD5 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD04FC572084EDA300463A17 /* Theme.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Theme.plist; sourceTree = "<group>"; };
 		DD04FC592084F61F00463A17 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
+		DD0C9E5120C4208B00C3C96F /* ThemeApplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApplyViewController.swift; sourceTree = "<group>"; };
+		DD0C9E5320C4215600C3C96F /* ThemeApplyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApplyTableViewCell.swift; sourceTree = "<group>"; };
 		DD2321692080798900989B0E /* XZThemeBridgeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeBridgeHeader.h; sourceTree = "<group>"; };
 		DD3DA9232080471E00A642C0 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3DA9262080471E00A642C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +42,9 @@
 		DD3DA9322080471F00A642C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeNavigationController.swift; sourceTree = "<group>"; };
 		DDA4BFDE20C2FB7700E544A1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		DDA4BFE220C3B84400E544A1 /* ThemeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableViewCell.swift; sourceTree = "<group>"; };
+		DDA4BFE420C3B8CA00E544A1 /* ThemeSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		DDA4BFE620C3BE0900E544A1 /* ThemeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +102,11 @@
 				DDA4BFDE20C2FB7700E544A1 /* Theme.swift */,
 				DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */,
 				DD3DA9282080471E00A642C0 /* ThemeViewController.swift */,
+				DD0C9E5120C4208B00C3C96F /* ThemeApplyViewController.swift */,
+				DD0C9E5320C4215600C3C96F /* ThemeApplyTableViewCell.swift */,
+				DDA4BFE220C3B84400E544A1 /* ThemeTableViewCell.swift */,
+				DDA4BFE620C3BE0900E544A1 /* ThemeTableView.swift */,
+				DDA4BFE420C3B8CA00E544A1 /* ThemeSwitchTableViewCell.swift */,
 				DD3DA92A2080471E00A642C0 /* Main.storyboard */,
 				DD3DA92D2080471F00A642C0 /* Assets.xcassets */,
 				DD3DA92F2080471F00A642C0 /* LaunchScreen.storyboard */,
@@ -219,8 +234,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */,
+				DD0C9E5220C4208B00C3C96F /* ThemeApplyViewController.swift in Sources */,
+				DDA4BFE520C3B8CA00E544A1 /* ThemeSwitchTableViewCell.swift in Sources */,
 				DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */,
+				DD0C9E5420C4215600C3C96F /* ThemeApplyTableViewCell.swift in Sources */,
+				DDA4BFE720C3BE0900E544A1 /* ThemeTableView.swift in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
+				DDA4BFE320C3B84400E544A1 /* ThemeTableViewCell.swift in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

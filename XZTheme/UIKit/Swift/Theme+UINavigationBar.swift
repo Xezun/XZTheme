@@ -12,23 +12,23 @@ import XZKit
 extension Theme.State {
 
     /// UIBarMetrics.default
-    public static let defaultBarMetrics       = Theme.State.init(rawValue: ":defaultBarMetrics")
+    public static let defaultBarMetrics       = Theme.State.init(rawValue: ":defaultBarMetrics", rawType: UIBarMetrics.self)
     /// UIBarMetrics.compact
-    public static let compactBarMetrics       = Theme.State.init(rawValue: ":compactBarMetrics")
+    public static let compactBarMetrics       = Theme.State.init(rawValue: ":compactBarMetrics", rawType: UIBarMetrics.self)
     /// UIBarMetrics.defaultPrompt
-    public static let defaultPromptBarMetrics = Theme.State.init(rawValue: ":defaultPromptBarMetrics")
+    public static let defaultPromptBarMetrics = Theme.State.init(rawValue: ":defaultPromptBarMetrics", rawType: UIBarMetrics.self)
     /// UIBarMetrics.compactPrompt
-    public static let compactPromptBarMetrics = Theme.State.init(rawValue: ":compactPromptBarMetrics")
+    public static let compactPromptBarMetrics = Theme.State.init(rawValue: ":compactPromptBarMetrics", rawType: UIBarMetrics.self)
     
     
     /// UIBarPosition.any
-    public static let anyBarPosition         = Theme.State.init(rawValue: ":anyBarPosition")
+    public static let anyBarPosition         = Theme.State.init(rawValue: ":anyBarPosition", rawType: UIBarPosition.self)
     /// UIBarPosition.bottom
-    public static let bottomBarPosition      = Theme.State.init(rawValue: ":bottomBarPosition")
+    public static let bottomBarPosition      = Theme.State.init(rawValue: ":bottomBarPosition", rawType: UIBarPosition.self)
     /// UIBarPosition.top
-    public static let topBarPosition         = Theme.State.init(rawValue: ":topBarPosition")
+    public static let topBarPosition         = Theme.State.init(rawValue: ":topBarPosition", rawType: UIBarPosition.self)
     /// UIBarPosition.topAttached
-    public static let topAttachedBarPosition = Theme.State.init(rawValue: ":topAttachedBarPosition")
+    public static let topAttachedBarPosition = Theme.State.init(rawValue: ":topAttachedBarPosition", rawType: UIBarPosition.self)
  
 }
 

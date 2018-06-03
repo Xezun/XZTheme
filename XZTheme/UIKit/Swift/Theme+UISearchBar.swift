@@ -11,13 +11,13 @@ import XZKit
 extension Theme.State {
     
     /// UISearchBarIcon.search
-    public static let searchSearchBarIcon = Theme.State.init(rawValue: ":searchSearchBarIcon")
+    public static let searchSearchBarIcon = Theme.State.init(rawValue: ":searchSearchBarIcon", rawType: UISearchBarIcon.self)
     /// UISearchBarIcon.clear
-    public static let clearSearchBarIcon = Theme.State.init(rawValue: ":clearSearchBarIcon")
+    public static let clearSearchBarIcon = Theme.State.init(rawValue: ":clearSearchBarIcon", rawType: UISearchBarIcon.self)
     /// UISearchBarIcon.bookmark
-    public static let bookmarkSearchBarIcon = Theme.State.init(rawValue: ":searchBarIconBookmark")
+    public static let bookmarkSearchBarIcon = Theme.State.init(rawValue: ":searchBarIconBookmark", rawType: UISearchBarIcon.self)
     /// UISearchBarIcon.resultsList
-    public static let resultsListSearchBarIcon = Theme.State.init(rawValue: ":resultsListSearchBarIcon")
+    public static let resultsListSearchBarIcon = Theme.State.init(rawValue: ":resultsListSearchBarIcon", rawType: UISearchBarIcon.self)
 
 }
 
@@ -270,7 +270,7 @@ extension UISearchBar {
         
         
         for themeState in themeStates {
-            if themeState.isSimple {
+            if themeState.isOptionSetElement {
                 if themeState.isPrimary, let searchBarIcon = UISearchBarIcon.init(themeState) {
                     guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                     if themeStyle.containsThemeAttribute(.positionAdjustment) {
