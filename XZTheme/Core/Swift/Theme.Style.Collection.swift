@@ -64,7 +64,7 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    @objc public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
+    public func themeStyle(forThemeState themeState: Theme.State) -> Theme.Style {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
@@ -78,8 +78,8 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    @objc public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
-        if themeState == .normal {
+    public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
+        if themeState == .normal || themeState.isEmpty {
             return self
         }
         return statedThemeStyles[themeState]
@@ -92,8 +92,8 @@ extension Theme.Style.Collection {
     /// - Parameters:
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题状态。
-    @objc public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
-        if themeState == .normal {
+    public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
+        if themeState == .normal || themeState.isEmpty {
             return
         }
         guard themeStyle.object === self.object else {
@@ -108,7 +108,7 @@ extension Theme.Style.Collection {
     ///   - value: 值。
     ///   - themeAttribute: 主题属性。
     ///   - themeState: 主题状态。
-    @objc public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
+    public func setValue(_ value: Any?, forThemeAttribute themeAttribute: Theme.Attribute, forThemeState themeState: Theme.State) {
         self.themeStyle(forThemeState: themeState).setValue(value, forThemeAttribute: themeAttribute)
     }
     
@@ -168,7 +168,7 @@ extension Theme.Style.Collection {
     ///
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
-    @objc public func effectiveThemeStyle(forThemeState themeState: Theme.State) -> Theme.Style? {
+    public func effectiveThemeStyle(forThemeState themeState: Theme.State) -> Theme.Style? {
         if let themeStyle = self.themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }

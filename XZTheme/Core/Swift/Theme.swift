@@ -249,7 +249,7 @@ extension Theme {
                     for attributedValue in attributedValues {
                         values.updateValue(attributedValue.value, forKey: attributedValue.key.rawValue)
                     }
-                    statedStyles[statedStyle.key.rawValue] = values
+                    statedStyles[statedStyle.key.name] = values
                 }
                 dictionary[themedStyle.key.name] = statedStyles
             }
@@ -274,7 +274,7 @@ extension Theme {
         @objc public let theme: Theme
         
         /// 当前样式的主题状态。
-        @objc public let state: Theme.State
+        public let state: Theme.State
         
         /// 主题样式所在的主题集。
         public override var themes: Theme.Collection {
@@ -289,7 +289,7 @@ extension Theme {
         ///   - themes: 主题集。
         ///   - theme: 主题。
         ///   - state: 主题状态，默认 .normal 。
-        @objc public init(object: NSObject?, themes: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
+        public init(object: NSObject?, themes: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
             self.theme  = theme
             self.object = object
             self.state  = state
@@ -383,23 +383,12 @@ extension Theme {
     }
     
     /// 主题状态。
-    /// - Note: 主题状态一般情况下与触控状态相对应。
-    /// - Note: 主题状态名必须符合正则 /^\:[A-Za-z]+$/ 。
-    /// - Note: 主题状态可能是集合，用于设置多状态。比如 `UINavigationBar` 设置 `.backgroundImage` 属性。
-    /// ```
-    /// .setValue(
-    ///     "bg_bar_nav",
-    ///     forThemeAttribute: .backgroundImage,
-    ///     forThemeState: .defaultBarMetrics
-    /// )
-    /// .setValue(
-    ///     "bg_bar_nav",
-    ///     forThemeAttribute: .backgroundImage,
-    ///     forThemeState: [.anyBarPosition, .compactBarMetrics]
-    /// )
-    /// ```
-    /// - Note: Theme.State 是有序数组，所以 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
-    /// - Note: 可以中 for-in 语句来遍历主题状态中的所有基本元素。
+    /// - Note: 主题状态是为了解决主题属性的多状态值而设立的。
+    /// - Note: 主题状态名必须符合正则表达式 /^\:[A-Za-z]+$/ 。
+    /// - Note: 一个或多个基本主题状态，通过数组的方式可以组合成复合主题状态。
+    /// - Note: 复合状态用于解决主题属性同时具有不同类型的状态值。
+    /// - Note: 复合状态是有序的，比如 `[.state1, .state2]` 与 `[.state2, .state1]` 是不同的主题状态。
+    /// - Note: 可以使用 for-in 语句来遍历主题状态中的所有子元素。
     public struct State: ExpressibleByArrayLiteral, CustomStringConvertible, Sequence, IteratorProtocol {
         
         /// 特殊值，空状态。
@@ -410,6 +399,7 @@ extension Theme {
             return self == .Empty
         }
         
+        /// 主题状态名。
         public let name: String
         
         /// 主题状态原始值，复合状态原始值为 0 。
@@ -418,27 +408,10 @@ extension Theme {
         /// 原始类型。
         public let rawType: Any.Type
         
-        /// 基本主题状态没有子元素，复合状态子元素为复合状态或基本状态。
+        /// 复合状态的子状态，子状态也可能是复合状态。
         public let children: [State]
         
-        /// 是否为简单状态。
-        /// - Note: 基本状态为简单状态，如 `:normal` 。
-        /// ```
-        /// print(Theme.State.normal.isSimple) // prints true
-        /// ```
-        /// - Note: 基本状态组成的复合状态，是简单状态。
-        /// ```
-        /// let themeState: Theme.State = [.normal, .highlighted]
-        /// print(themeState.isSimple) // prints true
-        /// ```
-        /// - Note: 复合状态与其它状态组成的复合状态不是简单状态。
-        /// ```
-        /// let themeState: Theme.State = [
-        ///     [.normal, .highlighted],
-        ///     [.selected, .highlighted]
-        /// ]
-        /// print(themeState.isSimple) // prints false
-        /// ```
+        /// 主题状态的原始值，是否为 OptionSet 类型，用于优化性能。
         public let isOptionSet: Bool
         
         /// 是否为基本主题状态。
@@ -457,10 +430,13 @@ extension Theme {
         /// 检查状态是否符合要求的正则。
         private static let regularExpression = try! NSRegularExpression(pattern: "^\\:[A-Za-z]+$", options: .none)
         
-        /// 基本主题状态构造方法，字符串格式必须符合格式：`/^\:[A-Za-z]+$` 。
-        /// - Note: 字符串 `":normal"` 被作为创建 .normal 状态特殊值处理。
+        /// 基本主题状态构造方法，主题状态名必须符合正则表达式：`/^\:[A-Za-z]+$/` 。
         ///
-        /// - Parameter rawValue: 主题状态原始值。
+        /// - Parameters:
+        ///     - name: 主题状态名。
+        ///     - rawValue: 主题状态原始值。
+        ///     - rawType: 主题状态原始类型。
+        ///     - isOptionSet: 原始类型是否为 OptionSet 类型。
         public init<T>(name: String, rawValue: T, rawType: T.Type = T.self, isOptionSet: Bool = false) {
             let range = NSMakeRange(0, name.count)
             guard NSEqualRanges(range, State.regularExpression.rangeOfFirstMatch(in: name, options: .none, range: range)) else {

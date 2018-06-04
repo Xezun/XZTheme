@@ -11,26 +11,23 @@ import XZKit
 extension Theme.State {
     
     /// UISearchBarIcon.search
-    public static let searchSearchBarIcon = Theme.State.init(rawValue: ":searchSearchBarIcon", rawType: UISearchBarIcon.self)
+    public static let searchSearchBarIcon = Theme.State.init(name: ":searchSearchBarIcon", rawValue: UISearchBarIcon.search)
     /// UISearchBarIcon.clear
-    public static let clearSearchBarIcon = Theme.State.init(rawValue: ":clearSearchBarIcon", rawType: UISearchBarIcon.self)
+    public static let clearSearchBarIcon = Theme.State.init(name: ":clearSearchBarIcon", rawValue: UISearchBarIcon.clear)
     /// UISearchBarIcon.bookmark
-    public static let bookmarkSearchBarIcon = Theme.State.init(rawValue: ":searchBarIconBookmark", rawType: UISearchBarIcon.self)
+    public static let bookmarkSearchBarIcon = Theme.State.init(name: ":searchBarIconBookmark", rawValue: UISearchBarIcon.bookmark)
     /// UISearchBarIcon.resultsList
-    public static let resultsListSearchBarIcon = Theme.State.init(rawValue: ":resultsListSearchBarIcon", rawType: UISearchBarIcon.self)
+    public static let resultsListSearchBarIcon = Theme.State.init(name: ":resultsListSearchBarIcon", rawValue: UISearchBarIcon.resultsList)
 
 }
 
 extension UISearchBarIcon {
     
     public init?(_ themeState: Theme.State) {
-        switch themeState {
-        case .searchSearchBarIcon:      self = .search
-        case .clearSearchBarIcon:       self = .clear
-        case .bookmarkSearchBarIcon:    self = .bookmark
-        case .resultsListSearchBarIcon: self = .resultsList
-        default: return nil
+        guard themeState.rawType == UISearchBarIcon.self else {
+            return nil
         }
+        self = themeState.rawValue as! UISearchBarIcon
     }
 }
 

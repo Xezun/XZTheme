@@ -11,9 +11,13 @@ import XZKit
 
 extension Theme.State: Equatable, Hashable {
     
+    public static func == (lhs: Theme.State, rhs: Theme.State) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
     /// 主题状态的 hashValue 为其原始值的 hashValue 。
     public var hashValue: Int {
-        return rawValue.hashValue
+        return name.hashValue
     }
     
 }
@@ -70,17 +74,22 @@ extension Theme.State {
 
 extension Theme.State {
     
-    /// 表示对象在被选中的状态下，一般与 UIControlState.normal 相对应。
+    /// UIControlState.normal
     public static let normal        = Theme.State.init(name: ":normal", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
-    /// 表示对象在被选中的状态下，一般与 UIControlState.selected 相对应。
+    /// UIControlState.selected
     public static let selected     = Theme.State.init(name: ":selected", rawValue: UIControlState.selected, rawType: UIControlState.self, isOptionSet: true)
-    /// 表示对象处高亮状态下，一般与 UIControlState.highlighted 相对应。
+    /// UIControlState.highlighted
     public static let highlighted  = Theme.State.init(name: ":highlighted", rawValue: UIControlState.highlighted, rawType: UIControlState.self, isOptionSet: true)
-    /// 表示对象处于被禁用状态下，一般与 UIControlState.disabled 相对应。
+    /// UIControlState.disabled
     public static let disabled     = Theme.State.init(name: ":disabled", rawValue: UIControlState.disabled, rawType: UIControlState.self, isOptionSet: true)
-    /// 表示对象处于焦点状态下，一般与 UIControlState.focused 相对应。
-    @available(iOS 9.0, *)
-    public static let focused      = Theme.State.init(name: ":focused", rawValue: UIControlState.focused, rawType: UIControlState.self, isOptionSet: true)
+    /// UIControlState.focused
+    public static let focused      = { () -> Theme.State in
+        if #available(iOS 9.0, *) {
+            return Theme.State.init( name: ":focused", rawValue: UIControlState.focused, rawType: UIControlState.self, isOptionSet: true)
+        } else {
+            return Theme.State.init( name: ":focused", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
+        }
+    }()
     
 }
 
@@ -98,24 +107,25 @@ extension UIControlState {
             self = themeState.rawValue as! UIControlState
         } else {
             var controlState: UIControlState! = nil
-            func forEach(_ states: [Any], _ block: (_ state: UIControlState) -> Void) {
-                for item in states {
-                    if let state = item as? UIControlState {
-                        block(state)
-                    } else if let states = item as? [Any] {
-                        forEach(states, block)
-                    }
-                }
-            }
-            forEach(themeState.rawValue as! [Any], { (state) in
-                if controlState == nil {
-                    controlState = state
-                } else {
-                    controlState.formUnion(state)
-                }
-            })
+            UIControlState.forEach(themeState.rawValue as! [Any], &controlState)
             self = controlState
         }
     }
+    
+    private static func forEach(_ states: [Any], _ result: inout UIControlState?) {
+        for item in states {
+            if let state = item as? UIControlState {
+                if result == nil {
+                    result = state
+                } else {
+                    result!.formUnion(state)
+                }
+            } else {
+                forEach(item as! [Any], &result)
+            }
+        }
+    }
+    
+
     
 }

@@ -12,49 +12,43 @@ import XZKit
 extension Theme.State {
 
     /// UIBarMetrics.default
-    public static let defaultBarMetrics       = Theme.State.init(rawValue: ":defaultBarMetrics", rawType: UIBarMetrics.self)
+    public static let defaultBarMetrics       = Theme.State.init(name:":defaultBarMetrics", rawValue: UIBarMetrics.default)
     /// UIBarMetrics.compact
-    public static let compactBarMetrics       = Theme.State.init(rawValue: ":compactBarMetrics", rawType: UIBarMetrics.self)
+    public static let compactBarMetrics       = Theme.State.init(name: ":compactBarMetrics", rawValue: UIBarMetrics.compact)
     /// UIBarMetrics.defaultPrompt
-    public static let defaultPromptBarMetrics = Theme.State.init(rawValue: ":defaultPromptBarMetrics", rawType: UIBarMetrics.self)
+    public static let defaultPromptBarMetrics = Theme.State.init(name: ":defaultPromptBarMetrics", rawValue: UIBarMetrics.defaultPrompt)
     /// UIBarMetrics.compactPrompt
-    public static let compactPromptBarMetrics = Theme.State.init(rawValue: ":compactPromptBarMetrics", rawType: UIBarMetrics.self)
+    public static let compactPromptBarMetrics = Theme.State.init(name: ":compactPromptBarMetrics", rawValue: UIBarMetrics.compactPrompt)
     
     
     /// UIBarPosition.any
-    public static let anyBarPosition         = Theme.State.init(rawValue: ":anyBarPosition", rawType: UIBarPosition.self)
+    public static let anyBarPosition         = Theme.State.init(name: ":anyBarPosition", rawValue: UIBarPosition.any)
     /// UIBarPosition.bottom
-    public static let bottomBarPosition      = Theme.State.init(rawValue: ":bottomBarPosition", rawType: UIBarPosition.self)
+    public static let bottomBarPosition      = Theme.State.init(name: ":bottomBarPosition", rawValue: UIBarPosition.bottom)
     /// UIBarPosition.top
-    public static let topBarPosition         = Theme.State.init(rawValue: ":topBarPosition", rawType: UIBarPosition.self)
+    public static let topBarPosition         = Theme.State.init(name: ":topBarPosition", rawValue: UIBarPosition.top)
     /// UIBarPosition.topAttached
-    public static let topAttachedBarPosition = Theme.State.init(rawValue: ":topAttachedBarPosition", rawType: UIBarPosition.self)
+    public static let topAttachedBarPosition = Theme.State.init(name: ":topAttachedBarPosition", rawValue: UIBarPosition.topAttached)
  
 }
 
 extension UIBarMetrics {
     
     public init?(_ themeState: Theme.State) {
-        switch themeState {
-        case .defaultBarMetrics:       self = .default
-        case .compactBarMetrics:       self = .compact
-        case .defaultPromptBarMetrics: self = .defaultPrompt
-        case .compactPromptBarMetrics: self = .compactPrompt
-        default: return nil
+        guard themeState.rawType == UIBarMetrics.self else {
+            return nil
         }
+        self = themeState.rawValue as! UIBarMetrics
     }
 }
 
 extension UIBarPosition {
     
     public init?(_ themeState: Theme.State) {
-        switch themeState {
-        case .anyBarPosition:         self = .any
-        case .topBarPosition:         self = .top
-        case .bottomBarPosition:      self = .bottom
-        case .topAttachedBarPosition: self = .topAttached
-        default: return nil
+        guard themeState.rawType == UIBarPosition.self else {
+            return nil
         }
+        self = themeState.rawValue as! UIBarPosition
     }
 }
 

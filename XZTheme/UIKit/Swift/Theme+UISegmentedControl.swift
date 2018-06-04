@@ -11,29 +11,25 @@ import XZKit
 extension Theme.State {
     
     /// UISegmentedControl
-    public static let anySegmentedControlSegment = Theme.State.init(rawValue: ":anySegmentedControlSegment", rawType: UISegmentedControlSegment.self)
+    public static let anySegmentedControlSegment = Theme.State.init(name: ":anySegmentedControlSegment", rawValue: UISegmentedControlSegment.any)
     /// UISegmentedControl
-    public static let leftSegmentedControlSegment = Theme.State.init(rawValue: ":leftSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
+    public static let leftSegmentedControlSegment = Theme.State.init(name: ":leftSegmentedControlSegment", rawValue: UISegmentedControlSegment.left)
     /// UISegmentedControl
-    public static let centerSegmentedControlSegment = Theme.State.init(rawValue: ":centerSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
+    public static let centerSegmentedControlSegment = Theme.State.init(name: ":centerSegmentedControlSegment", rawValue: UISegmentedControlSegment.center)
     /// UISegmentedControl
-    public static let rightSegmentedControlSegment = Theme.State.init(rawValue: ":rightSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
+    public static let rightSegmentedControlSegment = Theme.State.init(name: ":rightSegmentedControlSegment", rawValue: UISegmentedControlSegment.right)
     /// UISegmentedControl
-    public static let aloneSegmentedControlSegment = Theme.State.init(rawValue: ":aloneSegmentedControlSegment", rawType: UISegmentedControlSegment.self)
+    public static let aloneSegmentedControlSegment = Theme.State.init(name: ":aloneSegmentedControlSegment", rawValue: UISegmentedControlSegment.alone)
 
 }
 
 extension UISegmentedControlSegment {
     
     public init?(_ themeState: Theme.State) {
-        switch themeState {
-        case .anySegmentedControlSegment:    self = .any
-        case .leftSegmentedControlSegment:   self = .left
-        case .centerSegmentedControlSegment: self = .center
-        case .rightSegmentedControlSegment:  self = .right
-        case .aloneSegmentedControlSegment:  self = .alone
-        default: return nil
+        guard themeState.rawType == UISegmentedControlSegment.self else {
+            return nil
         }
+        self = themeState.rawValue as! UISegmentedControlSegment
     }
 }
 
