@@ -89,7 +89,7 @@ extension UISegmentedControl {
         
         
         for themeState in themeStyles.effectiveThemeStates {
-            if themeState.isOptionSetElement {
+            if themeState.isOptionSet {
                 if let controlState = UIControlState.init(themeState) {
                     guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                     if themeStyle.containsThemeAttribute(.titleTextAttributes) {

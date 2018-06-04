@@ -403,18 +403,17 @@ extension Theme {
     public struct State: ExpressibleByArrayLiteral, CustomStringConvertible, Sequence, IteratorProtocol {
         
         /// 特殊值，空状态。
-        public static let Empty = Theme.State.init(name: "", rawValue: <#T##String#>, rawType: <#T##Any.Type#>, isOptionSetElement: <#T##Bool#>)
+        public static let Empty = Theme.State.init(name: "", rawValue: "Theme.State.Empty", rawType: String.self, isOptionSet: false, children: [])
         
         /// 是否为 Theme.State.Empty 。
         public var isEmpty: Bool {
             return self == .Empty
         }
         
-        
         public let name: String
         
         /// 主题状态原始值，复合状态原始值为 0 。
-        public let rawValue: AnyHashable
+        public let rawValue: Any
         
         /// 原始类型。
         public let rawType: Any.Type
@@ -440,7 +439,7 @@ extension Theme {
         /// ]
         /// print(themeState.isSimple) // prints false
         /// ```
-        public let isOptionSetElement: Bool
+        public let isOptionSet: Bool
         
         /// 是否为基本主题状态。
         public var isPrimary: Bool {
@@ -462,12 +461,12 @@ extension Theme {
         /// - Note: 字符串 `":normal"` 被作为创建 .normal 状态特殊值处理。
         ///
         /// - Parameter rawValue: 主题状态原始值。
-        public init(name: String, rawValue: AnyHashable, rawType: Any.Type = Any.self, isOptionSetElement: Bool = false) {
+        public init<T>(name: String, rawValue: T, rawType: T.Type = T.self, isOptionSet: Bool = false) {
             let range = NSMakeRange(0, name.count)
             guard NSEqualRanges(range, State.regularExpression.rangeOfFirstMatch(in: name, options: .none, range: range)) else {
                 fatalError("The `\(rawValue)` is not an valid state rawValue, which must be matched the regular expression /^\\:[A-Za-z]+$/ .")
             }
-            self.init(name: name, rawValue: rawValue, rawType: rawType, isOptionSetElement: isOptionSetElement, children: [])
+            self.init(name: name, rawValue: rawValue, rawType: rawType, isOptionSet: isOptionSet, children: [])
         }
         
         /// 将主题状态集合转换复合主题状态。
@@ -497,29 +496,33 @@ extension Theme {
                 // 4. 复合状态与复合状态的复合 [:selected:highlighted][:selected:focused]
                 // 5. 复合状态的复合 [[:selected:highlighted]]
                 // 6. 多重复合 [[:selected:highlighted]:focused]:disabled
-                var isOptionSetElement = true
+                var isOptionSet = true
                 var rawType: Any.Type! = nil
+                var rawValue: [Any] = []
                 let name = elements.map({ (element) -> String in
-                    // 只要子元素存在复合状态，就判定为非简单状态。
-                    if isOptionSetElement {
+                    // 只要数组存在非 OptionSet 元素或存在两个不同的 OptionSet 类型，那么复合状态就不是 OptionSet
+                    if isOptionSet {
                         if rawType == nil { // first loop
                             rawType = element.rawType
-                            isOptionSetElement = element.isOptionSetElement
+                            isOptionSet = element.isOptionSet
                         } else {
                             // 如果有元素是非 OptionSetElement 或者存在两种不同的类型，则复合状态不是 OptionSetElement 。
-                            if !element.isOptionSetElement || type(of: rawType) != type(of: element.rawType) {
-                                isOptionSetElement = false
+                            if !element.isOptionSet || rawType != element.rawType {
+                                isOptionSet = false
                                 rawType = Any.self
                             }
                         }
                     }
-                    
+                    // 复合状态的原始值是子元素原始值的数组。
+                    rawValue.append(element.rawValue)
+                    // 如果元素是复合元素，用 [] 包裹它。
                     if element.children.count > 0 {
                         return "[\(element.name)]"
                     }
+                    // 否则直接使用元素名。
                     return element.name
                 }).joined()
-                self.init(name: name, rawValue: 0, rawType: rawType, isOptionSetElement: isOptionSetElement, children: elements)
+                self.init(name: name, rawValue: rawValue, rawType: rawType, isOptionSet: isOptionSet, children: elements)
             }
         }
         
@@ -530,11 +533,11 @@ extension Theme {
         }
         
         /// 指定初始化方法。私有构造方法，避免构造出不合法的主题状态。
-        private init(name: String, rawValue: AnyHashable, rawType: Any.Type, isOptionSetElement: Bool = false, children: [State] = []) {
+        private init(name: String, rawValue: Any, rawType: Any.Type, isOptionSet: Bool = false, children: [State] = []) {
             self.name       = name
             self.rawValue   = rawValue
             self.rawType    = rawType
-            self.isOptionSetElement = isOptionSetElement
+            self.isOptionSet = isOptionSet
             self.children   = children
         }
         
@@ -562,11 +565,11 @@ extension Theme {
                 let state = children[0]
                 // 这里会产生一个不合法的状态
                 self = Theme.State.init(
-                    name: name,
-                    rawValue: rawValue,
-                    rawType: rawType,
-                    isOptionSetElement: isOptionSetElement,
-                    children: Array.init(children.suffix(from: 1))
+                    name:           name,
+                    rawValue:       rawValue,
+                    rawType:        rawType,
+                    isOptionSet:    isOptionSet,
+                    children:       Array.init(children.suffix(from: 1))
                 )
                 return state
             }

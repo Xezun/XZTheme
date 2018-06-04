@@ -270,7 +270,7 @@ extension UISearchBar {
         
         
         for themeState in themeStates {
-            if themeState.isOptionSetElement {
+            if themeState.isOptionSet {
                 if themeState.isPrimary, let searchBarIcon = UISearchBarIcon.init(themeState) {
                     guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
                     if themeStyle.containsThemeAttribute(.positionAdjustment) {
