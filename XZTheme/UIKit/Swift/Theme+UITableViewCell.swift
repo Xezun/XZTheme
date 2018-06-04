@@ -25,9 +25,9 @@ extension Theme.Style {
         }
         if let aString = value as? String {
             switch aString {
-            case "default":   return .default
-            case "none": return .none
-            case "gray":   return .gray
+            case "default": return .default
+            case "none":    return .none
+            case "gray":    return .gray
             case "blue":    return .blue
             default: break
             }
