@@ -79,44 +79,17 @@ extension UITabBarItem {
             }
         }
         
-        if themeStyles.containsThemeAttribute(.titleTextAttributes) {
-            self.setTitleTextAttributes(themeStyles.titleTextAttributes, for: .normal)
-        }
-        
-        if let themeStyle = themeStyles.selectedIfLoaded {
-            if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                self.setTitleTextAttributes(themeStyle.titleTextAttributes, for: .selected)
+        for themeState in themeStyles.effectiveThemeStates {
+            guard let controlState = UIControlState.init(themeState) else {
+                XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
+                continue
             }
-        }
-        
-        if let themeStyle = themeStyles.disabledIfLoaded {
-            if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                self.setTitleTextAttributes(themeStyle.titleTextAttributes, for: .disabled)
+            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+            if themeStyles.containsThemeAttribute(.titleTextAttributes) {
+                self.setTitleTextAttributes(themeStyles.titleTextAttributes, for: controlState)
             }
-        }
-        
-        if let themeStyle = themeStyles.highlightedIfLoaded {
-            if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                self.setTitleTextAttributes(themeStyle.titleTextAttributes, for: .highlighted)
-            }
-        }
-        
-        if #available(iOS 9.0, *) {
-            if let themeStyle = themeStyles.focusedIfLoaded {
-                if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                    self.setTitleTextAttributes(themeStyle.titleTextAttributes, for: .focused)
-                }
-            }
-        }
-        
-        if #available(iOS 10.0, *) {
-            for themeState in themeStyles.effectiveThemeStates {
-                guard let controlState = UIControlState.init(themeState) else {
-                    XZLog("Unapplied Theme.State %@ for UITabBarItem.", themeState)
-                    continue
-                }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                
+            
+            if #available(iOS 10.0, *) {
                 if themeStyle.containsThemeAttribute(.badgeTextAttributes) {
                     setBadgeTextAttributes(themeStyle.badgeTextAttributes, for: controlState)
                 }

@@ -31,11 +31,6 @@ extension Theme.Style.Collection {
         return themeStyle(forThemeState: .disabled)
     }
     
-    /// Theme.State.focused 状态下的主题样式，懒加载。
-    @objc(focusedThemeStyle) public var focused: Theme.Style {
-        return themeStyle(forThemeState: .focused)
-    }
-    
     /// Theme.State.highlighted 状态下的主题样式，非懒加载。
     @objc(highlightedThemeStyleIfLoaded) public var highlightedIfLoaded: Theme.Style? {
         return themeStyleIfLoaded(forThemeState: .highlighted)
@@ -50,12 +45,7 @@ extension Theme.Style.Collection {
     @objc(disabledThemeStyleIfLoaded) public var disabledIfLoaded: Theme.Style? {
         return themeStyleIfLoaded(forThemeState: .disabled)
     }
-    
-    /// Theme.State.focused 状态下的主题样式，非懒加载。
-    @objc(focusedThemeStyleIfLoaded) public var focusedIfLoaded: Theme.Style? {
-        return themeStyleIfLoaded(forThemeState: .focused)
-    }
-    
+
 }
 
 extension Theme.Style.Collection {

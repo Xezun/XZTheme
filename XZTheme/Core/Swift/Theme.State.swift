@@ -82,14 +82,6 @@ extension Theme.State {
     public static let highlighted  = Theme.State.init(name: ":highlighted", rawValue: UIControlState.highlighted, rawType: UIControlState.self, isOptionSet: true)
     /// UIControlState.disabled
     public static let disabled     = Theme.State.init(name: ":disabled", rawValue: UIControlState.disabled, rawType: UIControlState.self, isOptionSet: true)
-    /// UIControlState.focused
-    public static let focused      = { () -> Theme.State in
-        if #available(iOS 9.0, *) {
-            return Theme.State.init( name: ":focused", rawValue: UIControlState.focused, rawType: UIControlState.self, isOptionSet: true)
-        } else {
-            return Theme.State.init( name: ":focused", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
-        }
-    }()
     
 }
 
