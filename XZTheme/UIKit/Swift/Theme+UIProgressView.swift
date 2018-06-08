@@ -12,18 +12,18 @@ import XZKit
 
 extension Theme.Attribute {
     
-    /// UIProgressView.progressViewStyle
+    /// UIProgressView
     public static let progressViewStyle = Theme.Attribute.init("progressViewStyle")
-    /// UIProgressView.progress
-    public static let progress = Theme.Attribute.init("progress")
-    /// UIProgressView.progressTintColor
+    /// UIProgressView
+    public static let progress          = Theme.Attribute.init("progress")
+    /// UIProgressView
     public static let progressTintColor = Theme.Attribute.init("progressTintColor")
-    /// UIProgressView.trackTintColor
-    public static let trackTintColor = Theme.Attribute.init("trackTintColor")
-    /// UIProgressView.progressImage
-    public static let progressImage = Theme.Attribute.init("progressImage")
-    /// .trackImage
-    public static let trackImage = Theme.Attribute.init("trackImage")
+    /// UIProgressView
+    public static let trackTintColor    = Theme.Attribute.init("trackTintColor")
+    /// UIProgressView
+    public static let progressImage     = Theme.Attribute.init("progressImage")
+    /// UIProgressView
+    public static let trackImage        = Theme.Attribute.init("trackImage")
 }
 
 extension Theme.Style {
@@ -38,8 +38,8 @@ extension Theme.Style {
         }
         if let aString = value as? String {
             switch aString {
-            case "default":  return .default
-            case "bar": return .bar
+            case "default": return .default
+            case "bar":     return .bar
             default: break
             }
         }

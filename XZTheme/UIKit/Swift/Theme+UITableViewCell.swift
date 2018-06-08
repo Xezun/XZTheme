@@ -8,8 +8,16 @@
 import Foundation
 import XZKit
 
-extension Theme.State {
+extension Theme.Attribute {
     
+    /// UITableViewCell
+    public static let selectionStyle = Theme.Attribute.init("selectionStyle")
+    /// UITableViewCell
+    public static let contentBackgroundColor = Theme.Attribute.init("contentBackgroundColor")
+    /// UITableViewCell
+    public static let selectedBackgroundColor = Theme.Attribute.init("selectedBackgroundColor")
+    /// UITableViewCell
+    public static let multipleSelectionBackgroundColor = Theme.Attribute.init("multipleSelectionBackgroundColor")
 }
 
 
@@ -36,17 +44,54 @@ extension Theme.Style {
         return .default
     }
     
+    var selectionStyle: UITableViewCellSelectionStyle {
+        get { return tableViewCellSelectionStyle(forThemeAttribute: .selectionStyle) }
+        set { setValue(newValue, forThemeAttribute: .selectionStyle) }
+    }
     
+    var contentBackgroundColor: UIColor? {
+        get { return color(forThemeAttribute: .contentBackgroundColor) }
+        set { setValue(newValue, forThemeAttribute: .contentBackgroundColor) }
+    }
+    
+    var selectedBackgroundColor: UIColor? {
+        get { return color(forThemeAttribute: .selectedBackgroundColor) }
+        set { setValue(newValue, forThemeAttribute: .selectedBackgroundColor) }
+    }
+    
+    var multipleSelectionBackgroundColor: UIColor? {
+        get { return color(forThemeAttribute: .multipleSelectionBackgroundColor) }
+        set { setValue(newValue, forThemeAttribute: .multipleSelectionBackgroundColor) }
+    }
 }
 
 extension UITableViewCell {
     
+    
+    /// 设置背景色会同时设置 backgroundView 的背景色。
+    ///
+    /// - Parameter themeStyles: 主题样式集。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.backgroundColor) {
-            self.contentView.backgroundColor = themeStyles.backgroundColor
+        if themeStyles.containsThemeAttribute(.selectionStyle) {
+            self.selectionStyle = themeStyles.selectionStyle
         }
         
+        if themeStyles.containsThemeAttribute(.backgroundColor) {
+            self.backgroundView?.backgroundColor = themeStyles.backgroundColor
+        }
+        
+        if themeStyles.containsThemeAttribute(.contentBackgroundColor) {
+            self.contentView.backgroundColor = themeStyles.contentBackgroundColor
+        }
+        
+        if themeStyles.containsThemeAttribute(.selectedBackgroundColor) {
+            self.selectedBackgroundView?.backgroundColor = themeStyles.selectedBackgroundColor
+        }
+        
+        if themeStyles.containsThemeAttribute(.multipleSelectionBackgroundColor) {
+            self.multipleSelectionBackgroundView?.backgroundColor = themeStyles.multipleSelectionBackgroundColor
+        }
     }
 }

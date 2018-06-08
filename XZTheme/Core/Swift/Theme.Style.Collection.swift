@@ -64,6 +64,7 @@ extension Theme.Style.Collection {
     }
     
     /// 获取指定状态的主题样式，如果已创建。
+    /// - Note: 主题状态 Empty 与 normal 返回当前对象自身。
     /// - Note: 该方法不会返回全局的主题样式集，以避免全局主题样式被意外修改。
     ///
     /// - Parameter themeState: 主题状态。
@@ -165,7 +166,7 @@ extension Theme.Style.Collection {
         return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
     
-    /// 获取当前主题下所有已配置的主题状态，包括 `.normal` 状态。
+    /// 获取当前主题下所有已配置的主题状态（包括全局样式中的以及默认的 `.normal` 状态）。
     public var effectiveThemeStates: Set<Theme.State> {
         if statedThemeStylesIfLoaded == nil {
             return [.normal]

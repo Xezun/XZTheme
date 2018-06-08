@@ -14,7 +14,7 @@ extension Theme.Attribute {
     public static let tintColor         = Theme.Attribute.init("tintColor");
     /// UIView.isHidden
     public static let isHidden          = Theme.Attribute.init("isHidden");
-    /// UIView.backgroundColor
+    /// UIView.backgroundColor, UITableViewCell.backgroundView.backgroundColor
     public static let backgroundColor   = Theme.Attribute.init("backgroundColor");
     /// UIView.alpha
     public static let alpha             = Theme.Attribute.init("alpha");
@@ -103,6 +103,8 @@ extension UIView {
     /// **UIToolbar:** *barStyle, isTranslucent, barTintColor, backgroundImage, shadowImage.*
     ///
     /// **UISegmentedControl:** *isMomentary, apportionsSegmentWidthsByContent, backgroundImage, dividerImage, titleTextAttributes, contentPositionAdjustment.*
+    ///
+    /// **UITableViewCell:** *selectionStyle, backgroundColor, contentBackgroundColor, selectedBackgroundColor, multipleSelectionBackgroundColor.*
     ///
     /// - Parameter themeStyles: 主题样式。
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {

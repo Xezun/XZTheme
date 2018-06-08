@@ -412,6 +412,7 @@ extension Theme {
         public let children: [State]
         
         /// 主题状态的原始值，是否为 OptionSet 类型，用于优化性能。
+        /// - Note: 相同 OptionSet 类型的基本主题状态组成的复合状态，此属性为 true 。
         public let isOptionSet: Bool
         
         /// 是否为基本主题状态。
@@ -461,17 +462,8 @@ extension Theme {
         public init(_ elements: Array<Theme.State>) {
             switch elements.count {
             case 0:
-                /// 空数组不会创建新的状态。
                 self = .Empty
             default:
-                // 如果元素是由复合元素构成的，则 rawValue 用 [] 包裹。
-                // 那么 rawValue 形式可能有以下几种形式：
-                // 1. 基本状态 :selected
-                // 2. 基本状态的复合 :selected:highlighted
-                // 3. 基本状态与复合状态的复合 [:selected:highlighted]:focused
-                // 4. 复合状态与复合状态的复合 [:selected:highlighted][:selected:focused]
-                // 5. 复合状态的复合 [[:selected:highlighted]]
-                // 6. 多重复合 [[:selected:highlighted]:focused]:disabled
                 var isOptionSet = true
                 var rawType: Any.Type! = nil
                 var rawValue: [Any] = []
@@ -482,8 +474,8 @@ extension Theme {
                             rawType = element.rawType
                             isOptionSet = element.isOptionSet
                         } else {
-                            // 如果有元素是非 OptionSetElement 或者存在两种不同的类型，则复合状态不是 OptionSetElement 。
-                            if !element.isOptionSet || rawType != element.rawType {
+                            // 如果有元素是非 OptionSet 或者存在两种不同的类型 或者非基本状态，则复合状态不是 OptionSet 。
+                            if !element.isOptionSet || rawType != element.rawType || !element.isPrimary {
                                 isOptionSet = false
                                 rawType = Any.self
                             }

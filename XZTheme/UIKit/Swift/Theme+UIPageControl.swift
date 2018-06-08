@@ -9,17 +9,17 @@ import Foundation
 
 extension Theme.Attribute {
     
-    /// UIPageControl.numberOfPages
-    public static let numberOfPages = Theme.Attribute.init("numberOfPages")
+    /// UIPageControl
+    public static let numberOfPages                 = Theme.Attribute.init("numberOfPages")
     /// UIPageControl.currentPage
-    public static let currentPage = Theme.Attribute.init("currentPage")
-    /// UIPageControl.hidesForSinglePage
-    public static let hidesForSinglePage = Theme.Attribute.init("hidesForSinglePage")
-    /// UIPageControl.defersCurrentPageDisplay
-    public static let defersCurrentPageDisplay = Theme.Attribute.init("defersCurrentPageDisplay")
-    /// UIPageControl.pageIndicatorTintColor
-    public static let pageIndicatorTintColor = Theme.Attribute.init("pageIndicatorTintColor")
-    /// UIPageControl.currentPageIndicatorTintColor
+    public static let currentPage                   = Theme.Attribute.init("currentPage")
+    /// UIPageControl
+    public static let hidesForSinglePage            = Theme.Attribute.init("hidesForSinglePage")
+    /// UIPageControl
+    public static let defersCurrentPageDisplay      = Theme.Attribute.init("defersCurrentPageDisplay")
+    /// UIPageControl
+    public static let pageIndicatorTintColor        = Theme.Attribute.init("pageIndicatorTintColor")
+    /// UIPageControl
     public static let currentPageIndicatorTintColor = Theme.Attribute.init("currentPageIndicatorTintColor")
 
 }

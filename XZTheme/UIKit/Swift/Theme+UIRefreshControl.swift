@@ -8,7 +8,7 @@
 import Foundation
 
 extension Theme.Attribute {
-    
+    /// UIRefreshControl
     public static let isRefreshing = Theme.Attribute.init("isRefreshing")
 }
 

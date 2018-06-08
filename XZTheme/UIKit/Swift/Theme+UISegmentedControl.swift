@@ -83,63 +83,28 @@ extension UISegmentedControl {
             self.apportionsSegmentWidthsByContent = themeStyles.apportionsSegmentWidthsByContent
         }
         
-        
         for themeState in themeStyles.effectiveThemeStates {
             if themeState.isOptionSet {
-                if let controlState = UIControlState.init(themeState) {
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                        setTitleTextAttributes(themeStyle.titleTextAttributes, for: controlState)
-                    }
-                } else if themeState.children.count == 2 {
-                    if let segmentedControlSegment = UISegmentedControlSegment.init(themeState.children[0]) {
-                        guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
-                            XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
-                            continue
-                        }
-                        guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                        if themeStyle.containsThemeAttribute(.contentPositionAdjustment) {
-                            setContentPositionAdjustment(themeStyle.contentPositionAdjustment, forSegmentType: segmentedControlSegment, barMetrics: barMetrics)
-                        }
-                    } else if let controlState = UIControlState.init(themeState) {
-                        guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
-                            XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
-                            continue
-                        }
-                        guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                        if themeStyle.containsThemeAttribute(.backgroundImage) {
-                            setBackgroundImage(themeStyle.backgroundImage, for: controlState, barMetrics: barMetrics)
-                        }
-                    } else {
-                        XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
-                    }
-                } else if themeState.children.count >= 3 {
-                    guard let leftControlState = UIControlState.init(themeState.children[0]),
-                        let rightControlState = UIControlState.init(themeState.children[1]),
-                        let barMetrics = UIBarMetrics.init(themeState.children[2]) else {
-                            XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
-                            continue
-                    }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.dividerImage) {
-                        setDividerImage(themeStyle.dividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState, barMetrics: barMetrics)
-                    }
-                } else {
+                guard let controlState = UIControlState.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
+                    continue
                 }
-            } else {
-                if themeState.children.count == 1 {
-                    guard let controlState = UIControlState.init(themeState) else {
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.titleTextAttributes) {
+                    setTitleTextAttributes(themeStyle.titleTextAttributes, for: controlState)
+                }
+            } else if themeState.children.count == 2 {
+                if let segmentedControlSegment = UISegmentedControlSegment.init(themeState.children[0]) {
+                    guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                         continue
                     }
                     guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.titleTextAttributes) {
-                        setTitleTextAttributes(themeStyle.titleTextAttributes, for: controlState)
+                    if themeStyle.containsThemeAttribute(.contentPositionAdjustment) {
+                        setContentPositionAdjustment(themeStyle.contentPositionAdjustment, forSegmentType: segmentedControlSegment, barMetrics: barMetrics)
                     }
-                } else if themeState.children.count == 2 {
-                    guard let controlState = UIControlState.init(themeState.children[0]),
-                        let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+                } else if let controlState = UIControlState.init(themeState) {
+                    guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                         continue
                     }
@@ -147,22 +112,23 @@ extension UISegmentedControl {
                     if themeStyle.containsThemeAttribute(.backgroundImage) {
                         setBackgroundImage(themeStyle.backgroundImage, for: controlState, barMetrics: barMetrics)
                     }
-                } else if themeState.children.count >= 3 {
-                    guard let leftControlState = UIControlState.init(themeState.children[0]),
-                        let rightControlState = UIControlState.init(themeState.children[1]),
-                        let barMetrics = UIBarMetrics.init(themeState.children[2]) else {
-                            XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
-                            continue
-                    }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.dividerImage) {
-                        setDividerImage(themeStyle.dividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState, barMetrics: barMetrics)
-                    }
                 } else {
                     XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                 }
+            } else if themeState.children.count >= 3 {
+                guard let leftControlState = UIControlState.init(themeState.children[0]),
+                    let rightControlState = UIControlState.init(themeState.children[1]),
+                    let barMetrics = UIBarMetrics.init(themeState.children[2]) else {
+                        XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
+                        continue
+                }
+                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+                if themeStyle.containsThemeAttribute(.dividerImage) {
+                    setDividerImage(themeStyle.dividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState, barMetrics: barMetrics)
+                }
+            } else {
+                XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
             }
-            
         }
         
     }

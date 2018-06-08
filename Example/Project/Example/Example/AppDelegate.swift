@@ -18,26 +18,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        let type1: Any = UIControlState.self
-        
-        let type2: Any = UIBarMetrics.self
-        
-        print(type(of: type1))
-        print(type(of: type2))
-        
-        print(type(of: type1) == type(of: type2))
-        
-        
-        
-        // , [[.anyBarPosition, .bottomBarPosition], .clearSearchBarIcon]
-        let state: Theme.State = [[.normal, .highlighted], [.selected, .highlighted]]
-        print(state)
-        
-        for item in state {
-            print(item)
+        func log(_ themeState: Theme.State) {
+            XZLog("%@: , isEmpty: %@, isPrimary: %@, isOptionSet: %@", themeState, themeState.isEmpty, themeState.isPrimary, themeState.isOptionSet)
         }
         
-
+        log(.normal)
+        log([.normal])
+        log([.normal, .selected])
+        log([[.normal], [.highlighted, .selected]])
+        log([[.normal, .highlighted], [.highlighted, .selected]])
+        
+        log([.normal, .anyBarPosition])
+        log([[.normal, .highlighted], .anyBarPosition])
         
         return true
     }
