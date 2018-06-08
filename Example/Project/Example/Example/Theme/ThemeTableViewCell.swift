@@ -1,5 +1,5 @@
 //
-//  ThemeSwitchTableViewCell.swift
+//  ThemeTableViewCell.swift
 //  Example
 //
 //  Created by mlibai on 2018/6/3.
@@ -9,7 +9,7 @@
 import UIKit
 import XZTheme
 
-class ThemeSwitchTableViewCell: ThemeTableViewCell {
+class ThemeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
@@ -17,6 +17,12 @@ class ThemeSwitchTableViewCell: ThemeTableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        self.themes.day.setting(0xffffffff, for: .backgroundColor)
+        self.themes.night.setting(0x303030ff, for: .backgroundColor)
+        
+        self.selectionStyle = .none
+        self.contentView.themes.day.setting(0xffffffff, for: .backgroundColor)
+        self.contentView.themes.night.setting(0x303030ff, for: .backgroundColor)
         
         self.titleLabel.themes.day.setting(0x444444ff, for: .textColor)
         self.titleLabel.themes.night.setting(0xc7c7c7ff, for: .textColor)
@@ -32,13 +38,4 @@ class ThemeSwitchTableViewCell: ThemeTableViewCell {
         // Configure the view for the selected state
     }
     
-    @IBAction func themeSwitchValueChanged(_ switch: UIButton) {
-        switch Theme.current {
-        case .day: Theme.night.apply(animated: true)
-        case .night: Theme.day.apply(animated: true)
-        default:
-            fatalError("Not Supported Theme")
-        }
-    }
-
 }

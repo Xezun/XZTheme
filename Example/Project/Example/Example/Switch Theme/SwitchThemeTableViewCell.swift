@@ -1,5 +1,5 @@
 //
-//  ThemeApplyTableViewCell.swift
+//  SwitchThemeTableViewCell.swift
 //  Example
 //
 //  Created by mlibai on 2018/6/3.
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import XZTheme
 
-class ThemeApplyTableViewCell: UITableViewCell {
+class SwitchThemeTableViewCell: UITableViewCell {
     
     static let isThemeLoaded: Bool = {
         return true
@@ -17,16 +18,13 @@ class ThemeApplyTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.themes.day.setting(0xffffffff, for: .backgroundColor)
-        self.themes.night.setting(0x303030ff, for: .backgroundColor)
+        self.themes.day.setting(0xffffffff, for: .contentBackgroundColor)
+        self.themes.night.setting(0x303030ff, for: .contentBackgroundColor)
         
         self.selectionStyle = .none
         
         self.themes.day.tintColor = UIColor(0x333333ff)
         self.themes.night.tintColor = UIColor(0xc7c7c7ff)
-        
-        self.contentView.themes.day.backgroundColor = .white
-        self.contentView.themes.night.backgroundColor = UIColor(0x303030ff)
         
         self.textLabel?.themes.day.textColor = UIColor(0x444444ff)
         self.textLabel?.themes.night.textColor = UIColor(0xc7c7c7ff)

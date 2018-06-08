@@ -1,5 +1,5 @@
 //
-//  ThemeApplyViewController.swift
+//  SwitchThemeViewController.swift
 //  Example
 //
 //  Created by mlibai on 2018/6/3.
@@ -9,7 +9,7 @@
 import UIKit
 import XZTheme
 
-class ThemeApplyViewController: UITableViewController {
+class SwitchThemeViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,27 +25,35 @@ class ThemeApplyViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
-        if indexPath.row == 0 {
-            cell.imageView?.themes.day.image = UIImage(named: "icon_sun_day")
-            cell.imageView?.themes.night.image = UIImage(named: "icon_sun_night")
-            if Theme.current == .day {
-                cell.accessoryType = .checkmark
+        switch indexPath.section {
+        case 0:
+            if indexPath.row == 0 {
+                cell.imageView?.themes.day.image = UIImage(named: "icon_sun_day")
+                cell.imageView?.themes.night.image = UIImage(named: "icon_sun_night")
+                if Theme.current == .day {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .disclosureIndicator
+                }
             } else {
-                cell.accessoryType = .disclosureIndicator
+                cell.imageView?.themes.day.image = UIImage(named: "icon_moon_day")
+                cell.imageView?.themes.night.image = UIImage(named: "icon_moon_night")
+                if Theme.current == .night {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .disclosureIndicator
+                }
             }
-        } else {
-            cell.imageView?.themes.day.image = UIImage(named: "icon_moon_day")
-            cell.imageView?.themes.night.image = UIImage(named: "icon_moon_night")
-            if Theme.current == .night {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .disclosureIndicator
-            }
+        default:
+            break
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.section == 0 else {
+            return
+        }
         if indexPath.row == 0 {
             Theme.day.apply(animated: true)
         } else {

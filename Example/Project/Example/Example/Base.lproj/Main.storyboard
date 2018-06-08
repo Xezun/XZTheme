@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="a0e-GO-1bM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="a0e-GO-1bM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -38,7 +38,7 @@
                         <sections>
                             <tableViewSection id="0Pe-Fv-ZRV">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Tsm-kL-aIc" customClass="ThemeSwitchTableViewCell" customModule="Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Tsm-kL-aIc" customClass="ThemeTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tsm-kL-aIc" id="HLX-Tk-eN9">
@@ -48,8 +48,8 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_theme" translatesAutoresizingMaskIntoConstraints="NO" id="wTw-cA-8CG">
                                                     <rect key="frame" x="10" y="10" width="24" height="24"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLp-gZ-RgT">
-                                                    <rect key="frame" x="42" y="11" width="35" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Switch Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLp-gZ-RgT">
+                                                    <rect key="frame" x="42" y="11" width="109.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="1032.8" y="117.39130434782609"/>
         </scene>
-        <!--Apply Theme-->
+        <!--Switch Theme-->
         <scene sceneID="IUf-lL-dk1">
             <objects>
-                <tableViewController title="Apply Theme" id="Q5U-wn-K0R" customClass="ThemeApplyViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Switch Theme" id="Q5U-wn-K0R" customClass="SwitchThemeViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="yz4-ir-jYw" customClass="ThemeTableView" customModule="Example" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -97,7 +97,7 @@
                         <sections>
                             <tableViewSection id="rPn-P6-ogs">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="aax-L3-ETa" imageView="Mga-0U-ko2" style="IBUITableViewCellStyleDefault" id="CsH-bv-Y0d" customClass="ThemeApplyTableViewCell" customModule="Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="aax-L3-ETa" imageView="Mga-0U-ko2" style="IBUITableViewCellStyleDefault" id="CsH-bv-Y0d" customClass="SwitchThemeTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CsH-bv-Y0d" id="Bhz-zW-uGY">
@@ -118,7 +118,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="583-fo-8Uc" imageView="wal-bA-vwO" style="IBUITableViewCellStyleDefault" id="jV4-fQ-gga" customClass="ThemeApplyTableViewCell" customModule="Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="583-fo-8Uc" imageView="wal-bA-vwO" style="IBUITableViewCellStyleDefault" id="jV4-fQ-gga" customClass="SwitchThemeTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="79" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jV4-fQ-gga" id="Gy7-DP-31a">
@@ -141,6 +141,47 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="Ul6-Ms-tar">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="130" id="mrX-h7-XW4">
+                                        <rect key="frame" x="0.0" y="159" width="375" height="130"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mrX-h7-XW4" id="lbS-Az-BA5">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="129.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsa-XN-94D">
+                                                    <rect key="frame" x="29" y="15.5" width="317" height="100"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Swift" translatesAutoresizingMaskIntoConstraints="NO" id="FvJ-RS-rdn">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL8-jX-vI2">
+                                                            <rect key="frame" x="120" y="-5.5" width="197" height="111"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="93"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="FvJ-RS-rdn" firstAttribute="top" secondItem="Lsa-XN-94D" secondAttribute="top" id="3fm-LY-8qN"/>
+                                                        <constraint firstItem="FvJ-RS-rdn" firstAttribute="leading" secondItem="Lsa-XN-94D" secondAttribute="leading" id="FXt-Hz-klW"/>
+                                                        <constraint firstItem="kL8-jX-vI2" firstAttribute="centerY" secondItem="FvJ-RS-rdn" secondAttribute="centerY" id="Fcd-QA-hCH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kL8-jX-vI2" secondAttribute="trailing" id="GeG-HN-Q4z"/>
+                                                        <constraint firstItem="kL8-jX-vI2" firstAttribute="leading" secondItem="FvJ-RS-rdn" secondAttribute="trailing" constant="20" id="wP8-8g-4xY"/>
+                                                        <constraint firstAttribute="bottom" secondItem="FvJ-RS-rdn" secondAttribute="bottom" id="yba-fZ-4fT"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lsa-XN-94D" firstAttribute="centerX" secondItem="lbS-Az-BA5" secondAttribute="centerX" id="3nG-d6-Rzt"/>
+                                                <constraint firstItem="Lsa-XN-94D" firstAttribute="centerY" secondItem="lbS-Az-BA5" secondAttribute="centerY" id="4hc-xT-AE5"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="Q5U-wn-K0R" id="xjP-b5-Kw5"/>
@@ -150,10 +191,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epK-Ko-Rbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1911" y="117"/>
+            <point key="canvasLocation" x="1909.5999999999999" y="116.49175412293854"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Swift" width="100" height="100"/>
         <image name="icon_moon_day" width="27" height="27"/>
         <image name="icon_sun_day" width="27" height="27"/>
         <image name="icon_theme" width="24" height="24"/>
