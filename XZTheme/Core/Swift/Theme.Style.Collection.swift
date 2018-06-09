@@ -58,7 +58,7 @@ extension Theme.Style.Collection {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        let themeStyle = Theme.Style.init(object: self.object, themes: self.themes, theme: self.theme, state: themeState)
+        let themeStyle = Theme.Style.init(owner: self.owner, theme: self.theme, state: themeState)
         setThemeStyle(themeStyle, forThemeState: themeState)
         return themeStyle
     }
@@ -87,7 +87,7 @@ extension Theme.Style.Collection {
         if themeState == .normal || themeState.isEmpty {
             return
         }
-        guard themeStyle.object === self.object else {
+        guard themeStyle.owner === self.owner else {
             return
         }
         statedThemeStyles[themeState] = themeStyle

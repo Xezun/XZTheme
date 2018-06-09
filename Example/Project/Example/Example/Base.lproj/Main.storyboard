@@ -97,7 +97,7 @@
                         <sections>
                             <tableViewSection id="rPn-P6-ogs">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="aax-L3-ETa" imageView="Mga-0U-ko2" style="IBUITableViewCellStyleDefault" id="CsH-bv-Y0d" customClass="SwitchThemeTableViewCell" customModule="Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" textLabel="aax-L3-ETa" imageView="Mga-0U-ko2" style="IBUITableViewCellStyleDefault" id="CsH-bv-Y0d" customClass="SwitchThemeOptionTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CsH-bv-Y0d" id="Bhz-zW-uGY">
@@ -117,8 +117,11 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="__themeIdentifier" value="day"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="583-fo-8Uc" imageView="wal-bA-vwO" style="IBUITableViewCellStyleDefault" id="jV4-fQ-gga" customClass="SwitchThemeTableViewCell" customModule="Example" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="583-fo-8Uc" imageView="wal-bA-vwO" style="IBUITableViewCellStyleDefault" id="jV4-fQ-gga" customClass="SwitchThemeOptionTableViewCell" customModule="Example" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="79" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jV4-fQ-gga" id="Gy7-DP-31a">
@@ -138,38 +141,44 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="__themeIdentifier" value="night"/>
+                                        </userDefinedRuntimeAttributes>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="Ul6-Ms-tar">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="130" id="mrX-h7-XW4">
-                                        <rect key="frame" x="0.0" y="159" width="375" height="130"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="49" id="mrX-h7-XW4" customClass="SwitchThemeIntroductionTableViewCell" customModule="Example" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="159" width="375" height="49"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mrX-h7-XW4" id="lbS-Az-BA5">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="129.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="48.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lsa-XN-94D">
-                                                    <rect key="frame" x="29" y="15.5" width="317" height="100"/>
+                                                    <rect key="frame" x="107" y="9.5" width="161.5" height="30"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Swift" translatesAutoresizingMaskIntoConstraints="NO" id="FvJ-RS-rdn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="6aJ-YB-ecC"/>
+                                                                <constraint firstAttribute="width" constant="30" id="tK8-LV-dao"/>
+                                                            </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL8-jX-vI2">
-                                                            <rect key="frame" x="120" y="-5.5" width="197" height="111"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="93"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XZTheme for Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL8-jX-vI2">
+                                                            <rect key="frame" x="40" y="6.5" width="121.5" height="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="FvJ-RS-rdn" firstAttribute="top" secondItem="Lsa-XN-94D" secondAttribute="top" id="3fm-LY-8qN"/>
                                                         <constraint firstItem="FvJ-RS-rdn" firstAttribute="leading" secondItem="Lsa-XN-94D" secondAttribute="leading" id="FXt-Hz-klW"/>
                                                         <constraint firstItem="kL8-jX-vI2" firstAttribute="centerY" secondItem="FvJ-RS-rdn" secondAttribute="centerY" id="Fcd-QA-hCH"/>
                                                         <constraint firstAttribute="trailing" secondItem="kL8-jX-vI2" secondAttribute="trailing" id="GeG-HN-Q4z"/>
-                                                        <constraint firstItem="kL8-jX-vI2" firstAttribute="leading" secondItem="FvJ-RS-rdn" secondAttribute="trailing" constant="20" id="wP8-8g-4xY"/>
+                                                        <constraint firstItem="kL8-jX-vI2" firstAttribute="leading" secondItem="FvJ-RS-rdn" secondAttribute="trailing" constant="10" id="wP8-8g-4xY"/>
                                                         <constraint firstAttribute="bottom" secondItem="FvJ-RS-rdn" secondAttribute="bottom" id="yba-fZ-4fT"/>
                                                     </constraints>
                                                 </view>
@@ -179,6 +188,10 @@
                                                 <constraint firstItem="Lsa-XN-94D" firstAttribute="centerY" secondItem="lbS-Az-BA5" secondAttribute="centerY" id="4hc-xT-AE5"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="swiftImageView" destination="FvJ-RS-rdn" id="SrZ-JK-4Su"/>
+                                            <outlet property="titleLabel" destination="kL8-jX-vI2" id="eol-x1-bpg"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>

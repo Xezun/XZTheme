@@ -1,5 +1,5 @@
 //
-//  ThemeSupporting.swift
+//  Theme.Supporting.swift
 //  XZKit
 //
 //  Created by mlibai on 2018/5/2.
@@ -7,6 +7,10 @@
 //
 
 import UIKit
+
+@objc(XZThemeSupporting) protocol ThemeSupporting: NSObjectProtocol {
+    
+}
 
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
@@ -26,7 +30,10 @@ extension NSObject {
     /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
     @objc(xz_themesIfLoaded)
     open static var themesIfLoaded: Theme.Collection? {
-        return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
+        let themes = themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
+        print("获取 \(self) 不带标识符的全局主题集。\(themes)")
+        return themes
+        //return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
     }
     
     /// 指定主题标识符的全局主题集，懒加载。
@@ -39,23 +46,14 @@ extension NSObject {
             if let themes = themesDictionary[themeIdentifier] {
                 return themes
             }
-            var newThemes: Theme.Collection! = nil
-            switch themeIdentifier {
-            case .notAnIdentifier:
-                newThemes = Theme.Collection.init(superThemes: nil)
-                for item in themesDictionary {
-                    newThemes.addSubthemes(item.value)
-                }
-            default:
-                newThemes = Theme.Collection.init(superThemes: themesDictionary[.notAnIdentifier])
-            }
+            let newThemes = Theme.Collection.init(owner: self, themeIdentifier: themeIdentifier)
             themesDictionary[themeIdentifier] = newThemes
             objc_setAssociatedObject(self, &AssociationKey.themes, themesDictionary, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return newThemes
         }
-        let themes = Theme.Collection.init(superThemes: nil)
-        objc_setAssociatedObject(self, &AssociationKey.themes, [themeIdentifier: themes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return themes
+        let newThemes = Theme.Collection.init(owner: self, themeIdentifier: themeIdentifier)
+        objc_setAssociatedObject(self, &AssociationKey.themes, [themeIdentifier: newThemes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return newThemes
     }
     
     /// 指定主题标识符的默认主题集，非懒加载。
@@ -64,23 +62,32 @@ extension NSObject {
     /// - Returns: 主题集。
     @objc(xz_themesIfLoadedForThemeIdentifier:)
     open static func themesIfLoaded(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection? {
-        guard let identifiedThemes = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] else {
-            return nil
-        }
-        return identifiedThemes[themeIdentifier]
+        return (objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection])?[themeIdentifier]
     }
     
-    /// 获取当前有效的全局主题集，返回指定标识符的全局主题集或默认主题集。
+    /// 获取当前有效的全局主题集。如果没有指定标识符，或标识符对应的全局主题集没有配置，那么返回不带标识符的全局主题集。如果当前类没有找到全局主题集，则查找其父类的全局主题集。
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
     @objc(xz_effectiveThemesForThemeIdentifier:)
     open static func effectiveThemes(forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
-        guard let themeIdentifier = themeIdentifier else { return self.themesIfLoaded }
-        if let themes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-            return themes
+        if let themeIdentifier = themeIdentifier {
+            // 获取 带标识符的主题集 并返回。
+            if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
+                return effectiveThemes
+            }
+            // 没有 带标识符的主题集，返回 不带标识符的主题集。
         }
-        return self.themesIfLoaded
+        
+        // 获取 不带标识符的全局主题集 并返回。
+        if let effectiveThemes = self.themesIfLoaded {
+            return effectiveThemes
+        }
+        // 没有 不带标识符的全局主题集，返回父类的全局主题集。
+        // 查找父类。
+        guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }
+
+        return superClsss.effectiveThemes(forThemeIdentifier: themeIdentifier)
     }
     
 }
@@ -95,7 +102,7 @@ extension NSObject {
         if let themes = self.themesIfLoaded {
             return themes
         }
-        let themes = Theme.Collection.init(object: self)
+        let themes = Theme.Collection.init(owner: self)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         
         /// 如果将通知添加到 NSObject 上，则释放通知是个问题。
@@ -120,6 +127,7 @@ extension NSObject {
     
     /// 主题标识符。
     @objc(xz_themeIdentifier)
+    @IBInspectable
     open var themeIdentifier: Theme.Identifier? {
         get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
         set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
@@ -231,6 +239,19 @@ extension NSObject {
     @objc(xz_updateAppearanceWithThemeStyles:)
     open func updateAppearance(with themeStyles: Theme.Style.Collection) {
         
+    }
+    
+    /// Inspect object's `themeIdentifier` property in interface builder, never use this property directly.
+    @IBInspectable
+    private var __themeIdentifier: String? {
+        get { return self.themeIdentifier?.rawValue }
+        set {
+            if let newIdentifier = newValue {
+                self.themeIdentifier = Theme.Identifier.init(newIdentifier)
+            } else {
+                self.themeIdentifier = nil
+            }
+        }
     }
     
 }

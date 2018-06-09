@@ -13,11 +13,14 @@ extension Theme.Attribute {
     /// UITableViewCell
     public static let selectionStyle = Theme.Attribute.init("selectionStyle")
     /// UITableViewCell
+    public static let accessoryType = Theme.Attribute.init("accessoryType")
+    /// For the UITableViewCell.contentView's backgroundColor.
     public static let contentBackgroundColor = Theme.Attribute.init("contentBackgroundColor")
-    /// UITableViewCell
+    /// For the UITableViewCell.selectedBackgrondView's backgroundColor.
     public static let selectedBackgroundColor = Theme.Attribute.init("selectedBackgroundColor")
-    /// UITableViewCell
+    /// For the UITableViewCell.multipleSelectionBackgroundView's backgroundColor.
     public static let multipleSelectionBackgroundColor = Theme.Attribute.init("multipleSelectionBackgroundColor")
+    
 }
 
 
@@ -44,9 +47,37 @@ extension Theme.Style {
         return .default
     }
     
+    public func tableViewCellAccessoryType(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellAccessoryType {
+        guard let value = self.value(forThemeAttribute: themeAttribute) else { return .none }
+        if let tableViewCellAccessoryType = value as? UITableViewCellAccessoryType {
+            return tableViewCellAccessoryType
+        }
+        if let number = value as? Int, let tableViewCellAccessoryType = UITableViewCellAccessoryType(rawValue: number) {
+            return tableViewCellAccessoryType
+        }
+        if let aString = value as? String {
+            switch aString {
+            case "none":                   return .none
+            case "disclosureIndicator":    return .disclosureIndicator
+            case "detailDisclosureButton": return .detailDisclosureButton
+            case "checkmark":              return .checkmark
+            case "detailButton":           return .detailButton
+            default: break
+            }
+        }
+        XZLog("XZTheme: The theme style value (%@) for attribute (%@) is not a UITableViewCellAccessoryType value, `.none` returned.", value, themeAttribute)
+        return .none
+    }
+    
+    
     var selectionStyle: UITableViewCellSelectionStyle {
         get { return tableViewCellSelectionStyle(forThemeAttribute: .selectionStyle) }
         set { setValue(newValue, forThemeAttribute: .selectionStyle) }
+    }
+    
+    var accessoryType: UITableViewCellAccessoryType {
+        get { return tableViewCellAccessoryType(forThemeAttribute: .accessoryType) }
+        set { setValue(newValue, forThemeAttribute: .accessoryType) }
     }
     
     var contentBackgroundColor: UIColor? {
@@ -92,6 +123,10 @@ extension UITableViewCell {
         
         if themeStyles.containsThemeAttribute(.multipleSelectionBackgroundColor) {
             self.multipleSelectionBackgroundView?.backgroundColor = themeStyles.multipleSelectionBackgroundColor
+        }
+        
+        if themeStyles.containsThemeAttribute(.accessoryType) {
+            self.accessoryType = themeStyles.accessoryType
         }
     }
 }

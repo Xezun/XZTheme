@@ -32,7 +32,18 @@ extension Theme.Identifier: ExpressibleByStringLiteral, Equatable, Hashable {
     
 }
 
-extension Theme.Identifier: _ObjectiveCBridgeable {
+extension Theme.Identifier: ReferenceConvertible {
+    
+    public typealias ReferenceType = NSString
+    
+    public var description: String {
+        return rawValue.description
+    }
+    
+    public var debugDescription: String {
+        return rawValue.debugDescription
+    }
+    
     
     public func _bridgeToObjectiveC() -> NSString {
         return rawValue as NSString

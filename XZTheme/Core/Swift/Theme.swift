@@ -14,6 +14,7 @@ extension Notification.Name {
     /// XZTheme 主题变更事件。当主题发生改变时，发送 Notification 所使用的名称。
     /// - Note: 视图控件 UIView 及其子类，无需监听通知，其会自动的在适当的时机应用主题。
     public static let ThemeDidChange = Notification.Name.init("com.mlibai.XZKit.theme.changed")
+    
 }
 
 extension Theme {
@@ -98,43 +99,53 @@ extension Theme {
     
     /// 主题集，对象所支持的主题的集合。
     /// - Note: 在集合中，按主题进行分类存储所有的的主题样式。
-    @objc(XZThemeCollection) public final class Collection: NSObject {
+    @objc(XZThemeCollection)
+    public final class Collection: NSObject {
         
         /// 主题集的所有者。
-        /// - Note: 这里使用了 weak 属性，是因为主题集与其所有者是值绑定的关系，生命周期可能比所有者略长。
-        @objc public private(set) weak var object: NSObject?
+        /// - Note: 主题集与其所有者是值绑定的关系，生命周期可能比所有者略长。
+        @objc public unowned let owner: AnyObject
         
-        /// 父级主题集。不带标识符的全局主题集，是带标识符的全局主题集父集；全局主题集是实例对象主题集的父集。
-        /// - Note: 在应用主题时，父主题集的样式会被子主题集中相同的样式所覆盖。
-        public var superThemes: Theme.Collection? {
-            guard let object = self.object else { return _superThemes }
-            return type(of: object).effectiveThemes(forThemeIdentifier: themeIdentifier)
+        /// 对于全局主题集，其主题标识符表示其所适配的对象；对于对象主题集，此属性始终是 .notAnIdentifier 。
+        public override var themeIdentifier: Theme.Identifier! {
+            get { return super.themeIdentifier }
+            set {                              }
         }
-        private weak var _superThemes: Theme.Collection?
         
         /// 实例对象构造主题集。
         ///
         /// - Parameter object: 实例对象。
-        @objc public convenience init(object: NSObject) {
-            self.init(object, superThemes: nil)
+        @objc public convenience init(owner: NSObject) {
+            self.init(owner, isInstanceOwner: true, themeIdentifier: .notAnIdentifier)
         }
         
-        /// 类对象构造全局主题集，如果是带标识符的主题，需指定父主题集。
+        ///  类对象构造全局主题集，如果是带标识符的主题，需指定父主题集。
         ///
-        /// - Parameter superThemes: 父主题集。
-        @objc public convenience init(superThemes: Theme.Collection?) {
-            self.init(nil, superThemes: superThemes)
+        /// - Parameters:
+        ///   - owner: 主题集的所有者。
+        ///   - themeIdentifier: 主题集适配的标识符。
+        @objc public convenience init(owner: NSObject.Type, themeIdentifier: Theme.Identifier) {
+            self.init(owner, isInstanceOwner: false, themeIdentifier: themeIdentifier)
         }
         
-        /// 私有方法，构造主题集，两参数不能同时提供。
-        private init(_ object: NSObject?, superThemes: Theme.Collection?) {
-            _superThemes = superThemes
-            self.object = object
+        /// 当前主题集是否为对象的主题集。
+        open var isInstanceOwner: Bool
+
+        /// 构造主题集。
+        ///
+        /// - Parameters:
+        ///   - owner: 主题集的所有者，对象或类。
+        ///   - themeIdentifier: 主题集对应的主题标识符。
+        ///   - superThemes: 主题集的父集。
+        private init(_ owner: AnyObject, isInstanceOwner: Bool, themeIdentifier: Theme.Identifier) {
+            self.owner      = owner
+            self.isInstanceOwner = isInstanceOwner
             super.init()
+            super.themeIdentifier = themeIdentifier
             // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
-            guard let object = self.object else { return }
+            // guard let owner = self.owner else { return }
             
-            if object.shouldAutomaticallyUpdateThemeAppearance {
+            if owner.shouldAutomaticallyUpdateThemeAppearance {
                 NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
             }
             
@@ -146,24 +157,54 @@ extension Theme {
             // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
+        /// /// 当前主题集的父集。父级主题集。不带标识符的全局主题集，是带标识符的全局主题集父集；全局主题集是实例对象主题集的父集。
+        /// - Note: 在应用主题时，父主题集的样式会被子主题集中相同的样式所覆盖。
+        public var superThemes: Theme.Collection? {
+            // guard let owner = self.owner else {
+            //     return nil
+            // }
+            
+            // 对类对象进行 is AnyObject 判断会触发错误。
+            
+            // 如果所有者为对象，则返回全局主题集。
+            if isInstanceOwner {
+                return (type(of: owner) as! NSObject.Type).effectiveThemes(forThemeIdentifier: themeIdentifier)
+            }
+            /// 所有者为类，根据主题标识符来判断。
+            /// 默认主题集。
+            
+            // 所有者的类型。
+            let ownerType = type(of: owner) as! NSObject.Type
+            
+            // 带标识符的全局主题集的父集是不带标识符的全局主题集
+            if self.themeIdentifier != .notAnIdentifier, // 当前主题集为带标识符的主题集。
+                let superThemes = ownerType.themesIfLoaded { // 获取不带标识符的主题。
+                return superThemes
+            }
+            
+            // 如果没有不带标识符的全局主题集或当前主题集为不带标识符的全局主题集，那么查找父类的全局主题集。
+            guard let ownerSuperType = class_getSuperclass(ownerType) as? NSObject.Type else {
+                return nil
+            }
+            return ownerSuperType.effectiveThemes(forThemeIdentifier: self.themeIdentifier)
+        }
+        
         deinit {
             /// TODO: - 缓存样式
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
             // NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
-        /// 将主题集设置为当前主题集的子级。
-        ///
-        /// - Parameter themes: 子级主题集。
-        @objc public func addSubthemes(_ themes: Theme.Collection) {
-            themes._superThemes = self
-        }
+        
         
         /// 按主题分类的主题样式集合，非懒加载。
         /// - Note: 更改主题样式集合会标记所有需要更新主题。
         @objc public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
             didSet {
-                object?.setNeedsThemeAppearanceUpdate()
+                guard isInstanceOwner else {
+                    return
+                }
+                (owner as! NSObject).setNeedsThemeAppearanceUpdate()
             }
         }
         
@@ -189,37 +230,34 @@ extension Theme {
             return self
         }
         
-        /// 主题集的主题标识符为其所有者的主题标识符。
-        public override var themeIdentifier: Theme.Identifier? {
-            get { return object?.themeIdentifier       }
-            set { object?.themeIdentifier = newValue   }
-        }
-        
         /// 所有者是否已标记需要更新主题。
         public internal(set) override var needsUpdateThemeAppearance: Bool {
-            get { return object?.needsUpdateThemeAppearance == true }
-            set { object?.needsUpdateThemeAppearance = newValue     }
+            get { fatalError("Theme Theme.Collection dose not support Theme.") }
+            set { fatalError("Theme Theme.Collection dose not support Theme.") }
         }
         
         /// 所有者当前已应用的主题。
         public internal(set) override var appliedTheme: Theme? {
-            get { return object?.appliedTheme     }
-            set { object?.appliedTheme = newValue }
+            get { fatalError("Theme Theme.Collection dose not support Theme.") }
+            set { fatalError("Theme Theme.Collection dose not support Theme.") }
         }
         
         /// 标记所有者主题需要更新。
         public override func setNeedsThemeAppearanceUpdate() {
-            object?.setNeedsThemeAppearanceUpdate()
+            guard isInstanceOwner else {
+                return
+            }
+            (owner as! NSObject).setNeedsThemeAppearanceUpdate()
         }
         
         /// 主题集不支持主题设置，所以该方法不执行任何操作。
         public override func updateThemeAppearanceIfNeeded() {
-            XZLog("主题集不支持主题设置，updateThemeAppearanceIfNeeded 方法不执行任何操作。")
+            fatalError("Theme Theme.Collection dose not support Theme.")
         }
         
         /// 主题集不支持主题设置，所以该方法不执行任何操作。
         public override func updateAppearance(with newTheme: Theme) {
-            XZLog("主题集不支持主题设置，updateAppearance(with:) 方法不执行任何操作。")
+            fatalError("Theme Theme.Collection dose not support Theme.")
         }
         
         /// 当发生内存警告时，Theme.Collection 将尝试将样式缓存到 tmp 目录，并释放相关资源。
@@ -227,10 +265,10 @@ extension Theme {
         @objc public func didReceiveMemoryWarning() {
             fatalError("Theme.Collection.didReceiveMemoryWarning() has not been implemented")
             /// 如果当前对象已销毁，则立即释放所有样式。
-            guard let object = self.object else {
-                self.themedStylesIfLoaded?.removeAll()
-                return
-            }
+            // guard let owner = self.owner else {
+            //     self.themedStylesIfLoaded?.removeAll()
+            //     return
+            // }
             /// 如果当前对象没有样式标识符，不缓存。待确定。
             
             /// 通过配置文件和代码配置的，毕竟有可能是混合用的。
@@ -255,7 +293,7 @@ extension Theme {
             }
             
             // TODO: - 将样式字典缓存到 tmp 目录。
-            XZLog("缓存机制暂未实现：%@。", object)
+            XZLog("缓存机制暂未实现：%@。", owner)
         }
         
     }
@@ -268,7 +306,7 @@ extension Theme {
     @objc(XZThemeStyle) public class Style: NSObject {
         
         /// 样式的所有者。
-        @objc public private(set) weak var object: NSObject?
+        @objc public unowned let owner: Theme.Collection
         
         /// 主题样式所表示的主题。
         @objc public let theme: Theme
@@ -276,11 +314,10 @@ extension Theme {
         /// 当前样式的主题状态。
         public let state: Theme.State
         
-        /// 主题样式所在的主题集。
+        /// 主题样式的主题集为其所有者。
         public override var themes: Theme.Collection {
-            return _themes
+            return owner
         }
-        private unowned let _themes: Theme.Collection
         
         /// 构造主题样式。默认构造的为 normal 状态下的主题样式。
         ///
@@ -289,11 +326,10 @@ extension Theme {
         ///   - themes: 主题集。
         ///   - theme: 主题。
         ///   - state: 主题状态，默认 .normal 。
-        public init(object: NSObject?, themes: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
-            self.theme  = theme
-            self.object = object
-            self.state  = state
-            self._themes = themes
+        public init(owner: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
+            self.theme   = theme
+            self.owner   = owner
+            self.state   = state
             super.init()
         }
         
@@ -301,7 +337,7 @@ extension Theme {
         /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]? {
             didSet {
-                object?.setNeedsThemeAppearanceUpdate()
+                owner.setNeedsThemeAppearanceUpdate()
             }
         }
         
@@ -332,8 +368,8 @@ extension Theme {
             ///   - object: 样式集的所有者。
             ///   - themes: 样式集所在的主题集。
             ///   - theme: 主题。
-            @objc public init(object: NSObject?, themes: Theme.Collection, theme: Theme) {
-                super.init(object: object, themes: themes, theme: theme, state: .normal)
+            @objc public init(owner: Theme.Collection, theme: Theme) {
+                super.init(owner: owner, theme: theme, state: .normal)
             }
             
             /// 按主题状态存储的主题样式集合，非懒加载。
@@ -342,7 +378,7 @@ extension Theme {
             /// - Note: 该集合不包含全局样式。
             public internal(set) var statedThemeStylesIfLoaded: [Theme.State: Theme.Style]? {
                 didSet {
-                    object?.setNeedsThemeAppearanceUpdate()
+                    owner.setNeedsThemeAppearanceUpdate()
                 }
             }
             
