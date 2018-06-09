@@ -30,10 +30,7 @@ extension NSObject {
     /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
     @objc(xz_themesIfLoaded)
     open static var themesIfLoaded: Theme.Collection? {
-        let themes = themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
-        print("获取 \(self) 不带标识符的全局主题集。\(themes)")
-        return themes
-        //return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
+        return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
     }
     
     /// 指定主题标识符的全局主题集，懒加载。
@@ -79,10 +76,15 @@ extension NSObject {
             // 没有 带标识符的主题集，返回 不带标识符的主题集。
         }
         
+        if NSStringFromClass(self) == "Example.SwitchThemeTableViewCell" {
+            print("查找主题样式、\(themesIfLoaded(forThemeIdentifier: .notAnIdentifier))")
+        }
+        
         // 获取 不带标识符的全局主题集 并返回。
         if let effectiveThemes = self.themesIfLoaded {
             return effectiveThemes
         }
+        
         // 没有 不带标识符的全局主题集，返回父类的全局主题集。
         // 查找父类。
         guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }

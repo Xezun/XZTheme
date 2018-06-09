@@ -70,7 +70,7 @@ class SwitchThemeOptionTableViewCell: SwitchThemeTableViewCell {
             self.contentView.backgroundColor = themeStyles.backgroundColor
         }
         
-        print(SwitchThemeTableViewCell.themesIfLoaded)
+        
     }
     
 }
