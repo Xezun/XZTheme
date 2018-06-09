@@ -8,9 +8,6 @@
 
 import UIKit
 
-@objc(XZThemeSupporting) protocol ThemeSupporting: NSObjectProtocol {
-    
-}
 
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
@@ -62,7 +59,8 @@ extension NSObject {
         return (objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection])?[themeIdentifier]
     }
     
-    /// 获取当前有效的全局主题集。如果没有指定标识符，或标识符对应的全局主题集没有配置，那么返回不带标识符的全局主题集。如果当前类没有找到全局主题集，则查找其父类的全局主题集。
+    /// 获取当前有效的全局主题集。
+    /// - Note: 如果没有指定标识符，或标识符对应的全局主题集没有配置，那么返回不带标识符的全局主题集。如果当前类没有找到全局主题集，则查找其父类的全局主题集。
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
@@ -74,10 +72,6 @@ extension NSObject {
                 return effectiveThemes
             }
             // 没有 带标识符的主题集，返回 不带标识符的主题集。
-        }
-        
-        if NSStringFromClass(self) == "Example.SwitchThemeTableViewCell" {
-            print("查找主题样式、\(themesIfLoaded(forThemeIdentifier: .notAnIdentifier))")
         }
         
         // 获取 不带标识符的全局主题集 并返回。
@@ -243,7 +237,8 @@ extension NSObject {
         
     }
     
-    /// Inspect object's `themeIdentifier` property in interface builder, never use this property directly.
+    /// ⚠️ **DO NOT use this property directly!!!**
+    /// It's use for inspecting the object's `themeIdentifier` property into interface builder.
     @IBInspectable
     private var __themeIdentifier: String? {
         get { return self.themeIdentifier?.rawValue }

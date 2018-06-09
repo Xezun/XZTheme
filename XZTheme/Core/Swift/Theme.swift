@@ -97,7 +97,7 @@ extension Theme {
     
     // MARK: - 定义：主题集
     
-    /// 主题集，对象所支持的主题的集合。
+    /// 主题集，对象所支持的主题的集合，包括实例对象的主题集和全局主题集。
     /// - Note: 在集合中，按主题进行分类存储所有的的主题样式。
     @objc(XZThemeCollection)
     public final class Collection: NSObject {
@@ -109,12 +109,12 @@ extension Theme {
         /// 对于全局主题集，其主题标识符表示其所适配的对象；对于对象主题集，此属性始终是 .notAnIdentifier 。
         public override var themeIdentifier: Theme.Identifier! {
             get { return super.themeIdentifier }
-            set {                              }
+            set { fatalError("Theme.Collection's themeIdentifier property can not be modified.") }
         }
         
         /// 实例对象构造主题集。
         ///
-        /// - Parameter object: 实例对象。
+        /// - Parameter owner: 实例对象。
         @objc public convenience init(owner: NSObject) {
             self.init(owner, isInstanceOwner: true, themeIdentifier: .notAnIdentifier)
         }
@@ -128,24 +128,26 @@ extension Theme {
             self.init(owner, isInstanceOwner: false, themeIdentifier: themeIdentifier)
         }
         
-        /// 当前主题集是否为对象的主题集。
+        /// 当前主题集的所有者是否为实例对象。
         open var isInstanceOwner: Bool
 
         /// 构造主题集。
         ///
         /// - Parameters:
         ///   - owner: 主题集的所有者，对象或类。
-        ///   - themeIdentifier: 主题集对应的主题标识符。
-        ///   - superThemes: 主题集的父集。
+        ///   - isInstanceOwner: 所有者是否为实例对象。
+        ///   - themeIdentifier: 主题标识符。
         private init(_ owner: AnyObject, isInstanceOwner: Bool, themeIdentifier: Theme.Identifier) {
-            self.owner      = owner
-            self.isInstanceOwner = isInstanceOwner
+            self.owner            = owner
+            self.isInstanceOwner  = isInstanceOwner
             super.init()
             super.themeIdentifier = themeIdentifier
             // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
             // guard let owner = self.owner else { return }
-            
-            if owner.shouldAutomaticallyUpdateThemeAppearance {
+            guard self.isInstanceOwner else {
+                return
+            }
+            if (self.owner as! NSObject).shouldAutomaticallyUpdateThemeAppearance {
                 NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
             }
             
@@ -157,7 +159,11 @@ extension Theme {
             // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
-        /// /// 当前主题集的父集。父级主题集。不带标识符的全局主题集，是带标识符的全局主题集父集；全局主题集是实例对象主题集的父集。
+        /// 当前主题集的父集。
+        /// - Note: *全局主题集* 是 *实例对象的主题集* 的父集。
+        /// - Note: *不带标识符的全局主题集* 是 *带标识符的全局主题集* 的父集。
+        /// - Note: *父类的全局主题集* 是 *子类的全局主题集* 的父集。
+        /// - Note: 获取父集时，会逐层向上查找，直至找到或结束。
         /// - Note: 在应用主题时，父主题集的样式会被子主题集中相同的样式所覆盖。
         public var superThemes: Theme.Collection? {
             // guard let owner = self.owner else {
@@ -168,13 +174,11 @@ extension Theme {
             
             // 如果所有者为对象，则返回全局主题集。
             if isInstanceOwner {
-                return (type(of: owner) as! NSObject.Type).effectiveThemes(forThemeIdentifier: themeIdentifier)
+                return (type(of: owner) as! NSObject.Type).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
             }
-            /// 所有者为类，根据主题标识符来判断。
-            /// 默认主题集。
-            
+            // 所有者为类，根据主题标识符来判断。
             // 所有者的类型。
-            let ownerType = type(of: owner) as! NSObject.Type
+            let ownerType = self.owner as! NSObject.Type
             
             // 带标识符的全局主题集的父集是不带标识符的全局主题集
             if self.themeIdentifier != .notAnIdentifier, // 当前主题集为带标识符的主题集。
@@ -211,12 +215,10 @@ extension Theme {
         /// 按主题分类的主题样式集合，懒加载。
         @objc public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
             get {
-                if let themedStyles = themedStylesIfLoaded {
-                    return themedStyles
+                if themedStylesIfLoaded != nil {
+                    return themedStylesIfLoaded!
                 }
-                
                 // TODO: - 判断 tmp 目录是否有缓存，如果有加载缓存，否则创建新的。
-                
                 themedStylesIfLoaded = [Theme: Theme.Style.Collection]()
                 return themedStylesIfLoaded!
             }
@@ -305,8 +307,8 @@ extension Theme {
     /// - Note: 使用 Array.init(themeStyles:) 可以取得所有已配置的属性。
     @objc(XZThemeStyle) public class Style: NSObject {
         
-        /// 样式的所有者。
-        @objc public unowned let owner: Theme.Collection
+        /// 样式所在的主题集。
+        @objc public unowned let collection: Theme.Collection
         
         /// 主题样式所表示的主题。
         @objc public let theme: Theme
@@ -316,20 +318,19 @@ extension Theme {
         
         /// 主题样式的主题集为其所有者。
         public override var themes: Theme.Collection {
-            return owner
+            return collection
         }
         
         /// 构造主题样式。默认构造的为 normal 状态下的主题样式。
         ///
         /// - Parameters:
-        ///   - object: 所有者。
-        ///   - themes: 主题集。
+        ///   - collection: 主题集。
         ///   - theme: 主题。
         ///   - state: 主题状态，默认 .normal 。
-        public init(owner: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
-            self.theme   = theme
-            self.owner   = owner
-            self.state   = state
+        public init(collection: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
+            self.theme      = theme
+            self.collection = collection
+            self.state      = state
             super.init()
         }
         
@@ -337,7 +338,7 @@ extension Theme {
         /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]? {
             didSet {
-                owner.setNeedsThemeAppearanceUpdate()
+                collection.setNeedsThemeAppearanceUpdate()
             }
         }
         
@@ -345,8 +346,8 @@ extension Theme {
         /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public internal(set) var attributedValues: [Theme.Attribute: Any?] {
             get {
-                if let attributedValues = self.attributedValuesIfLoaded {
-                    return attributedValues
+                if attributedValuesIfLoaded != nil {
+                    return attributedValuesIfLoaded!
                 }
                 attributedValuesIfLoaded = [Theme.Attribute: Any?]()
                 return attributedValuesIfLoaded!
@@ -365,11 +366,10 @@ extension Theme {
             /// 构造主题样式集。主题样式集默认为 normal 状态，不能指定其它主题状态。
             ///
             /// - Parameters:
-            ///   - object: 样式集的所有者。
-            ///   - themes: 样式集所在的主题集。
+            ///   - collection: 样式集的所有者。
             ///   - theme: 主题。
-            @objc public init(owner: Theme.Collection, theme: Theme) {
-                super.init(owner: owner, theme: theme, state: .normal)
+            @objc public init(collection: Theme.Collection, theme: Theme) {
+                super.init(collection: collection, theme: theme, state: .normal)
             }
             
             /// 按主题状态存储的主题样式集合，非懒加载。
@@ -378,7 +378,7 @@ extension Theme {
             /// - Note: 该集合不包含全局样式。
             public internal(set) var statedThemeStylesIfLoaded: [Theme.State: Theme.Style]? {
                 didSet {
-                    owner.setNeedsThemeAppearanceUpdate()
+                    collection.setNeedsThemeAppearanceUpdate()
                 }
             }
             
@@ -388,8 +388,8 @@ extension Theme {
             /// - Note: 该集合不包含全局样式。
             public internal(set) var statedThemeStyles: [Theme.State: Theme.Style] {
                 get {
-                    if let statedStyles = self.statedThemeStylesIfLoaded {
-                        return statedStyles
+                    if statedThemeStylesIfLoaded != nil {
+                        return statedThemeStylesIfLoaded!
                     }
                     statedThemeStylesIfLoaded = [Theme.State: Theme.Style]()
                     return statedThemeStylesIfLoaded!
