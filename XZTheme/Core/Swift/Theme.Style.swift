@@ -12,13 +12,6 @@ extension Theme.Style {
     
     /// 当前主题样式所在主题集的父集中，与当前主题样式（主题、状态）相同的主题样式。
     @objc public var superThemeStyle: Theme.Style? {
-        if let superThemes = self.collection.superThemes {
-            if let styles = superThemes.effectiveThemeStyles(forTheme: self.theme) {
-                if let style = styles.effectiveThemeStyle(forThemeState: self.state) {
-                    return style
-                }
-            }
-        }
         return self.collection.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: self.state)
     }
     
