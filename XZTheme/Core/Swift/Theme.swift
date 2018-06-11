@@ -162,13 +162,6 @@ extension Theme {
             // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
-        public func superThemes(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
-            if isInstanceOwner {
-                return (type(of: owner) as! NSObject.Type).effectiveThemes(forTheme: theme, forThemeIdentifier: themeIdentifier)
-            } else {
-                return (self.owner as! NSObject.Type).effectiveThemes(forTheme: theme, forThemeIdentifier: themeIdentifier)
-            }
-        }
         /// 当前主题集的父集。
         /// - Note: *全局主题集* 是 *实例对象的主题集* 的父集。
         /// - Note: *不带标识符的全局主题集* 是 *带标识符的全局主题集* 的父集。
@@ -184,37 +177,23 @@ extension Theme {
             
             // 如果所有者为对象，则返回全局主题集。
             if isInstanceOwner {
-                return (type(of: owner) as! NSObject.Type).effectiveThemes(forTheme: .current, forThemeIdentifier: self.themeIdentifier)
+                return (type(of: owner) as! NSObject.Type).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
             }
-            
-            // 当前主题集为全局主题集，即所有者为类。
-            // 根据主题标识符来判断是 带标识符的主题集 还是 不带标识符的主题集。
-            
+            // 所有者为类，根据主题标识符来判断。
             // 所有者的类型。
             let ownerType = self.owner as! NSObject.Type
             
-            if self.themeIdentifier == .notAnIdentifier {
-                // 当前主题集为 不带标识符的全局主题集，其父集为父类的全局主题集。
-                // 如果没有不带标识符的全局主题集或当前主题集为不带标识符的全局主题集，那么查找父类的全局主题集。
-                guard let ownerSuperType = class_getSuperclass(ownerType) as? NSObject.Type else {
-                    return nil
-                }
-                return ownerSuperType.effectiveThemes(forTheme: Theme.current, forThemeIdentifier: .notAnIdentifier)
-            } else {
-                // 当前主题集为 带标识符的全局主题集，其父集为 不带标识符的全局主题集。
-                return ownerType.effectiveThemes(forTheme: Theme.current, forThemeIdentifier: Theme.Identifier.notAnIdentifier)
+            // 带标识符的全局主题集的父集是不带标识符的全局主题集
+            if self.themeIdentifier != .notAnIdentifier, // 当前主题集为带标识符的主题集。
+                let superThemes = ownerType.themesIfLoaded { // 获取不带标识符的主题。
+                return superThemes
             }
-//            // 带标识符的全局主题集的父集是不带标识符的全局主题集
-//            if self.themeIdentifier != .notAnIdentifier, // 当前主题集为带标识符的主题集。
-//                let superThemes = ownerType.themesIfLoaded { // 获取不带标识符的主题。
-//                return superThemes
-//            }
-//
-//            // 如果没有不带标识符的全局主题集或当前主题集为不带标识符的全局主题集，那么查找父类的全局主题集。
-//            guard let ownerSuperType = class_getSuperclass(ownerType) as? NSObject.Type else {
-//                return nil
-//            }
-//            return ownerSuperType.effectiveThemes(forThemeIdentifier: self.themeIdentifier)
+            
+            // 如果没有不带标识符的全局主题集或当前主题集为不带标识符的全局主题集，那么查找父类的全局主题集。
+            guard let ownerSuperType = class_getSuperclass(ownerType) as? NSObject.Type else {
+                return nil
+            }
+            return ownerSuperType.effectiveThemes(forThemeIdentifier: self.themeIdentifier)
         }
         
         deinit {

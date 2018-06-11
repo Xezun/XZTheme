@@ -12,7 +12,7 @@ import XZTheme
 
 class SwitchThemeTableViewCell: UITableViewCell {
 
-    override class func lazyLoadThemeStyles(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier) -> Bool {
+    class func lazyLoadThemeStyles(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier) -> Bool {
         guard self == SwitchThemeTableViewCell.self else {
             return false
         }

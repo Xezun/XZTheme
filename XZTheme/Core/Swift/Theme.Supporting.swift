@@ -64,99 +64,29 @@ extension NSObject {
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
-//    @objc(xz_effectiveThemesForThemeIdentifier:)
-//    open class func effectiveThemes(forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
-//        if let themeIdentifier = themeIdentifier {
-//            // 获取 带标识符的主题集 并返回。
-//            if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-//                return effectiveThemes
-//            }
-//            // 没有 带标识符的主题集，返回 不带标识符的主题集。
-//        }
-//        
-//        // 获取 不带标识符的全局主题集 并返回。
-//        if let effectiveThemes = self.themesIfLoaded {
-//            return effectiveThemes
-//        }
-//        
-//        // 没有 不带标识符的全局主题集，返回父类的全局主题集。
-//        // 查找父类。
-//        guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }
-//
-//        return superClsss.effectiveThemes(forThemeIdentifier: themeIdentifier)
-//    }
-    
-    
-    
-    /// 懒加载全局主题集。为了避免全局主题集懒加载方法被多次调用，实现该方法时，应该如下操作。
-    /// ```
-    /// guard self == ClassName.self else {
-    ///     return
-    /// }
-    /// // The code...
-    /// ```
-    ///
-    /// - Parameters:
-    ///   - theme: 主题。
-    ///   - themeIdentifier: 主题标识符。
-    /// - Returns: 如果返回了 false 则将直接获取父类的全局样式，默认 false 。
-    @objc(xz_loadThemeStylesForTheme:forThemeIdentifier:)
-    class open func lazyLoadThemeStyles(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier) -> Bool {
-        return false
-    }
-    
-    /// 当前对象生效的主题集，可能是对象独立的主题集，也可能是全局默认的主题集，如果当前对象设置了标识符，可能是指定标识符的默认主题。
-    @objc(xz_effectiveThemesForTheme:forThemeIdentifier:)
-    class open func effectiveThemes(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
+    @objc(xz_effectiveThemesForThemeIdentifier:)
+    open class func effectiveThemes(forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
         if let themeIdentifier = themeIdentifier {
-            // 查找是否已经创建 带标识符全局主题集
-            if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier), effectiveThemes.containsThemeStyle(for: theme) {
+            // 获取 带标识符的主题集 并返回。
+            if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
                 return effectiveThemes
             }
-            // 懒加载 带标识符的全局主题集，并再次获取 带标识符的全局主题集 。
-            if self.lazyLoadThemeStyles(forTheme: theme, forThemeIdentifier: themeIdentifier),
-                let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-                return effectiveThemes
-            }
-            // 加载 不带标识符的全局主题集。
+            // 没有 带标识符的主题集，返回 不带标识符的主题集。
         }
         
-        if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: .notAnIdentifier), effectiveThemes.containsThemeStyle(for: theme) {
+        // 获取 不带标识符的全局主题集 并返回。
+        if let effectiveThemes = self.themesIfLoaded {
             return effectiveThemes
         }
         
-        if self.lazyLoadThemeStyles(forTheme: theme, forThemeIdentifier: .notAnIdentifier),
-            let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: .notAnIdentifier) {
-            return effectiveThemes
-        }
-        
-        
-        
-        // 如果当前类实现了懒加载主题的方法，则调用。
-        //if (objc_getAssociatedObject(self, &AssociationKey.didLoadThemes) as? Bool) != true {
-        //    var count: UInt32 = 0
-        //    let methods = class_copyMethodList(object_getClass(self), &count)
-        //
-        //    let selector = #selector(effectiveThemes(forTheme:forThemeIdentifier:))
-        //    for index in 0 ..< count {
-        //        let method = methods![Int(index)]
-        //        guard method_getName(method) == selector else {
-        //            continue
-        //        }
-        //        // 懒加载当前类的主题集
-        //        self.loadThemes(forTheme: theme, forThemeIdentifier: themeIdentifier)
-        //        break
-        //    }
-        //    objc_setAssociatedObject(self, &AssociationKey.didLoadThemes, true, .OBJC_ASSOCIATION_COPY_NONATOMIC)
-        //    if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-        //        return effectiveThemes
-        //    }
-        //}
-        
-        // 如果当前类没有配置全局主题，则尝试获取父类的全局主题。获取父类主题，将会触发父类的全局主题懒加载。
+        // 没有 不带标识符的全局主题集，返回父类的全局主题集。
+        // 查找父类。
         guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }
-        return superClsss.effectiveThemes(forTheme: theme, forThemeIdentifier: themeIdentifier)
+
+        return superClsss.effectiveThemes(forThemeIdentifier: themeIdentifier)
     }
+    
+
 }
 
 
@@ -194,22 +124,11 @@ extension NSObject {
     }
     
     /// 当前对象生效的主题集，可能是对象独立的主题集，也可能是全局默认的主题集，如果当前对象设置了标识符，可能是指定标识符的默认主题。
-    @objc(xz_effectiveThemesForTheme:)
-    open func effectiveThemes(forTheme theme: Theme) -> Theme.Collection? {
-        // 首先获取自身已配置的主题集
-        if let effectiveThemes = self.themesIfLoaded, themes.containsThemeStyle(for: theme) {
-            return effectiveThemes
+    open var effectiveThemes: Theme.Collection? {
+        if let themes = self.themesIfLoaded {
+            return themes
         }
-        // 优先懒加载自身的主题集，自身主题集在应用时会触发全局主题集懒加载。
-        // 如果自身没有配置主题集，则尝试懒加载，并再次获取。
-        if self.lazyLoadThemeStyles(for: theme), let effectiveThemes = self.themesIfLoaded {
-            return effectiveThemes
-        }
-        // 获取全局主题集。
-        guard let effectiveThemes = type(of: self).effectiveThemes(forTheme: theme, forThemeIdentifier: self.themeIdentifier) else {
-            return nil
-        }
-        return effectiveThemes
+        return type(of: self).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
     }
     
     /// 主题标识符。
@@ -303,7 +222,7 @@ extension NSObject {
         //     return
         // }
         // 如果没有配置主题，不执行操作。
-        guard let themes = self.effectiveThemes(forTheme: newTheme) else { return }
+        guard let themes = self.effectiveThemes else { return }
         
         // 获取当前主题的主题样式并应用。
         if let themeStyles = themes.effectiveThemeStyles(forTheme: newTheme) {
