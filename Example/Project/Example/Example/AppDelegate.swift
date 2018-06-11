@@ -17,20 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
-//        func log(_ themeState: Theme.State) {
-//            XZLog("%@: , isEmpty: %@, isPrimary: %@, isOptionSet: %@", themeState, themeState.isEmpty, themeState.isPrimary, themeState.isOptionSet)
-//        }
-//        
-//        log(.normal)
-//        log([.normal])
-//        log([.normal, .selected])
-//        log([[.normal], [.highlighted, .selected]])
-//        log([[.normal, .highlighted], [.highlighted, .selected]])
-//        
-//        log([.normal, .anyBarPosition])
-//        log([[.normal, .highlighted], .anyBarPosition])
-//        
         return true
     }
 

@@ -12,86 +12,62 @@ import XZTheme
 
 class SwitchThemeTableViewCell: UITableViewCell {
 
-    class func lazyLoadThemeStyles(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier) -> Bool {
-        guard self == SwitchThemeTableViewCell.self else {
-            return false
-        }
-        XZLog("`%@` lazy load theme styles for `%@` `%@`. \n", self, theme, themeIdentifier)
-        switch theme {
+    override func updateAppearance(with newTheme: Theme) {
+        switch newTheme {
         case .day:
-            SwitchThemeTableViewCell.themes.day
-                .setting(0xffffffff, for: .backgroundColor)
-                .setting(0xffffffff, for: .contentBackgroundColor)
-                .setting(0x444444ff, for: .tintColor)
-                .setting(0x444444ff, for: .textColor)
-                .setting(UITableViewCellSelectionStyle.none, for: .selectionStyle)
+            self.backgroundColor = UIColor(0xffffffff)
+            self.contentView.backgroundColor = UIColor(0xffffffff)
+            self.tintColor = UIColor(0x444444ff)
+            self.textLabel?.textColor = UIColor(0x444444ff)
+            self.selectionStyle = .none
             
         case .night:
-            SwitchThemeTableViewCell.themes.night
-                .setting(0x303030ff, for: .backgroundColor)
-                .setting(0x303030ff, for: .contentBackgroundColor)
-                .setting(0xc7c7c7ff, for: .tintColor)
-                .setting(0xc7c7c7ff, for: .textColor)
-                .setting(UITableViewCellSelectionStyle.none, for: .selectionStyle)
+            self.backgroundColor = UIColor(0x303030ff)
+            self.contentView.backgroundColor = UIColor(0x303030ff)
+            self.tintColor = UIColor(0xc7c7c7ff)
+            self.textLabel?.textColor = UIColor(0xc7c7c7ff)
+            self.selectionStyle = .none
             
         default:
-            fatalError("Not supported Theme.")
+            fatalError("Not supported theme.")
         }
-        
-        return true
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func updateAppearance(with themeStyles: Theme.Style.Collection) {
-        super.updateAppearance(with: themeStyles)
-        
-        if themeStyles.containsThemeAttribute(.image) {
-            self.imageView?.image = themeStyles.image
-        }
-        
-        if themeStyles.containsThemeAttribute(.textColor) {
-            self.textLabel?.textColor = themeStyles.textColor
-        }
-        
-    }
+
 }
 
 class SwitchThemeOptionTableViewCell: SwitchThemeTableViewCell {
     
-    override class func lazyLoadThemeStyles(forTheme theme: Theme, forThemeIdentifier themeIdentifier: Theme.Identifier) -> Bool {
-        guard self == SwitchThemeOptionTableViewCell.self else {
-            return false
-        }
-        switch theme {
-        case .day:
-            SwitchThemeOptionTableViewCell.themes(forThemeIdentifier: "day").day
-                .setting("icon_sun_day", for: .image)
-                .setting(UITableViewCellAccessoryType.checkmark, for: .accessoryType)
-            SwitchThemeOptionTableViewCell.themes(forThemeIdentifier: "night").day
-                .setting("icon_moon_day", for: .image)
-                .setting(UITableViewCellAccessoryType.none, for: .accessoryType)
-        case .night:
-            SwitchThemeOptionTableViewCell.themes(forThemeIdentifier: "day").night
-                .setting("icon_sun_night", for: .image)
-                .setting(UITableViewCellAccessoryType.none, for: .accessoryType)
-            SwitchThemeOptionTableViewCell.themes(forThemeIdentifier: "night").night
-                .setting("icon_moon_night", for: .image)
-                .setting(UITableViewCellAccessoryType.checkmark, for: .accessoryType)
-        default:
-            fatalError("Not Supported theme.")
-        }
-        return true
-    }
-    
-    override func updateAppearance(with themeStyles: Theme.Style.Collection) {
-        super.updateAppearance(with: themeStyles)
+    override func updateAppearance(with newTheme: Theme) {
+        super.updateAppearance(with: newTheme)
         
-        if themeStyles.containsThemeAttribute(.backgroundColor) {
-            self.contentView.backgroundColor = themeStyles.backgroundColor
+        guard let themeIdentifier = self.themeIdentifier else { return }
+        
+        switch themeIdentifier {
+        case "day":
+            switch newTheme {
+            case .day:
+                self.imageView?.image = UIImage.init(named: "icon_sun_day")
+                self.accessoryType = .checkmark
+            case .night:
+                self.imageView?.image = UIImage.init(named: "icon_sun_night")
+                self.accessoryType = .none
+            default:
+                break
+            }
+        case "night":
+            switch newTheme {
+            case .day:
+                self.imageView?.image = UIImage.init(named: "icon_moon_day")
+                self.accessoryType = .none
+            case .night:
+                self.imageView?.image = UIImage.init(named: "icon_moon_night")
+                self.accessoryType = .checkmark
+            default: break
+            }
+        default:
+            fatalError("")
         }
+        
     }
     
 }
@@ -107,14 +83,6 @@ class SwitchThemeIntroductionTableViewCell: SwitchThemeTableViewCell {
     
     override var textLabel: UILabel? {
         return titleLabel
-    }
-    
-    override func updateAppearance(with themeStyles: Theme.Style.Collection) {
-        super.updateAppearance(with: themeStyles)
-        
-        if themeStyles.containsThemeAttribute(.backgroundColor) {
-            self.titleLabel.backgroundColor = themeStyles.backgroundColor
-        }
     }
     
 }

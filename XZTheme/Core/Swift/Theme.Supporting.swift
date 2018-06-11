@@ -12,19 +12,19 @@ import UIKit
 /// 默认为 NSObject 提供了 XZThemeSupporting 支持。
 extension NSObject {
     
-    /// 全局主题集，未指定标识符的全局主题，懒加载。
+    /// 全局主题集，不带标识符的全局主题，懒加载。
     /// - Note: 修改全局主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
+    /// - Note: 当应用主题时，样式检索顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
+    /// - Note: 本主题集将主题集标识符 Theme.Identifier.notAnIdentifier 作为存储标识符。
     @objc(xz_themes)
     open class var themes: Theme.Collection {
         return themes(forThemeIdentifier: .notAnIdentifier)
     }
     
-    /// 全局主题集，未指定标识符的全局主题，非懒加载。
+    /// 全局主题集，不带标识符的全局主题，非懒加载。
     /// - Note: 修改全局主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，所应用的主题集顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 该主题集标识符实际上为 Theme.Identifier.notAnIdentifier 。
+    /// - Note: 当应用主题时，样式检索顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
+    /// - Note: 本主题集将主题集标识符 Theme.Identifier.notAnIdentifier 作为存储标识符。
     @objc(xz_themesIfLoaded)
     open class var themesIfLoaded: Theme.Collection? {
         return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
@@ -60,7 +60,8 @@ extension NSObject {
     }
     
     /// 获取当前有效的全局主题集。
-    /// - Note: 如果没有指定标识符，或标识符对应的全局主题集没有配置，那么返回不带标识符的全局主题集。如果当前类没有找到全局主题集，则查找其父类的全局主题集。
+    /// - Note: 带标识符的全局主题集 -> 不带标识符的全局主题集 -> 父类不带标识符的全局主题集。
+    /// - Note: 不带标识符的全局主题集 -> 父类不带标识符的全局主题集。
     ///
     /// - Parameter themeIdentifier: 主题标识符。
     /// - Returns: 主题集。
@@ -82,8 +83,8 @@ extension NSObject {
         // 没有 不带标识符的全局主题集，返回父类的全局主题集。
         // 查找父类。
         guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }
-
-        return superClsss.effectiveThemes(forThemeIdentifier: themeIdentifier)
+        // 获取父类不带标识符的主题集。
+        return superClsss.effectiveThemes(forThemeIdentifier: nil)
     }
     
 
@@ -114,15 +115,6 @@ extension NSObject {
         return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection
     }
     
-    /// 对象懒加载主题集。
-    ///
-    /// - Parameter theme: 主题。
-    /// - Returns: 是否加载了主题集，默认 false 。
-    @objc(xz_loadThemeStylesForTheme:)
-    open func lazyLoadThemeStyles(for theme: Theme) -> Bool {
-        return false
-    }
-    
     /// 当前对象生效的主题集，可能是对象独立的主题集，也可能是全局默认的主题集，如果当前对象设置了标识符，可能是指定标识符的默认主题。
     open var effectiveThemes: Theme.Collection? {
         if let themes = self.themesIfLoaded {
@@ -133,7 +125,6 @@ extension NSObject {
     
     /// 主题标识符。
     @objc(xz_themeIdentifier)
-    @IBInspectable
     open var themeIdentifier: Theme.Identifier? {
         get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
         set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
@@ -251,7 +242,9 @@ extension NSObject {
     /// It's use for inspecting the object's `themeIdentifier` property into interface builder.
     @IBInspectable
     private var __themeIdentifier: String? {
-        get { return self.themeIdentifier?.rawValue }
+        get {
+            return self.themeIdentifier?.rawValue
+        }
         set {
             if let newIdentifier = newValue {
                 self.themeIdentifier = Theme.Identifier.init(newIdentifier)
