@@ -55,7 +55,7 @@ extension Theme.Collection {
         if let themeStyles = themedStylesIfLoaded?[theme] {
             return themeStyles
         }
-        let themeStyles = Theme.Style.Collection.init(collection: self, theme: theme)
+        let themeStyles = Theme.Style.Collection.init(themeCollection: self, theme: theme)
         setThemeStyles(themeStyles, forTheme: theme)
         return themeStyles
     }

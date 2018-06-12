@@ -216,7 +216,7 @@ extension Theme {
         /// - Note: 更改主题样式集合会标记所有需要更新主题。
         @objc public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
             didSet {
-                guard isInstanceOwner else {
+                guard isInstanceOwner, let owner = self.owner else {
                     return
                 }
                 (owner as! NSObject).setNeedsThemeAppearanceUpdate()
@@ -257,7 +257,7 @@ extension Theme {
         
         /// 标记所有者主题需要更新。
         public override func setNeedsThemeAppearanceUpdate() {
-            guard isInstanceOwner else {
+            guard isInstanceOwner, let owner = self.owner else {
                 return
             }
             (owner as! NSObject).setNeedsThemeAppearanceUpdate()
@@ -319,7 +319,7 @@ extension Theme {
     @objc(XZThemeStyle) public class Style: NSObject {
         
         /// 样式所在的主题集。
-        @objc public unowned let collection: Theme.Collection
+        @objc public unowned let themeCollection: Theme.Collection
         
         /// 主题样式所表示的主题。
         @objc public let theme: Theme
@@ -329,19 +329,19 @@ extension Theme {
         
         /// 主题样式的主题集为其所有者。
         public override var themes: Theme.Collection {
-            return collection
+            return themeCollection
         }
         
         /// 构造主题样式。默认构造的为 normal 状态下的主题样式。
         ///
         /// - Parameters:
-        ///   - collection: 主题集。
+        ///   - themeCollection: 主题集。
         ///   - theme: 主题。
         ///   - state: 主题状态，默认 .normal 。
-        public init(collection: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
-            self.theme      = theme
-            self.collection = collection
-            self.state      = state
+        public init(themeCollection: Theme.Collection, theme: Theme, state: Theme.State = .normal) {
+            self.theme           = theme
+            self.themeCollection = themeCollection
+            self.state           = state
             super.init()
         }
         
@@ -349,7 +349,7 @@ extension Theme {
         /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public internal(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]? {
             didSet {
-                collection.setNeedsThemeAppearanceUpdate()
+                themeCollection.setNeedsThemeAppearanceUpdate()
             }
         }
         
@@ -377,10 +377,10 @@ extension Theme {
             /// 构造主题样式集。主题样式集默认为 normal 状态，不能指定其它主题状态。
             ///
             /// - Parameters:
-            ///   - collection: 样式集的所有者。
+            ///   - themeCollection: 样式集的所有者。
             ///   - theme: 主题。
-            @objc public init(collection: Theme.Collection, theme: Theme) {
-                super.init(collection: collection, theme: theme, state: .normal)
+            @objc public init(themeCollection: Theme.Collection, theme: Theme) {
+                super.init(themeCollection: themeCollection, theme: theme, state: .normal)
             }
             
             /// 按主题状态存储的主题样式集合，非懒加载。
@@ -389,7 +389,7 @@ extension Theme {
             /// - Note: 该集合不包含全局样式。
             public internal(set) var statedThemeStylesIfLoaded: [Theme.State: Theme.Style]? {
                 didSet {
-                    collection.setNeedsThemeAppearanceUpdate()
+                    themeCollection.setNeedsThemeAppearanceUpdate()
                 }
             }
             
