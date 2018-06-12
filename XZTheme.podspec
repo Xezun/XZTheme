@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 	
 	s.name             = 'XZTheme'
-	s.version          = '0.1.0'
+	s.version          = '0.1.1'
 	s.summary          = 'XZTheme is an efficient and succinct iOS thematic management framework.'
 
 	# This description is used to generate tags and improve search results.
