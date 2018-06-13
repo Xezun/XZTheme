@@ -83,7 +83,7 @@ extension UISegmentedControl {
             self.apportionsSegmentWidthsByContent = themeStyles.apportionsSegmentWidthsByContent
         }
         
-        for themeState in themeStyles.effectiveThemeStates {
+        for themeState in themeStyles.effectiveThemeStates + [.normal] {
             if themeState.isOptionSet {
                 guard let controlState = UIControlState.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)

@@ -37,13 +37,6 @@ extension UIToolbar {
         
         for themeState in themeStyles.effectiveThemeStates {
             if themeState.isPrimary {
-                
-            } else if themeState.children.count >= 2 {
-                
-            }
-        }
-        for themeState in themeStyles.effectiveThemeStates {
-            if themeState.isPrimary {
                 guard let barPosition = UIBarPosition.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
                     continue

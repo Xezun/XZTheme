@@ -166,15 +166,11 @@ extension Theme.Style.Collection {
         return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
     
-    /// 获取当前主题下所有已配置的主题状态（包括全局样式中的以及默认的 `.normal` 状态）。
+    /// 获取当前主题下所有已配置的主题状态（包括全局样式中的状态，不包括 `.normal` 状态）。
     public var effectiveThemeStates: Set<Theme.State> {
-        if statedThemeStylesIfLoaded == nil {
-            return [.normal]
-        }
+        var effectiveThemeStates: Set<Theme.State> = []
         
-        var effectiveThemeStates: Set<Theme.State> = [.normal]
-        
-        var themes: Theme.Collection? = self.themes
+        var themes: Theme.Collection? = self.themeCollection
         
         while themes != nil {
             if let statedThemeStyles = themes!.themeStyles(forTheme: self.theme).statedThemeStylesIfLoaded {

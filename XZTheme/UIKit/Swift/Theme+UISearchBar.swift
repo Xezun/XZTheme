@@ -263,7 +263,7 @@ extension UISearchBar {
             self.scopeBarBackgroundImage = themeStyles.scopeBarBackgroundImage
         }
         
-        let themeStates = themeStyles.effectiveThemeStates
+        let themeStates = themeStyles.effectiveThemeStates + [.normal]
         
         for themeState in themeStates {
             if themeState.isOptionSet {

@@ -278,10 +278,10 @@ extension Theme {
         @objc public func didReceiveMemoryWarning() {
             fatalError("Theme.Collection.didReceiveMemoryWarning() has not been implemented")
             /// 如果当前对象已销毁，则立即释放所有样式。
-            // guard let owner = self.owner else {
-            //     self.themedStylesIfLoaded?.removeAll()
-            //     return
-            // }
+            guard let owner = self.owner else {
+                self.themedStylesIfLoaded?.removeAll()
+                return
+            }
             /// 如果当前对象没有样式标识符，不缓存。待确定。
             
             /// 通过配置文件和代码配置的，毕竟有可能是混合用的。

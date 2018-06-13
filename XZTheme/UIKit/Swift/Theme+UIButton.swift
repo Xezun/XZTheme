@@ -60,7 +60,7 @@ extension UIButton {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for themeState in themeStyles.effectiveThemeStates {
+        for themeState in themeStyles.effectiveThemeStates + [.normal] {
             guard let controlState = UIControlState.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UIButton.", themeState)
                 continue

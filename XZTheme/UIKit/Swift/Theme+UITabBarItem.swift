@@ -79,7 +79,7 @@ extension UITabBarItem {
             }
         }
         
-        for themeState in themeStyles.effectiveThemeStates {
+        for themeState in themeStyles.effectiveThemeStates + [.normal] {
             guard let controlState = UIControlState.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                 continue
