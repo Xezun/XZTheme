@@ -9,8 +9,10 @@
 
 @interface NSObject (XZThemeSupporting)
 
-/// 当对象初始化时，判断对象是否需要创建自动管理主题的对象。
-+ (void)load;
+/// 启用 NSObject 自动应用主题。
+/// @note 视图控件 UIView 及子类有独立的主题控制方式，不受此设置影响。
+/// @note 默认情况下是不需要开启此设置的，除非你有大量非视图控件需要适配主题。
++ (void)xz_setAutomaticallyUpdateThemeAppearanceEnabled NS_SWIFT_NAME(setAutomaticallyUpdateThemeAppearanceEnabled());
 
 /// 在主题发生改变时，是否自动应用主题。默认 false 。
 /// @note 对于所有 NSObject 子类，都可以通过重写此方法来启用由 XZTheme 框架默认实现的主题管理机制。

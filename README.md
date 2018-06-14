@@ -1,21 +1,21 @@
 # XZTheme
 
-[![CI Status](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/pods/XZTheme)
+[![Build](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/pods/XZTheme)
 [![Version](https://img.shields.io/badge/Pod-0.1.0-blue.svg?style=flat)](http://cocoapods.org/pods/XZTheme)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](http://cocoapods.org/pods/XZTheme)
 [![Platform](https://img.shields.io/badge/Platform-iOS-yellow.svg)](http://cocoapods.org/pods/XZTheme)
 [![Language](https://img.shields.io/badge/Swift-4.0-red.svg)](http://cocoapods.org/pods/XZTheme)
 
->   XZTheme 是 XZKit 组件，该组件的主要目的是为 iOS App 提供统一的主题管理机制。
->   组件目前处于持续开发过程中，但是目前核心部分已经完毕，能满足大部分需求，可以正常使用。
 
 为了让 App 适应更多的人群、适应场景，为 App 设计合适的主题，越来越被开发者们重视，但是对于 iOS 开发，对于主题的支持，一直
 没有什么特别有效、方便、快捷的方法。
 
+> 将主题样式直接保存在内容中，无疑会增加额外的消化，特别主题越多，浪费就越严重。
+> 通过配置文件保存样式，又给维护带来不可估量的困难。
 
 ## 环境需求
 
-推荐使用 Swift 语言，支持最新 4.1 版本，同时兼容 Objective-C 语言。
+推荐使用 Swift 4.1 语言。
 
 ## 安装集成
 
