@@ -19,10 +19,8 @@ extension Notification.Name {
 
 extension Theme {
     
-    /// 当前主题的默认主题。
-    /// - Note: 从没有应用过任何主题时默认主题。
+    /// 默认主题，缺省主题。
     /// - Note: 在应用主题时，如果没有任何可以应用的主题样式，会读取此主题下配置的主题样式。
-    /// - Note: 默认此主题没配置任何主题样式。
     @objc(defaultTheme)
     public static let `default`: Theme = Theme.init(name: "default")
     
@@ -82,7 +80,8 @@ extension Theme {
 // MARK: - 定义
 
 /// 主题。
-@objc(XZTheme) public final class Theme: NSObject {
+@objc(XZTheme)
+public final class Theme: NSObject {
 
     /// 主题名称。
     /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
