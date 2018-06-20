@@ -11,6 +11,12 @@
 
 @implementation NSObject (XZThemeSupporting)
 
+static BOOL _isAutomaticallyUpdateThemeAppearanceEnabled = NO;
+
++ (BOOL)xz_isAutomaticallyUpdateThemeAppearanceEnabled {
+    return _isAutomaticallyUpdateThemeAppearanceEnabled;
+}
+
 + (void)xz_setAutomaticallyUpdateThemeAppearanceEnabled {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -18,6 +24,7 @@
         Method m1 = class_getInstanceMethod(cls, @selector(init));
         Method m2 = class_getInstanceMethod(cls, @selector(initWithXZTheme));
         method_exchangeImplementations(m1, m2);
+        _isAutomaticallyUpdateThemeAppearanceEnabled = YES;
     });
 }
 
