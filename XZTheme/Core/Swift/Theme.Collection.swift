@@ -44,7 +44,7 @@ extension Theme.Collection {
     /// - Parameter theme: 主题。
     /// - Returns: 主题样式集合。
     @objc public func themeStylesIfLoaded(forTheme theme: Theme) -> Theme.Style.Collection? {
-        return themedStylesIfLoaded?[theme]
+        return themeStyleCollectionIfLoaded?[theme]
     }
     
     /// 获取已设置的主题样式，如果主题对应的样式不存在，则会自动创建。
@@ -52,7 +52,7 @@ extension Theme.Collection {
     /// - Parameter theme: 主题。
     /// - Returns: 主题样式。
     @objc public func themeStyles(forTheme theme: Theme) -> Theme.Style.Collection {
-        if let themeStyles = themedStylesIfLoaded?[theme] {
+        if let themeStyles = themeStyleCollectionIfLoaded?[theme] {
             return themeStyles
         }
         let themeStyles = Theme.Style.Collection.init(themeCollection: self, theme: theme)
@@ -65,7 +65,7 @@ extension Theme.Collection {
     /// - Parameter themeStyles: 主题样式。
     /// - Parameter theme: 主题。
     @objc public func setThemeStyles(_ themeStyles: Theme.Style.Collection, forTheme theme: Theme) {
-        themedStyles[theme] = themeStyles
+        themeStyleCollection[theme] = themeStyles
     }
     
     /// 当前生效的主题样式集。如果所有者没有配置主题样式集，则返回全局主题样式集（如果有）。

@@ -108,54 +108,37 @@ public final class Theme: NSObject {
     public final class Collection: NSObject {
         
         /// 主题集的所有者。
-        /// - Note: 主题集与其所有者是值绑定的关系，生命周期可能比所有者略长，所以使用了 weak 。
+        /// - Note: 主题集与其所有者是值绑定的关系，生命周期可能比所有者略长，使用 unowned 是否存在野指针的问题待验证。
         /// - Note: 应该避免在对象生命周期之外调用其主题相关对象。
-        @objc public weak var owner: AnyObject?
-        
-        /// 对于全局主题集，其主题标识符表示其所适配的对象；对于对象主题集，此属性始终是 .notAnIdentifier 。
-        public override var themeIdentifier: Theme.Identifier? {
-            get { return super.themeIdentifier }
-            set { fatalError("Theme.Collection's themeIdentifier property can not be modified.") }
-        }
+        @objc public unowned let object: AnyObject
         
         /// 实例对象构造主题集。
         ///
-        /// - Parameter owner: 实例对象。
-        @objc public convenience init(owner: NSObject) {
-            self.init(owner: owner, isInstanceOwner: true, themeIdentifier: .notAnIdentifier)
+        /// - Parameter object: 实例对象。
+        @objc public convenience init(for object: NSObject) {
+            self.init(for: object, isGlobal: false, themeIdentifier: .notAnIdentifier)
         }
         
         ///  类对象构造全局主题集，如果是带标识符的主题，需指定父主题集。
         ///
         /// - Parameters:
-        ///   - owner: 主题集的所有者。
+        ///   - object: 主题集的所有者。
         ///   - themeIdentifier: 主题集适配的标识符。
-        @objc public convenience init(owner: NSObject.Type, themeIdentifier: Theme.Identifier) {
-            self.init(owner: owner, isInstanceOwner: false, themeIdentifier: themeIdentifier)
+        @objc public convenience init(for object: NSObject.Type, themeIdentifier: Theme.Identifier) {
+            self.init(for: object, isGlobal: true, themeIdentifier: themeIdentifier)
         }
         
-        /// 当前主题集的所有者是否为实例对象。
-        open var isInstanceOwner: Bool
-
         /// 构造主题集。
         ///
         /// - Parameters:
-        ///   - owner: 主题集的所有者，对象或类。
+        ///   - object: 主题集的所有者，对象或类。
         ///   - isInstanceOwner: 所有者是否为实例对象。
         ///   - themeIdentifier: 主题标识符。
-        private init(owner: AnyObject, isInstanceOwner: Bool, themeIdentifier: Theme.Identifier) {
-            self.owner            = owner
-            self.isInstanceOwner  = isInstanceOwner
+        private init(for object: AnyObject, isGlobal: Bool, themeIdentifier: Theme.Identifier) {
+            self.object   = object
+            self.isGlobal = isGlobal
             super.init()
             super.themeIdentifier = themeIdentifier
-            
-            // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
-            guard self.isInstanceOwner else {
-                return
-            }
-            if (self.owner as! NSObject).shouldAutomaticallyUpdateThemeAppearance {
-                NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
-            }
             
             // TODO: - 如果有主题标识符，缓存到 caches ，否则缓存到 tmp （仅内存警告时）。
             // TODO: - 通过提供 block 的方法来构造样式，如果已有缓存则不执行 block ， 直接读缓存（使用数据库，只读当前主题的配置）。
@@ -165,6 +148,17 @@ public final class Theme: NSObject {
             // NotificationCenter.default.addObserver(self, selector: #selector(didReceiveMemoryWarning), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
         }
         
+        /// 对于全局主题集，其主题标识符表示其所适配的对象；对于对象主题集，此属性始终是 .notAnIdentifier 。
+        public override var themeIdentifier: Theme.Identifier? {
+            get { return super.themeIdentifier }
+            set { fatalError("Theme.Collection's themeIdentifier property can not be modified.") }
+        }
+        
+        /// 当前主题集是否为全局主题集。
+        open var isGlobal: Bool
+        
+
+        
         /// 当前主题集的父集。
         /// - Note: 类型的 *全局主题集* 是 *实例对象的主题集* 的父集。
         /// - Note: 同一类型 *不带标识符的全局主题集* 是 *带标识符的全局主题集* 的父集。
@@ -172,34 +166,40 @@ public final class Theme: NSObject {
         /// - Note: 获取父集时，会逐层向上查找，直至找到或结束。
         /// - Note: 在应用主题时，父主题集的样式会被子主题集中相同的样式所覆盖。
         public var superThemes: Theme.Collection? {
-             guard let owner = self.owner else {
-                 return nil
-             }
             
             // 对类进行 is AnyObject 判断会触发错误。
             
             // 如果所有者为对象，则返回全局主题集。
-            if isInstanceOwner {
-                return (type(of: owner) as! NSObject.Type).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
+            guard isGlobal else {
+                return (type(of: object) as! NSObject.Type).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
             }
             
             // 所有者为类，根据主题标识符来判断。
             // 所有者的类型。
-            let ownerType = self.owner as! NSObject.Type
+            let objectType = self.object as! NSObject.Type
             
             // 带标识符的全局主题集的父集是不带标识符的全局主题集
             if self.themeIdentifier != .notAnIdentifier,        // 当前主题集为带标识符的主题集。
-                let superThemes = ownerType.themesIfLoaded {    // 那么获取 不带标识符的主题 作为其父集。
+                let superThemes = objectType.themesIfLoaded {    // 那么获取 不带标识符的主题 作为其父集。
                 return superThemes
             }
             
             // 如果当前主题集为 不带标识符的全局主题集 ，或者当前主题集为 带标识符的主题集，但是没有 不带标识符的全局主题集，
             // 那么获取类的 不带标识符全局主题集，作为父集。
             
-            guard let ownerSuperType = class_getSuperclass(ownerType) as? NSObject.Type else {
+            guard let ownerSuperType = class_getSuperclass(objectType) as? NSObject.Type else {
                 return nil
             }
             return ownerSuperType.effectiveThemes(forThemeIdentifier: .notAnIdentifier)
+        }
+        
+        /// 自动管理当前所有者的主题。
+        public func setAutomaticallyUpdateThemeAppearance() {
+            // 如果主题集拥有所有者，则尝试自动主题管理，以及缓存相关的操作。
+            if isGlobal {
+                return
+            }
+            NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
         }
         
         deinit {
@@ -209,37 +209,37 @@ public final class Theme: NSObject {
         }
         
         @objc public func containsThemeStyle(for theme: Theme) -> Bool {
-            return themedStylesIfLoaded?.contains(where: { $0.key == theme }) == true
+            return themeStyleCollectionIfLoaded?.contains(where: { $0.key == theme }) == true
         }
         
         /// 按主题分类的主题样式集合，非懒加载。
         /// - Note: 更改主题样式集合会标记所有需要更新主题。
-        @objc public internal(set) var themedStylesIfLoaded: [Theme: Theme.Style.Collection]? {
+        @objc public internal(set) var themeStyleCollectionIfLoaded: [Theme: Theme.Style.Collection]? {
             didSet {
-                guard isInstanceOwner, let owner = self.owner else {
+                guard isGlobal else {
                     return
                 }
-                (owner as! NSObject).setNeedsThemeAppearanceUpdate()
+                (object as! NSObject).setNeedsThemeAppearanceUpdate()
             }
         }
         
         /// 按主题分类的主题样式集合，懒加载。
-        @objc public internal(set) var themedStyles: [Theme: Theme.Style.Collection] {
+        @objc public internal(set) var themeStyleCollection: [Theme: Theme.Style.Collection] {
             get {
-                if themedStylesIfLoaded != nil {
-                    return themedStylesIfLoaded!
+                if themeStyleCollectionIfLoaded != nil {
+                    return themeStyleCollectionIfLoaded!
                 }
                 // TODO: - 判断 tmp 目录是否有缓存，如果有加载缓存，否则创建新的。
-                themedStylesIfLoaded = [Theme: Theme.Style.Collection]()
-                return themedStylesIfLoaded!
+                themeStyleCollectionIfLoaded = [Theme: Theme.Style.Collection]()
+                return themeStyleCollectionIfLoaded!
             }
             set {
-                themedStylesIfLoaded = newValue
+                themeStyleCollectionIfLoaded = newValue
             }
         }
         
         /// 主题集不支持主题设置，改属性返回所有者的主题集，即当前对象。
-        public override var themes: Theme.Collection {
+        public override var themeCollection: Theme.Collection {
             return self
         }
         
@@ -257,10 +257,10 @@ public final class Theme: NSObject {
         
         /// 标记所有者主题需要更新。
         public override func setNeedsThemeAppearanceUpdate() {
-            guard isInstanceOwner, let owner = self.owner else {
+            guard isGlobal else {
                 return
             }
-            (owner as! NSObject).setNeedsThemeAppearanceUpdate()
+            (object as! NSObject).setNeedsThemeAppearanceUpdate()
         }
         
         /// 主题集不支持主题设置，所以该方法不执行任何操作。
@@ -278,16 +278,13 @@ public final class Theme: NSObject {
         @objc public func didReceiveMemoryWarning() {
             fatalError("Theme.Collection.didReceiveMemoryWarning() has not been implemented")
             /// 如果当前对象已销毁，则立即释放所有样式。
-            guard let owner = self.owner else {
-                self.themedStylesIfLoaded?.removeAll()
-                return
-            }
+            let owner = self.object
             /// 如果当前对象没有样式标识符，不缓存。待确定。
             
             /// 通过配置文件和代码配置的，毕竟有可能是混合用的。
             
             /// 没有样式，也就不需要释放了。
-            guard let themedStyles = themedStylesIfLoaded else { return }
+            guard let themedStyles = themeStyleCollectionIfLoaded else { return }
             
             /// 将样式转换成字典。
             var dictionary: [String: [String: [String: Any?]]] = [:]
@@ -328,7 +325,7 @@ public final class Theme: NSObject {
         public let state: Theme.State
         
         /// 主题样式的主题集为其所有者。
-        public override var themes: Theme.Collection {
+        public override var themeCollection: Theme.Collection {
             return themeCollection
         }
         

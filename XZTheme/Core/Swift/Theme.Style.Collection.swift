@@ -163,7 +163,7 @@ extension Theme.Style.Collection {
         if let themeStyle = self.themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        return self.themes.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
+        return self.themeCollection.superThemes?.effectiveThemeStyles(forTheme: self.theme)?.effectiveThemeStyle(forThemeState: themeState)
     }
     
     /// 获取当前主题下所有已配置的主题状态（包括全局样式中的状态，不包括 `.normal` 状态）。

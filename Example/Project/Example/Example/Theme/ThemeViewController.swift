@@ -16,8 +16,8 @@ class ThemeViewController: UITableViewController {
         
         
         
-        view.themes.day.backgroundColor = UIColor.white
-        view.themes.night.backgroundColor = UIColor(0x303030ff)
+        view.themeCollection.day.backgroundColor = UIColor.white
+        view.themeCollection.night.backgroundColor = UIColor(0x303030ff)
 
         
     }

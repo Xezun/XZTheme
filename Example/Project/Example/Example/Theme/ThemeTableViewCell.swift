@@ -17,18 +17,18 @@ class ThemeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        self.themes.day.setting(0xffffffff, for: .backgroundColor)
-        self.themes.night.setting(0x303030ff, for: .backgroundColor)
+        self.themeCollection.day.setting(0xffffffff, for: .backgroundColor)
+        self.themeCollection.night.setting(0x303030ff, for: .backgroundColor)
         
         self.selectionStyle = .none
-        self.contentView.themes.day.setting(0xffffffff, for: .backgroundColor)
-        self.contentView.themes.night.setting(0x303030ff, for: .backgroundColor)
+        self.contentView.themeCollection.day.setting(0xffffffff, for: .backgroundColor)
+        self.contentView.themeCollection.night.setting(0x303030ff, for: .backgroundColor)
         
-        self.titleLabel.themes.day.setting(0x444444ff, for: .textColor)
-        self.titleLabel.themes.night.setting(0xc7c7c7ff, for: .textColor)
+        self.titleLabel.themeCollection.day.setting(0x444444ff, for: .textColor)
+        self.titleLabel.themeCollection.night.setting(0xc7c7c7ff, for: .textColor)
         
-        self.iconImageView.themes.day.brightness = 1.0
-        self.iconImageView.themes.night.brightness = 0.8
+        self.iconImageView.themeCollection.day.brightness = 1.0
+        self.iconImageView.themeCollection.night.brightness = 0.8
 
     }
 

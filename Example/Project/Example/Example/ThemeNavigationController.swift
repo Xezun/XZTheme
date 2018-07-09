@@ -13,13 +13,13 @@ class ThemeNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationBar.themes.day
+        navigationBar.themeCollection.day
             .setting(UIColor.white, for: .barTintColor)
             .setting(UIColor.black, for: .tintColor)
             .setting(UIImage(filled: 0xccccccFF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)
             .setting(UIBarStyle.default, for: .barStyle)
         
-        navigationBar.themes.night
+        navigationBar.themeCollection.night
             .setting(UIColor(0x252525FF), for: .barTintColor)
             .setting(UIColor(0xc7c7c7FF), for: .tintColor)
             .setting(UIImage(filled: 0x555555FF, size: CGSize(width: 0.5, height: 0.5)), for: .shadowImage)

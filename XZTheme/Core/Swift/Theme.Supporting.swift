@@ -40,12 +40,12 @@ extension NSObject {
             if let themes = themesDictionary[themeIdentifier] {
                 return themes
             }
-            let newThemes = Theme.Collection.init(owner: self, themeIdentifier: themeIdentifier)
+            let newThemes = Theme.Collection.init(for: self, themeIdentifier: themeIdentifier)
             themesDictionary[themeIdentifier] = newThemes
             objc_setAssociatedObject(self, &AssociationKey.themes, themesDictionary, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return newThemes
         }
-        let newThemes = Theme.Collection.init(owner: self, themeIdentifier: themeIdentifier)
+        let newThemes = Theme.Collection.init(for: self, themeIdentifier: themeIdentifier)
         objc_setAssociatedObject(self, &AssociationKey.themes, [themeIdentifier: newThemes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return newThemes
     }
@@ -96,11 +96,11 @@ extension NSObject {
     
     /// 主题集，懒加载。
     @objc(xz_themes)
-    open var themes: Theme.Collection {
+    open var themeCollection: Theme.Collection {
         if let themes = self.themesIfLoaded {
             return themes
         }
-        let themes = Theme.Collection.init(owner: self)
+        let themes = Theme.Collection.init(for: self)
         objc_setAssociatedObject(self, &AssociationKey.themes, themes, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         
         /// 如果将通知添加到 NSObject 上，则释放通知是个问题。
