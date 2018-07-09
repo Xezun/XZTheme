@@ -57,6 +57,7 @@ extension Theme {
             window.setNeedsThemeAppearanceUpdate()
             window.rootViewController?.setNeedsThemeAppearanceUpdate()
             guard animated else { continue }
+            // - TODO: 状态栏不在截图之中
             guard let snapView = window.snapshotView(afterScreenUpdates: false) else { continue }
             window.addSubview(snapView)
             UIView.animate(withDuration: Theme.AnimationDuration, animations: {
@@ -112,7 +113,7 @@ public final class Theme: NSObject {
         @objc public weak var owner: AnyObject?
         
         /// 对于全局主题集，其主题标识符表示其所适配的对象；对于对象主题集，此属性始终是 .notAnIdentifier 。
-        public override var themeIdentifier: Theme.Identifier! {
+        public override var themeIdentifier: Theme.Identifier? {
             get { return super.themeIdentifier }
             set { fatalError("Theme.Collection's themeIdentifier property can not be modified.") }
         }
