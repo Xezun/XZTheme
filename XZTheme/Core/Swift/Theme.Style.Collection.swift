@@ -58,7 +58,7 @@ extension Theme.Style.Collection {
         if let themeStyle = themeStyleIfLoaded(forThemeState: themeState) {
             return themeStyle
         }
-        let themeStyle = Theme.Style.init(collection: self.collection, theme: self.theme, state: themeState)
+        let themeStyle = Theme.Style.init(themes: self.themes, theme: self.theme, state: themeState)
         setThemeStyle(themeStyle, forThemeState: themeState)
         return themeStyle
     }
@@ -87,7 +87,7 @@ extension Theme.Style.Collection {
         if themeState == .normal || themeState.isEmpty {
             return
         }
-        guard themeStyle.collection === self.collection else {
+        guard themeStyle.themes === self.themes else {
             return
         }
         statedThemeStyles[themeState] = themeStyle
@@ -170,7 +170,7 @@ extension Theme.Style.Collection {
     public var effectiveThemeStates: Set<Theme.State> {
         var effectiveThemeStates: Set<Theme.State> = []
         
-        var themes: Theme.Collection? = self.collection
+        var themes: Theme.Collection? = self.themes
         
         while themes != nil {
             if let statedThemeStyles = themes!.themeStyles(forTheme: self.theme).statedThemeStylesIfLoaded {
