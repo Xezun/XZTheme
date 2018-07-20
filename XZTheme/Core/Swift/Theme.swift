@@ -276,10 +276,10 @@ public final class Theme: NSObject {
             /// 构造主题样式集。主题样式集默认为 normal 状态，不能指定其它主题状态。
             ///
             /// - Parameters:
-            ///   - collection: 样式集的所有者。
+            ///   - themes: 样式集的所有者。
             ///   - theme: 主题。
-            @objc public init(owner: Theme.Collection, theme: Theme) {
-                super.init(themes: owner, theme: theme, state: .normal)
+            @objc public init(themes: Theme.Collection, theme: Theme) {
+                super.init(themes: themes, theme: theme, state: .normal)
             }
             
             /// 按主题状态存储的主题样式集合，非懒加载。
@@ -680,7 +680,7 @@ extension Theme.Collection {
         if let themeStyles = themedStylesIfLoaded?[theme] {
             return themeStyles
         }
-        let themeStyles = Theme.Style.Collection.init(owner: self, theme: theme)
+        let themeStyles = Theme.Style.Collection.init(themes: self, theme: theme)
         setThemeStyles(themeStyles, forTheme: theme)
         return themeStyles
     }
