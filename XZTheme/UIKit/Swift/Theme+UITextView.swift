@@ -10,11 +10,11 @@ import Foundation
 extension Theme.Attribute {
     
     /// UITextView
-    public static let isEditable = Theme.Attribute.init("isEditable")
+    public static let isEditable = Theme.Attribute.init(rawValue: "isEditable")
     /// UITextView
-    public static let isSelectable = Theme.Attribute.init("isSelectable")
+    public static let isSelectable = Theme.Attribute.init(rawValue: "isSelectable")
     /// UITextView
-    public static let linkTextAttributes = Theme.Attribute.init("linkTextAttributes")
+    public static let linkTextAttributes = Theme.Attribute.init(rawValue: "linkTextAttributes")
 }
 
 extension Theme.Style {

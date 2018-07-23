@@ -12,17 +12,17 @@ import UIKit
 extension Theme.Attribute {
     
     /// UILabel, UISearchBar
-    public static let text                  = Theme.Attribute.init("text");
+    public static let text                  = Theme.Attribute.init(rawValue: "text");
     /// UILabel.textColor
-    public static let textColor             = Theme.Attribute.init("textColor");
+    public static let textColor             = Theme.Attribute.init(rawValue: "textColor");
     /// UILabel.font
-    public static let font                  = Theme.Attribute.init("font");
+    public static let font                  = Theme.Attribute.init(rawValue: "font");
     /// UILabel.shadowColor
-    public static let shadowColor           = Theme.Attribute.init("shadowColor");
+    public static let shadowColor           = Theme.Attribute.init(rawValue: "shadowColor");
     /// UILabel.highlightedTextColor
-    public static let highlightedTextColor  = Theme.Attribute.init("highlightedTextColor");
+    public static let highlightedTextColor  = Theme.Attribute.init(rawValue: "highlightedTextColor");
     /// UILabel.attributedText
-    public static let attributedText        = Theme.Attribute.init("attributedText");
+    public static let attributedText        = Theme.Attribute.init(rawValue: "attributedText");
     
 }
 

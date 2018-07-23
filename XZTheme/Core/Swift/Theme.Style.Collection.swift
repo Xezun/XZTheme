@@ -70,7 +70,7 @@ extension Theme.Style.Collection {
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
     public func themeStyleIfLoaded(forThemeState themeState: Theme.State) -> Theme.Style? {
-        if themeState == .normal || themeState.isEmpty {
+        if themeState == .normal || themeState == .None {
             return self
         }
         return statedThemeStyles[themeState]
@@ -84,7 +84,7 @@ extension Theme.Style.Collection {
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题状态。
     public func setThemeStyle(_ themeStyle: Theme.Style, forThemeState themeState: Theme.State) {
-        if themeState == .normal || themeState.isEmpty {
+        if themeState == .normal || themeState == .None {
             return
         }
         guard themeStyle.themes === self.themes else {

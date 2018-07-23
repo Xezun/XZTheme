@@ -11,7 +11,7 @@ import Foundation
 extension Theme.Attribute {
     
     /// 空字符串不被视为合法的主题属性。
-    public static let notAnAttribute: Theme.Attribute = Theme.Attribute.init("")
+    public static let notAnAttribute: Theme.Attribute = Theme.Attribute.init(rawValue: "")
     
 }
 
@@ -39,7 +39,7 @@ extension Theme.Attribute: _ObjectiveCBridgeable {
     }
     
     public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme.Attribute?) {
-        result = Theme.Attribute.init(source as String)
+        result = Theme.Attribute.init(rawValue: source as String)
     }
     
     public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme.Attribute?) -> Bool {
@@ -49,7 +49,7 @@ extension Theme.Attribute: _ObjectiveCBridgeable {
     
     public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme.Attribute {
         if let value = source as String? {
-            return Theme.Attribute.init(value)
+            return Theme.Attribute.init(rawValue: value)
         }
         return Theme.Attribute.notAnAttribute;
     }

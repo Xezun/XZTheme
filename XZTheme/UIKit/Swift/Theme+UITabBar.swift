@@ -12,17 +12,17 @@ import XZKit
 extension Theme.Attribute {
     
     /// UITabBar, UISearchBar
-    public static let barTintColor = Theme.Attribute.init("barTintColor")
+    public static let barTintColor              = Theme.Attribute.init(rawValue: "barTintColor")
     /// UITabBar.shadowImage
-    public static let shadowImage = Theme.Attribute.init("shadowImage")
+    public static let shadowImage               = Theme.Attribute.init(rawValue: "shadowImage")
     /// UITabBar.unselectedItemTintColor
-    public static let unselectedItemTintColor = Theme.Attribute.init("unselectedItemTintColor")
+    public static let unselectedItemTintColor   = Theme.Attribute.init(rawValue: "unselectedItemTintColor")
     /// UITabBar.selectionIndicatorImage
-    public static let selectionIndicatorImage = Theme.Attribute.init("selectionIndicatorImage")
+    public static let selectionIndicatorImage   = Theme.Attribute.init(rawValue: "selectionIndicatorImage")
     /// UITabBar, UISearchBar
-    public static let barStyle = Theme.Attribute.init("barStyle")
+    public static let barStyle                  = Theme.Attribute.init(rawValue: "barStyle")
     /// UITabBar, UISearchBar
-    public static let isTranslucent = Theme.Attribute.init("isTranslucent")
+    public static let isTranslucent             = Theme.Attribute.init(rawValue: "isTranslucent")
     // UITabBar.backgroundImage
     // See UIButton.
     

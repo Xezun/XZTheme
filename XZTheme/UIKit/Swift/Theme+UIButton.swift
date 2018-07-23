@@ -11,15 +11,15 @@ import UIKit
 extension Theme.Attribute {
     
     /// UIButton.setTitle
-    public static let title             = Theme.Attribute.init("title");
+    public static let title             = Theme.Attribute.init(rawValue: "title");
     /// UIButton.setTitleColor
-    public static let titleColor        = Theme.Attribute.init("titleColor");
+    public static let titleColor        = Theme.Attribute.init(rawValue: "titleColor");
     /// UIButton, UITabBar, UISearchBar, UINavigationBar
-    public static let backgroundImage   = Theme.Attribute.init("backgroundImage");
+    public static let backgroundImage   = Theme.Attribute.init(rawValue: "backgroundImage");
     /// UIButton.setTitleShadowColor
-    public static let titleShadowColor  = Theme.Attribute.init("titleShadowColor");
+    public static let titleShadowColor  = Theme.Attribute.init(rawValue: "titleShadowColor");
     /// UIButton.setAttributedTitle
-    public static let attributedTitle   = Theme.Attribute.init("attributedTitle");
+    public static let attributedTitle   = Theme.Attribute.init(rawValue: "attributedTitle");
     
 }
 

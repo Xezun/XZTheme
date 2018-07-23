@@ -10,15 +10,15 @@ import Foundation
 extension Theme.Attribute {
     
     /// UISwitch
-    public static let onTintColor = Theme.Attribute.init("onTintColor")
+    public static let onTintColor = Theme.Attribute.init(rawValue: "onTintColor")
     /// UISwitch
-    public static let thumbTintColor = Theme.Attribute.init("thumbTintColor")
+    public static let thumbTintColor = Theme.Attribute.init(rawValue: "thumbTintColor")
     /// UISwitch
-    public static let onImage = Theme.Attribute.init("onImage")
+    public static let onImage = Theme.Attribute.init(rawValue: "onImage")
     /// UISwitch
-    public static let offImage = Theme.Attribute.init("offImage")
+    public static let offImage = Theme.Attribute.init(rawValue: "offImage")
     /// UISwitch
-    public static let isOn = Theme.Attribute.init("isOn")
+    public static let isOn = Theme.Attribute.init(rawValue: "isOn")
     
 }
 

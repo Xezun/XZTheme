@@ -14,46 +14,46 @@ import XZKit
 extension Theme.Attribute {
 
     /// UITextField
-    public static let textAlignment                 = Theme.Attribute.init("textAlignment")
+    public static let textAlignment                 = Theme.Attribute.init(rawValue: "textAlignment")
     /// UITextField
-    public static let borderStyle                   = Theme.Attribute.init("borderStyle")
+    public static let borderStyle                   = Theme.Attribute.init(rawValue: "borderStyle")
     /// UITextField
-    public static let defaultTextAttributes         = Theme.Attribute.init("defaultTextAttributes")
+    public static let defaultTextAttributes         = Theme.Attribute.init(rawValue: "defaultTextAttributes")
     /// UITextField
-    public static let attributedPlaceholder         = Theme.Attribute.init("attributedPlaceholder")
+    public static let attributedPlaceholder         = Theme.Attribute.init(rawValue: "attributedPlaceholder")
     /// UITextField
-    public static let clearsOnBeginEditing          = Theme.Attribute.init("clearsOnBeginEditing")
+    public static let clearsOnBeginEditing          = Theme.Attribute.init(rawValue: "clearsOnBeginEditing")
     /// UITextField, UILabel
-    public static let adjustsFontSizeToFitWidth     = Theme.Attribute.init("adjustsFontSizeToFitWidth")
+    public static let adjustsFontSizeToFitWidth     = Theme.Attribute.init(rawValue: "adjustsFontSizeToFitWidth")
     /// UITextField
-    public static let minimumFontSize               = Theme.Attribute.init("minimumFontSize")
+    public static let minimumFontSize               = Theme.Attribute.init(rawValue: "minimumFontSize")
     /// UITextField
-    public static let background                    = Theme.Attribute.init("background")
+    public static let background                    = Theme.Attribute.init(rawValue: "background")
     /// UITextField
-    public static let disabledBackground            = Theme.Attribute.init("disabledBackground")
+    public static let disabledBackground            = Theme.Attribute.init(rawValue: "disabledBackground")
     /// UITextField
-    public static let allowsEditingTextAttributes   = Theme.Attribute.init("allowsEditingTextAttributes")
+    public static let allowsEditingTextAttributes   = Theme.Attribute.init(rawValue: "allowsEditingTextAttributes")
     /// UITextField
-    public static let typingAttributes              = Theme.Attribute.init("typingAttributes")
+    public static let typingAttributes              = Theme.Attribute.init(rawValue: "typingAttributes")
     /// UITextField
-    public static let clearButtonMode               = Theme.Attribute.init("clearButtonMode")
+    public static let clearButtonMode               = Theme.Attribute.init(rawValue: "clearButtonMode")
     /// UITextField
-    public static let leftViewMode                  = Theme.Attribute.init("leftViewMode")
+    public static let leftViewMode                  = Theme.Attribute.init(rawValue: "leftViewMode")
     /// UITextField
-    public static let rightViewMode                 = Theme.Attribute.init("rightViewMode")
+    public static let rightViewMode                 = Theme.Attribute.init(rawValue: "rightViewMode")
     /// UITextField
-    public static let clearsOnInsertion             = Theme.Attribute.init("clearsOnInsertion")
+    public static let clearsOnInsertion             = Theme.Attribute.init(rawValue: "clearsOnInsertion")
     
     /// UITextField
-    public static let keyboardAppearance            = Theme.Attribute.init("keyboardAppearance")
+    public static let keyboardAppearance            = Theme.Attribute.init(rawValue: "keyboardAppearance")
     /// UITextField
-    public static let keyboardType                  = Theme.Attribute.init("keyboardType")
+    public static let keyboardType                  = Theme.Attribute.init(rawValue: "keyboardType")
     /// UITextField
-    public static let returnKeyType                 = Theme.Attribute.init("returnKeyType")
+    public static let returnKeyType                 = Theme.Attribute.init(rawValue: "returnKeyType")
     /// UITextField
-    public static let enablesReturnKeyAutomatically = Theme.Attribute.init("enablesReturnKeyAutomatically")
+    public static let enablesReturnKeyAutomatically = Theme.Attribute.init(rawValue: "enablesReturnKeyAutomatically")
     /// UITextField
-    public static let isSecureTextEntry             = Theme.Attribute.init("isSecureTextEntry")
+    public static let isSecureTextEntry             = Theme.Attribute.init(rawValue: "isSecureTextEntry")
 }
 
 extension Theme.Style {

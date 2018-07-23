@@ -81,7 +81,7 @@ extension Theme {
 
 /// 主题。
 ///
-/// 主题相关类有以下基本命名规则：
+/// 主题相关类基本命名规则：
 /// - 主题，类名 `Theme` ，在属性、变量、方法中命名为 `theme` 。
 /// - 主题集，类名 `Theme.Collection` ，在属性、变量、方法中命名为 `themes` 。
 /// - 主题样式，类名 `Theme.Style` ，在属性、变量、方法中命名为 `themeStyle` 。
@@ -114,22 +114,6 @@ public final class Theme: NSObject {
     /// - Note: 在集合中，按主题进行分类存储所有的的主题样式。
     @objc(XZThemeCollection)
     public final class Collection: NSObject {
-        
-        /// 实例对象构造主题集。
-        ///
-        /// - Parameter object: 实例对象。
-        @objc public convenience init(for object: NSObject) {
-            self.init(for: object, themeIdentifier: .notAnIdentifier, isGlobal: false)
-        }
-        
-        ///  类对象构造全局主题集，如果是带标识符的主题，需指定父主题集。
-        ///
-        /// - Parameters:
-        ///   - object: 主题集的所有者。
-        ///   - themeIdentifier: 主题集适配的标识符。
-        @objc public convenience init(for object: NSObject.Type, themeIdentifier: Theme.Identifier) {
-            self.init(for: object, themeIdentifier: themeIdentifier, isGlobal: true)
-        }
         
         /// 主题集的所有者。
         /// - Note: 应该避免在对象生命周期之外调用其主题相关对象。
@@ -171,15 +155,6 @@ public final class Theme: NSObject {
             /// TODO: - 缓存样式
             NotificationCenter.default.removeObserver(self, name: .ThemeDidChange, object: nil)
             // NotificationCenter.default.removeObserver(self, name: .UIApplicationDidReceiveMemoryWarning, object: nil)
-        }
-        
-        /// 自动应用所有者的主题，全局主题集此方法无效。
-        /// - Note: 除非需要及时响应主题变更事件，否则一般情况下，对于 UIView、UIViewController 对象及子类对象无须调用此方法，因为其主题会在适当的时机自动应用。
-        @objc public func setAutomaticallyUpdateThemeAppearance() {
-            if isGlobal {
-                return
-            }
-            NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
         }
         
         /// 按主题分类的主题样式集合，非懒加载。
@@ -323,9 +298,6 @@ public final class Theme: NSObject {
         public init(rawValue: String) {
             self.rawValue = rawValue
         }
-        public init(_ rawValue: String) {
-            self.init(rawValue: rawValue)
-        }
     }
     
     /// 主题状态。
@@ -337,15 +309,10 @@ public final class Theme: NSObject {
     /// - Note: 可以使用 for-in 语句来遍历主题状态中的所有子元素。
     public struct State: ExpressibleByArrayLiteral, CustomStringConvertible, Sequence, IteratorProtocol {
         
-        /// 特殊值，表示不区分主题状态时的状态。
+        /// 特殊值，表示不区分主题状态时的状态，无主题状态。
         public static let None = Theme.State.init(name: "", rawValue: "None", rawType: String.self, isOptionSet: false, children: [])
-        
-        /// 是否为 Theme.State.Empty 。
-        public var isEmpty: Bool {
-            return self == .None
-        }
-        
-        /// 主题状态名。
+    
+        /// 主题状态名，区分主题状态的标识符。
         public let name: String
         
         /// 主题状态原始值，复合状态原始值为 0 。
@@ -355,23 +322,31 @@ public final class Theme: NSObject {
         public let rawType: Any.Type
         
         /// 复合状态的子状态，子状态也可能是复合状态。
-        public let children: [State]
+        private let children: [State]
         
         /// 主题状态的原始值，是否为 OptionSet 类型，用于优化性能。
         /// - Note: 相同 OptionSet 类型的基本主题状态组成的复合状态，此属性为 true 。
         public let isOptionSet: Bool
         
-        /// 是否为基本主题状态。
-        public var isPrimary: Bool {
+        /// 是否为基本主题状态：没有子状态的主题状态为基本状态。
+        public var isBasic: Bool {
             return children.isEmpty
         }
+        
+        /// 子状态个数，基本状态没有子状态。
+        public var count: Int {
+            return children.count
+        }
+        
+        /// 获取指定的子状态。
+        ///
+        /// - Parameter index: 子状态复合时的索引。
+        public subscript(index: Int) -> State {
+            return children[index]
+        }
        
-        /// 主题状态默认描述文本格式为：Theme.State(:selected)
         public var description: String {
-            if self.isEmpty {
-                return "Theme.State.None"
-            }
-            return "Theme.State(\(name))"
+            return "Theme.State(\(name), \(rawValue))"
         }
         
         /// 检查状态是否符合要求的正则。
@@ -421,7 +396,7 @@ public final class Theme: NSObject {
                             isOptionSet = element.isOptionSet
                         } else {
                             // 如果有元素是非 OptionSet 或者存在两种不同的类型 或者非基本状态，则复合状态不是 OptionSet 。
-                            if !element.isOptionSet || rawType != element.rawType || !element.isPrimary {
+                            if !element.isOptionSet || rawType != element.rawType /* || !element.isPrimary */{
                                 isOptionSet = false
                                 rawType = Any.self
                             }
@@ -448,11 +423,11 @@ public final class Theme: NSObject {
         
         /// 指定初始化方法。私有构造方法，避免构造出不合法的主题状态。
         private init(name: String, rawValue: Any, rawType: Any.Type, isOptionSet: Bool = false, children: [State] = []) {
-            self.name       = name
-            self.rawValue   = rawValue
-            self.rawType    = rawType
+            self.name        = name
+            self.rawValue    = rawValue
+            self.rawType     = rawType
             self.isOptionSet = isOptionSet
-            self.children   = children
+            self.children    = children
         }
         
         /// 遍历主题状态中的所有基本元素，遍历顺序为正序。
@@ -460,18 +435,20 @@ public final class Theme: NSObject {
         /// - Returns: 剩余未遍历的主题状态。
         public mutating func next() -> Theme.State? {
             // 遍历的终点
-            if self.isEmpty {
+            if self == .None {
                 return nil
             }
             // 复合状态
             // 复合状态在遍历的过程中，原始值不变，只改变其 children
             // 如果 children 变为一个了，则停止遍历。
             switch children.count {
-            case 0:     // 基本状态
+            case 0:
+                // 基本状态。
                 let state = self
                 self = .None
                 return state
             case 1:
+                // 只有一个子状态的复合状态。
                 let state = children[0]
                 self = .None
                 return state
@@ -533,36 +510,40 @@ extension Theme: NSCopying {
 
 
 
+
 extension Theme.Collection {
     
     /// 获取默认主题的样式的快捷方法。
     /// - Note: 该方法等同于调用 themeStyle(forTheme:) 方法。
     /// - Note: 建议给自定义主题添加类似的访问方法。
-    /// ```
-    /// let view = UIView()
-    /// // 设置 default 主题的样式。
-    /// view.themes.default.backgroundColor = .white
-    /// ```
-    /// ```
-    /// // 自定义主题
-    /// extension Theme {
-    ///     /// 夜间主题
-    ///     static let night = Theme.init(name: "night")
-    /// }
-    /// // 便利访问方式
-    /// extension Theme.Colletion {
-    ///     var day: Theme.Style.Collection {
-    ///         return themeStyles(forTheme: .night)
-    ///     }
-    /// }
-    /// ```
     public var `default`: Theme.Style.Collection {
         return themeStyles(forTheme: .default)
     }
     
-}
-
-extension Theme.Collection {
+    /// 实例对象构造主题集。
+    ///
+    /// - Parameter object: 实例对象。
+    @objc public convenience init(for object: NSObject) {
+        self.init(for: object, themeIdentifier: .notAnIdentifier, isGlobal: false)
+    }
+    
+    ///  类对象构造全局主题集，如果是带标识符的主题，需指定父主题集。
+    ///
+    /// - Parameters:
+    ///   - object: 主题集的所有者。
+    ///   - themeIdentifier: 主题集适配的标识符。
+    @objc public convenience init(for object: NSObject.Type, themeIdentifier: Theme.Identifier) {
+        self.init(for: object, themeIdentifier: themeIdentifier, isGlobal: true)
+    }
+    
+    /// 自动应用所有者的主题，全局主题集此方法无效。
+    /// - Note: 除非需要及时响应主题变更事件，否则一般情况下，对于 UIView、UIViewController 对象及子类对象无须调用此方法，因为其主题会在适当的时机自动应用。
+    @objc public func setAutomaticallyUpdateThemeAppearance() {
+        if isGlobal {
+            return
+        }
+        NotificationCenter.default.addObserver(self, selector: #selector(setNeedsThemeAppearanceUpdate), name: .ThemeDidChange, object: nil)
+    }
     
     /// 对于主题集对象，如果是全局主题集，其主题标识符表示该全局主题集指定了标识符，而对于对象主题集，此属性始终是 .notAnIdentifier 。
     /// - Important: 不可以尝试更改此属性。
@@ -607,13 +588,9 @@ extension Theme.Collection {
         return ownerSuperType.effectiveThemes(forThemeIdentifier: self.themeIdentifier)
     }
     
-    
-    
     @objc public func containsThemeStyle(for theme: Theme) -> Bool {
         return themedStylesIfLoaded?.contains(where: { $0.key == theme }) == true
     }
-    
-    
     
     /// 主题集不支持主题设置，改属性返回所有者的主题集，即当前对象。
     public override var themes: Theme.Collection {
@@ -714,4 +691,8 @@ extension Theme.Collection {
     }
     
 }
+
+
+
+
 

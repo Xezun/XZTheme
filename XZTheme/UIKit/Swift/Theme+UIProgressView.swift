@@ -13,17 +13,17 @@ import XZKit
 extension Theme.Attribute {
     
     /// UIProgressView
-    public static let progressViewStyle = Theme.Attribute.init("progressViewStyle")
+    public static let progressViewStyle = Theme.Attribute.init(rawValue: "progressViewStyle")
     /// UIProgressView
-    public static let progress          = Theme.Attribute.init("progress")
+    public static let progress          = Theme.Attribute.init(rawValue: "progress")
     /// UIProgressView
-    public static let progressTintColor = Theme.Attribute.init("progressTintColor")
+    public static let progressTintColor = Theme.Attribute.init(rawValue: "progressTintColor")
     /// UIProgressView
-    public static let trackTintColor    = Theme.Attribute.init("trackTintColor")
+    public static let trackTintColor    = Theme.Attribute.init(rawValue: "trackTintColor")
     /// UIProgressView
-    public static let progressImage     = Theme.Attribute.init("progressImage")
+    public static let progressImage     = Theme.Attribute.init(rawValue: "progressImage")
     /// UIProgressView
-    public static let trackImage        = Theme.Attribute.init("trackImage")
+    public static let trackImage        = Theme.Attribute.init(rawValue: "trackImage")
 }
 
 extension Theme.Style {

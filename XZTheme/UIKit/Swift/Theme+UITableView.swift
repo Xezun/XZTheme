@@ -11,15 +11,15 @@ import XZKit
 extension Theme.Attribute {
     
     /// UITableView.
-    public static let sectionIndexColor = Theme.Attribute.init("sectionIndexColor")
+    public static let sectionIndexColor = Theme.Attribute.init(rawValue: "sectionIndexColor")
     /// UITableView.sectionIndexBackgroundColor
-    public static let sectionIndexBackgroundColor = Theme.Attribute.init("sectionIndexBackgroundColor")
+    public static let sectionIndexBackgroundColor = Theme.Attribute.init(rawValue: "sectionIndexBackgroundColor")
     /// UITableView.sectionIndexTrackingBackgroundColor
-    public static let sectionIndexTrackingBackgroundColor = Theme.Attribute.init("sectionIndexTrackingBackgroundColor")
+    public static let sectionIndexTrackingBackgroundColor = Theme.Attribute.init(rawValue: "sectionIndexTrackingBackgroundColor")
     /// UITableView.separatorStyle
-    public static let separatorStyle = Theme.Attribute.init("separatorStyle")
+    public static let separatorStyle = Theme.Attribute.init(rawValue: "separatorStyle")
     /// UITableView.separatorColor
-    public static let separatorColor = Theme.Attribute.init("separatorColor")
+    public static let separatorColor = Theme.Attribute.init(rawValue: "separatorColor")
 }
 
 extension Theme.Style {

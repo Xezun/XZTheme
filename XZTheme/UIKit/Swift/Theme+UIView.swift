@@ -11,17 +11,17 @@ import UIKit
 extension Theme.Attribute {
     
     /// UIView.tintColor
-    public static let tintColor         = Theme.Attribute.init("tintColor");
+    public static let tintColor         = Theme.Attribute.init(rawValue: "tintColor");
     /// UIView.isHidden
-    public static let isHidden          = Theme.Attribute.init("isHidden");
+    public static let isHidden          = Theme.Attribute.init(rawValue: "isHidden");
     /// UIView.backgroundColor, UITableViewCell.backgroundView.backgroundColor
-    public static let backgroundColor   = Theme.Attribute.init("backgroundColor");
+    public static let backgroundColor   = Theme.Attribute.init(rawValue: "backgroundColor");
     /// UIView.alpha
-    public static let alpha             = Theme.Attribute.init("alpha");
+    public static let alpha             = Theme.Attribute.init(rawValue: "alpha");
     /// UIView.isOpaque
-    public static let isOpaque          = Theme.Attribute.init("isOpaque");
+    public static let isOpaque          = Theme.Attribute.init(rawValue: "isOpaque");
     /// UIView.brightness
-    public static let brightness        = Theme.Attribute.init("brightness");
+    public static let brightness        = Theme.Attribute.init(rawValue: "brightness");
 }
 
 extension Theme.Style {

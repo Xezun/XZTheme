@@ -36,7 +36,7 @@ extension UIToolbar {
         }
         
         for themeState in themeStyles.effectiveThemeStates {
-            if themeState.isPrimary {
+            if themeState.isBasic {
                 guard let barPosition = UIBarPosition.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
                     continue
@@ -45,9 +45,9 @@ extension UIToolbar {
                 if themeStyle.containsThemeAttribute(.shadowImage) {
                     setShadowImage(themeStyle.shadowImage, forToolbarPosition: barPosition)
                 }
-            } else if themeState.children.count >= 2 {
-                guard let barPosition = UIBarPosition.init(themeState.children[0]),
-                    let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+            } else if themeState.count >= 2 {
+                guard let barPosition = UIBarPosition.init(themeState[0]),
+                    let barMetrics = UIBarMetrics.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
                         continue
                 }

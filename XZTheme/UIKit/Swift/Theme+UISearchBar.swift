@@ -34,39 +34,39 @@ extension UISearchBarIcon {
 extension Theme.Attribute {
     
     /// UISearchBar.showsBookmarkButton
-    public static let showsBookmarkButton = Theme.Attribute.init("showsBookmarkButton")
+    public static let showsBookmarkButton = Theme.Attribute.init(rawValue: "showsBookmarkButton")
     /// UISearchBar.showsCancelButton
-    public static let showsCancelButton = Theme.Attribute.init("showsCancelButton")
+    public static let showsCancelButton = Theme.Attribute.init(rawValue: "showsCancelButton")
     /// UISearchBar.showsSearchResultsButton
-    public static let showsSearchResultsButton = Theme.Attribute.init("showsSearchResultsButton")
+    public static let showsSearchResultsButton = Theme.Attribute.init(rawValue: "showsSearchResultsButton")
     /// UISearchBar.isSearchResultsButtonSelected
-    public static let isSearchResultsButtonSelected = Theme.Attribute.init("isSearchResultsButtonSelected")
+    public static let isSearchResultsButtonSelected = Theme.Attribute.init(rawValue: "isSearchResultsButtonSelected")
     
     /// UISearchBar.searchBarStyle
-    public static let searchBarStyle = Theme.Attribute.init("searchBarStyle")
+    public static let searchBarStyle = Theme.Attribute.init(rawValue: "searchBarStyle")
     /// UISearchBar.scopeButtonTitles
-    public static let scopeButtonTitles = Theme.Attribute.init("scopeButtonTitles")
+    public static let scopeButtonTitles = Theme.Attribute.init(rawValue: "scopeButtonTitles")
     /// UISearchBar.selectedScopeButtonIndex
-    public static let selectedScopeButtonIndex = Theme.Attribute.init("selectedScopeButtonIndex")
+    public static let selectedScopeButtonIndex = Theme.Attribute.init(rawValue: "selectedScopeButtonIndex")
     /// UISearchBar.showsScopeBar
-    public static let showsScopeBar = Theme.Attribute.init("showsScopeBar")
+    public static let showsScopeBar = Theme.Attribute.init(rawValue: "showsScopeBar")
     /// UISearchBar.scopeBarBackgroundImage
-    public static let scopeBarBackgroundImage = Theme.Attribute.init("scopeBarBackgroundImage")
+    public static let scopeBarBackgroundImage = Theme.Attribute.init(rawValue: "scopeBarBackgroundImage")
     
     /// UISearchBar.searchFieldBackgroundImage
-    public static let searchFieldBackgroundImage = Theme.Attribute.init("searchFieldBackgroundImage")
+    public static let searchFieldBackgroundImage = Theme.Attribute.init(rawValue: "searchFieldBackgroundImage")
     /// UISearchBar.scopeBarButtonBackgroundImage
-    public static let scopeBarButtonBackgroundImage = Theme.Attribute.init("scopeBarButtonBackgroundImage")
+    public static let scopeBarButtonBackgroundImage = Theme.Attribute.init(rawValue: "scopeBarButtonBackgroundImage")
     /// UISearchBar 需使用 Theme.State.norml、Theme.State.norml 分别代表左右的 UIControlState ，其它状态依此类推。
-    public static let scopeBarButtonDividerImage = Theme.Attribute.init("scopeBarButtonDividerImage")
+    public static let scopeBarButtonDividerImage = Theme.Attribute.init(rawValue: "scopeBarButtonDividerImage")
     /// UISearchBar.scopeBarButtonTitleTextAttributes
-    public static let scopeBarButtonTitleTextAttributes = Theme.Attribute.init("scopeBarButtonTitleTextAttributes")
+    public static let scopeBarButtonTitleTextAttributes = Theme.Attribute.init(rawValue: "scopeBarButtonTitleTextAttributes")
     /// UISearchBar.searchFieldBackgroundPositionAdjustment
-    public static let searchFieldBackgroundPositionAdjustment = Theme.Attribute.init("searchFieldBackgroundPositionAdjustment")
+    public static let searchFieldBackgroundPositionAdjustment = Theme.Attribute.init(rawValue: "searchFieldBackgroundPositionAdjustment")
     /// UISearchBar.searchTextPositionAdjustment
-    public static let searchTextPositionAdjustment = Theme.Attribute.init("searchTextPositionAdjustment")
+    public static let searchTextPositionAdjustment = Theme.Attribute.init(rawValue: "searchTextPositionAdjustment")
     /// UISearchBar.positionAdjustment
-    public static let positionAdjustment = Theme.Attribute.init("positionAdjustment")
+    public static let positionAdjustment = Theme.Attribute.init(rawValue: "positionAdjustment")
 }
 
 extension Theme.Style {
@@ -281,7 +281,7 @@ extension UISearchBar {
                 if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
                     setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: controlState)
                 }
-            } else if themeState.isPrimary {
+            } else if themeState.isBasic {
                 guard let searchBarIcon = UISearchBarIcon.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue
@@ -290,9 +290,9 @@ extension UISearchBar {
                 if themeStyle.containsThemeAttribute(.positionAdjustment) {
                     setPositionAdjustment(themeStyle.positionAdjustment, for: searchBarIcon)
                 }
-            } else if themeState.children.count >= 2 {
-                if let barPosition = UIBarPosition.init(themeState.children[0]) {
-                    guard let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+            } else if themeState.count >= 2 {
+                if let barPosition = UIBarPosition.init(themeState[0]) {
+                    guard let barMetrics = UIBarMetrics.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
@@ -300,8 +300,8 @@ extension UISearchBar {
                     if themeStyle.containsThemeAttribute(.backgroundImage) {
                         self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                     }
-                } else if let searchBarIcon = UISearchBarIcon.init(themeState.children[0]) {
-                    guard let controlState = UIControlState.init(themeState.children[1]) else {
+                } else if let searchBarIcon = UISearchBarIcon.init(themeState[0]) {
+                    guard let controlState = UIControlState.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
@@ -309,8 +309,8 @@ extension UISearchBar {
                     if themeStyle.containsThemeAttribute(.image) {
                         setImage(themeStyle.image, for: searchBarIcon, state: controlState)
                     }
-                } else if let leftControlState = UIControlState.init(themeState.children[0]) {
-                    guard let rightControlState = UIControlState.init(themeState.children[1]) else {
+                } else if let leftControlState = UIControlState.init(themeState[0]) {
+                    guard let rightControlState = UIControlState.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }

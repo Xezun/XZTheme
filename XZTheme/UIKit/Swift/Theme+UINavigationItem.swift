@@ -12,15 +12,15 @@ import XZKit
 extension Theme.Attribute {
     
     /// UINavigationItem, UISearchBar
-    public static let prompt = Theme.Attribute.init("prompt")
+    public static let prompt                        = Theme.Attribute.init(rawValue: "prompt")
     /// UINavigationItem.largeTitleDisplayMode
-    public static let largeTitleDisplayMode = Theme.Attribute.init("largeTitleDisplayMode")
+    public static let largeTitleDisplayMode         = Theme.Attribute.init(rawValue: "largeTitleDisplayMode")
     /// UINavigationItem.hidesSearchBarWhenScrolling
-    public static let hidesSearchBarWhenScrolling = Theme.Attribute.init("hidesSearchBarWhenScrolling")
+    public static let hidesSearchBarWhenScrolling   = Theme.Attribute.init(rawValue: "hidesSearchBarWhenScrolling")
     /// UINavigationItem.leftItemsSupplementBackButton
-    public static let leftItemsSupplementBackButton = Theme.Attribute.init("leftItemsSupplementBackButton")
+    public static let leftItemsSupplementBackButton = Theme.Attribute.init(rawValue: "leftItemsSupplementBackButton")
     /// UINavigationItem.hidesBackButton
-    public static let hidesBackButton = Theme.Attribute.init("hidesBackButton")
+    public static let hidesBackButton               = Theme.Attribute.init(rawValue: "hidesBackButton")
 }
 
 extension Theme.Style {

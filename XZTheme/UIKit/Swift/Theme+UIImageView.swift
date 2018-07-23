@@ -11,21 +11,21 @@ import UIKit
 extension Theme.Attribute {
     
     /// UIImageView.image
-    public static let image                         = Theme.Attribute.init("image");
+    public static let image                         = Theme.Attribute.init(rawValue: "image");
     /// UIImageView.highlightedImage
-    public static let highlightedImage              = Theme.Attribute.init("highlightedImage")
+    public static let highlightedImage              = Theme.Attribute.init(rawValue: "highlightedImage")
     /// UIImageView.images
-    public static let images                        = Theme.Attribute.init("images")
+    public static let images                        = Theme.Attribute.init(rawValue: "images")
     /// UIImageView.animationImages
-    public static let animationImages               = Theme.Attribute.init("animationImages")
+    public static let animationImages               = Theme.Attribute.init(rawValue: "animationImages")
     /// UIImageView.highlightedAnimationImages
-    public static let highlightedAnimationImages    = Theme.Attribute.init("highlightedAnimationImages")
+    public static let highlightedAnimationImages    = Theme.Attribute.init(rawValue: "highlightedAnimationImages")
     /// UIImageView.isAnimating, UIActivityIndicatorView.isAnimating
-    public static let isAnimating                   = Theme.Attribute.init("isAnimating")
+    public static let isAnimating                   = Theme.Attribute.init(rawValue: "isAnimating")
     /// UIImageView.isHighlighted
-    public static let isHighlighted                 = Theme.Attribute.init("isHighlighted")
+    public static let isHighlighted                 = Theme.Attribute.init(rawValue: "isHighlighted")
     /// For UIImageView, UITextField, UISearchBar
-    public static let placeholder                   = Theme.Attribute.init("placeholder")
+    public static let placeholder                   = Theme.Attribute.init(rawValue: "placeholder")
 }
 
 extension Theme.Style {

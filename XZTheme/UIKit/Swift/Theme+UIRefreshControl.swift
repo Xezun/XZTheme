@@ -9,7 +9,7 @@ import Foundation
 
 extension Theme.Attribute {
     /// UIRefreshControl
-    public static let isRefreshing = Theme.Attribute.init("isRefreshing")
+    public static let isRefreshing = Theme.Attribute.init(rawValue: "isRefreshing")
 }
 
 extension Theme.Style {

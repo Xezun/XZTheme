@@ -56,15 +56,15 @@ extension UIBarPosition {
 extension Theme.Attribute {
     
     /// UINavigationBar.largeTitleTextAttributes
-    public static let largeTitleTextAttributes = Theme.Attribute.init(rawValue: "largeTitleTextAttributes")
+    public static let largeTitleTextAttributes          = Theme.Attribute.init(rawValue: "largeTitleTextAttributes")
     /// UINavigationBar.backIndicatorImage
-    public static let backIndicatorImage = Theme.Attribute.init(rawValue: "backIndicatorImage")
+    public static let backIndicatorImage                = Theme.Attribute.init(rawValue: "backIndicatorImage")
     /// UINavigationBar.backIndicatorTransitionMaskImage
-    public static let backIndicatorTransitionMaskImage = Theme.Attribute.init(rawValue: "backIndicatorTransitionMaskImage")
+    public static let backIndicatorTransitionMaskImage  = Theme.Attribute.init(rawValue: "backIndicatorTransitionMaskImage")
     /// UINavigationBar.prefersLargeTitles
-    public static let prefersLargeTitles = Theme.Attribute.init(rawValue: "prefersLargeTitles")
+    public static let prefersLargeTitles                = Theme.Attribute.init(rawValue: "prefersLargeTitles")
     /// UINavigationBar
-    public static let titleVerticalPositionAdjustment = Theme.Attribute.init("titleVerticalPositionAdjustment")
+    public static let titleVerticalPositionAdjustment   = Theme.Attribute.init(rawValue: "titleVerticalPositionAdjustment")
 }
 
 extension Theme.Style {
@@ -137,11 +137,11 @@ extension UINavigationBar {
         
         // 保证先应用简单状态，后应用复合状态。
         let themeStates = themeStyles.effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
-            return state2.isPrimary
+            return state2.isBasic
         })
         
         for themeState in themeStates {
-            if themeState.isPrimary {
+            if themeState.isBasic {
                 guard let barMetrics = UIBarMetrics.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
                     continue
@@ -153,9 +153,9 @@ extension UINavigationBar {
                 if themeStyle.containsThemeAttribute(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barMetrics)
                 }
-            } else if themeState.children.count >= 2 {
-                guard let barPosition = UIBarPosition.init(themeState.children[0]),
-                    let barMetrics = UIBarMetrics.init(themeState.children[1]) else {
+            } else if themeState.count >= 2 {
+                guard let barPosition = UIBarPosition.init(themeState[0]),
+                    let barMetrics = UIBarMetrics.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
                         continue
                 }

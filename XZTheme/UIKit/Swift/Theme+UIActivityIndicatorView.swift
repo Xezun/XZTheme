@@ -11,11 +11,11 @@ import XZKit
 extension Theme.Attribute {
     
     /// UIActivityIndicatorView.hidesWhenStopped
-    public static let activityIndicatorViewStyle = Theme.Attribute.init("activityIndicatorViewStyle")
+    public static let activityIndicatorViewStyle = Theme.Attribute.init(rawValue: "activityIndicatorViewStyle")
     /// UIActivityIndicatorView.hidesWhenStopped
-    public static let hidesWhenStopped = Theme.Attribute.init("hidesWhenStopped")
+    public static let hidesWhenStopped = Theme.Attribute.init(rawValue: "hidesWhenStopped")
     /// UIActivityIndicatorView.color
-    public static let color = Theme.Attribute.init("color")
+    public static let color = Theme.Attribute.init(rawValue: "color")
     
 }
 

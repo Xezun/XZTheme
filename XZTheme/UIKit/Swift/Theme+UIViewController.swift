@@ -12,7 +12,7 @@ import XZKit
 extension Theme.Attribute {
     
     /// UIViewController.statusBarStyle
-    public static let statusBarStyle = Theme.Attribute.init("statusBarStyle")
+    public static let statusBarStyle = Theme.Attribute.init(rawValue: "statusBarStyle")
     
 }
 

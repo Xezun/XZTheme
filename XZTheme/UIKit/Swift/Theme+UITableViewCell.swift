@@ -11,15 +11,15 @@ import XZKit
 extension Theme.Attribute {
     
     /// UITableViewCell
-    public static let selectionStyle = Theme.Attribute.init("selectionStyle")
+    public static let selectionStyle = Theme.Attribute.init(rawValue: "selectionStyle")
     /// UITableViewCell
-    public static let accessoryType = Theme.Attribute.init("accessoryType")
+    public static let accessoryType = Theme.Attribute.init(rawValue: "accessoryType")
     /// For the UITableViewCell.contentView's backgroundColor.
-    public static let contentBackgroundColor = Theme.Attribute.init("contentBackgroundColor")
+    public static let contentBackgroundColor = Theme.Attribute.init(rawValue: "contentBackgroundColor")
     /// For the UITableViewCell.selectedBackgrondView's backgroundColor.
-    public static let selectedBackgroundColor = Theme.Attribute.init("selectedBackgroundColor")
+    public static let selectedBackgroundColor = Theme.Attribute.init(rawValue: "selectedBackgroundColor")
     /// For the UITableViewCell.multipleSelectionBackgroundView's backgroundColor.
-    public static let multipleSelectionBackgroundColor = Theme.Attribute.init("multipleSelectionBackgroundColor")
+    public static let multipleSelectionBackgroundColor = Theme.Attribute.init(rawValue: "multipleSelectionBackgroundColor")
     
 }
 

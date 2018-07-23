@@ -12,7 +12,7 @@ import XZKit
 extension Theme.Attribute {
     
     /// UIScrollView
-    public static let indicatorStyle = Theme.Attribute.init("indicatorStyle")
+    public static let indicatorStyle = Theme.Attribute.init(rawValue: "indicatorStyle")
     
 }
 

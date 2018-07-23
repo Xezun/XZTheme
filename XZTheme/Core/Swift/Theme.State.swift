@@ -33,7 +33,7 @@ extension Theme.State {
     /// - Throws: 抛出异常结束遍历或遍历过程中发生的异常。
     public func forEachPrimaryThemeState(_ body: (Theme.State) throws -> Void) rethrows {
         for themeState in self {
-            if themeState.children.isEmpty {
+            if themeState.isBasic {
                 try body(themeState)
             } else {
                 try themeState.forEachPrimaryThemeState(body)
@@ -42,35 +42,6 @@ extension Theme.State {
     }
     
 }
-
-extension Theme.State {
-    
-}
-
-//extension Theme.State: _ObjectiveCBridgeable {
-//
-//    public func _bridgeToObjectiveC() -> NSString {
-//        return rawValue as NSString
-//    }
-//
-//    public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) {
-//        result = Theme.State.init(rawValue: source as String, rawType: Any.self, isOptionSetElement: false)
-//    }
-//
-//    public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme.State?) -> Bool {
-//        _forceBridgeFromObjectiveC(source, result: &result)
-//        return true
-//    }
-//
-//    public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme.State {
-//        if let value = source as String? {
-//            return Theme.State.init(rawValue: value as String, rawType: Any.self, isOptionSetElement: false)
-//        }
-//        return Theme.State.normal;
-//    }
-//
-//    public typealias _ObjectiveCType = NSString
-//}
 
 extension Theme.State {
     
@@ -95,7 +66,7 @@ extension UIControlState {
         guard themeState.rawType == UIControlState.self else {
             return nil
         }
-        if themeState.isPrimary {
+        if themeState.isBasic {
             self = themeState.rawValue as! UIControlState
         } else {
             var controlState: UIControlState! = nil

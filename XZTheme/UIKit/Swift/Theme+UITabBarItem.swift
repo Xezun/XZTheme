@@ -12,15 +12,15 @@ import XZKit
 extension Theme.Attribute {
     
     /// UITabBarItem.selectedImage
-    public static let selectedImage = Theme.Attribute.init("selectedImage")
+    public static let selectedImage = Theme.Attribute.init(rawValue: "selectedImage")
     /// UITabBarItem.titleTextAttributes
-    public static let titleTextAttributes = Theme.Attribute.init("titleTextAttributes")
+    public static let titleTextAttributes = Theme.Attribute.init(rawValue: "titleTextAttributes")
     /// UITabBarItem.landscapeImagePhone
-    public static let landscapeImagePhone = Theme.Attribute.init("landscapeImagePhone")
+    public static let landscapeImagePhone = Theme.Attribute.init(rawValue: "landscapeImagePhone")
     /// UITabBarItem.largeContentSizeImage
-    public static let largeContentSizeImage = Theme.Attribute.init("largeContentSizeImage")
+    public static let largeContentSizeImage = Theme.Attribute.init(rawValue: "largeContentSizeImage")
     /// UITabBarItem
-    public static let badgeTextAttributes = Theme.Attribute.init("badgeTextAttributes")
+    public static let badgeTextAttributes = Theme.Attribute.init(rawValue: "badgeTextAttributes")
 }
 
 extension Theme.Style {

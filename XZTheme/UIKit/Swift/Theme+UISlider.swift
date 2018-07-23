@@ -10,17 +10,17 @@ import Foundation
 extension Theme.Attribute {
     
     /// UISlider
-    public static let isContinuous = Theme.Attribute.init("isContinuous")
+    public static let isContinuous = Theme.Attribute.init(rawValue: "isContinuous")
     /// UISlider
-    public static let minimumTrackTintColor = Theme.Attribute.init("minimumTrackTintColor")
+    public static let minimumTrackTintColor = Theme.Attribute.init(rawValue: "minimumTrackTintColor")
     /// UISlider
-    public static let maximumTrackTintColor = Theme.Attribute.init("maximumTrackTintColor")
+    public static let maximumTrackTintColor = Theme.Attribute.init(rawValue: "maximumTrackTintColor")
     /// UISlider
-    public static let thumbImage = Theme.Attribute.init("thumbImage")
+    public static let thumbImage = Theme.Attribute.init(rawValue: "thumbImage")
     /// UISlider
-    public static let minimumTrackImage = Theme.Attribute.init("minimumTrackImage")
+    public static let minimumTrackImage = Theme.Attribute.init(rawValue: "minimumTrackImage")
     /// UISlider
-    public static let maximumTrackImage = Theme.Attribute.init("maximumTrackImage")
+    public static let maximumTrackImage = Theme.Attribute.init(rawValue: "maximumTrackImage")
     
 }
 
