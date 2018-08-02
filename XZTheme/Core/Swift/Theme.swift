@@ -13,7 +13,7 @@ extension Notification.Name {
     
     /// 当主题发生改变时，发送 Notification 所使用的名称。
     /// - Note: 视图及视图控制器 UIView/UIViewController 及其子类，无需监听通知，其会自动的在适当的时机应用主题。
-    public static let ThemeDidChange = Notification.Name.init("com.mlibai.XZKit.theme.changed")
+    public static let ThemeDidChange = Notification.Name.init(Domain + ".theme.changed")
     
 }
 
@@ -73,7 +73,7 @@ extension Theme {
     @objc public static let AnimationDuration: TimeInterval = 0.5
     
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
-    @objc public static let UserDefaultsKey: String = "com.mlibai.XZKit.theme.default"
+    @objc public static let UserDefaultsKey: String = Domain + ".theme.default"
     
 }
 
@@ -104,6 +104,7 @@ public final class Theme: NSObject {
         super.init()
     }
     
+    /// 此属性与主题名称相同。
     public override var description: String {
         return name
     }
@@ -111,7 +112,7 @@ public final class Theme: NSObject {
     // MARK: - 定义：主题集
     
     /// 主题集，对象所支持的主题的集合，包括实例对象的主题集和全局主题集。
-    /// - Note: 在集合中，按主题进行分类存储所有的的主题样式。
+    /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
     @objc(XZThemeCollection)
     public final class Collection: NSObject {
         
@@ -121,7 +122,7 @@ public final class Theme: NSObject {
         @objc public unowned let object: AnyObject
         
         /// 当前主题集是否为全局主题集。
-        open var isGlobal: Bool
+        open let isGlobal: Bool
 
         /// 构造主题集。
         ///
