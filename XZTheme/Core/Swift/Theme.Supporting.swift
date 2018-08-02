@@ -8,90 +8,6 @@
 
 import UIKit
 
-
-/// 默认为 NSObject 提供了 XZThemeSupporting 支持。
-extension NSObject {
-    
-    /// 全局主题集，不带标识符的全局主题，懒加载。
-    /// - Note: 修改全局主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，样式检索顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 本主题集将主题集标识符 Theme.Identifier.notAnIdentifier 作为存储标识符。
-    @objc(xz_themes)
-    open class var themes: Theme.Collection {
-        return themes(forThemeIdentifier: .notAnIdentifier)
-    }
-    
-    /// 全局主题集，不带标识符的全局主题，非懒加载。
-    /// - Note: 修改全局主题集不会影响已应用主题的对象。
-    /// - Note: 当应用主题时，样式检索顺序为：对象的主题集 -> 指定标识符的全局主题集 -> 全局主题集 。
-    /// - Note: 本主题集将主题集标识符 Theme.Identifier.notAnIdentifier 作为存储标识符。
-    @objc(xz_themesIfLoaded)
-    open class var themesIfLoaded: Theme.Collection? {
-        return themesIfLoaded(forThemeIdentifier: .notAnIdentifier)
-    }
-    
-    /// 指定主题标识符的全局主题集，懒加载。
-    ///
-    /// - Parameter themeIdentifier: 主题标识符。
-    /// - Returns: 主题集。
-    @objc(xz_themesForThemeIdentifier:)
-    open class func themes(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection {
-        if var themesDictionary = objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection] {
-            if let themes = themesDictionary[themeIdentifier] {
-                return themes
-            }
-            let newThemes = Theme.Collection.init(for: self, themeIdentifier: themeIdentifier)
-            themesDictionary[themeIdentifier] = newThemes
-            objc_setAssociatedObject(self, &AssociationKey.themes, themesDictionary, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            return newThemes
-        }
-        let newThemes = Theme.Collection.init(for: self, themeIdentifier: themeIdentifier)
-        objc_setAssociatedObject(self, &AssociationKey.themes, [themeIdentifier: newThemes], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return newThemes
-    }
-    
-    /// 指定主题标识符的默认主题集，非懒加载。
-    ///
-    /// - Parameter themeIdentifier: 主题标识符。
-    /// - Returns: 主题集。
-    @objc(xz_themesIfLoadedForThemeIdentifier:)
-    open class func themesIfLoaded(forThemeIdentifier themeIdentifier: Theme.Identifier) -> Theme.Collection? {
-        return (objc_getAssociatedObject(self, &AssociationKey.themes) as? [Theme.Identifier: Theme.Collection])?[themeIdentifier]
-    }
-    
-    /// 获取当前有效的全局主题集。
-    /// - Note: 带标识符的全局主题集 -> 不带标识符的全局主题集 -> 父类不带标识符的全局主题集。
-    /// - Note: 不带标识符的全局主题集 -> 父类不带标识符的全局主题集。
-    ///
-    /// - Parameter themeIdentifier: 主题标识符。
-    /// - Returns: 主题集。
-    @objc(xz_effectiveThemesForThemeIdentifier:)
-    open class func effectiveThemes(forThemeIdentifier themeIdentifier: Theme.Identifier?) -> Theme.Collection? {
-        if let themeIdentifier = themeIdentifier {
-            // 获取 带标识符的主题集 并返回。
-            if let effectiveThemes = self.themesIfLoaded(forThemeIdentifier: themeIdentifier) {
-                return effectiveThemes
-            }
-            // 没有 带标识符的主题集，返回 不带标识符的主题集。
-        }
-        
-        // 获取 不带标识符的全局主题集 并返回。
-        if let effectiveThemes = self.themesIfLoaded {
-            return effectiveThemes
-        }
-        
-        // 没有 不带标识符的全局主题集，返回父类的全局主题集。
-        // 查找父类。
-        guard let superClsss = class_getSuperclass(self) as? NSObject.Type else { return nil }
-        // 获取父类不带标识符的主题集。
-        return superClsss.effectiveThemes(forThemeIdentifier: nil)
-    }
-    
-
-}
-
-
-
 extension NSObject {
     
     /// 主题集，懒加载。
@@ -113,14 +29,6 @@ extension NSObject {
     @objc(xz_themesIfLoaded)
     open var themesIfLoaded: Theme.Collection? {
         return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Collection
-    }
-    
-    /// 当前对象生效的主题集，可能是对象独立的主题集，也可能是全局默认的主题集，如果当前对象设置了标识符，可能是指定标识符的默认主题。
-    open var effectiveThemes: Theme.Collection? {
-        if let themes = self.themesIfLoaded {
-            return themes
-        }
-        return type(of: self).effectiveThemes(forThemeIdentifier: self.themeIdentifier)
     }
     
     /// 主题标识符。
@@ -213,7 +121,9 @@ extension NSObject {
         //     return
         // }
         // 如果没有配置主题，不执行操作。
-        guard let themes = self.effectiveThemes else { return }
+        // TODO: - 从样式管理中心获取主题配置。
+        // 当前对象的主题样式由样式管理中心派发给当前对象，并在样式发生改变时同步到当前对象中。
+        // guard let themes = self.effectiveThemes else { return }
         
         // 获取当前主题的主题样式并应用。
         if let themeStyles = themes.effectiveThemeStyles(forTheme: newTheme) {
