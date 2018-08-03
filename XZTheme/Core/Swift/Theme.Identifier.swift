@@ -11,7 +11,7 @@ import Foundation
 extension Theme.Identifier {
     
     /// 空字符串不被视为合法的主题标识符。
-    public static let notAnIdentifier: Theme.Identifier = Theme.Identifier.init("")
+    public static let notAnIdentifier: Theme.Identifier = Theme.Identifier.init(rawValue: "")
     
 }
 
@@ -50,7 +50,7 @@ extension Theme.Identifier: ReferenceConvertible {
     }
     
     public static func _forceBridgeFromObjectiveC(_ source: NSString, result: inout Theme.Identifier?) {
-        result = Theme.Identifier.init(source as String)
+        result = Theme.Identifier.init(rawValue: source as String)
     }
     
     public static func _conditionallyBridgeFromObjectiveC(_ source: NSString, result: inout Theme.Identifier?) -> Bool {
@@ -60,7 +60,7 @@ extension Theme.Identifier: ReferenceConvertible {
     
     public static func _unconditionallyBridgeFromObjectiveC(_ source: NSString?) -> Theme.Identifier {
         if let value = source as String? {
-            return Theme.Identifier.init(value)
+            return Theme.Identifier.init(rawValue: value)
         }
         return Theme.Identifier.notAnIdentifier;
     }

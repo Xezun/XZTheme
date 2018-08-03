@@ -137,11 +137,11 @@ extension UINavigationBar {
         
         // 保证先应用简单状态，后应用复合状态。
         let themeStates = themeStyles.effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
-            return state2.isBasic
+            return state2.isPrimary
         })
         
         for themeState in themeStates {
-            if themeState.isBasic {
+            if themeState.isPrimary {
                 guard let barMetrics = UIBarMetrics.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
                     continue

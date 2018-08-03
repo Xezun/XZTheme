@@ -281,7 +281,7 @@ extension UISearchBar {
                 if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
                     setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: controlState)
                 }
-            } else if themeState.isBasic {
+            } else if themeState.isPrimary {
                 guard let searchBarIcon = UISearchBarIcon.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue

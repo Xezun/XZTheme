@@ -9,8 +9,9 @@
 import UIKit
 import XZKit
 
-extension Theme.State: Equatable, Hashable {
+extension Theme.State: Equatable, Hashable, ExpressibleByArrayLiteral, CustomStringConvertible {
     
+    /// 根据 name 比较两个 Theme.State 是否相同。
     public static func == (lhs: Theme.State, rhs: Theme.State) -> Bool {
         return lhs.name == rhs.name
     }
@@ -20,23 +21,34 @@ extension Theme.State: Equatable, Hashable {
         return name.hashValue
     }
     
+    public typealias ArrayLiteralElement = Theme.State
+    
+    public init(arrayLiteral elements: Theme.State...) {
+        self.init(elements)
+    }
+    
+    /// 与 name 属性相同。
+    public var description: String {
+        return name
+    }
+    
+    
 }
 
 
 extension Theme.State {
     
     /// 遍历主题状态中的所有基本元素。
-    /// - Note: 与 for-in 不同，当复合状态的子元素也是复合状态时，此方法会遍历更深层次的主题状态。
-    /// - Note: 遍历的顺序与 for-in 相同。
+    /// - Important: 与 for-in 不同，此方法遍历当前状态包含的所有基本状态。
     ///
     /// - Parameter body: 遍历子元素所使用的闭包。
     /// - Throws: 抛出异常结束遍历或遍历过程中发生的异常。
-    public func forEachPrimaryThemeState(_ body: (Theme.State) throws -> Void) rethrows {
+    public func forEach(_ body: (Theme.State) throws -> Void) rethrows {
         for themeState in self {
-            if themeState.isBasic {
+            if themeState.isPrimary {
                 try body(themeState)
             } else {
-                try themeState.forEachPrimaryThemeState(body)
+                try themeState.forEach(body)
             }
         }
     }
@@ -45,14 +57,17 @@ extension Theme.State {
 
 extension Theme.State {
     
-    /// UIControlState.normal
-    public static let normal        = Theme.State.init(name: ":normal", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
-    /// UIControlState.selected
-    public static let selected     = Theme.State.init(name: ":selected", rawValue: UIControlState.selected, rawType: UIControlState.self, isOptionSet: true)
-    /// UIControlState.highlighted
-    public static let highlighted  = Theme.State.init(name: ":highlighted", rawValue: UIControlState.highlighted, rawType: UIControlState.self, isOptionSet: true)
-    /// UIControlState.disabled
-    public static let disabled     = Theme.State.init(name: ":disabled", rawValue: UIControlState.disabled, rawType: UIControlState.self, isOptionSet: true)
+    /// 正常状态。
+    public static let normal = Theme.State.init(name: ":normal", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
+    
+    /// 选中状态。
+    public static let selected    = Theme.State.init(name: ":selected", rawValue: UIControlState.selected, rawType: UIControlState.self, isOptionSet: true)
+    
+    /// 高亮状态。
+    public static let highlighted = Theme.State.init(name: ":highlighted", rawValue: UIControlState.highlighted, rawType: UIControlState.self, isOptionSet: true)
+    
+    /// 禁用状态。
+    public static let disabled    = Theme.State.init(name: ":disabled", rawValue: UIControlState.disabled, rawType: UIControlState.self, isOptionSet: true)
     
 }
 
@@ -66,25 +81,22 @@ extension UIControlState {
         guard themeState.rawType == UIControlState.self else {
             return nil
         }
-        if themeState.isBasic {
+        if themeState.isPrimary {
             self = themeState.rawValue as! UIControlState
         } else {
-            var controlState: UIControlState! = nil
-            UIControlState.forEach(themeState.rawValue as! [Any], &controlState)
+            var controlState = UIControlState.init(rawValue: 0)
+            UIControlState.formUnionEachState(in: themeState.rawValue as! [Any], &controlState)
             self = controlState
         }
     }
     
-    private static func forEach(_ states: [Any], _ result: inout UIControlState?) {
+    /// 合并可能包含 [UIControlState] 或 UIControlState 的数组中的所有 UIControlState 元素。
+    private static func formUnionEachState(in states: [Any], _ result: inout UIControlState) {
         for item in states {
             if let state = item as? UIControlState {
-                if result == nil {
-                    result = state
-                } else {
-                    result!.formUnion(state)
-                }
+                result.formUnion(state)
             } else {
-                forEach(item as! [Any], &result)
+                formUnionEachState(in: item as! [Any], &result)
             }
         }
     }
