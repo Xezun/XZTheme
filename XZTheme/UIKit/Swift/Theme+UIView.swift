@@ -27,33 +27,33 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var backgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .backgroundColor)        }
-        set { setValue(newValue, forThemeAttribute: .backgroundColor)  }
+        get { return color(for: .backgroundColor)        }
+        set { setValue(newValue, for: .backgroundColor)  }
     }
     
     public var tintColor: UIColor? {
-        get { return color(forThemeAttribute: .tintColor)       }
-        set { setValue(newValue, forThemeAttribute: .tintColor) }
+        get { return color(for: .tintColor)       }
+        set { setValue(newValue, for: .tintColor) }
     }
     
     public var isHidden: Bool {
-        get { return boolValue(forThemeAttribute: .isHidden)       }
-        set { setValue(newValue, forThemeAttribute: .isHidden) }
+        get { return boolValue(for: .isHidden)       }
+        set { setValue(newValue, for: .isHidden) }
     }
     
     public var isOpaque: Bool {
-        get { return boolValue(forThemeAttribute: .isOpaque)   }
-        set { setValue(newValue, forThemeAttribute: .isOpaque) }
+        get { return boolValue(for: .isOpaque)   }
+        set { setValue(newValue, for: .isOpaque) }
     }
     
     public var alpha: CGFloat {
-        get { return CGFloat(doubleValue(forThemeAttribute: .alpha)) }
-        set { setValue(newValue, forThemeAttribute: .alpha)          }
+        get { return CGFloat(doubleValue(for: .alpha)) }
+        set { setValue(newValue, for: .alpha)          }
     }
     
     public var brightness: CGFloat {
-        get { return CGFloat(doubleValue(forThemeAttribute: .brightness)) }
-        set { setValue(newValue, forThemeAttribute: .brightness)          }
+        get { return CGFloat(doubleValue(for: .brightness)) }
+        set { setValue(newValue, for: .brightness)          }
     }
     
 }
@@ -113,27 +113,27 @@ extension UIView {
         // 遍历配置，就会导致子类父类多次遍历。
         // 但是检测是否存在（判断字典是否存在键）属性再赋值，能否效率更高，有待验证。
         
-        if themeStyles.containsThemeAttribute(.backgroundColor) {
+        if themeStyles.contains(.backgroundColor) {
             self.backgroundColor = themeStyles.backgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.tintColor) {
+        if themeStyles.contains(.tintColor) {
             self.tintColor = themeStyles.tintColor
         }
         
-        if themeStyles.containsThemeAttribute(.isHidden) {
+        if themeStyles.contains(.isHidden) {
             self.isHidden = themeStyles.isHidden
         }
         
-        if themeStyles.containsThemeAttribute(.alpha) {
+        if themeStyles.contains(.alpha) {
             self.alpha = themeStyles.alpha
         }
         
-        if themeStyles.containsThemeAttribute(.isOpaque) {
+        if themeStyles.contains(.isOpaque) {
             self.isOpaque = themeStyles.isOpaque
         }
         
-        if themeStyles.containsThemeAttribute(.brightness) {
+        if themeStyles.contains(.brightness) {
             self.brightness = themeStyles.brightness
         }
     }

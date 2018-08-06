@@ -20,18 +20,18 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var isEditable: Bool {
-        get { return boolValue(forThemeAttribute: .isEditable) }
-        set { setValue(newValue, forThemeAttribute: .isEditable) }
+        get { return boolValue(for: .isEditable) }
+        set { setValue(newValue, for: .isEditable) }
     }
     
     public var isSelectable: Bool {
-        get { return boolValue(forThemeAttribute: .isSelectable) }
-        set { setValue(newValue, forThemeAttribute: .isSelectable) }
+        get { return boolValue(for: .isSelectable) }
+        set { setValue(newValue, for: .isSelectable) }
     }
     
     public var linkTextAttributes: [String : Any]? {
-        get { return stringAttributes(forThemeAttribute: .linkTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .linkTextAttributes) }
+        get { return stringAttributes(for: .linkTextAttributes) }
+        set { setValue(newValue, for: .linkTextAttributes) }
     }
 }
 
@@ -41,75 +41,75 @@ extension UITextView {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.text) {
+        if themeStyles.contains(.text) {
             self.text = themeStyles.text
         }
         
-        if themeStyles.containsThemeAttribute(.font) {
+        if themeStyles.contains(.font) {
             self.font = themeStyles.font
         }
         
-        if themeStyles.containsThemeAttribute(.textColor) {
+        if themeStyles.contains(.textColor) {
             self.textColor = themeStyles.textColor
         }
         
-        if themeStyles.containsThemeAttribute(.textAlignment) {
+        if themeStyles.contains(.textAlignment) {
             self.textAlignment = themeStyles.textAlignment
         }
 
         // open var selectedRange: NSRange
         
-        if themeStyles.containsThemeAttribute(.isEditable) {
+        if themeStyles.contains(.isEditable) {
             self.isEditable = themeStyles.isEditable
         }
 
-        if themeStyles.containsThemeAttribute(.isSelectable) {
+        if themeStyles.contains(.isSelectable) {
             self.isSelectable = themeStyles.isSelectable
         }
 
         // open var dataDetectorTypes: UIDataDetectorTypes
 
-        if themeStyles.containsThemeAttribute(.allowsEditingTextAttributes) {
+        if themeStyles.contains(.allowsEditingTextAttributes) {
             self.allowsEditingTextAttributes = themeStyles.allowsEditingTextAttributes
         }
         
-        if themeStyles.containsThemeAttribute(.attributedText) {
+        if themeStyles.contains(.attributedText) {
             self.attributedText = themeStyles.attributedText
         }
 
-        if themeStyles.containsThemeAttribute(.typingAttributes) {
+        if themeStyles.contains(.typingAttributes) {
             self.typingAttributes = themeStyles.typingAttributes ?? [:]
         }
 
-        if themeStyles.containsThemeAttribute(.clearsOnInsertion) {
+        if themeStyles.contains(.clearsOnInsertion) {
             self.clearsOnInsertion = themeStyles.clearsOnInsertion
         }
 
         // open var textContainerInset: UIEdgeInsets
 
-        if themeStyles.containsThemeAttribute(.linkTextAttributes) {
+        if themeStyles.contains(.linkTextAttributes) {
             self.linkTextAttributes = themeStyles.linkTextAttributes
         }
         
         
         
-        if themeStyles.containsThemeAttribute(.keyboardAppearance) {
+        if themeStyles.contains(.keyboardAppearance) {
             self.keyboardAppearance = themeStyles.keyboardAppearance
         }
         
-        if themeStyles.containsThemeAttribute(.keyboardType) {
+        if themeStyles.contains(.keyboardType) {
             self.keyboardType = themeStyles.keyboardType
         }
         
-        if themeStyles.containsThemeAttribute(.returnKeyType) {
+        if themeStyles.contains(.returnKeyType) {
             self.returnKeyType = themeStyles.returnKeyType
         }
         
-        if themeStyles.containsThemeAttribute(.enablesReturnKeyAutomatically) {
+        if themeStyles.contains(.enablesReturnKeyAutomatically) {
             self.enablesReturnKeyAutomatically = themeStyles.enablesReturnKeyAutomatically
         }
         
-        if themeStyles.containsThemeAttribute(.isSecureTextEntry) {
+        if themeStyles.contains(.isSecureTextEntry) {
             self.isSecureTextEntry = themeStyles.isSecureTextEntry
         }
     }

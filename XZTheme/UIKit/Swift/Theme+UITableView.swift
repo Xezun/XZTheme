@@ -30,8 +30,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func tableViewCellSeparatorStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellSeparatorStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .singleLine }
+    public func tableViewCellSeparatorStyle(for themeAttribute: Theme.Attribute) -> UITableViewCellSeparatorStyle {
+        guard let value = value(for: themeAttribute) else { return .singleLine }
         if let separatorStyle = value as? UITableViewCellSeparatorStyle {
             return separatorStyle
         }
@@ -53,28 +53,28 @@ extension Theme.Style {
 
 
     public var sectionIndexColor: UIColor? {
-        get { return color(forThemeAttribute: .sectionIndexColor) }
-        set { setValue(newValue, forThemeAttribute: .sectionIndexColor) }
+        get { return color(for: .sectionIndexColor) }
+        set { setValue(newValue, for: .sectionIndexColor) }
     }
     
     public var sectionIndexBackgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .sectionIndexBackgroundColor) }
-        set { setValue(newValue, forThemeAttribute: .sectionIndexBackgroundColor) }
+        get { return color(for: .sectionIndexBackgroundColor) }
+        set { setValue(newValue, for: .sectionIndexBackgroundColor) }
     }
     
     public var sectionIndexTrackingBackgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .sectionIndexTrackingBackgroundColor) }
-        set { setValue(newValue, forThemeAttribute: .sectionIndexTrackingBackgroundColor) }
+        get { return color(for: .sectionIndexTrackingBackgroundColor) }
+        set { setValue(newValue, for: .sectionIndexTrackingBackgroundColor) }
     }
     
     public var separatorStyle: UITableViewCellSeparatorStyle {
-        get { return tableViewCellSeparatorStyle(forThemeAttribute: .separatorStyle)  }
-        set { setValue(newValue, forThemeAttribute: .separatorStyle) }
+        get { return tableViewCellSeparatorStyle(for: .separatorStyle)  }
+        set { setValue(newValue, for: .separatorStyle) }
     }
     
     public var separatorColor: UIColor? {
-        get { return color(forThemeAttribute: .separatorColor) }
-        set { setValue(newValue, forThemeAttribute: .separatorColor) }
+        get { return color(for: .separatorColor) }
+        set { setValue(newValue, for: .separatorColor) }
     }
     
 }
@@ -84,23 +84,23 @@ extension UITableView {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.sectionIndexColor) {
+        if themeStyles.contains(.sectionIndexColor) {
             self.sectionIndexColor = themeStyles.sectionIndexColor
         }
         
-        if themeStyles.containsThemeAttribute(.sectionIndexBackgroundColor) {
+        if themeStyles.contains(.sectionIndexBackgroundColor) {
             self.sectionIndexBackgroundColor = themeStyles.sectionIndexBackgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.sectionIndexTrackingBackgroundColor) {
+        if themeStyles.contains(.sectionIndexTrackingBackgroundColor) {
             self.sectionIndexTrackingBackgroundColor = themeStyles.sectionIndexTrackingBackgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.separatorStyle) {
+        if themeStyles.contains(.separatorStyle) {
             self.separatorStyle = themeStyles.separatorStyle
         }
         
-        if themeStyles.containsThemeAttribute(.separatorColor) {
+        if themeStyles.contains(.separatorColor) {
             self.separatorColor = themeStyles.separatorColor
         }
                 

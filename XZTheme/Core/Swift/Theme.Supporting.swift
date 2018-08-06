@@ -19,23 +19,31 @@ extension NSObject {
             return themeStyles
         }
         let themeStyles = Theme.Style.Collection.init(for: self)
-        objc_setAssociatedObject(self, &AssociationKey.themes, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociationKey.themeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return themeStyles
+    }
+    
+    /// 计算样式，最终应用到对象上的样式。
+    /// - Note: 计算样式由内部维护，外部修改不同步到当前状态中。
+    @objc(xz_computedThemeStyles)
+    open var computedThemeStyles: Theme.Style.Collection? {
+        get { return objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) as? Theme.Style.Collection }
+        set { objc_setAssociatedObject(self, &AssociationKey.computedThemeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     /// 私有样式集，非懒加载。
     @objc(xz_themesIfLoaded)
     open var themeStylesIfLoaded: Theme.Style.Collection? {
-        return objc_getAssociatedObject(self, &AssociationKey.themes) as? Theme.Style.Collection
+        return objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? Theme.Style.Collection
     }
     
     /// 主题标识符。
     @objc(xz_themeIdentifier)
     open var themeIdentifier: Theme.Identifier? {
         get { return objc_getAssociatedObject(self, &AssociationKey.themeIdentifier) as? Theme.Identifier }
-        set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
+        set { objc_setAssociatedObject(self, &AssociationKey.themeIdentifier, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
-    
+   
     /// 当前已应用的主题。
     /// - Note: 已应用的主题不等于当前主题，特别是当控件未显示时。
     /// - Note: 如果为对象配置当前主题的主题样式，那么使用的是默认主题的主题样式。
@@ -74,6 +82,8 @@ extension NSObject {
             return
         }
         self.needsUpdateThemeAppearance = true
+        // 重置计算样式。
+        self.computedThemeStyles = nil;
         DispatchQueue.main.async(execute: {
             self.updateThemeAppearanceIfNeeded()
         })
@@ -109,17 +119,13 @@ extension NSObject {
             return
         }
         
-        // 默认主题样式。
-        let defaultStyles = Theme.default.themes.themeStyles(for: self)
-        // 样式表主题样式。
-        let themeStyles = (newTheme != .default ? newTheme.themes.themeStyles(for: self) : nil)
-        // 私有样式。
-        let instanceStyles = self.themeStylesIfLoaded
-        
-        if let unionStyles = Theme.Style.Collection.init(union: defaultStyles, themeStyles, instanceStyles) {
-            updateAppearance(with: unionStyles)
+        // 计算样式。
+        guard let computedThemeStyles = newTheme.themesIfLoaded(for: self)?.themeStyles(for: self) else {
+            return
         }
         
+        // 应用样式。
+        updateAppearance(with: computedThemeStyles)
     }
     
     /// 当应用主题时，如果当前对象已配置了主题样式，则此方法会被调用。
@@ -238,10 +244,11 @@ extension UINavigationItem {
 
 
 private struct AssociationKey {
-    static var themes:                      Int = 0
-    static var themeIdentifier:             Int = 1
-    static var appliedTheme:                Int = 2
-    static var needsUpdateThemeAppearance:  Int = 3
+    static var themeStyles:                 Int = 0
+    static var computedThemeStyles:         Int = 1
+    static var themeIdentifier:             Int = 2
+    static var appliedTheme:                Int = 3
+    static var needsUpdateThemeAppearance:  Int = 4
 }
 
 

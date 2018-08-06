@@ -28,8 +28,8 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func progressViewStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIProgressViewStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+    public func progressViewStyle(for themeAttribute: Theme.Attribute) -> UIProgressViewStyle {
+        guard let value = value(for: themeAttribute) else { return .default }
         if let progressViewStyle = value as? UIProgressViewStyle {
             return progressViewStyle
         }
@@ -48,33 +48,33 @@ extension Theme.Style {
     }
     
     public var progressViewStyle: UIProgressViewStyle {
-        get { return progressViewStyle(forThemeAttribute: .progressViewStyle) }
-        set { setValue(newValue, forThemeAttribute: .progressViewStyle) }
+        get { return progressViewStyle(for: .progressViewStyle) }
+        set { setValue(newValue, for: .progressViewStyle) }
     }
     
     public var progress: Float {
-        get { return self.floatValue(forThemeAttribute: .progress) }
-        set { setValue(newValue, forThemeAttribute: .progress) }
+        get { return self.floatValue(for: .progress) }
+        set { setValue(newValue, for: .progress) }
     }
     
     public var progressTintColor: UIColor? {
-        get { return color(forThemeAttribute: .progressTintColor) }
-        set { setValue(newValue, forThemeAttribute: .progressTintColor) }
+        get { return color(for: .progressTintColor) }
+        set { setValue(newValue, for: .progressTintColor) }
     }
     
     public var trackTintColor: UIColor? {
-        get { return color(forThemeAttribute: .trackTintColor) }
-        set { setValue(newValue, forThemeAttribute: .trackTintColor) }
+        get { return color(for: .trackTintColor) }
+        set { setValue(newValue, for: .trackTintColor) }
     }
     
     public var progressImage: UIImage? {
-        get { return image(forThemeAttribute: .progressImage) }
-        set { setValue(newValue, forThemeAttribute: .progressImage)}
+        get { return image(for: .progressImage) }
+        set { setValue(newValue, for: .progressImage)}
     }
     
     public var trackImage: UIImage? {
-        get { return image(forThemeAttribute: .trackImage)  }
-        set { setValue(newValue, forThemeAttribute: .trackImage) }
+        get { return image(for: .trackImage)  }
+        set { setValue(newValue, for: .trackImage) }
     }
     
 }
@@ -84,27 +84,27 @@ extension UIProgressView {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.progressViewStyle) {
+        if themeStyles.contains(.progressViewStyle) {
             self.progressViewStyle = themeStyles.progressViewStyle
         }
         
-        if themeStyles.containsThemeAttribute(.progress) {
+        if themeStyles.contains(.progress) {
             self.progress = themeStyles.progress
         }
         
-        if themeStyles.containsThemeAttribute(.progressTintColor) {
+        if themeStyles.contains(.progressTintColor) {
             self.progressTintColor = themeStyles.progressTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.trackTintColor) {
+        if themeStyles.contains(.trackTintColor) {
             self.trackTintColor = themeStyles.trackTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.progressImage) {
+        if themeStyles.contains(.progressImage) {
             self.progressImage = themeStyles.progressImage
         }
         
-        if themeStyles.containsThemeAttribute(.trackImage) {
+        if themeStyles.contains(.trackImage) {
             self.trackImage = themeStyles.trackImage
         }
 

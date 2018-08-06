@@ -35,8 +35,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值 UIBarStyle 。
-    public func barStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIBarStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+    public func barStyle(for themeAttribute: Theme.Attribute) -> UIBarStyle {
+        guard let value = value(for: themeAttribute) else { return .default }
         if let barStyle = value as? UIBarStyle {
             return barStyle
         }
@@ -55,33 +55,33 @@ extension Theme.Style {
     }
     
     public var barTintColor: UIColor? {
-        get { return color(forThemeAttribute: .barTintColor)        }
-        set { setValue(newValue, forThemeAttribute: .barTintColor)  }
+        get { return color(for: .barTintColor)        }
+        set { setValue(newValue, for: .barTintColor)  }
     }
     
     public var shadowImage: UIImage? {
-        get { return image(forThemeAttribute: .shadowImage) }
-        set { setValue(newValue, forThemeAttribute: .shadowImage) }
+        get { return image(for: .shadowImage) }
+        set { setValue(newValue, for: .shadowImage) }
     }
     
     public var unselectedItemTintColor: UIColor? {
-        get { return color(forThemeAttribute: .unselectedItemTintColor) }
-        set { setValue(newValue, forThemeAttribute: .unselectedItemTintColor) }
+        get { return color(for: .unselectedItemTintColor) }
+        set { setValue(newValue, for: .unselectedItemTintColor) }
     }
     
     public var selectionIndicatorImage: UIImage? {
-        get { return image(forThemeAttribute: .selectionIndicatorImage)          }
-        set { setValue(newValue, forThemeAttribute: .selectionIndicatorImage)    }
+        get { return image(for: .selectionIndicatorImage)          }
+        set { setValue(newValue, for: .selectionIndicatorImage)    }
     }
     
     public var barStyle: UIBarStyle {
-        get { return barStyle(forThemeAttribute: .barStyle) }
-        set { setValue(newValue, forThemeAttribute: .barStyle)  }
+        get { return barStyle(for: .barStyle) }
+        set { setValue(newValue, for: .barStyle)  }
     }
     
     public var isTranslucent: Bool {
-        get { return boolValue(forThemeAttribute: .isTranslucent) }
-        set { setValue(newValue, forThemeAttribute: .isTranslucent) }
+        get { return boolValue(for: .isTranslucent) }
+        set { setValue(newValue, for: .isTranslucent) }
     }
     
     /// public var backgroundImage: UIImage?
@@ -93,32 +93,32 @@ extension UITabBar {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        if themeStyles.containsThemeAttribute(.barTintColor) {
+        if themeStyles.contains(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.shadowImage) {
+        if themeStyles.contains(.shadowImage) {
             self.shadowImage = themeStyles.shadowImage
         }
         
-        if themeStyles.containsThemeAttribute(.backgroundImage) {
+        if themeStyles.contains(.backgroundImage) {
             self.backgroundImage = themeStyles.backgroundImage
         }
         
-        if themeStyles.containsThemeAttribute(.selectionIndicatorImage) {
+        if themeStyles.contains(.selectionIndicatorImage) {
             self.selectionIndicatorImage = themeStyles.selectionIndicatorImage
         }
         
-        if themeStyles.containsThemeAttribute(.barStyle) {
+        if themeStyles.contains(.barStyle) {
             self.barStyle = themeStyles.barStyle
         }
         
-        if themeStyles.containsThemeAttribute(.isTranslucent) {
+        if themeStyles.contains(.isTranslucent) {
             self.isTranslucent = themeStyles.isTranslucent
         }
         
         if #available(iOS 10.0, *) {
-            if themeStyles.containsThemeAttribute(.unselectedItemTintColor) {
+            if themeStyles.contains(.unselectedItemTintColor) {
                 self.unselectedItemTintColor = themeStyles.unselectedItemTintColor
             }
         }

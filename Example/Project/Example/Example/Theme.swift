@@ -18,12 +18,15 @@ extension Theme {
 
 extension Theme.Collection {
     
-    var day: Theme.Style.Collection {
-        return self.themeStyles(forTheme: .day)
-    }
-    
-    var night: Theme.Style.Collection {
-        return self.themeStyles(forTheme: .night)
-    }
+//    var day: Theme.Style.Collection {
+//        return self.themeStyles(forTheme: .day)
+//    }
+//    
+//    var night: Theme.Style.Collection {
+//        return self.themeStyles(forTheme: .night)
+//    }
     
 }
+
+
+

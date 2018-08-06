@@ -11,31 +11,36 @@ import XZKit
 
 extension Theme.Style.Collection {
     
-    public typealias ArrayLiteralElement = Theme.Style.Collection
-    
-    public func union(_ themeStyles: Theme.Style.Collection?) -> Theme.Style.Collection {
-        fatalError("Needs implementation")
-    }
-    
-    public func formUnion(_ themeStyles: Theme.Style.Collection?) {
+    /// 将另一个主题样式集并入到当前样式集中。
+    /// - Note: 当前样式集中已存在的样式会被覆盖。
+    ///
+    /// - Parameter themeStyles: 待并入的样式集。
+    public func union(_ themeStyles: Theme.Style.Collection?) {
         guard let themeStyles = themeStyles else { return }
         guard let statedThemeStyles = themeStyles.statedThemeStylesIfLoaded else { return }
         for statedThemeStyle in statedThemeStyles {
             for attributedValue in statedThemeStyle.value.attributedValues {
+                /// 样式在合并的过程中为复制，即样式在合并过程中的私有性可能会发生改变。
                 updateValue(attributedValue.value, for: attributedValue.key, for: statedThemeStyle.key)
             }
         }
     }
     
-    public convenience init?(union themeStyles: Theme.Style.Collection?...) {
+    /// 将多个样式合并成一个样式。
+    ///
+    /// - Parameters:
+    ///   - object: 样式集的所有者。
+    ///   - themeStyles: 待合并的样式集。
+    public convenience init?(for object: NSObject?, union themeStyles: Theme.Style.Collection?...) {
         guard themeStyles.contains(where: {$0 != nil}) else {
             return nil
         }
-        self.init()
+        self.init(for: object)
         for itemStyles in themeStyles {
-            self.formUnion(itemStyles)
+            self.union(itemStyles)
         }
     }
+
     
 }
 

@@ -50,23 +50,23 @@ extension Theme.Attribute {
 extension Theme.Style {
 
     public var isMomentary: Bool {
-        get { return boolValue(forThemeAttribute: .isMomentary)  }
-        set { setValue(newValue, forThemeAttribute: .isMomentary) }
+        get { return boolValue(for: .isMomentary)  }
+        set { setValue(newValue, for: .isMomentary) }
     }
     
     public var apportionsSegmentWidthsByContent: Bool {
-        get { return boolValue(forThemeAttribute: .apportionsSegmentWidthsByContent)  }
-        set { setValue(newValue, forThemeAttribute: .apportionsSegmentWidthsByContent) }
+        get { return boolValue(for: .apportionsSegmentWidthsByContent)  }
+        set { setValue(newValue, for: .apportionsSegmentWidthsByContent) }
     }
     
     public var dividerImage: UIImage? {
-        get { return image(forThemeAttribute: .dividerImage) }
-        set { setValue(newValue, forThemeAttribute: .dividerImage)}
+        get { return image(for: .dividerImage) }
+        set { setValue(newValue, for: .dividerImage)}
     }
     
     public var contentPositionAdjustment: UIOffset {
-        get { return offset(forThemeAttribute: .contentPositionAdjustment) }
-        set { setValue(newValue, forThemeAttribute: .contentPositionAdjustment) }
+        get { return offset(for: .contentPositionAdjustment) }
+        set { setValue(newValue, for: .contentPositionAdjustment) }
     }
 }
 
@@ -75,22 +75,22 @@ extension UISegmentedControl {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.isMomentary) {
+        if themeStyles.contains(.isMomentary) {
             self.isMomentary = themeStyles.isMomentary
         }
         
-        if themeStyles.containsThemeAttribute(.apportionsSegmentWidthsByContent) {
+        if themeStyles.contains(.apportionsSegmentWidthsByContent) {
             self.apportionsSegmentWidthsByContent = themeStyles.apportionsSegmentWidthsByContent
         }
         
-        for themeState in themeStyles.effectiveThemeStates + [.normal] {
+        for themeState in Array<Theme.State>.init(themeStyles) {
             if themeState.isOptionSet {
                 guard let controlState = UIControlState.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                     continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.titleTextAttributes) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.titleTextAttributes) {
                     setTitleTextAttributes(themeStyle.titleTextAttributes, for: controlState)
                 }
             } else if themeState.count == 2 {
@@ -99,8 +99,8 @@ extension UISegmentedControl {
                         XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                         continue
                     }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.contentPositionAdjustment) {
+                    guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                    if themeStyle.contains(.contentPositionAdjustment) {
                         setContentPositionAdjustment(themeStyle.contentPositionAdjustment, forSegmentType: segmentedControlSegment, barMetrics: barMetrics)
                     }
                 } else if let controlState = UIControlState.init(themeState) {
@@ -108,8 +108,8 @@ extension UISegmentedControl {
                         XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                         continue
                     }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.backgroundImage) {
+                    guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                    if themeStyle.contains(.backgroundImage) {
                         setBackgroundImage(themeStyle.backgroundImage, for: controlState, barMetrics: barMetrics)
                     }
                 } else {
@@ -122,8 +122,8 @@ extension UISegmentedControl {
                         XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                         continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.dividerImage) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.dividerImage) {
                     setDividerImage(themeStyle.dividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState, barMetrics: barMetrics)
                 }
             } else {

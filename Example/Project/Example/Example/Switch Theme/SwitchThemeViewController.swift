@@ -22,16 +22,7 @@ class SwitchThemeViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            switch indexPath.row {
-            case 0: Theme.day.apply(animated: true)
-            case 1: Theme.night.apply(animated: true)
-            default: break
-            }
-            
-        default: break
-        }
+
     }
     /*
     // MARK: - Navigation

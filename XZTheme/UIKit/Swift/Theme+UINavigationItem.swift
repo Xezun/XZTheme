@@ -31,8 +31,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func navigationItemLargeTitleDisplayMode(forThemeAttribute themeAttribute: Theme.Attribute) -> UINavigationItem.LargeTitleDisplayMode {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .automatic }
+    public func navigationItemLargeTitleDisplayMode(for themeAttribute: Theme.Attribute) -> UINavigationItem.LargeTitleDisplayMode {
+        guard let value = value(for: themeAttribute) else { return .automatic }
         if let navigationItemLargeTitleDisplayMode = value as? UINavigationItem.LargeTitleDisplayMode {
             return navigationItemLargeTitleDisplayMode
         }
@@ -52,28 +52,28 @@ extension Theme.Style {
     }
     
     public var prompt: String? {
-        get { return stringValue(forThemeAttribute: .prompt) }
-        set { setValue(newValue, forThemeAttribute: .prompt) }
+        get { return stringValue(for: .prompt) }
+        set { setValue(newValue, for: .prompt) }
     }
     
     public var largeTitleDisplayMode: UINavigationItem.LargeTitleDisplayMode {
-        get { return navigationItemLargeTitleDisplayMode(forThemeAttribute: .largeTitleDisplayMode) }
-        set { setValue(newValue, forThemeAttribute: .largeTitleDisplayMode) }
+        get { return navigationItemLargeTitleDisplayMode(for: .largeTitleDisplayMode) }
+        set { setValue(newValue, for: .largeTitleDisplayMode) }
     }
     
     public var hidesSearchBarWhenScrolling: Bool {
-        get { return boolValue(forThemeAttribute: .hidesSearchBarWhenScrolling)  }
-        set { setValue(newValue, forThemeAttribute: .hidesSearchBarWhenScrolling) }
+        get { return boolValue(for: .hidesSearchBarWhenScrolling)  }
+        set { setValue(newValue, for: .hidesSearchBarWhenScrolling) }
     }
     
     public var leftItemsSupplementBackButton: Bool {
-        get { return boolValue(forThemeAttribute: .leftItemsSupplementBackButton)  }
-        set { setValue(newValue, forThemeAttribute: .leftItemsSupplementBackButton) }
+        get { return boolValue(for: .leftItemsSupplementBackButton)  }
+        set { setValue(newValue, for: .leftItemsSupplementBackButton) }
     }
     
     public var hidesBackButton: Bool {
-        get { return boolValue(forThemeAttribute: .hidesBackButton)  }
-        set { setValue(newValue, forThemeAttribute: .hidesBackButton) }
+        get { return boolValue(for: .hidesBackButton)  }
+        set { setValue(newValue, for: .hidesBackButton) }
     }
     
 }
@@ -84,28 +84,28 @@ extension UINavigationItem {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.title) {
+        if themeStyles.contains(.title) {
             self.title = themeStyles.title
         }
         
-        if themeStyles.containsThemeAttribute(.hidesBackButton) {
+        if themeStyles.contains(.hidesBackButton) {
             self.hidesBackButton = themeStyles.hidesBackButton
         }
         
-        if themeStyles.containsThemeAttribute(.prompt) {
+        if themeStyles.contains(.prompt) {
             self.prompt = themeStyles.prompt
         }
         
-        if themeStyles.containsThemeAttribute(.leftItemsSupplementBackButton) {
+        if themeStyles.contains(.leftItemsSupplementBackButton) {
             self.leftItemsSupplementBackButton = themeStyles.leftItemsSupplementBackButton
         }
         
         if #available(iOS 11.0, *) {
-            if themeStyles.containsThemeAttribute(.largeTitleDisplayMode) {
+            if themeStyles.contains(.largeTitleDisplayMode) {
                 self.largeTitleDisplayMode = themeStyles.largeTitleDisplayMode
             }
             
-            if themeStyles.containsThemeAttribute(.hidesSearchBarWhenScrolling) {
+            if themeStyles.contains(.hidesSearchBarWhenScrolling) {
                 self.hidesSearchBarWhenScrolling = themeStyles.hidesSearchBarWhenScrolling
             }
         }

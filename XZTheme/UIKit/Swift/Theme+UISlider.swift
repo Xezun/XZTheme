@@ -27,33 +27,33 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var isContinuous: Bool {
-        get { return boolValue(forThemeAttribute: .isContinuous) }
-        set { setValue(newValue, forThemeAttribute: .isContinuous) }
+        get { return boolValue(for: .isContinuous) }
+        set { setValue(newValue, for: .isContinuous) }
     }
     
     public var minimumTrackTintColor: UIColor? {
-        get { return color(forThemeAttribute: .minimumTrackTintColor) }
-        set { setValue(newValue, forThemeAttribute: .minimumTrackTintColor) }
+        get { return color(for: .minimumTrackTintColor) }
+        set { setValue(newValue, for: .minimumTrackTintColor) }
     }
     
     public var maximumTrackTintColor: UIColor? {
-        get { return color(forThemeAttribute: .maximumTrackTintColor) }
-        set { setValue(newValue, forThemeAttribute: .maximumTrackTintColor) }
+        get { return color(for: .maximumTrackTintColor) }
+        set { setValue(newValue, for: .maximumTrackTintColor) }
     }
     
     public var thumbImage: UIImage? {
-        get { return image(forThemeAttribute: .thumbImage) }
-        set { setValue(newValue, forThemeAttribute: .thumbImage) }
+        get { return image(for: .thumbImage) }
+        set { setValue(newValue, for: .thumbImage) }
     }
     
     public var minimumTrackImage: UIImage? {
-        get { return image(forThemeAttribute: .minimumTrackImage) }
-        set { setValue(newValue, forThemeAttribute: .minimumTrackImage) }
+        get { return image(for: .minimumTrackImage) }
+        set { setValue(newValue, for: .minimumTrackImage) }
     }
     
     public var maximumTrackImage: UIImage? {
-        get { return image(forThemeAttribute: .maximumTrackImage) }
-        set { setValue(newValue, forThemeAttribute: .maximumTrackImage) }
+        get { return image(for: .maximumTrackImage) }
+        set { setValue(newValue, for: .maximumTrackImage) }
     }
 }
 
@@ -64,34 +64,34 @@ extension UISlider {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.isContinuous) {
+        if themeStyles.contains(.isContinuous) {
             self.isContinuous = themeStyles.isContinuous
         }
         
-        if themeStyles.containsThemeAttribute(.minimumTrackTintColor) {
+        if themeStyles.contains(.minimumTrackTintColor) {
             self.minimumTrackTintColor = themeStyles.minimumTrackTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.maximumTrackTintColor) {
+        if themeStyles.contains(.maximumTrackTintColor) {
             self.maximumTrackTintColor = themeStyles.maximumTrackTintColor
         }
         
-        for themeState in themeStyles.effectiveThemeStates + [.normal] {
+        for themeState in Array<Theme.State>.init(themeStyles) {
             guard let controlState = UIControlState.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UISlider.", themeState)
                 continue
             }
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+            guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
             
-            if themeStyle.containsThemeAttribute(.thumbImage) {
+            if themeStyle.contains(.thumbImage) {
                 self.setThumbImage(themeStyle.thumbImage, for: controlState)
             }
             
-            if themeStyle.containsThemeAttribute(.minimumTrackImage) {
+            if themeStyle.contains(.minimumTrackImage) {
                 self.setMinimumTrackImage(themeStyle.minimumTrackImage, for: controlState)
             }
             
-            if themeStyle.containsThemeAttribute(.maximumTrackImage) {
+            if themeStyle.contains(.maximumTrackImage) {
                 self.setMaximumTrackImage(themeStyle.maximumTrackImage, for: controlState)
             }
         }

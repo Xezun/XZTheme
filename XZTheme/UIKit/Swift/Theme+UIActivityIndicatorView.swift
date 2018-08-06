@@ -21,8 +21,8 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func activityIndicatorViewStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIActivityIndicatorViewStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .white }
+    public func activityIndicatorViewStyle(for themeAttribute: Theme.Attribute) -> UIActivityIndicatorViewStyle {
+        guard let value = value(for: themeAttribute) else { return .white }
         if let activityIndicatorViewStyle = value as? UIActivityIndicatorViewStyle {
             return activityIndicatorViewStyle
         }
@@ -43,18 +43,18 @@ extension Theme.Style {
     
     
     public var activityIndicatorViewStyle: UIActivityIndicatorViewStyle {
-        get { return activityIndicatorViewStyle(forThemeAttribute: .activityIndicatorViewStyle) }
-        set { setValue(newValue, forThemeAttribute: .activityIndicatorViewStyle) }
+        get { return activityIndicatorViewStyle(for: .activityIndicatorViewStyle) }
+        set { setValue(newValue, for: .activityIndicatorViewStyle) }
     }
     
     public var color: UIColor? {
-        get { return color(forThemeAttribute: .color)       }
-        set { setValue(newValue, forThemeAttribute: .color) }
+        get { return color(for: .color)       }
+        set { setValue(newValue, for: .color) }
     }
     
     public var hidesWhenStopped: Bool {
-        get { return boolValue(forThemeAttribute: .hidesWhenStopped) }
-        set { setValue(newValue, forThemeAttribute: .hidesWhenStopped) }
+        get { return boolValue(for: .hidesWhenStopped) }
+        set { setValue(newValue, for: .hidesWhenStopped) }
     }
     
 }
@@ -64,19 +64,19 @@ extension UIActivityIndicatorView {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.activityIndicatorViewStyle) {
+        if themeStyles.contains(.activityIndicatorViewStyle) {
             self.activityIndicatorViewStyle = themeStyles.activityIndicatorViewStyle
         }
         
-        if themeStyles.containsThemeAttribute(.color) {
+        if themeStyles.contains(.color) {
             self.color = themeStyles.color
         }
         
-        if themeStyles.containsThemeAttribute(.hidesWhenStopped) {
+        if themeStyles.contains(.hidesWhenStopped) {
             self.hidesWhenStopped = themeStyles.hidesWhenStopped
         }
         
-        if themeStyles.containsThemeAttribute(.isAnimating) {
+        if themeStyles.contains(.isAnimating) {
             if themeStyles.isAnimating {
                 self.startAnimating()
             } else {

@@ -27,31 +27,31 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var numberOfPages: Int {
-        get { return integerValue(forThemeAttribute: .numberOfPages)  }
-        set { setValue(newValue, forThemeAttribute: .numberOfPages) }
+        get { return integerValue(for: .numberOfPages)  }
+        set { setValue(newValue, for: .numberOfPages) }
     }
     public var currentPage: Int {
-        get { return integerValue(forThemeAttribute: .currentPage)  }
-        set { setValue(newValue, forThemeAttribute: .currentPage) }
+        get { return integerValue(for: .currentPage)  }
+        set { setValue(newValue, for: .currentPage) }
     }
     
     public var hidesForSinglePage: Bool {
-        get { return boolValue(forThemeAttribute: .hidesForSinglePage)  }
-        set { setValue(newValue, forThemeAttribute: .hidesForSinglePage) }
+        get { return boolValue(for: .hidesForSinglePage)  }
+        set { setValue(newValue, for: .hidesForSinglePage) }
     }
     public var defersCurrentPageDisplay: Bool {
-        get { return boolValue(forThemeAttribute: .defersCurrentPageDisplay)  }
-        set { setValue(newValue, forThemeAttribute: .defersCurrentPageDisplay) }
+        get { return boolValue(for: .defersCurrentPageDisplay)  }
+        set { setValue(newValue, for: .defersCurrentPageDisplay) }
     }
     
     public var pageIndicatorTintColor: UIColor? {
-        get { return color(forThemeAttribute: .pageIndicatorTintColor) }
-        set { setValue(newValue, forThemeAttribute: .pageIndicatorTintColor) }
+        get { return color(for: .pageIndicatorTintColor) }
+        set { setValue(newValue, for: .pageIndicatorTintColor) }
     }
     
     public var currentPageIndicatorTintColor: UIColor? {
-        get { return color(forThemeAttribute: .currentPageIndicatorTintColor) }
-        set { setValue(newValue, forThemeAttribute: .currentPageIndicatorTintColor) }
+        get { return color(for: .currentPageIndicatorTintColor) }
+        set { setValue(newValue, for: .currentPageIndicatorTintColor) }
     }
     
 }
@@ -61,27 +61,27 @@ extension UIPageControl {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.numberOfPages) {
+        if themeStyles.contains(.numberOfPages) {
             self.numberOfPages = themeStyles.numberOfPages
         }
         
-        if themeStyles.containsThemeAttribute(.currentPage) {
+        if themeStyles.contains(.currentPage) {
             self.currentPage = themeStyles.currentPage
         }
         
-        if themeStyles.containsThemeAttribute(.hidesForSinglePage) {
+        if themeStyles.contains(.hidesForSinglePage) {
             self.hidesForSinglePage = themeStyles.hidesForSinglePage
         }
         
-        if themeStyles.containsThemeAttribute(.defersCurrentPageDisplay) {
+        if themeStyles.contains(.defersCurrentPageDisplay) {
             self.defersCurrentPageDisplay = themeStyles.defersCurrentPageDisplay
         }
         
-        if themeStyles.containsThemeAttribute(.pageIndicatorTintColor) {
+        if themeStyles.contains(.pageIndicatorTintColor) {
             self.pageIndicatorTintColor = themeStyles.pageIndicatorTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.currentPageIndicatorTintColor) {
+        if themeStyles.contains(.currentPageIndicatorTintColor) {
             self.currentPageIndicatorTintColor = themeStyles.currentPageIndicatorTintColor
         }
         

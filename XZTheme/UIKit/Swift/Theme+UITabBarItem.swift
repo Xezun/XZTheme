@@ -26,29 +26,29 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var selectedImage: UIImage? {
-        get { return image(forThemeAttribute: .selectedImage) }
-        set { setValue(newValue, forThemeAttribute: .selectedImage)}
+        get { return image(for: .selectedImage) }
+        set { setValue(newValue, for: .selectedImage)}
     }
     
     public var titleTextAttributes: [NSAttributedStringKey : Any]? {
-        get { return stringAttributes(forThemeAttribute: .titleTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .titleTextAttributes) }
+        get { return stringAttributes(for: .titleTextAttributes) }
+        set { setValue(newValue, for: .titleTextAttributes) }
     }
     
     public var landscapeImagePhone: UIImage? {
-        get { return image(forThemeAttribute: .landscapeImagePhone) }
-        set { setValue(newValue, forThemeAttribute: .landscapeImagePhone)}
+        get { return image(for: .landscapeImagePhone) }
+        set { setValue(newValue, for: .landscapeImagePhone)}
     }
     
     
     public var largeContentSizeImage: UIImage? {
-        get { return image(forThemeAttribute: .largeContentSizeImage) }
-        set { setValue(newValue, forThemeAttribute: .largeContentSizeImage)}
+        get { return image(for: .largeContentSizeImage) }
+        set { setValue(newValue, for: .largeContentSizeImage)}
     }
     
     public var badgeTextAttributes: [String: Any]? {
-        get { return stringAttributes(forThemeAttribute: .badgeTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .badgeTextAttributes) }
+        get { return stringAttributes(for: .badgeTextAttributes) }
+        set { setValue(newValue, for: .badgeTextAttributes) }
     }
 }
 
@@ -57,40 +57,40 @@ extension UITabBarItem {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.selectedImage) {
+        if themeStyles.contains(.selectedImage) {
             self.selectedImage = themeStyles.selectedImage
         }
         
-        if themeStyles.containsThemeAttribute(.image) {
+        if themeStyles.contains(.image) {
             self.image = themeStyles.image
         }
         
-        if themeStyles.containsThemeAttribute(.title) {
+        if themeStyles.contains(.title) {
             self.title = themeStyles.title
         }
         
-        if themeStyles.containsThemeAttribute(.landscapeImagePhone) {
+        if themeStyles.contains(.landscapeImagePhone) {
             self.landscapeImagePhone = themeStyles.landscapeImagePhone
         }
         
         if #available(iOS 11.0, *) {
-            if themeStyles.containsThemeAttribute(.largeContentSizeImage) {
+            if themeStyles.contains(.largeContentSizeImage) {
                 self.largeContentSizeImage = themeStyles.largeContentSizeImage
             }
         }
         
-        for themeState in themeStyles.effectiveThemeStates + [.normal] {
+        for themeState in Array<Theme.State>.init(themeStyles) {
             guard let controlState = UIControlState.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                 continue
             }
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-            if themeStyles.containsThemeAttribute(.titleTextAttributes) {
+            guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+            if themeStyles.contains(.titleTextAttributes) {
                 self.setTitleTextAttributes(themeStyles.titleTextAttributes, for: controlState)
             }
             
             if #available(iOS 10.0, *) {
-                if themeStyle.containsThemeAttribute(.badgeTextAttributes) {
+                if themeStyle.contains(.badgeTextAttributes) {
                     setBadgeTextAttributes(themeStyle.badgeTextAttributes, for: controlState)
                 }
             }

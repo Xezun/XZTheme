@@ -9,9 +9,16 @@ import Foundation
 
 extension Theme.Collection {
     
+    /// 计算样式。
     @objc(themeStylesForObject:)
     public func themeStyles(for object: NSObject) -> Theme.Style.Collection? {
-        fatalError("Needs implementation")
+        // 1. 读取对象的计算样式，如果有，直接使用。
+        // 2. 读取类对象的计算样式、对象的私有样式，并合并成计算样式。
+        // 3. 保存计算样式。
+        
+        
+        // TODO: - 计算样式的合成规则
+        return object.themeStylesIfLoaded
     }
     
 }

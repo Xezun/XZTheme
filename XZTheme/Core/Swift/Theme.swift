@@ -104,7 +104,9 @@ public final class Theme: NSObject {
         return name.hashValue
     }
     
-    public private(set) lazy var themes = Theme.Collection.init(for: self)
+    /// Key 为类名，Value 为样式表。
+    /// 表示当前主题下，所有类的样式表。
+    public private(set) var keyedThemesIfLoaded: [String: Theme.Collection]?
     
     /// 主题集，管理了某主题下的样式。
     /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
@@ -115,12 +117,13 @@ public final class Theme: NSObject {
         
         /// 构造主题集对象。
         ///
-        /// - Parameter object: 的
-        @objc public init(for theme: Theme) {
+        /// - Parameter theme: 主题。
+        @objc(initForTheme:) public init(for theme: Theme) {
             self.theme = theme
             super.init()
         }
         
+        /// 样式表。
         @objc public private(set) var identifiedThemeStylesIfLoaded: [Theme.Identifier: Theme.Style.Collection]?
     }
     
@@ -151,6 +154,7 @@ public final class Theme: NSObject {
         /// 构造私有样式集。私有样式不区分主题，切换主题时不清空。
         ///
         /// - Parameter object: 私有样式集所属的对象。
+        @objc(initForObject:)
         public convenience init(for object: NSObject?) {
             self.init()
             self.object = object
@@ -174,9 +178,23 @@ public final class Theme: NSObject {
     
     // MARK: - 定义：主题属性。
     
+    /// 主题标识符。
+    public struct Identifier: RawRepresentable {
+        
+        public typealias RawValue = String
+        
+        public let rawValue: String
+        
+        public init(rawValue: String) {
+            guard rawValue.count > 0 else {
+                fatalError("The `\(rawValue)` is not an valid Theme.Identifier rawValue.")
+            }
+            self.rawValue = rawValue
+        }
+        
+    }
+    
     /// 主题属性。
-    /// - Note: 主题属性一般情况下与对象的外观属性相对应。
-    /// - Note: 主题属性名应该符合正则 /^[A-Za-z_][A-Za-z0-9_]+$/ 。
     public struct Attribute: RawRepresentable {
         
         public typealias RawValue = String
@@ -228,19 +246,36 @@ public final class Theme: NSObject {
         
     }
     
-    /// 主题标识符。
-    /// - Note: 主题配置文件中的标识。
-    /// - Note: 主题缓存所用。
-    public struct Identifier: RawRepresentable {
-        
-        public typealias RawValue = String
-        
-        public let rawValue: String
-        
-        public init(rawValue: String) {
-            self.rawValue = rawValue
+}
+
+extension Theme {
+    
+    public private(set) var keyedThemes: [String: Theme.Collection] {
+        get {
+            if keyedThemesIfLoaded != nil {
+                return keyedThemesIfLoaded!
+            }
+            keyedThemesIfLoaded = [:]
+            return keyedThemesIfLoaded!
         }
-        
+        set {
+            keyedThemesIfLoaded = newValue
+        }
+    }
+    
+    @objc public func themesIfLoaded(for key: String) -> Theme.Collection? {
+        return self.keyedThemesIfLoaded?[key]
+    }
+    
+    @objc public func set(_ themes: Theme.Collection, for key: String) {
+        keyedThemes[key] = themes
+    }
+    
+    
+    @objc(themesIfLoadedForObject:)
+    public func themesIfLoaded(for object: NSObject) -> Theme.Collection? {
+        let key = NSStringFromClass(type(of: object))
+        return self.keyedThemesIfLoaded?[key]
     }
     
 }

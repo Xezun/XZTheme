@@ -71,8 +71,8 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func searchBarStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UISearchBarStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+    public func searchBarStyle(for themeAttribute: Theme.Attribute) -> UISearchBarStyle {
+        guard let value = value(for: themeAttribute) else { return .default }
         if let searchBarStyle = value as? UISearchBarStyle {
             return searchBarStyle
         }
@@ -94,8 +94,8 @@ extension Theme.Style {
         return .default
     }
     
-    public func offset(forThemeAttribute themeAttribute: Theme.Attribute) -> UIOffset {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return UIOffset.zero }
+    public func offset(for themeAttribute: Theme.Attribute) -> UIOffset {
+        guard let value = value(for: themeAttribute) else { return UIOffset.zero }
         if let offset = value as? UIOffset {
             return offset
         }
@@ -114,85 +114,85 @@ extension Theme.Style {
     }
     
     public var showsBookmarkButton: Bool {
-        get { return boolValue(forThemeAttribute: .showsBookmarkButton)  }
-        set { setValue(newValue, forThemeAttribute: .showsBookmarkButton) }
+        get { return boolValue(for: .showsBookmarkButton)  }
+        set { setValue(newValue, for: .showsBookmarkButton) }
     }
     
     public var showsCancelButton: Bool {
-        get { return boolValue(forThemeAttribute: .showsCancelButton)  }
-        set { setValue(newValue, forThemeAttribute: .showsCancelButton) }
+        get { return boolValue(for: .showsCancelButton)  }
+        set { setValue(newValue, for: .showsCancelButton) }
     }
     
     public var showsSearchResultsButton: Bool {
-        get { return boolValue(forThemeAttribute: .showsSearchResultsButton)  }
-        set { setValue(newValue, forThemeAttribute: .showsSearchResultsButton) }
+        get { return boolValue(for: .showsSearchResultsButton)  }
+        set { setValue(newValue, for: .showsSearchResultsButton) }
     }
     
     public var isSearchResultsButtonSelected: Bool {
-        get { return boolValue(forThemeAttribute: .isSearchResultsButtonSelected)  }
-        set { setValue(newValue, forThemeAttribute: .isSearchResultsButtonSelected) }
+        get { return boolValue(for: .isSearchResultsButtonSelected)  }
+        set { setValue(newValue, for: .isSearchResultsButtonSelected) }
     }
     
     public var searchBarStyle: UISearchBarStyle {
-        get { return searchBarStyle(forThemeAttribute: .searchBarStyle) }
-        set { setValue(newValue, forThemeAttribute: .searchBarStyle) }
+        get { return searchBarStyle(for: .searchBarStyle) }
+        set { setValue(newValue, for: .searchBarStyle) }
     }
     
     public var scopeButtonTitles: [String]? {
-        get { return stringValues(forThemeAttribute: .scopeButtonTitles) }
-        set { setValue(newValue, forThemeAttribute: .scopeButtonTitles) }
+        get { return stringValues(for: .scopeButtonTitles) }
+        set { setValue(newValue, for: .scopeButtonTitles) }
     }
 
     public var selectedScopeButtonIndex: Int {
-        get { return integerValue(forThemeAttribute: .selectedScopeButtonIndex) }
-        set { setValue(newValue, forThemeAttribute: .selectedScopeButtonIndex)}
+        get { return integerValue(for: .selectedScopeButtonIndex) }
+        set { setValue(newValue, for: .selectedScopeButtonIndex)}
     }
     
     public var showsScopeBar: Bool {
-        get { return boolValue(forThemeAttribute: .showsScopeBar)  }
-        set { setValue(newValue, forThemeAttribute: .showsScopeBar) }
+        get { return boolValue(for: .showsScopeBar)  }
+        set { setValue(newValue, for: .showsScopeBar) }
     }
     
     public var scopeBarBackgroundImage: UIImage? {
-        get { return image(forThemeAttribute: .scopeBarBackgroundImage)  }
-        set { setValue(newValue, forThemeAttribute: .scopeBarBackgroundImage) }
+        get { return image(for: .scopeBarBackgroundImage)  }
+        set { setValue(newValue, for: .scopeBarBackgroundImage) }
     }
     
     
     
     public var searchFieldBackgroundImage: UIImage? {
-        get { return image(forThemeAttribute: .searchFieldBackgroundImage)  }
-        set { setValue(newValue, forThemeAttribute: .searchFieldBackgroundImage) }
+        get { return image(for: .searchFieldBackgroundImage)  }
+        set { setValue(newValue, for: .searchFieldBackgroundImage) }
     }
     
     public var scopeBarButtonBackgroundImage: UIImage? {
-        get { return image(forThemeAttribute: .scopeBarButtonBackgroundImage)  }
-        set { setValue(newValue, forThemeAttribute: .scopeBarButtonBackgroundImage) }
+        get { return image(for: .scopeBarButtonBackgroundImage)  }
+        set { setValue(newValue, for: .scopeBarButtonBackgroundImage) }
     }
     
     public var scopeBarButtonDividerImage: UIImage? {
-        get { return image(forThemeAttribute: .scopeBarButtonDividerImage)  }
-        set { setValue(newValue, forThemeAttribute: .scopeBarButtonDividerImage) }
+        get { return image(for: .scopeBarButtonDividerImage)  }
+        set { setValue(newValue, for: .scopeBarButtonDividerImage) }
     }
     
     public var scopeBarButtonTitleTextAttributes: [String : Any]? {
-        get { return stringAttributes(forThemeAttribute: .scopeBarButtonTitleTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .scopeBarButtonTitleTextAttributes) }
+        get { return stringAttributes(for: .scopeBarButtonTitleTextAttributes) }
+        set { setValue(newValue, for: .scopeBarButtonTitleTextAttributes) }
     }
     
     public var searchFieldBackgroundPositionAdjustment: UIOffset {
-        get { return offset(forThemeAttribute: .searchFieldBackgroundPositionAdjustment)      }
-        set { setValue(newValue, forThemeAttribute: .searchFieldBackgroundPositionAdjustment) }
+        get { return offset(for: .searchFieldBackgroundPositionAdjustment)      }
+        set { setValue(newValue, for: .searchFieldBackgroundPositionAdjustment) }
     }
     
     public var searchTextPositionAdjustment: UIOffset {
-        get { return offset(forThemeAttribute: .searchTextPositionAdjustment)      }
-        set { setValue(newValue, forThemeAttribute: .searchTextPositionAdjustment) }
+        get { return offset(for: .searchTextPositionAdjustment)      }
+        set { setValue(newValue, for: .searchTextPositionAdjustment) }
     }
     
     public var positionAdjustment: UIOffset {
-        get { return offset(forThemeAttribute: .positionAdjustment)       }
-        set { setValue(newValue, forThemeAttribute: .positionAdjustment)  }
+        get { return offset(for: .positionAdjustment)       }
+        set { setValue(newValue, for: .positionAdjustment)  }
     }
     
     
@@ -203,67 +203,67 @@ extension UISearchBar {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.barStyle) {
+        if themeStyles.contains(.barStyle) {
             self.barStyle = themeStyles.barStyle
         }
         
-        if themeStyles.containsThemeAttribute(.text) {
+        if themeStyles.contains(.text) {
             self.text = themeStyles.text
         }
         
-        if themeStyles.containsThemeAttribute(.prompt) {
+        if themeStyles.contains(.prompt) {
             self.prompt = themeStyles.prompt
         }
         
-        if themeStyles.containsThemeAttribute(.placeholder) {
+        if themeStyles.contains(.placeholder) {
             self.placeholder = themeStyles.placeholderText
         }
         
-        if themeStyles.containsThemeAttribute(.showsBookmarkButton) {
+        if themeStyles.contains(.showsBookmarkButton) {
             self.showsBookmarkButton = themeStyles.showsBookmarkButton
         }
         
-        if themeStyles.containsThemeAttribute(.showsCancelButton) {
+        if themeStyles.contains(.showsCancelButton) {
             self.showsCancelButton = themeStyles.showsCancelButton
         }
         
-        if themeStyles.containsThemeAttribute(.showsSearchResultsButton) {
+        if themeStyles.contains(.showsSearchResultsButton) {
             self.showsSearchResultsButton = themeStyles.showsSearchResultsButton
         }
         
-        if themeStyles.containsThemeAttribute(.isSearchResultsButtonSelected) {
+        if themeStyles.contains(.isSearchResultsButtonSelected) {
             self.isSearchResultsButtonSelected = themeStyles.isSearchResultsButtonSelected
         }
         
-        if themeStyles.containsThemeAttribute(.barTintColor) {
+        if themeStyles.contains(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.searchBarStyle) {
+        if themeStyles.contains(.searchBarStyle) {
             self.searchBarStyle = themeStyles.searchBarStyle
         }
         
-        if themeStyles.containsThemeAttribute(.isTranslucent) {
+        if themeStyles.contains(.isTranslucent) {
             self.isTranslucent = themeStyles.isTranslucent
         }
         
-        if themeStyles.containsThemeAttribute(.scopeButtonTitles) {
+        if themeStyles.contains(.scopeButtonTitles) {
             self.scopeButtonTitles = themeStyles.scopeButtonTitles
         }
         
-        if themeStyles.containsThemeAttribute(.showsScopeBar) {
+        if themeStyles.contains(.showsScopeBar) {
             self.showsScopeBar = themeStyles.showsScopeBar
         }
         
-        if themeStyles.containsThemeAttribute(.backgroundImage) {
+        if themeStyles.contains(.backgroundImage) {
             self.backgroundImage = themeStyles.backgroundImage
         }
         
-        if themeStyles.containsThemeAttribute(.scopeBarBackgroundImage) {
+        if themeStyles.contains(.scopeBarBackgroundImage) {
             self.scopeBarBackgroundImage = themeStyles.scopeBarBackgroundImage
         }
         
-        let themeStates = themeStyles.effectiveThemeStates + [.normal]
+        let themeStates = Array<Theme.State>.init(themeStyles)
         
         for themeState in themeStates {
             if themeState.isOptionSet {
@@ -271,14 +271,14 @@ extension UISearchBar {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.searchFieldBackgroundImage) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.searchFieldBackgroundImage) {
                     setSearchFieldBackgroundImage(themeStyle.searchFieldBackgroundImage, for: controlState)
                 }
-                if themeStyle.containsThemeAttribute(.scopeBarButtonBackgroundImage) {
+                if themeStyle.contains(.scopeBarButtonBackgroundImage) {
                     setScopeBarButtonBackgroundImage(themeStyle.scopeBarButtonBackgroundImage, for: controlState)
                 }
-                if themeStyle.containsThemeAttribute(.scopeBarButtonTitleTextAttributes) {
+                if themeStyle.contains(.scopeBarButtonTitleTextAttributes) {
                     setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: controlState)
                 }
             } else if themeState.isPrimary {
@@ -286,8 +286,8 @@ extension UISearchBar {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.positionAdjustment) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.positionAdjustment) {
                     setPositionAdjustment(themeStyle.positionAdjustment, for: searchBarIcon)
                 }
             } else if themeState.count >= 2 {
@@ -296,8 +296,8 @@ extension UISearchBar {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.backgroundImage) {
+                    guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                    if themeStyle.contains(.backgroundImage) {
                         self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                     }
                 } else if let searchBarIcon = UISearchBarIcon.init(themeState[0]) {
@@ -305,8 +305,8 @@ extension UISearchBar {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.image) {
+                    guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                    if themeStyle.contains(.image) {
                         setImage(themeStyle.image, for: searchBarIcon, state: controlState)
                     }
                 } else if let leftControlState = UIControlState.init(themeState[0]) {
@@ -314,8 +314,8 @@ extension UISearchBar {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
-                    guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                    if themeStyle.containsThemeAttribute(.scopeBarButtonDividerImage) {
+                    guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                    if themeStyle.contains(.scopeBarButtonDividerImage) {
                         setScopeBarButtonDividerImage(themeStyle.scopeBarButtonDividerImage, forLeftSegmentState: leftControlState, rightSegmentState: rightControlState)
                     }
                 } else {
@@ -326,11 +326,11 @@ extension UISearchBar {
             }
         }
    
-        if themeStyles.containsThemeAttribute(.searchFieldBackgroundPositionAdjustment) {
+        if themeStyles.contains(.searchFieldBackgroundPositionAdjustment) {
             self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
         }
         
-        if themeStyles.containsThemeAttribute(.searchTextPositionAdjustment) {
+        if themeStyles.contains(.searchTextPositionAdjustment) {
             self.searchTextPositionAdjustment = themeStyles.searchTextPositionAdjustment
         }
         

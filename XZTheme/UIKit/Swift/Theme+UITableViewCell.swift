@@ -26,8 +26,8 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func tableViewCellSelectionStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellSelectionStyle {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return .default }
+    public func tableViewCellSelectionStyle(for themeAttribute: Theme.Attribute) -> UITableViewCellSelectionStyle {
+        guard let value = self.value(for: themeAttribute) else { return .default }
         if let tableViewCellSelectionStyle = value as? UITableViewCellSelectionStyle {
             return tableViewCellSelectionStyle
         }
@@ -47,8 +47,8 @@ extension Theme.Style {
         return .default
     }
     
-    public func tableViewCellAccessoryType(forThemeAttribute themeAttribute: Theme.Attribute) -> UITableViewCellAccessoryType {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return .none }
+    public func tableViewCellAccessoryType(for themeAttribute: Theme.Attribute) -> UITableViewCellAccessoryType {
+        guard let value = self.value(for: themeAttribute) else { return .none }
         if let tableViewCellAccessoryType = value as? UITableViewCellAccessoryType {
             return tableViewCellAccessoryType
         }
@@ -71,28 +71,28 @@ extension Theme.Style {
     
     
     var selectionStyle: UITableViewCellSelectionStyle {
-        get { return tableViewCellSelectionStyle(forThemeAttribute: .selectionStyle) }
-        set { setValue(newValue, forThemeAttribute: .selectionStyle) }
+        get { return tableViewCellSelectionStyle(for: .selectionStyle) }
+        set { setValue(newValue, for: .selectionStyle) }
     }
     
     var accessoryType: UITableViewCellAccessoryType {
-        get { return tableViewCellAccessoryType(forThemeAttribute: .accessoryType) }
-        set { setValue(newValue, forThemeAttribute: .accessoryType) }
+        get { return tableViewCellAccessoryType(for: .accessoryType) }
+        set { setValue(newValue, for: .accessoryType) }
     }
     
     var contentBackgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .contentBackgroundColor) }
-        set { setValue(newValue, forThemeAttribute: .contentBackgroundColor) }
+        get { return color(for: .contentBackgroundColor) }
+        set { setValue(newValue, for: .contentBackgroundColor) }
     }
     
     var selectedBackgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .selectedBackgroundColor) }
-        set { setValue(newValue, forThemeAttribute: .selectedBackgroundColor) }
+        get { return color(for: .selectedBackgroundColor) }
+        set { setValue(newValue, for: .selectedBackgroundColor) }
     }
     
     var multipleSelectionBackgroundColor: UIColor? {
-        get { return color(forThemeAttribute: .multipleSelectionBackgroundColor) }
-        set { setValue(newValue, forThemeAttribute: .multipleSelectionBackgroundColor) }
+        get { return color(for: .multipleSelectionBackgroundColor) }
+        set { setValue(newValue, for: .multipleSelectionBackgroundColor) }
     }
 }
 
@@ -105,27 +105,27 @@ extension UITableViewCell {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.selectionStyle) {
+        if themeStyles.contains(.selectionStyle) {
             self.selectionStyle = themeStyles.selectionStyle
         }
         
-        if themeStyles.containsThemeAttribute(.backgroundColor) {
+        if themeStyles.contains(.backgroundColor) {
             self.backgroundView?.backgroundColor = themeStyles.backgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.contentBackgroundColor) {
+        if themeStyles.contains(.contentBackgroundColor) {
             self.contentView.backgroundColor = themeStyles.contentBackgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.selectedBackgroundColor) {
+        if themeStyles.contains(.selectedBackgroundColor) {
             self.selectedBackgroundView?.backgroundColor = themeStyles.selectedBackgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.multipleSelectionBackgroundColor) {
+        if themeStyles.contains(.multipleSelectionBackgroundColor) {
             self.multipleSelectionBackgroundView?.backgroundColor = themeStyles.multipleSelectionBackgroundColor
         }
         
-        if themeStyles.containsThemeAttribute(.accessoryType) {
+        if themeStyles.contains(.accessoryType) {
             self.accessoryType = themeStyles.accessoryType
         }
     }

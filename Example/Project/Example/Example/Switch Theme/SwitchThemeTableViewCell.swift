@@ -13,24 +13,24 @@ import XZTheme
 class SwitchThemeTableViewCell: UITableViewCell {
 
     override func updateAppearance(with newTheme: Theme) {
-        switch newTheme {
-        case .day:
-            self.backgroundColor = UIColor(0xffffffff)
-            self.contentView.backgroundColor = UIColor(0xffffffff)
-            self.tintColor = UIColor(0x444444ff)
-            self.textLabel?.textColor = UIColor(0x444444ff)
-            self.selectionStyle = .none
-            
-        case .night:
-            self.backgroundColor = UIColor(0x303030ff)
-            self.contentView.backgroundColor = UIColor(0x303030ff)
-            self.tintColor = UIColor(0xc7c7c7ff)
-            self.textLabel?.textColor = UIColor(0xc7c7c7ff)
-            self.selectionStyle = .none
-            
-        default:
-            fatalError("Not supported theme.")
-        }
+//        switch newTheme {
+//        case .day:
+//            self.backgroundColor = UIColor(0xffffffff)
+//            self.contentView.backgroundColor = UIColor(0xffffffff)
+//            self.tintColor = UIColor(0x444444ff)
+//            self.textLabel?.textColor = UIColor(0x444444ff)
+//            self.selectionStyle = .none
+//            
+//        case .night:
+//            self.backgroundColor = UIColor(0x303030ff)
+//            self.contentView.backgroundColor = UIColor(0x303030ff)
+//            self.tintColor = UIColor(0xc7c7c7ff)
+//            self.textLabel?.textColor = UIColor(0xc7c7c7ff)
+//            self.selectionStyle = .none
+//            
+//        default:
+//            fatalError("Not supported theme.")
+//        }
     }
 
 }

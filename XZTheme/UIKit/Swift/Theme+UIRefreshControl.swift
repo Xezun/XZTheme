@@ -15,8 +15,8 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var isRefreshing: Bool {
-        get { return boolValue(forThemeAttribute: .isRefreshing) }
-        set { setValue(newValue, forThemeAttribute: .isRefreshing) }
+        get { return boolValue(for: .isRefreshing) }
+        set { setValue(newValue, for: .isRefreshing) }
     }
 }
 
@@ -26,11 +26,11 @@ extension UIRefreshControl {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.attributedTitle) {
+        if themeStyles.contains(.attributedTitle) {
             self.attributedTitle = themeStyles.attributedTitle
         }
         
-        if themeStyles.containsThemeAttribute(.isRefreshing) {
+        if themeStyles.contains(.isRefreshing) {
             if themeStyles.isRefreshing {
                 self.beginRefreshing()
             } else {

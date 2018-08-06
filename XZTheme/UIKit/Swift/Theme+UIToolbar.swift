@@ -23,26 +23,26 @@ extension UIToolbar {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.barStyle) {
+        if themeStyles.contains(.barStyle) {
             self.barStyle = themeStyles.barStyle
         }
         
-        if themeStyles.containsThemeAttribute(.isTranslucent) {
+        if themeStyles.contains(.isTranslucent) {
             self.isTranslucent = themeStyles.isTranslucent
         }
         
-        if themeStyles.containsThemeAttribute(.barTintColor) {
+        if themeStyles.contains(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }
         
-        for themeState in themeStyles.effectiveThemeStates {
+        for themeState in Array<Theme.State>.init(themeStyles) {
             if themeState.isPrimary {
                 guard let barPosition = UIBarPosition.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
                     continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.shadowImage) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.shadowImage) {
                     setShadowImage(themeStyle.shadowImage, forToolbarPosition: barPosition)
                 }
             } else if themeState.count >= 2 {
@@ -51,8 +51,8 @@ extension UIToolbar {
                         XZLog("Unapplied Theme.State %@ for UIToolbar.", themeState)
                         continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.backgroundImage) {
                     setBackgroundImage(themeStyle.backgroundImage, forToolbarPosition: barPosition, barMetrics: barMetrics)
                 }
             } else {

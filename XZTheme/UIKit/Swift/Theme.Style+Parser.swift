@@ -15,8 +15,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func integerValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Int {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return 0 }
+    public func integerValue(for themeAttribute: Theme.Attribute) -> Int {
+        guard let value = self.value(for: themeAttribute) else { return 0 }
         if let number = value as? Int {
             return number
         }
@@ -30,8 +30,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func floatValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Float {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return 0 }
+    public func floatValue(for themeAttribute: Theme.Attribute) -> Float {
+        guard let value = self.value(for: themeAttribute) else { return 0 }
         if let number = value as? Float {
             return number
         }
@@ -51,8 +51,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func floatValue(forThemeAttribute themeAttribute: Theme.Attribute) -> CGFloat {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return 0 }
+    public func floatValue(for themeAttribute: Theme.Attribute) -> CGFloat {
+        guard let value = self.value(for: themeAttribute) else { return 0 }
         if let number = value as? CGFloat {
             return number
         }
@@ -74,8 +74,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func doubleValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Double {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return 0 }
+    public func doubleValue(for themeAttribute: Theme.Attribute) -> Double {
+        guard let value = self.value(for: themeAttribute) else { return 0 }
         if let number = value as? Double {
             return number
         }
@@ -90,8 +90,8 @@ extension Theme.Style {
     /// - Note: 非 Bool 值都返回 false 。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func boolValue(forThemeAttribute themeAttribute: Theme.Attribute) -> Bool {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return false }
+    public func boolValue(for themeAttribute: Theme.Attribute) -> Bool {
+        guard let value = self.value(for: themeAttribute) else { return false }
         if let number = value as? Bool {
             return number
         }
@@ -104,8 +104,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func stringValue(forThemeAttribute themeAttribute: Theme.Attribute) -> String? {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return nil }
+    public func stringValue(for themeAttribute: Theme.Attribute) -> String? {
+        guard let value = self.value(for: themeAttribute) else { return nil }
         if let string = value as? String {
             return string
         }
@@ -117,8 +117,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func stringValues(forThemeAttribute themeAttribute: Theme.Attribute) -> [String]? {
-        guard let value = self.value(forThemeAttribute: themeAttribute) else { return nil }
+    public func stringValues(for themeAttribute: Theme.Attribute) -> [String]? {
+        guard let value = self.value(for: themeAttribute) else { return nil }
         if let string = value as? [String] {
             return string
         }
@@ -130,8 +130,8 @@ extension Theme.Style {
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func image(forThemeAttribute themeAttribute: Theme.Attribute) -> UIImage? {
-        return Theme.parser.parse(self.value(forThemeAttribute: themeAttribute))
+    public func image(for themeAttribute: Theme.Attribute) -> UIImage? {
+        return Theme.parser.parse(self.value(for: themeAttribute))
     }
     
     /// 获取已设置的主题属性值：图片。
@@ -139,44 +139,44 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func images(forThemeAttribute themeAttribute: Theme.Attribute) -> [UIImage]? {
-        return Theme.parser.parse(self.value(forThemeAttribute: themeAttribute))
+    public func images(for themeAttribute: Theme.Attribute) -> [UIImage]? {
+        return Theme.parser.parse(self.value(for: themeAttribute))
     }
     
     /// 获取已设置的主题属性值：颜色。
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func color(forThemeAttribute themeAttribute: Theme.Attribute) -> UIColor? {
-        return Theme.parser.parse(self.value(forThemeAttribute: themeAttribute))
+    public func color(for themeAttribute: Theme.Attribute) -> UIColor? {
+        return Theme.parser.parse(self.value(for: themeAttribute))
     }
     
     /// 获取已设置的主题属性值：字体。
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func font(forThemeAttribute themeAttribute: Theme.Attribute) -> UIFont? {
-        return Theme.parser.parse(self.value(forThemeAttribute: themeAttribute))
+    public func font(for themeAttribute: Theme.Attribute) -> UIFont? {
+        return Theme.parser.parse(self.value(for: themeAttribute))
     }
     
     /// 获取已设置的主题属性值：富文本。
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func attributedString(forThemeAttribute themeAttribute: Theme.Attribute) -> NSAttributedString? {
-        return Theme.parser.parse(value(forThemeAttribute: themeAttribute))
+    public func attributedString(for themeAttribute: Theme.Attribute) -> NSAttributedString? {
+        return Theme.parser.parse(value(for: themeAttribute))
     }
     
     /// 获取已设置的主题属性值：富文本属性。
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func stringAttributes(forThemeAttribute themeAttribute: Theme.Attribute) -> [NSAttributedStringKey: Any]? {
-        return Theme.parser.parse(value(forThemeAttribute: themeAttribute))
+    public func stringAttributes(for themeAttribute: Theme.Attribute) -> [NSAttributedStringKey: Any]? {
+        return Theme.parser.parse(value(for: themeAttribute))
     }
     
-    public func stringAttributes(forThemeAttribute themeAttribute: Theme.Attribute) -> [String: Any]? {
-        guard let stringAttributes: [NSAttributedStringKey: Any] = Theme.parser.parse(self.value(forThemeAttribute: themeAttribute)) else { return nil }
+    public func stringAttributes(for themeAttribute: Theme.Attribute) -> [String: Any]? {
+        guard let stringAttributes: [NSAttributedStringKey: Any] = Theme.parser.parse(self.value(for: themeAttribute)) else { return nil }
         var dict = [String: Any]()
         for item in stringAttributes {
             dict[item.key.rawValue] = item.value

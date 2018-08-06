@@ -24,8 +24,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func scrollViewIndicatorStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIScrollViewIndicatorStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+    public func scrollViewIndicatorStyle(for themeAttribute: Theme.Attribute) -> UIScrollViewIndicatorStyle {
+        guard let value = value(for: themeAttribute) else { return .default }
         if let indicatorStyle = value as? UIScrollViewIndicatorStyle {
             return indicatorStyle
         }
@@ -45,8 +45,8 @@ extension Theme.Style {
     }
     
     public var indicatorStyle: UIScrollViewIndicatorStyle {
-        get { return scrollViewIndicatorStyle(forThemeAttribute: .indicatorStyle) }
-        set { setValue(newValue, forThemeAttribute: .indicatorStyle) }
+        get { return scrollViewIndicatorStyle(for: .indicatorStyle) }
+        set { setValue(newValue, for: .indicatorStyle) }
     }
     
 }
@@ -56,7 +56,7 @@ extension UIScrollView {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.indicatorStyle) {
+        if themeStyles.contains(.indicatorStyle) {
             self.indicatorStyle = themeStyles.indicatorStyle
         }
     }

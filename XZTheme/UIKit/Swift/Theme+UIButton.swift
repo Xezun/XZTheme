@@ -26,28 +26,28 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var title: String? {
-        get { return stringValue(forThemeAttribute: .title)  }
-        set { setValue(newValue, forThemeAttribute: .title)  }
+        get { return stringValue(for: .title)  }
+        set { setValue(newValue, for: .title)  }
     }
     
     public var titleColor: UIColor? {
-        get { return color(forThemeAttribute: .titleColor)       }
-        set { setValue(newValue, forThemeAttribute: .titleColor) }
+        get { return color(for: .titleColor)       }
+        set { setValue(newValue, for: .titleColor) }
     }
 
     public var backgroundImage: UIImage? {
-        get { return image(forThemeAttribute: .backgroundImage)  }
-        set { setValue(newValue, forThemeAttribute: .backgroundImage)  }
+        get { return image(for: .backgroundImage)  }
+        set { setValue(newValue, for: .backgroundImage)  }
     }
     
     public var titleShadowColor: UIColor? {
-        get { return color(forThemeAttribute: .titleShadowColor)       }
-        set { setValue(newValue, forThemeAttribute: .titleShadowColor) }
+        get { return color(for: .titleShadowColor)       }
+        set { setValue(newValue, for: .titleShadowColor) }
     }
     
     public var attributedTitle: NSAttributedString? {
-        get { return attributedString(forThemeAttribute: .attributedTitle)  }
-        set { setValue(newValue, forThemeAttribute: .attributedTitle)       }
+        get { return attributedString(for: .attributedTitle)  }
+        set { setValue(newValue, for: .attributedTitle)       }
     }
     
     
@@ -55,34 +55,49 @@ extension Theme.Style {
 
 import XZKit
 
+extension Array where Element == Theme.State {
+    
+    public init(_ themeStyles: Theme.Style.Collection) {
+        var themeStates = [Theme.State.normal]
+        
+        themeStyles.statedThemeStylesIfLoaded?.keys.forEach({ (themeState) in
+            themeStates.append(themeState)
+        })
+        
+        self = themeStates
+    }
+    
+}
+
+
 extension UIButton {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for themeState in themeStyles.effectiveThemeStates + [.normal] {
+        for themeState in Array<Theme.State>.init(themeStyles) {
             guard let controlState = UIControlState.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UIButton.", themeState)
                 continue
             }
-            guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
+            guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
             
-            if themeStyle.containsThemeAttribute(.title) {
+            if themeStyle.contains(.title) {
                 self.setTitle(themeStyle.title, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.titleColor) {
+            if themeStyle.contains(.titleColor) {
                 self.setTitleColor(themeStyle.titleColor, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.titleShadowColor) {
+            if themeStyle.contains(.titleShadowColor) {
                 self.setTitleShadowColor(themeStyle.titleShadowColor, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.image) {
+            if themeStyle.contains(.image) {
                 self.setImage(themeStyle.image, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.backgroundImage) {
+            if themeStyle.contains(.backgroundImage) {
                 self.setBackgroundImage(themeStyle.backgroundImage, for: controlState);
             }
-            if themeStyle.containsThemeAttribute(.attributedTitle) {
+            if themeStyle.contains(.attributedTitle) {
                 self.setAttributedTitle(themeStyle.attributedTitle, for: controlState);
             }
         }

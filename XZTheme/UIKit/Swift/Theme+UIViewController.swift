@@ -24,8 +24,8 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func statusBarStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UIStatusBarStyle {
-        guard let value = value(forThemeAttribute: themeAttribute) else { return .default }
+    public func statusBarStyle(for themeAttribute: Theme.Attribute) -> UIStatusBarStyle {
+        guard let value = value(for: themeAttribute) else { return .default }
         if let statusBarStyle = value as? UIStatusBarStyle {
             return statusBarStyle
         }
@@ -44,8 +44,8 @@ extension Theme.Style {
     }
     
     public var statusBarStyle: UIStatusBarStyle {
-        get { return statusBarStyle(forThemeAttribute: .statusBarStyle) }
-        set { setValue(newValue, forThemeAttribute: .statusBarStyle)    }
+        get { return statusBarStyle(for: .statusBarStyle) }
+        set { setValue(newValue, for: .statusBarStyle)    }
     }
     
 }
@@ -59,11 +59,11 @@ extension UIViewController {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.title) {
+        if themeStyles.contains(.title) {
             self.title = themeStyles.title
         }
         
-        if themeStyles.containsThemeAttribute(.statusBarStyle) {
+        if themeStyles.contains(.statusBarStyle) {
             self.statusBarStyle = themeStyles.statusBarStyle
         }
         

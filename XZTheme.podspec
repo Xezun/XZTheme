@@ -28,34 +28,15 @@ Pod::Spec.new do |s|
   	s.author           = { 'mlibai' => 'mlibai@163.com' }
   	s.source           = { :git => 'https://github.com/mlibai/XZTheme.git', :tag => s.version.to_s }
   	# s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-  	s.swift_version    = "4.0"
+  	s.swift_version    = '4.0'
 
   	s.ios.deployment_target = '8.0'
 
   	s.requires_arc = true
 
-	# s.requires_arc = false
-	# spec.requires_arc = 'Classes/Arc'
+    s.public_header_files = 'XZTheme/**/*.h'
+	s.source_files = 'XZTheme/**/*.{h,m,swift}'
 
-	# s.requires_arc = false
-	# s.requires_arc = [
-	# 	'XZTheme/**/*.swift',
-	# 	'XZTheme/**/UIView+XZThemeSupporting.m',
-	# 	'XZTheme/**/UIViewController+XZThemeSupporting.m',
-	# 	'XZTheme/**/UIViewController+XZTheme.m'
-	# ]
-
-	s.source_files = 'XZTheme/**/*'
-
-	# s.resource_bundles = {
-	#   'OMKit' => ['OMKit/Assets/**/*.png']
-	# }
-
-	# s.public_header_files = 'Pod/Classes/**/*.h'
-	# s.frameworks = 'UIKit', 'MapKit'
-
-	# s.dependency 'AFNetworking', '~> 2.3'
-	# s.dependency 'SDWebImage', '~> 4.0'
 
   	s.dependency 'XZKit'
 

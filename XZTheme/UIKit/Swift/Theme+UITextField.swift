@@ -58,8 +58,8 @@ extension Theme.Attribute {
 
 extension Theme.Style {
 
-    public func textAlignment(forThemeAttribute themeAttribute: Theme.Attribute) -> NSTextAlignment {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .natural }
+    public func textAlignment(for themeAttribute: Theme.Attribute) -> NSTextAlignment {
+        guard let value = self.value(for: .keyboardAppearance) else { return .natural }
         if let textAlignment = value as? NSTextAlignment {
             return textAlignment
         }
@@ -81,8 +81,8 @@ extension Theme.Style {
         return .natural;
     }
     
-    public func keyboardAppearance(forThemeAttribute themeAttribute: Theme.Attribute) -> UIKeyboardAppearance {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .default }
+    public func keyboardAppearance(for themeAttribute: Theme.Attribute) -> UIKeyboardAppearance {
+        guard let value = self.value(for: .keyboardAppearance) else { return .default }
         if let keyboardAppearance = value as? UIKeyboardAppearance {
             return keyboardAppearance
         }
@@ -102,8 +102,8 @@ extension Theme.Style {
         return .default;
     }
     
-    public func textBorderStyle(forThemeAttribute themeAttribute: Theme.Attribute) -> UITextBorderStyle {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .none }
+    public func textBorderStyle(for themeAttribute: Theme.Attribute) -> UITextBorderStyle {
+        guard let value = self.value(for: .keyboardAppearance) else { return .none }
         if let textBorderStyle = value as? UITextBorderStyle {
             return textBorderStyle
         }
@@ -124,8 +124,8 @@ extension Theme.Style {
         return .none;
     }
     
-    public func textFieldViewMode(forThemeAttribute themeAttribute: Theme.Attribute) -> UITextFieldViewMode {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .always }
+    public func textFieldViewMode(for themeAttribute: Theme.Attribute) -> UITextFieldViewMode {
+        guard let value = self.value(for: .keyboardAppearance) else { return .always }
         if let textBorderStyle = value as? UITextFieldViewMode {
             return textBorderStyle
         }
@@ -149,8 +149,8 @@ extension Theme.Style {
     
 
     public var textAlignment: NSTextAlignment {
-        get { return textAlignment(forThemeAttribute: .textAlignment)  }
-        set { setValue(newValue, forThemeAttribute: .textAlignment) }
+        get { return textAlignment(for: .textAlignment)  }
+        set { setValue(newValue, for: .textAlignment) }
     }
     
     //open var text: String?
@@ -160,85 +160,85 @@ extension Theme.Style {
     //open var textAlignment: NSTextAlignment
     
     public var borderStyle: UITextBorderStyle {
-        get { return textBorderStyle(forThemeAttribute: .borderStyle) }
-        set { setValue(newValue, forThemeAttribute: .borderStyle) }
+        get { return textBorderStyle(for: .borderStyle) }
+        set { setValue(newValue, for: .borderStyle) }
     }
     
     open var defaultTextAttributes: [String : Any] {
-        get { return stringAttributes(forThemeAttribute: .defaultTextAttributes) ?? [:] }
-        set { setValue(newValue, forThemeAttribute: .defaultTextAttributes) }
+        get { return stringAttributes(for: .defaultTextAttributes) ?? [:] }
+        set { setValue(newValue, for: .defaultTextAttributes) }
     }
     
     /// /// 该属性对应的主题属性为 `.placeholder` 。
     public var placeholderText: String? {
-        get { return stringValue(forThemeAttribute: .placeholder) }
-        set { setValue(newValue, forThemeAttribute: .placeholder) }
+        get { return stringValue(for: .placeholder) }
+        set { setValue(newValue, for: .placeholder) }
     }
     
     public var attributedPlaceholder: NSAttributedString? {
-        get { return attributedString(forThemeAttribute: .attributedPlaceholder) }
-        set { setValue(newValue, forThemeAttribute: .attributedPlaceholder) }
+        get { return attributedString(for: .attributedPlaceholder) }
+        set { setValue(newValue, for: .attributedPlaceholder) }
     }
     
     public var clearsOnBeginEditing: Bool {
-        get { return boolValue(forThemeAttribute: .clearsOnBeginEditing) }
-        set { setValue(newValue, forThemeAttribute: .clearsOnBeginEditing) }
+        get { return boolValue(for: .clearsOnBeginEditing) }
+        set { setValue(newValue, for: .clearsOnBeginEditing) }
     }
     
     public var adjustsFontSizeToFitWidth: Bool {
-        get { return boolValue(forThemeAttribute: .adjustsFontSizeToFitWidth) }
-        set { setValue(newValue, forThemeAttribute: .adjustsFontSizeToFitWidth) }
+        get { return boolValue(for: .adjustsFontSizeToFitWidth) }
+        set { setValue(newValue, for: .adjustsFontSizeToFitWidth) }
     }
     
     public var minimumFontSize: CGFloat {
-        get { return floatValue(forThemeAttribute: .minimumFontSize) }
-        set { setValue(newValue, forThemeAttribute: .minimumFontSize) }
+        get { return floatValue(for: .minimumFontSize) }
+        set { setValue(newValue, for: .minimumFontSize) }
     }
     
     public var background: UIImage? {
-        get { return image(forThemeAttribute: .background) }
-        set { setValue(newValue, forThemeAttribute: .background) }
+        get { return image(for: .background) }
+        set { setValue(newValue, for: .background) }
     }
     
     public var disabledBackground: UIImage? {
-        get { return image(forThemeAttribute: .disabledBackground) }
-        set { setValue(newValue, forThemeAttribute: .disabledBackground) }
+        get { return image(for: .disabledBackground) }
+        set { setValue(newValue, for: .disabledBackground) }
     }
     
     public var allowsEditingTextAttributes: Bool {
-        get { return boolValue(forThemeAttribute: .allowsEditingTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .allowsEditingTextAttributes) }
+        get { return boolValue(for: .allowsEditingTextAttributes) }
+        set { setValue(newValue, for: .allowsEditingTextAttributes) }
     }
     
     public var typingAttributes: [String : Any]? {
-        get { return stringAttributes(forThemeAttribute: .typingAttributes) }
-        set { setValue(newValue, forThemeAttribute: .typingAttributes) }
+        get { return stringAttributes(for: .typingAttributes) }
+        set { setValue(newValue, for: .typingAttributes) }
     }
     
     public var clearButtonMode: UITextFieldViewMode {
-        get { return textFieldViewMode(forThemeAttribute: .clearButtonMode) }
-        set { setValue(newValue, forThemeAttribute: .clearButtonMode) }
+        get { return textFieldViewMode(for: .clearButtonMode) }
+        set { setValue(newValue, for: .clearButtonMode) }
     }
     
     public var leftViewMode: UITextFieldViewMode {
-        get { return textFieldViewMode(forThemeAttribute: .leftViewMode) }
-        set { setValue(newValue, forThemeAttribute: .leftViewMode) }
+        get { return textFieldViewMode(for: .leftViewMode) }
+        set { setValue(newValue, for: .leftViewMode) }
     }
     
     public var rightViewMode: UITextFieldViewMode {
-        get { return textFieldViewMode(forThemeAttribute: .rightViewMode) }
-        set { setValue(newValue, forThemeAttribute: .rightViewMode) }
+        get { return textFieldViewMode(for: .rightViewMode) }
+        set { setValue(newValue, for: .rightViewMode) }
     }
     
     public var clearsOnInsertion: Bool {
-        get { return boolValue(forThemeAttribute: .clearsOnInsertion) }
-        set { setValue(newValue, forThemeAttribute: .clearsOnInsertion) }
+        get { return boolValue(for: .clearsOnInsertion) }
+        set { setValue(newValue, for: .clearsOnInsertion) }
     }
     
     
     
-    public func keyboardType(forThemeAttribute themeAttribute: Theme.Attribute) -> UIKeyboardType {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .`default` }
+    public func keyboardType(for themeAttribute: Theme.Attribute) -> UIKeyboardType {
+        guard let value = self.value(for: .keyboardAppearance) else { return .`default` }
         if let keyboardType = value as? UIKeyboardType {
             return keyboardType
         }
@@ -266,8 +266,8 @@ extension Theme.Style {
         return .`default`;
     }
     
-    public func returnKeyType(forThemeAttribute themeAttribute: Theme.Attribute) -> UIReturnKeyType {
-        guard let value = self.value(forThemeAttribute: .keyboardAppearance) else { return .`default` }
+    public func returnKeyType(for themeAttribute: Theme.Attribute) -> UIReturnKeyType {
+        guard let value = self.value(for: .keyboardAppearance) else { return .`default` }
         if let returnKeyType = value as? UIReturnKeyType {
             return returnKeyType
         }
@@ -297,31 +297,31 @@ extension Theme.Style {
     
     /// 键盘外观。
     public var keyboardAppearance: UIKeyboardAppearance {
-        get { return keyboardAppearance(forThemeAttribute: .keyboardAppearance) }
-        set { setValue(newValue, forThemeAttribute: .keyboardAppearance) }
+        get { return keyboardAppearance(for: .keyboardAppearance) }
+        set { setValue(newValue, for: .keyboardAppearance) }
     }
     
     public var keyboardType: UIKeyboardType {
-        get { return keyboardType(forThemeAttribute: .keyboardType) }
-        set { setValue(newValue, forThemeAttribute: .keyboardType) }
+        get { return keyboardType(for: .keyboardType) }
+        set { setValue(newValue, for: .keyboardType) }
     }
     
     /// UITextField
     public var returnKeyType: UIReturnKeyType {
-        get { return returnKeyType(forThemeAttribute: .returnKeyType) }
-        set { setValue(newValue, forThemeAttribute: .returnKeyType) }
+        get { return returnKeyType(for: .returnKeyType) }
+        set { setValue(newValue, for: .returnKeyType) }
     }
     
     /// UITextField
     public var enablesReturnKeyAutomatically: Bool {
-        get { return boolValue(forThemeAttribute: .enablesReturnKeyAutomatically) }
-        set { setValue(newValue, forThemeAttribute: .enablesReturnKeyAutomatically) }
+        get { return boolValue(for: .enablesReturnKeyAutomatically) }
+        set { setValue(newValue, for: .enablesReturnKeyAutomatically) }
     }
     
     /// UITextField
     public var isSecureTextEntry: Bool {
-        get { return boolValue(forThemeAttribute: .isSecureTextEntry) }
-        set { setValue(newValue, forThemeAttribute: .isSecureTextEntry) }
+        get { return boolValue(for: .isSecureTextEntry) }
+        set { setValue(newValue, for: .isSecureTextEntry) }
     }
 }
 
@@ -331,102 +331,102 @@ extension UITextField {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.text) {
+        if themeStyles.contains(.text) {
             self.text = themeStyles.text;
         }
         
-        if themeStyles.containsThemeAttribute(.attributedText) {
+        if themeStyles.contains(.attributedText) {
             self.attributedText = themeStyles.attributedText
         }
-        if themeStyles.containsThemeAttribute(.textColor) {
+        if themeStyles.contains(.textColor) {
             self.textColor = themeStyles.textColor
         }
-        if themeStyles.containsThemeAttribute(.font) {
+        if themeStyles.contains(.font) {
             self.font = themeStyles.font
         }
         
-        if themeStyles.containsThemeAttribute(.textAlignment) {
+        if themeStyles.contains(.textAlignment) {
             self.textAlignment = themeStyles.textAlignment
         }
         
-        if themeStyles.containsThemeAttribute(.borderStyle) {
+        if themeStyles.contains(.borderStyle) {
             self.borderStyle = themeStyles.borderStyle
         }
         
-        if themeStyles.containsThemeAttribute(.defaultTextAttributes) {
+        if themeStyles.contains(.defaultTextAttributes) {
             self.defaultTextAttributes = themeStyles.defaultTextAttributes
         }
         
-        if themeStyles.containsThemeAttribute(.placeholder) {
+        if themeStyles.contains(.placeholder) {
             self.placeholder = themeStyles.placeholderText
         }
         
-        if themeStyles.containsThemeAttribute(.attributedPlaceholder) {
+        if themeStyles.contains(.attributedPlaceholder) {
             self.attributedPlaceholder = themeStyles.attributedPlaceholder
         }
         
-        if themeStyles.containsThemeAttribute(.clearsOnBeginEditing) {
+        if themeStyles.contains(.clearsOnBeginEditing) {
             self.clearsOnBeginEditing = themeStyles.clearsOnBeginEditing
         }
         
-        if themeStyles.containsThemeAttribute(.adjustsFontSizeToFitWidth) {
+        if themeStyles.contains(.adjustsFontSizeToFitWidth) {
             self.adjustsFontSizeToFitWidth = themeStyles.adjustsFontSizeToFitWidth
         }
 
-        if themeStyles.containsThemeAttribute(.minimumFontSize) {
+        if themeStyles.contains(.minimumFontSize) {
             self.minimumFontSize = themeStyles.minimumFontSize
         }
         
-        if themeStyles.containsThemeAttribute(.background) {
+        if themeStyles.contains(.background) {
             self.background = themeStyles.background
         }
         
-        if themeStyles.containsThemeAttribute(.disabledBackground) {
+        if themeStyles.contains(.disabledBackground) {
             self.disabledBackground = themeStyles.disabledBackground
         }
  
-        if themeStyles.containsThemeAttribute(.allowsEditingTextAttributes) {
+        if themeStyles.contains(.allowsEditingTextAttributes) {
             self.allowsEditingTextAttributes = themeStyles.allowsEditingTextAttributes
         }
 
-        if themeStyles.containsThemeAttribute(.typingAttributes) {
+        if themeStyles.contains(.typingAttributes) {
             self.typingAttributes = themeStyles.typingAttributes
         }
         
-        if themeStyles.containsThemeAttribute(.clearButtonMode) {
+        if themeStyles.contains(.clearButtonMode) {
             self.clearButtonMode = themeStyles.clearButtonMode
         }
 
-        if themeStyles.containsThemeAttribute(.leftViewMode) {
+        if themeStyles.contains(.leftViewMode) {
             self.leftViewMode = themeStyles.leftViewMode
         }
         
-        if themeStyles.containsThemeAttribute(.rightViewMode) {
+        if themeStyles.contains(.rightViewMode) {
             self.rightViewMode = themeStyles.rightViewMode
         }
 
-        if themeStyles.containsThemeAttribute(.clearsOnInsertion) {
+        if themeStyles.contains(.clearsOnInsertion) {
             self.clearsOnInsertion = themeStyles.clearsOnInsertion
         }
 
         
-        if themeStyles.containsThemeAttribute(.keyboardAppearance) {
+        if themeStyles.contains(.keyboardAppearance) {
             self.keyboardAppearance = themeStyles.keyboardAppearance
         }
         
-        if themeStyles.containsThemeAttribute(.keyboardType) {
+        if themeStyles.contains(.keyboardType) {
             self.keyboardType = themeStyles.keyboardType
         }
         
-        if themeStyles.containsThemeAttribute(.returnKeyType) {
+        if themeStyles.contains(.returnKeyType) {
             self.returnKeyType = themeStyles.returnKeyType
         }
         
-        if themeStyles.containsThemeAttribute(.enablesReturnKeyAutomatically) {
+        if themeStyles.contains(.enablesReturnKeyAutomatically) {
             self.enablesReturnKeyAutomatically = themeStyles.enablesReturnKeyAutomatically
         }
         
-        if themeStyles.containsThemeAttribute(.isSecureTextEntry) {
+        if themeStyles.contains(.isSecureTextEntry) {
             self.isSecureTextEntry = themeStyles.isSecureTextEntry
         }
         

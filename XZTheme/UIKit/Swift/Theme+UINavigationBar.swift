@@ -70,28 +70,28 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var largeTitleTextAttributes: [NSAttributedStringKey: Any]? {
-        get { return stringAttributes(forThemeAttribute: .largeTitleTextAttributes) }
-        set { setValue(newValue, forThemeAttribute: .largeTitleTextAttributes)      }
+        get { return stringAttributes(for: .largeTitleTextAttributes) }
+        set { setValue(newValue, for: .largeTitleTextAttributes)      }
     }
     
     public var backIndicatorImage: UIImage? {
-        get { return image(forThemeAttribute: .backIndicatorImage) }
-        set { setValue(newValue, forThemeAttribute: .backIndicatorImage) }
+        get { return image(for: .backIndicatorImage) }
+        set { setValue(newValue, for: .backIndicatorImage) }
     }
     
     public var backIndicatorTransitionMaskImage: UIImage? {
-        get { return image(forThemeAttribute: .backIndicatorTransitionMaskImage) }
-        set { setValue(newValue, forThemeAttribute: .backIndicatorTransitionMaskImage) }
+        get { return image(for: .backIndicatorTransitionMaskImage) }
+        set { setValue(newValue, for: .backIndicatorTransitionMaskImage) }
     }
     
     public var prefersLargeTitles: Bool {
-        get { return boolValue(forThemeAttribute: .prefersLargeTitles)   }
-        set { setValue(newValue, forThemeAttribute: .prefersLargeTitles) }
+        get { return boolValue(for: .prefersLargeTitles)   }
+        set { setValue(newValue, for: .prefersLargeTitles) }
     }
     
     public var titleVerticalPositionAdjustment: CGFloat {
-        get { return floatValue(forThemeAttribute: .titleVerticalPositionAdjustment) }
-        set { setValue(newValue, forThemeAttribute: .titleVerticalPositionAdjustment) }
+        get { return floatValue(for: .titleVerticalPositionAdjustment) }
+        set { setValue(newValue, for: .titleVerticalPositionAdjustment) }
     }
 }
 
@@ -102,41 +102,44 @@ extension UINavigationBar {
         super.updateAppearance(with: themeStyles)
         
         if #available(iOS 11.0, *) {
-            if themeStyles.containsThemeAttribute(.prefersLargeTitles) {
+            if themeStyles.contains(.prefersLargeTitles) {
                 self.prefersLargeTitles = themeStyles.prefersLargeTitles
             }
         }
         
-        if themeStyles.containsThemeAttribute(.barTintColor) {
+        if themeStyles.contains(.barTintColor) {
             self.barTintColor = themeStyles.barTintColor
         }
         
-        if themeStyles.containsThemeAttribute(.shadowImage) {
+        if themeStyles.contains(.shadowImage) {
             self.shadowImage = themeStyles.shadowImage
         }
         
-        if themeStyles.containsThemeAttribute(.barStyle) {
+        if themeStyles.contains(.barStyle) {
             self.barStyle = themeStyles.barStyle
         }
         
-        if themeStyles.containsThemeAttribute(.isTranslucent) {
+        if themeStyles.contains(.isTranslucent) {
             self.isTranslucent = themeStyles.isTranslucent
         }
         
-        if themeStyles.containsThemeAttribute(.titleTextAttributes) {
+        if themeStyles.contains(.titleTextAttributes) {
             self.titleTextAttributes = themeStyles.titleTextAttributes
         }
         
-        if themeStyles.containsThemeAttribute(.backIndicatorImage) {
+        if themeStyles.contains(.backIndicatorImage) {
             self.backIndicatorImage = themeStyles.backIndicatorImage
         }
         
-        if themeStyles.containsThemeAttribute(.backIndicatorTransitionMaskImage) {
+        if themeStyles.contains(.backIndicatorTransitionMaskImage) {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
         }
         
+        let effectiveThemeStates = Array<Theme.State>.init(themeStyles)
+        
+        
         // 保证先应用简单状态，后应用复合状态。
-        let themeStates = themeStyles.effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
+        let themeStates = effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
             return state2.isPrimary
         })
         
@@ -146,11 +149,11 @@ extension UINavigationBar {
                     XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
                     continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.titleVerticalPositionAdjustment) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.titleVerticalPositionAdjustment) {
                     self.setTitleVerticalPositionAdjustment(themeStyle.titleVerticalPositionAdjustment, for: barMetrics)
                 }
-                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                if themeStyle.contains(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barMetrics)
                 }
             } else if themeState.count >= 2 {
@@ -159,8 +162,8 @@ extension UINavigationBar {
                         XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
                         continue
                 }
-                guard let themeStyle = themeStyles.effectiveThemeStyle(forThemeState: themeState) else { continue }
-                if themeStyle.containsThemeAttribute(.backgroundImage) {
+                guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+                if themeStyle.contains(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                 }
             } else {

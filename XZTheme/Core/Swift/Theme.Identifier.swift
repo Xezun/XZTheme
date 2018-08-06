@@ -26,8 +26,26 @@ extension Theme.Identifier: ExpressibleByStringLiteral, Equatable, Hashable {
         self.init(rawValue: value)
     }
     
+    /// Returns rawValue's hashValue.
     public var hashValue: Int {
         return rawValue.hashValue
+    }
+    
+}
+
+extension Theme.Identifier: ExpressibleByArrayLiteral {
+    
+    public typealias ArrayLiteralElement = Theme.Identifier
+    
+    /// 主题标识符的数组字面量表示法。数组 [.id1, .id2] 字面量为 .id1.id2 标识符。
+    ///
+    /// - Parameter elements: 主题标识符数组字面量。
+    public init(arrayLiteral elements: Theme.Identifier...) {
+        var rawValue = String.init()
+        for element in elements {
+            rawValue.append(element.rawValue)
+        }
+        self.init(rawValue: rawValue)
     }
     
 }

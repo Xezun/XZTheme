@@ -29,33 +29,33 @@ extension Theme.Attribute {
 extension Theme.Style {
     
     public var text: String? {
-        get { return stringValue(forThemeAttribute: .text)  }
-        set { setValue(newValue, forThemeAttribute: .text)  }
+        get { return stringValue(for: .text)  }
+        set { setValue(newValue, for: .text)  }
     }
     
     public var textColor: UIColor? {
-        get { return color(forThemeAttribute: .textColor)       }
-        set { setValue(newValue, forThemeAttribute: .textColor) }
+        get { return color(for: .textColor)       }
+        set { setValue(newValue, for: .textColor) }
     }
     
     public var font: UIFont? {
-        get { return font(forThemeAttribute: .font)       }
-        set { setValue(newValue, forThemeAttribute: .font) }
+        get { return font(for: .font)       }
+        set { setValue(newValue, for: .font) }
     }
     
     public var shadowColor: UIColor? {
-        get { return color(forThemeAttribute: .shadowColor)        }
-        set { setValue(newValue, forThemeAttribute: .shadowColor)  }
+        get { return color(for: .shadowColor)        }
+        set { setValue(newValue, for: .shadowColor)  }
     }
     
     public var highlightedTextColor: UIColor? {
-        get { return color(forThemeAttribute: .highlightedTextColor)        }
-        set { setValue(newValue, forThemeAttribute: .highlightedTextColor)  }
+        get { return color(for: .highlightedTextColor)        }
+        set { setValue(newValue, for: .highlightedTextColor)  }
     }
     
     public var attributedText: NSAttributedString? {
-        get { return attributedString(forThemeAttribute: .attributedText)   }
-        set { setValue(newValue, forThemeAttribute: .attributedText) }
+        get { return attributedString(for: .attributedText)   }
+        set { setValue(newValue, for: .attributedText) }
     }
     
 }
@@ -65,31 +65,31 @@ extension UILabel {
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
         
-        if themeStyles.containsThemeAttribute(.text) {
+        if themeStyles.contains(.text) {
             self.text = themeStyles.text;
         }
         
-        if themeStyles.containsThemeAttribute(.textColor) {
+        if themeStyles.contains(.textColor) {
             self.textColor = themeStyles.textColor
         }
         
-        if themeStyles.containsThemeAttribute(.font) {
+        if themeStyles.contains(.font) {
             self.font = themeStyles.font
         }
         
-        if themeStyles.containsThemeAttribute(.shadowColor) {
+        if themeStyles.contains(.shadowColor) {
             self.shadowColor = themeStyles.shadowColor
         }
         
-        if themeStyles.containsThemeAttribute(.highlightedTextColor) {
+        if themeStyles.contains(.highlightedTextColor) {
             self.highlightedTextColor = themeStyles.highlightedTextColor
         }
         
-        if themeStyles.containsThemeAttribute(.attributedText) {
+        if themeStyles.contains(.attributedText) {
             self.attributedText = themeStyles.attributedText
         }
         
-        if themeStyles.containsThemeAttribute(.adjustsFontSizeToFitWidth) {
+        if themeStyles.contains(.adjustsFontSizeToFitWidth) {
             self.adjustsFontSizeToFitWidth = themeStyles.adjustsFontSizeToFitWidth
         }
         
