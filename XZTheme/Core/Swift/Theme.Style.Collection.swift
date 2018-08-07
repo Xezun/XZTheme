@@ -47,37 +47,37 @@ extension Theme.Style.Collection {
 extension Theme.Style.Collection {
     
     /// 默认状态样式，Theme.State.normal 状态下的主题样式，当前集合自身。
-    @objc(normalThemeStyle) public var normal: Theme.Style {
+    public var normal: Theme.Style {
         return self
     }
     
     /// Theme.State.highlighted 状态下的主题样式，懒加载。
-    @objc(highlightedThemeStyle) public var highlighted: Theme.Style {
+    public var highlighted: Theme.Style {
         return themeStyle(for: .highlighted)
     }
     
     /// Theme.State.selected 状态下的主题样式，懒加载。
-    @objc(selectedThemeStyle) public var selected: Theme.Style {
+    public var selected: Theme.Style {
         return themeStyle(for: .selected)
     }
     
     /// Theme.State.disabled 状态下的主题样式，懒加载。
-    @objc(disabledThemeStyle) public var disabled: Theme.Style {
+    public var disabled: Theme.Style {
         return themeStyle(for: .disabled)
     }
     
     /// Theme.State.highlighted 状态下的主题样式，非懒加载。
-    @objc(highlightedThemeStyleIfLoaded) public var highlightedIfLoaded: Theme.Style? {
+    public var highlightedIfLoaded: Theme.Style? {
         return themeStyleIfLoaded(for: .highlighted)
     }
     
-     /// Theme.State.selected 状态下的主题样式，非懒加载。
-    @objc(selectedThemeStyleIfLoaded) public var selectedIfLoaded: Theme.Style? {
+    /// Theme.State.selected 状态下的主题样式，非懒加载。
+    public var selectedIfLoaded: Theme.Style? {
         return themeStyleIfLoaded(for: .selected)
     }
     
     /// Theme.State.disabled 状态下的主题样式，非懒加载。
-    @objc(disabledThemeStyleIfLoaded) public var disabledIfLoaded: Theme.Style? {
+    public var disabledIfLoaded: Theme.Style? {
         return themeStyleIfLoaded(for: .disabled)
     }
     

@@ -10,7 +10,7 @@ import UIKit
 
 extension NSObject {
     
-    /// 私有样式集。
+    /// 私有样式集。与主题无关。
     /// - Note: 私有样式仅为当前对象所有，优先级最高。
     /// - Note: 当主题变更时，私有样式不会改变也不会清空。
     @objc(xz_themeStyles)
@@ -23,20 +23,12 @@ extension NSObject {
         return themeStyles
     }
     
-    /// 计算样式，最终应用到对象上的样式。
-    /// - Note: 计算样式由内部维护，外部修改不同步到当前状态中。
-    @objc(xz_computedThemeStyles)
-    open var computedThemeStyles: Theme.Style.Collection? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) as? Theme.Style.Collection }
-        set { objc_setAssociatedObject(self, &AssociationKey.computedThemeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-    
-    /// 私有样式集，非懒加载。
     @objc(xz_themesIfLoaded)
     open var themeStylesIfLoaded: Theme.Style.Collection? {
         return objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? Theme.Style.Collection
     }
     
+    /// 私有样式集，非懒加载。
     /// 主题标识符。
     @objc(xz_themeIdentifier)
     open var themeIdentifier: Theme.Identifier? {
@@ -48,14 +40,14 @@ extension NSObject {
     /// - Note: 已应用的主题不等于当前主题，特别是当控件未显示时。
     /// - Note: 如果为对象配置当前主题的主题样式，那么使用的是默认主题的主题样式。
     @objc(xz_appliedTheme)
-    open internal(set) var appliedTheme: Theme? {
+    open private(set) var appliedTheme: Theme? {
         get { return objc_getAssociatedObject(self, &AssociationKey.appliedTheme) as? Theme }
         set { objc_setAssociatedObject(self, &AssociationKey.appliedTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     /// 是否已经被标记需要更新主题。
     @objc(xz_needsUpdateThemeAppearance)
-    open internal(set) var needsUpdateThemeAppearance: Bool {
+    open private(set) var needsUpdateThemeAppearance: Bool {
         get { return (objc_getAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance) as? Bool) == true }
         set { objc_setAssociatedObject(self, &AssociationKey.needsUpdateThemeAppearance, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC) }
     }
@@ -82,8 +74,6 @@ extension NSObject {
             return
         }
         self.needsUpdateThemeAppearance = true
-        // 重置计算样式。
-        self.computedThemeStyles = nil;
         DispatchQueue.main.async(execute: {
             self.updateThemeAppearanceIfNeeded()
         })
@@ -120,12 +110,17 @@ extension NSObject {
         }
         
         // 计算样式。
-        guard let computedThemeStyles = newTheme.themesIfLoaded(for: self)?.themeStyles(for: self) else {
+        guard let themeStyles = self.themeStyles(for: newTheme) else {
             return
         }
         
         // 应用样式。
-        updateAppearance(with: computedThemeStyles)
+        self.updateAppearance(with: themeStyles)
+    }
+    
+    @objc(xz_themeStylesForTheme:)
+    open func themeStyles(for theme: Theme) -> Theme.Style.Collection? {
+        return self.themeStylesIfLoaded
     }
     
     /// 当应用主题时，如果当前对象已配置了主题样式，则此方法会被调用。
@@ -159,6 +154,20 @@ extension NSObject {
 
 
 extension UIView {
+    
+    private var viewController: UIViewController? {
+        var responder: UIResponder? = self
+        while !(responder != nil && responder is UIViewController) {
+            responder = responder?.next
+        }
+        return responder as? UIViewController
+    }
+    
+    open override func themeStyles(for theme: Theme) -> Theme.Style.Collection? {
+        // 以控制器为单位
+        guard let viewController = self.viewController else { return nil }
+        return theme.themesIfLoaded(forObject: viewController)?.themeStyles(for: self)
+    }
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
     /// - Note: 子类可通过 forwardsThemeAppearanceUpdate 属性来控制该行为。

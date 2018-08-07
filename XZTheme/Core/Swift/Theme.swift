@@ -21,7 +21,6 @@ extension Theme {
     
     /// 默认主题，缺省主题。
     /// - Note: 在应用主题时，如果没有任何可以应用的主题样式，会读取此主题下配置的主题样式。
-    @objc(defaultTheme)
     public static let `default`: Theme = Theme.init(name: "default")
     
     /// 当前主题，最后一次应用过的主题。
@@ -44,7 +43,6 @@ extension Theme {
     /// - Note: 控制器也会在其将要显示时，判断主题从而决定是否更新主题外观。
     ///
     /// - Parameter animated: 是否渐变主题应用的过程。
-    @objc(applyThemeAnimated:)
     public func apply(animated: Bool) {
         guard Theme.current != self else {
             return
@@ -70,10 +68,10 @@ extension Theme {
     }
     
     /// 应用主题动画时长，0.5 秒。
-    @objc public static let AnimationDuration: TimeInterval = 0.5
+    public static let AnimationDuration: TimeInterval = 0.5
     
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
-    @objc public static let UserDefaultsKey: String = Domain + ".theme.default"
+    public static let UserDefaultsKey: String = Domain + ".theme.default"
     
 }
 
@@ -84,12 +82,12 @@ public final class Theme: NSObject {
 
     /// 主题名称。
     /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
-    @objc public let name: String
+    public let name: String
     
     /// 构造主题对象。
     ///
     /// - Parameter name: 主题名称。
-    @objc public init(name: String) {
+    public init(name: String) {
         self.name = name
         super.init()
     }
@@ -118,13 +116,13 @@ public final class Theme: NSObject {
         /// 构造主题集对象。
         ///
         /// - Parameter theme: 主题。
-        @objc(initForTheme:) public init(for theme: Theme) {
+        public init(for theme: Theme) {
             self.theme = theme
             super.init()
         }
         
         /// 样式表。
-        @objc public private(set) var identifiedThemeStylesIfLoaded: [Theme.Identifier: Theme.Style.Collection]?
+        public private(set) var identifiedThemeStylesIfLoaded: [Theme.Identifier: Theme.Style.Collection]?
     }
     
     
@@ -154,7 +152,6 @@ public final class Theme: NSObject {
         /// 构造私有样式集。私有样式不区分主题，切换主题时不清空。
         ///
         /// - Parameter object: 私有样式集所属的对象。
-        @objc(initForObject:)
         public convenience init(for object: NSObject?) {
             self.init()
             self.object = object
@@ -169,7 +166,13 @@ public final class Theme: NSObject {
             /// - Note: 该集合不包含 normal 状态的主题。
             /// - Note: 该集合不包含全局样式。
             public private(set) var statedThemeStylesIfLoaded: [Theme.State: Theme.Style]? {
-                didSet { object?.setNeedsThemeAppearanceUpdate() }
+                didSet {
+                    // 修改私有样式会重置计算样式。
+                    // xzss 样式默认不可以修改。
+                    object?.computedThemeStyles = nil;
+                    // 更新主题。
+                    object?.setNeedsThemeAppearanceUpdate()
+                }
             }
             
         }
@@ -191,7 +194,6 @@ public final class Theme: NSObject {
             }
             self.rawValue = rawValue
         }
-        
     }
     
     /// 主题属性。
@@ -263,19 +265,17 @@ extension Theme {
         }
     }
     
-    @objc public func themesIfLoaded(for key: String) -> Theme.Collection? {
-        return self.keyedThemesIfLoaded?[key]
+    public func themesIfLoaded(forKey aKey: String) -> Theme.Collection? {
+        return self.keyedThemesIfLoaded?[aKey]
     }
     
-    @objc public func set(_ themes: Theme.Collection, for key: String) {
-        keyedThemes[key] = themes
+    public func set(_ themes: Theme.Collection, forKey aKey: String) {
+        keyedThemes[aKey] = themes
     }
     
-    
-    @objc(themesIfLoadedForObject:)
-    public func themesIfLoaded(for object: NSObject) -> Theme.Collection? {
-        let key = NSStringFromClass(type(of: object))
-        return self.keyedThemesIfLoaded?[key]
+    public func themesIfLoaded(forObject anObject: NSObject) -> Theme.Collection? {
+        let aKey = NSStringFromClass(type(of: anObject))
+        return self.keyedThemesIfLoaded?[aKey]
     }
     
 }
@@ -410,7 +410,7 @@ extension Theme.State: Sequence, IteratorProtocol {
 extension Theme.Collection {
     
     /// 按主题分类的主题样式集合，懒加载。
-    @objc public private(set) var identifiedThemeStyles: [Theme.Identifier: Theme.Style.Collection] {
+    public private(set) var identifiedThemeStyles: [Theme.Identifier: Theme.Style.Collection] {
         get {
             if identifiedThemeStylesIfLoaded != nil {
                 return identifiedThemeStylesIfLoaded!
@@ -427,13 +427,13 @@ extension Theme.Collection {
     ///
     /// - Parameter themeStyles: 主题样式。
     /// - Parameter theme: 主题。
-    @objc public func set(_ themeStyles: Theme.Style.Collection, for themeIdentifier: Theme.Identifier) {
+    public func set(_ themeStyles: Theme.Style.Collection, for themeIdentifier: Theme.Identifier) {
         identifiedThemeStyles[themeIdentifier] = themeStyles
     }
     
     /// 当发生内存警告时，Theme.Collection 将尝试将样式缓存到 tmp 目录，并释放相关资源。
     /// - Note: 目前该函数的功能没有实现。
-    @objc public func didReceiveMemoryWarning() {
+    public func didReceiveMemoryWarning() {
         /// 如果当前对象没有样式标识符，不缓存。待确定。
         
         /// 通过配置文件和代码配置的，毕竟有可能是混合用的。
@@ -469,7 +469,7 @@ extension Theme.Style {
     ///
     /// - Parameter value: 主题属性值。
     /// - Parameter themeAttribute: 主题属性。
-    @objc public func setValue(_ value: Any?, for themeAttribute: Theme.Attribute) {
+    public func setValue(_ value: Any?, for themeAttribute: Theme.Attribute) {
         attributedValues[themeAttribute] = value
     }
     
@@ -477,14 +477,14 @@ extension Theme.Style {
     ///
     /// - Parameter value: 主题属性值。
     /// - Parameter themeAttribute: 主题属性。
-    @objc public func updateValue(_ value: Any?, for themeAttribute: Theme.Attribute) {
+    public func updateValue(_ value: Any?, for themeAttribute: Theme.Attribute) {
         attributedValues.updateValue(value, forKey: themeAttribute)
     }
     
     /// 删除主题属性值。
     ///
     /// - Parameter themeAttribute: 主题属性。
-    @objc public func removeValue(for themeAttribute: Theme.Attribute) -> Any? {
+    public func removeValue(for themeAttribute: Theme.Attribute) -> Any? {
         guard let value = attributedValuesIfLoaded?.removeValue(forKey: themeAttribute) else {
             return nil
         }

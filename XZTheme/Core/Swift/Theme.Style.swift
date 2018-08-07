@@ -15,7 +15,7 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 是否包含。
-    @objc public func contains(_ themeAttribute: Theme.Attribute) -> Bool {
+    public func contains(_ themeAttribute: Theme.Attribute) -> Bool {
         return (attributedValuesIfLoaded?.keys.contains(themeAttribute) == true)
     }
     
@@ -23,7 +23,7 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    @objc public func value(for themeAttribute: Theme.Attribute) -> Any? {
+    public func value(for themeAttribute: Theme.Attribute) -> Any? {
         guard let value = attributedValuesIfLoaded?[themeAttribute] else {
             return nil
         }
@@ -33,7 +33,7 @@ extension Theme.Style {
     /// 获取/添加/更新/删除主题属性值。
     ///
     /// - Parameter themeAttribute: 主题属性。
-    @objc public subscript(themeAttribute: Theme.Attribute) -> Any? {
+    public subscript(themeAttribute: Theme.Attribute) -> Any? {
         get { return self.value(for: themeAttribute)       }
         set { self.setValue(newValue, for: themeAttribute) }
     }
@@ -66,7 +66,7 @@ extension Theme.Style {
     /// - Note: 不会复制被复制样式相关联的全局样式。
     ///
     /// - Parameter themeStyle: 被复制的样式。
-    @objc public func addValuesAndAttributes(from themeStyle: Theme.Style) {
+    public func addValuesAndAttributes(from themeStyle: Theme.Style) {
         guard let attributedValues = themeStyle.attributedValuesIfLoaded else { return }
         for attributedValue in attributedValues {
             updateValue(attributedValue.value, for: attributedValue.key)
