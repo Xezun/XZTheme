@@ -8,16 +8,6 @@
 import Foundation
 import XZKit
 
-extension Theme.State {
-    /// 所有 Theme.State 中 UIBarPosition 的对应关系。
-    public static let UIBarPositionItems: [(themeState: Theme.State, barPosition: UIBarPosition)] = [
-        (.topBarPosition, .top), (.bottomBarPosition, .bottom),
-        (.topAttachedBarPosition, .topAttached), (.anyBarPosition, .any)
-    ]
-}
-
-
-
 extension UIToolbar {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {

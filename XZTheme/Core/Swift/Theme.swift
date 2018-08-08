@@ -102,7 +102,7 @@ public final class Theme: NSObject {
         return name.hashValue
     }
     
-    /// Key 为类名，Value 为样式表。
+    /// Key 为样式表名称，Value 为样式表。
     /// 表示当前主题下，所有类的样式表。
     public private(set) var keyedThemesIfLoaded: [String: Theme.Collection]?
     
@@ -273,11 +273,22 @@ extension Theme {
         keyedThemes[aKey] = themes
     }
     
-    public func themesIfLoaded(forObject anObject: NSObject) -> Theme.Collection? {
-        let aKey = NSStringFromClass(type(of: anObject))
-        return self.keyedThemesIfLoaded?[aKey]
+    public func themes(forKey aKey: String) -> Theme.Collection {
+        if let themes = self.keyedThemesIfLoaded?[aKey] {
+            return themes;
+        }
+        let themes = Theme.Collection.init(for: self)
+        self.keyedThemes[aKey] = themes
+        return themes
     }
     
+    public func themesIfLoaded(for anObject: NSObject) -> Theme.Collection? {
+        return self.themesIfLoaded(forKey: anObject.themeStyleSheetName)
+    }
+    
+    public func themes(for anObject: NSObject) -> Theme.Collection? {
+        return self.themes(forKey: anObject.themeStyleSheetName)
+    }
 }
 
 extension Theme.State: Sequence, IteratorProtocol {

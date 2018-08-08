@@ -93,6 +93,12 @@ extension NSObject {
         self.appliedTheme = newTheme
     }
     
+    /// 样式表名，默认与类同名。
+    @objc(xz_rootThemeObject)
+    open var themeStyleSheetName: String {
+        return NSStringFromClass(type(of: self))
+    }
+    
     /// 当需要应用主题时，此方法会被调用。
     /// - Note: 如果主题发生改变，则此方法一定会被调用（如果控件正在显示或将来会被显示）。
     /// - Note: 在 NSObject 默认实现中，当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
@@ -103,24 +109,10 @@ extension NSObject {
     /// - Parameter newTheme: 待应用的主题。
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with newTheme: Theme) {
-        // 如果当前已应用的主题与待应用的主题一致，不操作的话，那么修改主题配置后，可能导致无法应用新的配置。
-        // 但是会不会造成某些情况下，主题被重复应用，有待验证。
-        guard newTheme != self.appliedTheme else {
-            return
-        }
-        
-        // 计算样式。
-        guard let themeStyles = self.themeStyles(for: newTheme) else {
-            return
-        }
-        
-        // 应用样式。
+        guard newTheme != self.appliedTheme else { return }
+        guard let themes = newTheme.themesIfLoaded(for: self) else { return }
+        guard let themeStyles = themes.themeStyles(for: self) else { return }
         self.updateAppearance(with: themeStyles)
-    }
-    
-    @objc(xz_themeStylesForTheme:)
-    open func themeStyles(for theme: Theme) -> Theme.Style.Collection? {
-        return self.themeStylesIfLoaded
     }
     
     /// 当应用主题时，如果当前对象已配置了主题样式，则此方法会被调用。
@@ -155,18 +147,22 @@ extension NSObject {
 
 extension UIView {
     
-    private var viewController: UIViewController? {
-        var responder: UIResponder? = self
-        while !(responder != nil && responder is UIViewController) {
-            responder = responder?.next
-        }
-        return responder as? UIViewController
-    }
     
-    open override func themeStyles(for theme: Theme) -> Theme.Style.Collection? {
-        // 以控制器为单位
-        guard let viewController = self.viewController else { return nil }
-        return theme.themesIfLoaded(forObject: viewController)?.themeStyles(for: self)
+    /// 样式表名称，从 nextResponder 查找视图所属的控制器、UIApplication、根视图，并返回其。
+    open override var themeStyleSheetName: String {
+        var nextResponder: UIResponder! = self.next
+        while nextResponder != nil {
+            if nextResponder is UIViewController {
+                return nextResponder.themeStyleSheetName
+            } else if nextResponder is UIApplication {
+                return nextResponder.themeStyleSheetName
+            } else if let next = nextResponder.next {
+                nextResponder = next
+            } else {
+                return nextResponder.themeStyleSheetName
+            }
+        }
+        return super.themeStyleSheetName
     }
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。

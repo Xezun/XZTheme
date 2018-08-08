@@ -7,15 +7,11 @@
 
 import Foundation
 
-private struct AssociationKey {
-    static var computedThemeStyles:         Int = 1
-}
-
 extension NSObject {
     /// 计算样式，最终应用到对象上的样式。
     /// - Note: 计算样式由内部维护，外部修改不同步到当前状态中。
     @objc(xz_computedThemeStyles)
-    open var computedThemeStyles: Theme.Style.Collection? {
+    open internal(set) var computedThemeStyles: Theme.Style.Collection? {
         get { return objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) as? Theme.Style.Collection }
         set { objc_setAssociatedObject(self, &AssociationKey.computedThemeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
@@ -24,13 +20,18 @@ extension NSObject {
 extension Theme.Collection {
     
     /// 计算样式。
-    public func themeStyles(forObject object: NSObject) -> Theme.Style.Collection? {
+    
+    /// 获取对象的计算样式。
+    ///
+    /// - Parameter object: 指定的对象。
+    /// - Returns: 主题样式集。
+    public func themeStyles(for object: NSObject) -> Theme.Style.Collection? {
         // 1. 读取对象的计算样式，如果有，直接使用。
         if let computedThemeStyles = objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) {
             return computedThemeStyles as? Theme.Style.Collection
         }
         // 2. 从样式表中匹配对象的样式
-        let themeStyles = self.themeStylesFromXZSS(for: object)
+        let themeStyles = self.fetchThemeStyleSheet(for: object)
         
         // 3. 合并成计算样式，并保存。
         let computedThemeStyles = Theme.Style.Collection.init(for: nil, union: themeStyles, object.themeStylesIfLoaded)
@@ -40,8 +41,9 @@ extension Theme.Collection {
     }
     
     /// 从样式表中匹配对象的样式，并合并成计算样式。
-    private func themeStylesFromXZSS(for object: NSObject) -> Theme.Style.Collection? {
+    private func fetchThemeStyleSheet(for object: NSObject) -> Theme.Style.Collection? {
         // TODO: - 从样式表中匹配指定标识符对应的样式。
+        // 目前仅根据标识符匹配。
         guard let themeIdentifier = object.themeIdentifier else { return nil }
         return self.themeStylesIfLoaded(for: themeIdentifier)
     }
@@ -80,3 +82,10 @@ extension Theme.Collection {
     }
     
 }
+
+
+
+private struct AssociationKey {
+    static var computedThemeStyles:         Int = 1
+}
+

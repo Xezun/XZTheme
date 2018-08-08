@@ -17,8 +17,9 @@ class ThemeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-//        self.themes.day.setting(0xffffffff, for: .backgroundColor)
-//        self.themes.night.setting(0x303030ff, for: .backgroundColor)
+        
+//        Theme.day.themes(for: self).setting(0xffffffff, for: .backgroundColor)
+//        Theme.night.themes(for: self).setting(0x303030ff, for: .backgroundColor)
 //        
 //        self.selectionStyle = .none
 //        self.contentView.themes.day.setting(0xffffffff, for: .backgroundColor)
