@@ -278,6 +278,14 @@ extension Theme {
             return themes;
         }
         let themes = Theme.Collection.init(for: self)
+        
+        // TODO: - 解析 xzss 样式表。
+        //if let sheetURL = Bundle.main.url(forResource: aKey, withExtension: "xzss") {
+        //    if let dict = Dictionary<String, Any>.init(json: try? Data.init(contentsOf: sheetURL)) {
+        //
+        //    }
+        //}
+        
         self.keyedThemes[aKey] = themes
         return themes
     }
@@ -286,7 +294,7 @@ extension Theme {
         return self.themesIfLoaded(forKey: anObject.themeStyleSheetName)
     }
     
-    public func themes(for anObject: NSObject) -> Theme.Collection? {
+    public func themes(for anObject: NSObject) -> Theme.Collection {
         return self.themes(forKey: anObject.themeStyleSheetName)
     }
 }
