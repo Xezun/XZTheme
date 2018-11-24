@@ -164,6 +164,7 @@
 				TargetAttributes = {
 					DD3DA9222080471E00A642C0 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
@@ -208,7 +209,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
-				"${PODS_ROOT}/XZKit/Products/XZKit.framework",
+				"${BUILT_PRODUCTS_DIR}/XZKit/XZKit.framework",
 				"${BUILT_PRODUCTS_DIR}/XZTheme/XZTheme.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -411,7 +412,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Example/XZThemeBridgeHeader.h;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -434,7 +435,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Example/XZThemeBridgeHeader.h;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

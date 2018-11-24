@@ -93,12 +93,6 @@ extension NSObject {
         self.appliedTheme = newTheme
     }
     
-    /// 样式表名，默认与类同名。
-    @objc(xz_rootThemeObject)
-    open var themeStyleSheetName: String {
-        return NSStringFromClass(type(of: self))
-    }
-    
     /// 当需要应用主题时，此方法会被调用。
     /// - Note: 如果主题发生改变，则此方法一定会被调用（如果控件正在显示或将来会被显示）。
     /// - Note: 在 NSObject 默认实现中，当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
@@ -110,7 +104,9 @@ extension NSObject {
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with newTheme: Theme) {
         guard newTheme != self.appliedTheme else { return }
+        // 获取主题配置
         guard let themes = newTheme.themesIfLoaded(for: self) else { return }
+        // 获取主题计算样式
         guard let themeStyles = themes.themeStyles(for: self) else { return }
         self.updateAppearance(with: themeStyles)
     }
@@ -126,10 +122,10 @@ extension NSObject {
         
     }
     
-    /// **DO NOT use this property directly!!!**
-    /// It's use for inspecting the object's `themeIdentifier` property into interface builder.
+    /// **DO NOT USE this property directly!!!**
+    /// It's used for interface builder inspecting the object's `themeIdentifier` property.
     @IBInspectable
-    private var __themeIdentifier: String? {
+    public var __themeIdentifier: String? {
         get {
             return self.themeIdentifier?.rawValue
         }
@@ -146,24 +142,6 @@ extension NSObject {
 
 
 extension UIView {
-    
-    
-    /// 样式表名称，从 nextResponder 查找视图所属的控制器、UIApplication、根视图，并返回其。
-    open override var themeStyleSheetName: String {
-        var nextResponder: UIResponder! = self.next
-        while nextResponder != nil {
-            if nextResponder is UIViewController {
-                return nextResponder.themeStyleSheetName
-            } else if nextResponder is UIApplication {
-                return nextResponder.themeStyleSheetName
-            } else if let next = nextResponder.next {
-                nextResponder = next
-            } else {
-                return nextResponder.themeStyleSheetName
-            }
-        }
-        return super.themeStyleSheetName
-    }
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
     /// - Note: 子类可通过 forwardsThemeAppearanceUpdate 属性来控制该行为。
@@ -210,7 +188,7 @@ extension UIViewController {
             }
         }
         
-        for childVC in self.childViewControllers {
+        for childVC in self.children {
             childVC.setNeedsThemeAppearanceUpdate()
         }
         

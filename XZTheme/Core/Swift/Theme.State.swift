@@ -56,50 +56,46 @@ extension Theme.State {
 }
 
 extension Theme.State {
-    
-    /// 正常状态。
-    public static let normal = Theme.State.init(name: ":normal", rawValue: UIControlState.normal, rawType: UIControlState.self, isOptionSet: true)
-    
-    /// 选中状态。
-    public static let selected    = Theme.State.init(name: ":selected", rawValue: UIControlState.selected, rawType: UIControlState.self, isOptionSet: true)
-    
-    /// 高亮状态。
-    public static let highlighted = Theme.State.init(name: ":highlighted", rawValue: UIControlState.highlighted, rawType: UIControlState.self, isOptionSet: true)
-    
-    /// 禁用状态。
-    public static let disabled    = Theme.State.init(name: ":disabled", rawValue: UIControlState.disabled, rawType: UIControlState.self, isOptionSet: true)
-    
+    /// UIControl.State.normal 正常状态。
+    public static let normal = Theme.State.init(name: ":normal", rawValue: UIControl.State.normal, isOptionSet: true)
+    /// UIControl.State.selected 选中状态。
+    public static let selected = Theme.State.init(name: ":selected", rawValue: UIControl.State.selected, isOptionSet: true)
+    /// UIControl.State.highlighted 高亮状态。
+    public static let highlighted = Theme.State.init(name: ":highlighted", rawValue: UIControl.State.highlighted, isOptionSet: true)
+    /// UIControl.State.disabled 禁用状态。
+    public static let disabled = Theme.State.init(name: ":disabled", rawValue: UIControl.State.disabled, isOptionSet: true)
 }
 
-extension UIControlState {
+extension UIControl.State {
     
     /// 将主题状态转换为 UIControlState，如果 themeState 中包含不可转换为 UIControlState 的主题状态，将返回 nil 。
     /// - Note: 默认值 .normal 。
     ///
     /// - Parameter themeState: 主题状态。
     public init?(_ themeState: Theme.State) {
-        guard themeState.rawType == UIControlState.self else {
+        guard themeState.rawType == UIControl.State.self else {
             return nil
         }
         if themeState.isPrimary {
-            self = themeState.rawValue as! UIControlState
+            self = themeState.rawValue as! UIControl.State
         } else {
-            var controlState = UIControlState.init(rawValue: 0)
-            UIControlState.formUnionEachState(in: themeState.rawValue as! [Any], &controlState)
+            /// 合并可能包含 [UIControlState] 或 UIControlState 的数组中的所有 UIControlState 元素。
+            func formUnionEachState(in states: [Any], _ result: inout UIControl.State) {
+                for item in states {
+                    if let state = item as? UIControl.State {
+                        result.formUnion(state)
+                    } else {
+                        formUnionEachState(in: item as! [Any], &result)
+                    }
+                }
+            }
+            var controlState = UIControl.State.init(rawValue: 0)
+            formUnionEachState(in: themeState.rawValue as! [Any], &controlState)
             self = controlState
         }
     }
     
-    /// 合并可能包含 [UIControlState] 或 UIControlState 的数组中的所有 UIControlState 元素。
-    private static func formUnionEachState(in states: [Any], _ result: inout UIControlState) {
-        for item in states {
-            if let state = item as? UIControlState {
-                result.formUnion(state)
-            } else {
-                formUnionEachState(in: item as! [Any], &result)
-            }
-        }
-    }
+    
     
 
     

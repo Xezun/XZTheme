@@ -43,7 +43,7 @@ open class XZLabel: UILabel {
     @IBInspectable open var contentInsets: UIEdgeInsets = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
     
     override open func drawText(in rect: CGRect) {
-        let textRect = UIEdgeInsetsInsetRect(rect, contentInsets)
+        let textRect = rect.inset(by: contentInsets)
         super.drawText(in: textRect)
     }
     

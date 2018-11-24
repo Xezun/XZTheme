@@ -102,12 +102,12 @@ extension Theme.Style {
         return .default;
     }
     
-    public func textBorderStyle(for themeAttribute: Theme.Attribute) -> UITextBorderStyle {
+    public func textBorderStyle(for themeAttribute: Theme.Attribute) -> UITextField.BorderStyle {
         guard let value = self.value(for: .keyboardAppearance) else { return .none }
-        if let textBorderStyle = value as? UITextBorderStyle {
+        if let textBorderStyle = value as? UITextField.BorderStyle {
             return textBorderStyle
         }
-        if let number = value as? Int, let textBorderStyle = UITextBorderStyle.init(rawValue: number) {
+        if let number = value as? Int, let textBorderStyle = UITextField.BorderStyle.init(rawValue: number) {
             return textBorderStyle
         }
         
@@ -124,12 +124,12 @@ extension Theme.Style {
         return .none;
     }
     
-    public func textFieldViewMode(for themeAttribute: Theme.Attribute) -> UITextFieldViewMode {
+    public func textFieldViewMode(for themeAttribute: Theme.Attribute) -> UITextField.ViewMode {
         guard let value = self.value(for: .keyboardAppearance) else { return .always }
-        if let textBorderStyle = value as? UITextFieldViewMode {
+        if let textBorderStyle = value as? UITextField.ViewMode {
             return textBorderStyle
         }
-        if let number = value as? Int, let textBorderStyle = UITextFieldViewMode.init(rawValue: number) {
+        if let number = value as? Int, let textBorderStyle = UITextField.ViewMode.init(rawValue: number) {
             return textBorderStyle
         }
         if let string = value as? String {
@@ -159,12 +159,12 @@ extension Theme.Style {
     //open var font: UIFont?
     //open var textAlignment: NSTextAlignment
     
-    public var borderStyle: UITextBorderStyle {
+    public var borderStyle: UITextField.BorderStyle {
         get { return textBorderStyle(for: .borderStyle) }
         set { setValue(newValue, for: .borderStyle) }
     }
     
-    open var defaultTextAttributes: [String : Any] {
+    open var defaultTextAttributes: [NSAttributedString.Key : Any] {
         get { return stringAttributes(for: .defaultTextAttributes) ?? [:] }
         set { setValue(newValue, for: .defaultTextAttributes) }
     }
@@ -210,22 +210,22 @@ extension Theme.Style {
         set { setValue(newValue, for: .allowsEditingTextAttributes) }
     }
     
-    public var typingAttributes: [String : Any]? {
+    public var typingAttributes: [NSAttributedString.Key : Any]? {
         get { return stringAttributes(for: .typingAttributes) }
         set { setValue(newValue, for: .typingAttributes) }
     }
     
-    public var clearButtonMode: UITextFieldViewMode {
+    public var clearButtonMode: UITextField.ViewMode {
         get { return textFieldViewMode(for: .clearButtonMode) }
         set { setValue(newValue, for: .clearButtonMode) }
     }
     
-    public var leftViewMode: UITextFieldViewMode {
+    public var leftViewMode: UITextField.ViewMode {
         get { return textFieldViewMode(for: .leftViewMode) }
         set { setValue(newValue, for: .leftViewMode) }
     }
     
-    public var rightViewMode: UITextFieldViewMode {
+    public var rightViewMode: UITextField.ViewMode {
         get { return textFieldViewMode(for: .rightViewMode) }
         set { setValue(newValue, for: .rightViewMode) }
     }

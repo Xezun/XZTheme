@@ -9,17 +9,17 @@
 import UIKit
 import XZKit
 
-extension Notification.Name {
+extension Theme {
     
     /// 当主题发生改变时，发送 Notification 所使用的名称。
     /// - Note: 视图及视图控制器 UIView/UIViewController 及其子类，无需监听通知，其会自动的在适当的时机应用主题。
-    public static let ThemeDidChange = Notification.Name.init(Domain + ".theme.changed")
+    public static let currentThemeDidChangeNotification = Notification.Name.init(Domain + ".theme.changed")
     
 }
 
 extension Theme {
     
-    /// 默认主题，缺省主题。
+    /// 默认主题，名称为 *default* 的主题。
     /// - Note: 在应用主题时，如果没有任何可以应用的主题样式，会读取此主题下配置的主题样式。
     public static let `default`: Theme = Theme.init(name: "default")
     
@@ -29,7 +29,7 @@ extension Theme {
     /// - Note: 应用主题，请主题对象的 `apply(animated:)` 方法。
     @objc(currentTheme)
     public private(set) static var current: Theme = {
-        if let themeName = UserDefaults.standard.string(forKey: Theme.UserDefaultsKey) {
+        if let themeName = UserDefaults.standard.string(forKey: Theme.userDefaultsKey) {
             return Theme.init(name: themeName)
         }
         return Theme.default
@@ -49,7 +49,7 @@ extension Theme {
         }
         Theme.current = self
         // 记住当前主题。
-        UserDefaults.standard.set(self.name, forKey: Theme.UserDefaultsKey)
+        UserDefaults.standard.set(self.name, forKey: Theme.userDefaultsKey)
         // 更新正在显示的视图。
         for window in UIApplication.shared.windows {
             window.setNeedsThemeAppearanceUpdate()
@@ -57,21 +57,21 @@ extension Theme {
             guard animated else { continue }
             guard let snapView = window.snapshotView(afterScreenUpdates: false) else { continue }
             window.addSubview(snapView)
-            UIView.animate(withDuration: Theme.AnimationDuration, animations: {
+            UIView.animate(withDuration: Theme.animationDuration, animations: {
                 snapView.alpha = 0
             }, completion: { (_) in
                 snapView.removeFromSuperview()
             })
         }
         // 发送通知。
-        NotificationCenter.default.post(name: .ThemeDidChange, object: self)
+        NotificationCenter.default.post(name: Theme.currentThemeDidChangeNotification, object: self)
     }
     
     /// 应用主题动画时长，0.5 秒。
-    public static let AnimationDuration: TimeInterval = 0.5
+    public static let animationDuration: TimeInterval = 0.5
     
     /// 在 UserDefaults 中记录当前主题所使用的 Key 。
-    public static let UserDefaultsKey: String = Domain + ".theme.default"
+    public static let userDefaultsKey: String = Domain + ".theme.default"
     
 }
 
@@ -98,7 +98,7 @@ public final class Theme: NSObject {
     }
     
     /// 返回 name 的 hashValue 属性值。
-    public override var hashValue: Int {
+    public override var hash: Int {
         return name.hashValue
     }
     
@@ -106,11 +106,15 @@ public final class Theme: NSObject {
     /// 表示当前主题下，所有类的样式表。
     public private(set) var keyedThemesIfLoaded: [String: Theme.Collection]?
     
+    
+    // MARK: - 定义：主题集。
+    
     /// 主题集，管理了某主题下的样式。
     /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
     @objc(XZThemeCollection)
     public final class Collection: NSObject {
         
+        /// 主题集所属的主题。
         public unowned let theme: Theme
         
         /// 构造主题集对象。
@@ -157,7 +161,11 @@ public final class Theme: NSObject {
             self.object = object
         }
         
-        /// 主题样式集：同一主题下，按状态分类的所有主题样式集合。同时，主题样式集也是 .normal 主题状态的主题样式。
+        
+        // MARK: - 定义：主题样式集。
+        
+        /// 主题样式集：同一主题下，按状态分类的所有主题样式集合。
+        /// - Note: 主题样式集也是 .noState 主题状态的主题样式。
         @objc(XZThemeStyleCollection)
         public final class Collection: Theme.Style {
             
@@ -179,7 +187,7 @@ public final class Theme: NSObject {
     }
     
     
-    // MARK: - 定义：主题属性。
+    // MARK: - 定义：主题标识符。
     
     /// 主题标识符。
     public struct Identifier: RawRepresentable {
@@ -196,6 +204,9 @@ public final class Theme: NSObject {
         }
     }
     
+    
+    // MARK: - 定义：主题属性。
+    
     /// 主题属性。
     public struct Attribute: RawRepresentable {
         
@@ -209,7 +220,10 @@ public final class Theme: NSObject {
         
     }
     
-    /// 主题状态。
+    
+    // MARK: - 定义：主题状态。
+    
+    /// 主题状态被设计为集合。基本状态为其自身的集合，复合状态为基本状态的集合。
     /// - Note: 主题状态是为了解决主题属性的多状态值而设立的。
     /// - Note: 主题状态名必须符合正则表达式 /^\:[A-Za-z]+$/ 。
     /// - Note: 一个或多个基本主题状态，通过数组的方式可以组合成复合主题状态。
@@ -218,8 +232,8 @@ public final class Theme: NSObject {
     /// - Note: 可以使用 for-in 语句来遍历主题状态中的所有子元素。
     public struct State {
         
-        /// 特殊值，非主题状态。
-        public static let notAState = Theme.State.init(name: "", rawValue: "", rawType: String.self, isOptionSet: false, children: [])
+        /// 特殊值，没有主题状态。
+        public static let noState = Theme.State.init(name: "", rawValue: "", rawType: String.self, isOptionSet: false, children: [])
     
         /// 主题状态名，区分主题状态的标识符。
         public let name: String
@@ -227,7 +241,7 @@ public final class Theme: NSObject {
         /// 主题状态原始值，复合状态原始值为 0 。
         public let rawValue: Any
         
-        /// 原始类型。
+        /// 原始类型。基本状态此属性为其原始值的类型；原始值为 OptionSet 的复合状态此属性为基本子状态原始值的类型；复合状态，此属性为 Any.self 。
         public let rawType: Any.Type
         
         /// 主题状态的原始值，是否为 OptionSet 类型，用于优化性能。
@@ -238,7 +252,7 @@ public final class Theme: NSObject {
         private let children: [State]
         
         /// 指定初始化方法。私有构造方法，避免构造出不合法的主题状态。
-        private init(name: String, rawValue: Any, rawType: Any.Type, isOptionSet: Bool = false, children: [State] = []) {
+        private init(name: String, rawValue: Any, rawType: Any.Type, isOptionSet: Bool, children: [State]) {
             self.name        = name
             self.rawValue    = rawValue
             self.rawType     = rawType
@@ -249,6 +263,7 @@ public final class Theme: NSObject {
     }
     
 }
+
 
 extension Theme {
     
@@ -291,31 +306,35 @@ extension Theme {
     }
     
     public func themesIfLoaded(for anObject: NSObject) -> Theme.Collection? {
-        return self.themesIfLoaded(forKey: anObject.themeStyleSheetName)
+        let key = NSStringFromClass(type(of: anObject))
+        return self.themesIfLoaded(forKey: key)
     }
     
     public func themes(for anObject: NSObject) -> Theme.Collection {
-        return self.themes(forKey: anObject.themeStyleSheetName)
+        let key = NSStringFromClass(type(of: anObject))
+        return self.themes(forKey: key)
     }
 }
 
 extension Theme.State: Sequence, IteratorProtocol {
     
     /// 是否为基本主题状态。
-    /// - Note: 没有子状态的主题状态为基本状态。
     public var isPrimary: Bool {
         return children.isEmpty
     }
     
-    /// 子状态个数，基本状态没有子状态。
+    /// 子状态个数，基本状态自身也是其子状态。
     public var count: Int {
-        return children.count
+        return Swift.max(1, children.count)
     }
     
     /// 获取指定的子状态。
     ///
     /// - Parameter index: 子状态复合时的索引。
     public subscript(index: Int) -> Theme.State {
+        if children.isEmpty && index == 0 {
+            return self
+        }
         return children[index]
     }
     
@@ -329,21 +348,20 @@ extension Theme.State: Sequence, IteratorProtocol {
     ///     - rawValue: 主题状态原始值。
     ///     - rawType: 主题状态原始类型。
     ///     - isOptionSet: 原始类型是否为 OptionSet 类型。
-    public init<T>(name: String, rawValue: T, rawType: T.Type = T.self, isOptionSet: Bool = false) {
+    public init(name: String, rawValue: Any, isOptionSet: Bool = false) {
         let range = NSMakeRange(0, name.count)
         guard NSEqualRanges(range, Theme.State.regularExpression.rangeOfFirstMatch(in: name, options: .none, range: range)) else {
             fatalError("The `\(rawValue)` is not an valid state rawValue, which must be matched the regular expression /^\\:[A-Za-z]+$/ .")
         }
-        self.init(name: name, rawValue: rawValue, rawType: rawType, isOptionSet: isOptionSet, children: [])
+        self.init(name: name, rawValue: rawValue, rawType: type(of: rawValue), isOptionSet: isOptionSet, children: [])
     }
     
     /// 将主题状态集合转换复合主题状态。
-    /// - Note: 空数组将获得 .normal 状态。
-    /// - Note: 单个元素也可以复合，且与原来不相等。
-    /// - Note: 任何状态与 .normal 复合等于对其自身进行复合。
+    /// - Note: 单个元素复合后是其自身。
+    /// - Note: 任何状态与 .noState 复合等于对其自身进行复合。
     /// ```
     /// let state1: Theme.State = .highlighted
-    /// let state2: Theme.State = [.normal, .highlighted]
+    /// let state2: Theme.State = [.notState, .highlighted]
     /// print(state1 == state2) // prints true
     /// print(state1 === state2) // prints false
     /// ```
@@ -353,23 +371,23 @@ extension Theme.State: Sequence, IteratorProtocol {
     public init(_ elements: Array<Theme.State>) {
         switch elements.count {
         case 0:
-            self = .notAState
+            self = .noState
+        case 1:
+            self = elements[0]
         default:
-            var isOptionSet = true
-            var rawType: Any.Type! = nil
-            var rawValue: [Any] = []
+            var isOptionSet: Bool      = true
+            var rawType    : Any.Type! = nil
+            var rawValue   : [Any]     = []
             let name = elements.map({ (element) -> String in
                 // 只要数组存在非 OptionSet 元素或存在两个不同的 OptionSet 类型，那么复合状态就不是 OptionSet
                 if isOptionSet {
                     if rawType == nil { // first loop
                         rawType = element.rawType
                         isOptionSet = element.isOptionSet
-                    } else {
-                        // 如果有元素是非 OptionSet 或者存在两种不同的类型 或者非基本状态，则复合状态不是 OptionSet 。
-                        if !element.isOptionSet || rawType != element.rawType /* || !element.isPrimary */{
-                            isOptionSet = false
-                            rawType = Any.self
-                        }
+                    } else if !element.isOptionSet || rawType != element.rawType {
+                        // 如果有元素不是 OptionSet ，或者存在两种不同的类型的 OptionSet ，则复合状态不是 OptionSet 。
+                        rawType = Any.self
+                        isOptionSet = false
                     }
                 }
                 // 复合状态的原始值是子元素原始值的数组。
@@ -389,8 +407,7 @@ extension Theme.State: Sequence, IteratorProtocol {
     ///
     /// - Returns: 剩余未遍历的主题状态。
     public mutating func next() -> Theme.State? {
-        // 遍历的终点
-        if self == .notAState {
+        guard self != .noState else {
             return nil
         }
         // 复合状态
@@ -400,12 +417,12 @@ extension Theme.State: Sequence, IteratorProtocol {
         case 0:
             // 基本状态。
             let state = self
-            self = .notAState
+            self = .noState
             return state
         case 1:
             // 只有一个子状态的复合状态。
             let state = children[0]
-            self = .notAState
+            self = .noState
             return state
         default:
             let state = children[0]
@@ -516,7 +533,7 @@ extension Theme.Style.Collection {
     
     /// 按主题状态存储的主题样式集合，懒加载。
     /// - Note: 会标记所有者需要更新主题。
-    /// - Note: 该集合不包含 normal 状态的主题。
+    /// - Note: 该集合不包含 noState 状态的主题。
     /// - Note: 该集合不包含全局样式。
     public private(set) var statedThemeStyles: [Theme.State: Theme.Style] {
         get {
@@ -532,14 +549,14 @@ extension Theme.Style.Collection {
     }
 
     /// 设置指定状态下的主题样式。
-    /// - Note: 无需设置状态状态 normal 的样式。
+    /// - Note: 无需设置状态状态 noState 的样式。
     /// - Note: 被设置的样式的所有者，必须与当前集合的所有者相同。
     ///
     /// - Parameters:
     ///   - themeStyle: 主题样式。
     ///   - themeState: 主题状态。
     public func set(_ themeStyle: Theme.Style, for themeState: Theme.State) {
-        if themeState == .normal || themeState == .notAState {
+        if themeState == .noState {
             return
         }
         statedThemeStyles[themeState] = themeStyle
@@ -552,7 +569,7 @@ extension Theme.Style.Collection {
     /// - Parameter themeState: 主题状态。
     /// - Returns: 主题样式。
     public func themeStyleIfLoaded(for themeState: Theme.State) -> Theme.Style? {
-        if themeState == .normal || themeState == .notAState {
+        if themeState == .noState {
             return self
         }
         return statedThemeStyles[themeState]

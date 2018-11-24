@@ -9,30 +9,27 @@ import Foundation
 import XZKit
 
 extension Theme.State {
-    
     /// UISearchBarIcon.search
-    public static let searchSearchBarIcon = Theme.State.init(name: ":searchSearchBarIcon", rawValue: UISearchBarIcon.search)
+    public static let searchSearchBarIcon = Theme.State.init(name: ":searchSearchBarIcon", rawValue: UISearchBar.Icon.search)
     /// UISearchBarIcon.clear
-    public static let clearSearchBarIcon = Theme.State.init(name: ":clearSearchBarIcon", rawValue: UISearchBarIcon.clear)
+    public static let clearSearchBarIcon = Theme.State.init(name: ":clearSearchBarIcon", rawValue: UISearchBar.Icon.clear)
     /// UISearchBarIcon.bookmark
-    public static let bookmarkSearchBarIcon = Theme.State.init(name: ":searchBarIconBookmark", rawValue: UISearchBarIcon.bookmark)
+    public static let bookmarkSearchBarIcon = Theme.State.init(name: ":searchBarIconBookmark", rawValue: UISearchBar.Icon.bookmark)
     /// UISearchBarIcon.resultsList
-    public static let resultsListSearchBarIcon = Theme.State.init(name: ":resultsListSearchBarIcon", rawValue: UISearchBarIcon.resultsList)
+    public static let resultsListSearchBarIcon = Theme.State.init(name: ":resultsListSearchBarIcon", rawValue: UISearchBar.Icon.resultsList)
 
 }
 
-extension UISearchBarIcon {
-    
+extension UISearchBar.Icon {
     public init?(_ themeState: Theme.State) {
-        guard themeState.rawType == UISearchBarIcon.self else {
+        guard type(of: themeState.rawValue) == UISearchBar.Icon.self else {
             return nil
         }
-        self = themeState.rawValue as! UISearchBarIcon
+        self = themeState.rawValue as! UISearchBar.Icon
     }
 }
 
 extension Theme.Attribute {
-    
     /// UISearchBar.showsBookmarkButton
     public static let showsBookmarkButton = Theme.Attribute.init(rawValue: "showsBookmarkButton")
     /// UISearchBar.showsCancelButton
@@ -71,15 +68,15 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func searchBarStyle(for themeAttribute: Theme.Attribute) -> UISearchBarStyle {
+    public func searchBarStyle(for themeAttribute: Theme.Attribute) -> UISearchBar.Style {
         guard let value = value(for: themeAttribute) else { return .default }
-        if let searchBarStyle = value as? UISearchBarStyle {
+        if let searchBarStyle = value as? UISearchBar.Style {
             return searchBarStyle
         }
-        if let number = value as? UInt, let searchBarStyle = UISearchBarStyle(rawValue: number) {
+        if let number = value as? UInt, let searchBarStyle = UISearchBar.Style(rawValue: number) {
             return searchBarStyle
         }
-        if let number = value as? Int, let searchBarStyle = UISearchBarStyle(rawValue: UInt(number)) {
+        if let number = value as? Int, let searchBarStyle = UISearchBar.Style(rawValue: UInt(number)) {
             return searchBarStyle
         }
         if let aString = value as? String {
@@ -100,7 +97,7 @@ extension Theme.Style {
             return offset
         }
         if let aString = value as? String {
-            return UIOffsetFromString(aString)
+            return NSCoder.uiOffset(for: aString)
         }
         if let dict = value as? [String: Any] {
             if let horizontal = dict["horizontal"] as? CGFloat {
@@ -133,7 +130,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .isSearchResultsButtonSelected) }
     }
     
-    public var searchBarStyle: UISearchBarStyle {
+    public var searchBarStyle: UISearchBar.Style {
         get { return searchBarStyle(for: .searchBarStyle) }
         set { setValue(newValue, for: .searchBarStyle) }
     }
@@ -158,8 +155,6 @@ extension Theme.Style {
         set { setValue(newValue, for: .scopeBarBackgroundImage) }
     }
     
-    
-    
     public var searchFieldBackgroundImage: UIImage? {
         get { return image(for: .searchFieldBackgroundImage)  }
         set { setValue(newValue, for: .searchFieldBackgroundImage) }
@@ -175,7 +170,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .scopeBarButtonDividerImage) }
     }
     
-    public var scopeBarButtonTitleTextAttributes: [String : Any]? {
+    public var scopeBarButtonTitleTextAttributes: [NSAttributedString.Key : Any]? {
         get { return stringAttributes(for: .scopeBarButtonTitleTextAttributes) }
         set { setValue(newValue, for: .scopeBarButtonTitleTextAttributes) }
     }
@@ -263,11 +258,21 @@ extension UISearchBar {
             self.scopeBarBackgroundImage = themeStyles.scopeBarBackgroundImage
         }
         
-        let themeStates = Array<Theme.State>.init(themeStyles)
+        if themeStyles.contains(.searchFieldBackgroundPositionAdjustment) {
+            self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
+        }
+        
+        if themeStyles.contains(.searchTextPositionAdjustment) {
+            self.searchTextPositionAdjustment = themeStyles.searchTextPositionAdjustment
+        }
+
+        guard let themeStates = themeStyles.statedThemeStylesIfLoaded?.keys else {
+            return
+        }
         
         for themeState in themeStates {
             if themeState.isOptionSet {
-                guard let controlState = UIControlState.init(themeState) else {
+                guard let controlState = UIControl.State.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue
                 }
@@ -282,7 +287,7 @@ extension UISearchBar {
                     setScopeBarButtonTitleTextAttributes(themeStyle.scopeBarButtonTitleTextAttributes, for: controlState)
                 }
             } else if themeState.isPrimary {
-                guard let searchBarIcon = UISearchBarIcon.init(themeState) else {
+                guard let searchBarIcon = UISearchBar.Icon.init(themeState) else {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                     continue
                 }
@@ -290,7 +295,7 @@ extension UISearchBar {
                 if themeStyle.contains(.positionAdjustment) {
                     setPositionAdjustment(themeStyle.positionAdjustment, for: searchBarIcon)
                 }
-            } else if themeState.count >= 2 {
+            } else {
                 if let barPosition = UIBarPosition.init(themeState[0]) {
                     guard let barMetrics = UIBarMetrics.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
@@ -300,8 +305,8 @@ extension UISearchBar {
                     if themeStyle.contains(.backgroundImage) {
                         self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                     }
-                } else if let searchBarIcon = UISearchBarIcon.init(themeState[0]) {
-                    guard let controlState = UIControlState.init(themeState[1]) else {
+                } else if let searchBarIcon = UISearchBar.Icon.init(themeState[0]) {
+                    guard let controlState = UIControl.State.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
@@ -309,8 +314,8 @@ extension UISearchBar {
                     if themeStyle.contains(.image) {
                         setImage(themeStyle.image, for: searchBarIcon, state: controlState)
                     }
-                } else if let leftControlState = UIControlState.init(themeState[0]) {
-                    guard let rightControlState = UIControlState.init(themeState[1]) else {
+                } else if let leftControlState = UIControl.State.init(themeState[0]) {
+                    guard let rightControlState = UIControl.State.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                         continue
                     }
@@ -321,22 +326,9 @@ extension UISearchBar {
                 } else {
                     XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
                 }
-            } else {
-                XZLog("Unapplied Theme.State %@ for UISearchBar.", themeState)
             }
         }
    
-        if themeStyles.contains(.searchFieldBackgroundPositionAdjustment) {
-            self.searchFieldBackgroundPositionAdjustment = themeStyles.searchFieldBackgroundPositionAdjustment
-        }
-        
-        if themeStyles.contains(.searchTextPositionAdjustment) {
-            self.searchTextPositionAdjustment = themeStyles.searchTextPositionAdjustment
-        }
-        
     }
     
 }
-
-
-

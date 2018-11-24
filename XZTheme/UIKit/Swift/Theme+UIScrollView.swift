@@ -24,12 +24,12 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func scrollViewIndicatorStyle(for themeAttribute: Theme.Attribute) -> UIScrollViewIndicatorStyle {
+    public func scrollViewIndicatorStyle(for themeAttribute: Theme.Attribute) -> UIScrollView.IndicatorStyle {
         guard let value = value(for: themeAttribute) else { return .default }
-        if let indicatorStyle = value as? UIScrollViewIndicatorStyle {
+        if let indicatorStyle = value as? UIScrollView.IndicatorStyle {
             return indicatorStyle
         }
-        if let number = value as? Int, let indicatorStyle = UIScrollViewIndicatorStyle.init(rawValue: number) {
+        if let number = value as? Int, let indicatorStyle = UIScrollView.IndicatorStyle.init(rawValue: number) {
             return indicatorStyle
         }
         if let aString = value as? String {
@@ -44,7 +44,7 @@ extension Theme.Style {
         return .default
     }
     
-    public var indicatorStyle: UIScrollViewIndicatorStyle {
+    public var indicatorStyle: UIScrollView.IndicatorStyle {
         get { return scrollViewIndicatorStyle(for: .indicatorStyle) }
         set { setValue(newValue, for: .indicatorStyle) }
     }

@@ -32,7 +32,7 @@ extension Theme.Style {
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
     public func navigationItemLargeTitleDisplayMode(for themeAttribute: Theme.Attribute) -> UINavigationItem.LargeTitleDisplayMode {
-        guard let value = value(for: themeAttribute) else { return .automatic }
+        guard let value = self.value(for: themeAttribute) else { return .automatic }
         if let navigationItemLargeTitleDisplayMode = value as? UINavigationItem.LargeTitleDisplayMode {
             return navigationItemLargeTitleDisplayMode
         }
@@ -79,7 +79,6 @@ extension Theme.Style {
 }
 
 extension UINavigationItem {
-    
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)

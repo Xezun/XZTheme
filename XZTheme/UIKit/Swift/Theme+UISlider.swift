@@ -76,21 +76,19 @@ extension UISlider {
             self.maximumTrackTintColor = themeStyles.maximumTrackTintColor
         }
         
-        for themeState in Array<Theme.State>.init(themeStyles) {
-            guard let controlState = UIControlState.init(themeState) else {
+        guard let themeStates = themeStyles.statedThemeStylesIfLoaded?.keys else { return }
+        for themeState in themeStates {
+            guard let controlState = UIControl.State.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UISlider.", themeState)
                 continue
             }
             guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
-            
             if themeStyle.contains(.thumbImage) {
                 self.setThumbImage(themeStyle.thumbImage, for: controlState)
             }
-            
             if themeStyle.contains(.minimumTrackImage) {
                 self.setMinimumTrackImage(themeStyle.minimumTrackImage, for: controlState)
             }
-            
             if themeStyle.contains(.maximumTrackImage) {
                 self.setMaximumTrackImage(themeStyle.maximumTrackImage, for: controlState)
             }

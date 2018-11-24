@@ -69,7 +69,7 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public var largeTitleTextAttributes: [NSAttributedStringKey: Any]? {
+    public var largeTitleTextAttributes: [NSAttributedString.Key: Any]? {
         get { return stringAttributes(for: .largeTitleTextAttributes) }
         set { setValue(newValue, for: .largeTitleTextAttributes)      }
     }
@@ -135,10 +135,10 @@ extension UINavigationBar {
             self.backIndicatorTransitionMaskImage =  themeStyles.backIndicatorTransitionMaskImage
         }
         
-        let effectiveThemeStates = Array<Theme.State>.init(themeStyles)
-        
-        
-        // 保证先应用简单状态，后应用复合状态。
+        guard let effectiveThemeStates = themeStyles.statedThemeStylesIfLoaded?.keys else {
+            return
+        }
+        // 排序。保证先应用简单状态，后应用复合状态。
         let themeStates = effectiveThemeStates.sorted(by: { (_, state2) -> Bool in
             return state2.isPrimary
         })
@@ -156,7 +156,7 @@ extension UINavigationBar {
                 if themeStyle.contains(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barMetrics)
                 }
-            } else if themeState.count >= 2 {
+            } else {
                 guard let barPosition = UIBarPosition.init(themeState[0]),
                     let barMetrics = UIBarMetrics.init(themeState[1]) else {
                         XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
@@ -166,8 +166,6 @@ extension UINavigationBar {
                 if themeStyle.contains(.backgroundImage) {
                     self.setBackgroundImage(themeStyle.backgroundImage, for: barPosition, barMetrics: barMetrics)
                 }
-            } else {
-                XZLog("Unapplied Theme.State %@ for UINavigationBar.", themeState)
             }
         }
         

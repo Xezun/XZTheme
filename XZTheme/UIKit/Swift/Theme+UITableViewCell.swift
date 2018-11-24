@@ -26,12 +26,12 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func tableViewCellSelectionStyle(for themeAttribute: Theme.Attribute) -> UITableViewCellSelectionStyle {
+    public func tableViewCellSelectionStyle(for themeAttribute: Theme.Attribute) -> UITableViewCell.SelectionStyle {
         guard let value = self.value(for: themeAttribute) else { return .default }
-        if let tableViewCellSelectionStyle = value as? UITableViewCellSelectionStyle {
+        if let tableViewCellSelectionStyle = value as? UITableViewCell.SelectionStyle {
             return tableViewCellSelectionStyle
         }
-        if let number = value as? Int, let tableViewCellSelectionStyle = UITableViewCellSelectionStyle(rawValue: number) {
+        if let number = value as? Int, let tableViewCellSelectionStyle = UITableViewCell.SelectionStyle(rawValue: number) {
             return tableViewCellSelectionStyle
         }
         if let aString = value as? String {
@@ -47,12 +47,12 @@ extension Theme.Style {
         return .default
     }
     
-    public func tableViewCellAccessoryType(for themeAttribute: Theme.Attribute) -> UITableViewCellAccessoryType {
+    public func tableViewCellAccessoryType(for themeAttribute: Theme.Attribute) -> UITableViewCell.AccessoryType {
         guard let value = self.value(for: themeAttribute) else { return .none }
-        if let tableViewCellAccessoryType = value as? UITableViewCellAccessoryType {
+        if let tableViewCellAccessoryType = value as? UITableViewCell.AccessoryType {
             return tableViewCellAccessoryType
         }
-        if let number = value as? Int, let tableViewCellAccessoryType = UITableViewCellAccessoryType(rawValue: number) {
+        if let number = value as? Int, let tableViewCellAccessoryType = UITableViewCell.AccessoryType(rawValue: number) {
             return tableViewCellAccessoryType
         }
         if let aString = value as? String {
@@ -70,12 +70,12 @@ extension Theme.Style {
     }
     
     
-    var selectionStyle: UITableViewCellSelectionStyle {
+    var selectionStyle: UITableViewCell.SelectionStyle {
         get { return tableViewCellSelectionStyle(for: .selectionStyle) }
         set { setValue(newValue, for: .selectionStyle) }
     }
     
-    var accessoryType: UITableViewCellAccessoryType {
+    var accessoryType: UITableViewCell.AccessoryType {
         get { return tableViewCellAccessoryType(for: .accessoryType) }
         set { setValue(newValue, for: .accessoryType) }
     }

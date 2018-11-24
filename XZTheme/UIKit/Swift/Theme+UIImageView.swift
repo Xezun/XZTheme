@@ -84,11 +84,11 @@ extension UIImageView {
         }
         
         if themeStyles.contains(.highlightedImage) {
-            self.highlightedImage   = themeStyles.highlightedImage
+            self.highlightedImage = themeStyles.highlightedImage
         }
         
         if themeStyles.contains(.animationImages) {
-            self.animationImages    = themeStyles.animationImages
+            self.animationImages = themeStyles.animationImages
         }
         
         if themeStyles.contains(.highlightedAnimationImages) {
@@ -96,7 +96,7 @@ extension UIImageView {
         }
         
         if themeStyles.contains(.isHighlighted) {
-            self.isHighlighted      = themeStyles.isHighlighted
+            self.isHighlighted = themeStyles.isHighlighted
         }
         
         if themeStyles.contains(.isAnimating) {

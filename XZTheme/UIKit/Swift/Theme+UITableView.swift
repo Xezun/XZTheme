@@ -30,12 +30,12 @@ extension Theme.Style {
     ///
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 主题属性值。
-    public func tableViewCellSeparatorStyle(for themeAttribute: Theme.Attribute) -> UITableViewCellSeparatorStyle {
+    public func tableViewCellSeparatorStyle(for themeAttribute: Theme.Attribute) -> UITableViewCell.SeparatorStyle {
         guard let value = value(for: themeAttribute) else { return .singleLine }
-        if let separatorStyle = value as? UITableViewCellSeparatorStyle {
+        if let separatorStyle = value as? UITableViewCell.SeparatorStyle {
             return separatorStyle
         }
-        if let number = value as? Int, let separatorStyle = UITableViewCellSeparatorStyle.init(rawValue: number) {
+        if let number = value as? Int, let separatorStyle = UITableViewCell.SeparatorStyle.init(rawValue: number) {
             return separatorStyle
         }
         if let aString = value as? String {
@@ -67,7 +67,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .sectionIndexTrackingBackgroundColor) }
     }
     
-    public var separatorStyle: UITableViewCellSeparatorStyle {
+    public var separatorStyle: UITableViewCell.SeparatorStyle {
         get { return tableViewCellSeparatorStyle(for: .separatorStyle)  }
         set { setValue(newValue, for: .separatorStyle) }
     }

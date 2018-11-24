@@ -29,7 +29,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .isSelectable) }
     }
     
-    public var linkTextAttributes: [String : Any]? {
+    public var linkTextAttributes: [NSAttributedString.Key : Any]? {
         get { return stringAttributes(for: .linkTextAttributes) }
         set { setValue(newValue, for: .linkTextAttributes) }
     }

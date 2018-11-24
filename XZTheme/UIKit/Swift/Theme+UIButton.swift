@@ -55,32 +55,21 @@ extension Theme.Style {
 
 import XZKit
 
-extension Array where Element == Theme.State {
-    
-    public init(_ themeStyles: Theme.Style.Collection) {
-        var themeStates = [Theme.State.normal]
-        
-        themeStyles.statedThemeStylesIfLoaded?.keys.forEach({ (themeState) in
-            themeStates.append(themeState)
-        })
-        
-        self = themeStates
-    }
-    
-}
-
 
 extension UIButton {
     
     open override func updateAppearance(with themeStyles: Theme.Style.Collection) {
         super.updateAppearance(with: themeStyles)
 
-        for themeState in Array<Theme.State>.init(themeStyles) {
-            guard let controlState = UIControlState.init(themeState) else {
+        guard let themeStates = themeStyles.statedThemeStylesIfLoaded?.keys else { return }
+        for themeState in themeStates {
+            guard let controlState = UIControl.State.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UIButton.", themeState)
                 continue
             }
-            guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else { continue }
+            guard let themeStyle = themeStyles.themeStyleIfLoaded(for: themeState) else {
+                continue
+            }
             
             if themeStyle.contains(.title) {
                 self.setTitle(themeStyle.title, for: controlState);

@@ -9,9 +9,7 @@ import Foundation
 import XZKit
 
 
-
 extension Theme.Attribute {
-    
     /// UIProgressView
     public static let progressViewStyle = Theme.Attribute.init(rawValue: "progressViewStyle")
     /// UIProgressView
@@ -28,12 +26,12 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func progressViewStyle(for themeAttribute: Theme.Attribute) -> UIProgressViewStyle {
+    public func progressViewStyle(for themeAttribute: Theme.Attribute) -> UIProgressView.Style {
         guard let value = value(for: themeAttribute) else { return .default }
-        if let progressViewStyle = value as? UIProgressViewStyle {
+        if let progressViewStyle = value as? UIProgressView.Style {
             return progressViewStyle
         }
-        if let number = value as? Int, let progressViewStyle = UIProgressViewStyle(rawValue: number) {
+        if let number = value as? Int, let progressViewStyle = UIProgressView.Style(rawValue: number) {
             return progressViewStyle
         }
         if let aString = value as? String {
@@ -47,7 +45,7 @@ extension Theme.Style {
         return .default
     }
     
-    public var progressViewStyle: UIProgressViewStyle {
+    public var progressViewStyle: UIProgressView.Style {
         get { return progressViewStyle(for: .progressViewStyle) }
         set { setValue(newValue, for: .progressViewStyle) }
     }

@@ -7,6 +7,7 @@ target 'Example' do
     use_frameworks!
     
     pod "XZTheme", :path => '../../'
+    # pod "XZKit", :path => '../../../XZKit/'
 
 end
 

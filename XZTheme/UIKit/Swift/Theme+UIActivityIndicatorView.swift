@@ -21,12 +21,12 @@ extension Theme.Attribute {
 
 extension Theme.Style {
     
-    public func activityIndicatorViewStyle(for themeAttribute: Theme.Attribute) -> UIActivityIndicatorViewStyle {
+    public func activityIndicatorViewStyle(for themeAttribute: Theme.Attribute) -> UIActivityIndicatorView.Style {
         guard let value = value(for: themeAttribute) else { return .white }
-        if let activityIndicatorViewStyle = value as? UIActivityIndicatorViewStyle {
+        if let activityIndicatorViewStyle = value as? UIActivityIndicatorView.Style {
             return activityIndicatorViewStyle
         }
-        if let number = value as? Int, let activityIndicatorViewStyle = UIActivityIndicatorViewStyle(rawValue: number) {
+        if let number = value as? Int, let activityIndicatorViewStyle = UIActivityIndicatorView.Style(rawValue: number) {
             return activityIndicatorViewStyle
         }
         if let aString = value as? String {
@@ -42,7 +42,7 @@ extension Theme.Style {
     }
     
     
-    public var activityIndicatorViewStyle: UIActivityIndicatorViewStyle {
+    public var activityIndicatorViewStyle: UIActivityIndicatorView.Style {
         get { return activityIndicatorViewStyle(for: .activityIndicatorViewStyle) }
         set { setValue(newValue, for: .activityIndicatorViewStyle) }
     }
@@ -65,7 +65,7 @@ extension UIActivityIndicatorView {
         super.updateAppearance(with: themeStyles)
         
         if themeStyles.contains(.activityIndicatorViewStyle) {
-            self.activityIndicatorViewStyle = themeStyles.activityIndicatorViewStyle
+            self.style = themeStyles.activityIndicatorViewStyle
         }
         
         if themeStyles.contains(.color) {

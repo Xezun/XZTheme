@@ -91,7 +91,7 @@ public protocol ThemeParser {
     ///
     /// - Parameter value: 主题属性值。
     /// - Returns: 富文本属性。
-    func parse(_ value: Any?) -> [NSAttributedStringKey: Any]?
+    func parse(_ value: Any?) -> [NSAttributedString.Key: Any]?
 }
 
 
@@ -223,9 +223,9 @@ extension ThemeParser {
         return nil
     }
     
-    public func parse(_ value: Any?) -> [NSAttributedStringKey : Any]? {
+    public func parse(_ value: Any?) -> [NSAttributedString.Key : Any]? {
         guard let value = value else { return nil }
-        if let stringAttributes = value as? [NSAttributedStringKey: Any] {
+        if let stringAttributes = value as? [NSAttributedString.Key: Any] {
             return stringAttributes
         }
         if let dict = value as? [String: Any] {
@@ -233,7 +233,7 @@ extension ThemeParser {
             let color: UIColor? = self.parse(dict["color"])
             let backgroundColor: UIColor? = self.parse(dict["backgroundColor"])
             if font != nil || color != nil || backgroundColor != nil {
-                var stringAttributes = [NSAttributedStringKey: Any]()
+                var stringAttributes = [NSAttributedString.Key: Any]()
                 stringAttributes[.font] = font
                 stringAttributes[.foregroundColor] = color
                 stringAttributes[.backgroundColor] = backgroundColor

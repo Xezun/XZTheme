@@ -30,7 +30,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .selectedImage)}
     }
     
-    public var titleTextAttributes: [NSAttributedStringKey : Any]? {
+    public var titleTextAttributes: [NSAttributedString.Key : Any]? {
         get { return stringAttributes(for: .titleTextAttributes) }
         set { setValue(newValue, for: .titleTextAttributes) }
     }
@@ -46,7 +46,7 @@ extension Theme.Style {
         set { setValue(newValue, for: .largeContentSizeImage)}
     }
     
-    public var badgeTextAttributes: [String: Any]? {
+    public var badgeTextAttributes: [NSAttributedString.Key: Any]? {
         get { return stringAttributes(for: .badgeTextAttributes) }
         set { setValue(newValue, for: .badgeTextAttributes) }
     }
@@ -79,8 +79,9 @@ extension UITabBarItem {
             }
         }
         
-        for themeState in Array<Theme.State>.init(themeStyles) {
-            guard let controlState = UIControlState.init(themeState) else {
+        guard let themeStates = themeStyles.statedThemeStylesIfLoaded?.keys else { return }
+        for themeState in themeStates {
+            guard let controlState = UIControl.State.init(themeState) else {
                 XZLog("Unapplied Theme.State %@ for UISegmentedControl.", themeState)
                 continue
             }
@@ -99,3 +100,4 @@ extension UITabBarItem {
     }
     
 }
+

@@ -171,18 +171,10 @@ extension Theme.Style {
     /// - Note: 使用 Theme.parser 来解析已存储的属性值。
     /// - Parameter themeAttribute: 主题属性。
     /// - Returns: 属性值。
-    public func stringAttributes(for themeAttribute: Theme.Attribute) -> [NSAttributedStringKey: Any]? {
+    public func stringAttributes(for themeAttribute: Theme.Attribute) -> [NSAttributedString.Key: Any]? {
         return Theme.parser.parse(value(for: themeAttribute))
     }
-    
-    public func stringAttributes(for themeAttribute: Theme.Attribute) -> [String: Any]? {
-        guard let stringAttributes: [NSAttributedStringKey: Any] = Theme.parser.parse(self.value(for: themeAttribute)) else { return nil }
-        var dict = [String: Any]()
-        for item in stringAttributes {
-            dict[item.key.rawValue] = item.value
-        }
-        return dict
-    }
+  
 }
 
 
