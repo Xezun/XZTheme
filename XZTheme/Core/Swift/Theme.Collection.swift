@@ -7,16 +7,6 @@
 
 import Foundation
 
-extension NSObject {
-    /// 计算样式，最终应用到对象上的样式。
-    /// - Note: 计算样式由内部维护，外部修改不同步到当前状态中。
-    @objc(xz_computedThemeStyles)
-    open internal(set) var computedThemeStyles: Theme.Style.Collection? {
-        get { return objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) as? Theme.Style.Collection }
-        set { objc_setAssociatedObject(self, &AssociationKey.computedThemeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
-    }
-}
-
 extension Theme.Collection {
     
     /// 计算样式。
@@ -31,7 +21,7 @@ extension Theme.Collection {
             return computedThemeStyles as? Theme.Style.Collection
         }
         // 2. 从样式表中匹配对象的样式
-        let themeStyles = self.fetchThemeStyleSheet(for: object)
+        let themeStyles = self.theme.themes(for: object).theme//self.fetchThemeStyleSheet(for: object)
         
         // 3. 合并成计算样式，并保存。
         let computedThemeStyles = Theme.Style.Collection.init(for: nil, union: themeStyles, object.themeStylesIfLoaded)

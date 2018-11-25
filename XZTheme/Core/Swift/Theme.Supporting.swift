@@ -188,7 +188,7 @@ extension UIViewController {
             }
         }
         
-        for childVC in self.children {
+        for childVC in self.childViewControllers {
             childVC.setNeedsThemeAppearanceUpdate()
         }
         
