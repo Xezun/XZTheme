@@ -30,6 +30,12 @@ extension Theme {
 /// 在默认规则下， ThemeParser 的作用是负责将样式配置值转换成实际使用值。
 public protocol ThemeParsing {
     
+    /// 解析样式表。
+    ///
+    /// - Parameters:
+    ///   - sheetURL: 样式表路径。
+    ///   - theme: 主题，懒加载，只解析当前主题下的样式。
+    /// - Returns: 主题集。
     func parse(_ sheetURL: URL, for theme: Theme) -> Theme.Collection?
     
     /// 将主题属性值解析为 UIColor 对象。
