@@ -48,6 +48,18 @@ extension Theme.Identifier: ExpressibleByArrayLiteral {
         self.init(rawValue: rawValue)
     }
     
+    /// 标识符是否包含另一个标识符。
+    public func contains(_ other: Theme.Identifier) -> Bool {
+        if let range = rawValue.range(of: other.rawValue) {
+            if range.upperBound == rawValue.endIndex {
+                return true
+            } else if rawValue[rawValue.index(after: range.upperBound)] == "." {
+                return true
+            }
+        }
+        return false
+    }
+    
 }
 
 extension Theme.Identifier: ReferenceConvertible {
@@ -61,7 +73,6 @@ extension Theme.Identifier: ReferenceConvertible {
     public var debugDescription: String {
         return rawValue.debugDescription
     }
-    
     
     public func _bridgeToObjectiveC() -> NSString {
         return rawValue as NSString

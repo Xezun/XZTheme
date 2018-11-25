@@ -13,10 +13,10 @@ extension Theme {
     
     /// 默认的主题样式属性解析器。
     /// - Note: 此属性可写，即可以自定解析方法。
-    public static var parser: ThemeParser = Parser.init()
+    public static var parser: ThemeParsing = Parser.init()
     
     /// 默认的主题样式解析器。
-    public final class Parser: ThemeParser {
+    public final class Parser: ThemeParsing {
         
     }
     
@@ -28,7 +28,9 @@ extension Theme {
 /// 配置主题属性值时，使用实际值可能会更效率，但是内存可能不允许。
 /// 例如主题样式包含大量图片，虽然 XZTheme 样式存储会随对象一起销毁，但是为了避免某些极端情况的内存问题，XZTheme 允许其它值来设置主题样式，比如图片名字。
 /// 在默认规则下， ThemeParser 的作用是负责将样式配置值转换成实际使用值。
-public protocol ThemeParser {
+public protocol ThemeParsing {
+    
+    func parse(_ sheetURL: URL, for theme: Theme) -> Theme.Collection?
     
     /// 将主题属性值解析为 UIColor 对象。
     /// - Note: 在默认实现中，支持使用十六进制颜色值，格式如 0xAABBCCFF、`"#FF0099"`、`"#F0F"`、`"#E2FA237F"` 。
@@ -95,7 +97,11 @@ public protocol ThemeParser {
 }
 
 
-extension ThemeParser {
+extension ThemeParsing {
+    
+    public func parse(_ sheetURL: URL, for theme: Theme) -> Theme.Collection? {
+        return nil
+    }
     
     public func parse(_ value: Any?) -> UIColor? {
         guard let value = value else { return nil }

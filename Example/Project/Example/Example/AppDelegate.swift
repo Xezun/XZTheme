@@ -10,6 +10,10 @@ import UIKit
 import XZKit
 import XZTheme
 
+struct ABC {
+    let a: Int
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

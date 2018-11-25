@@ -280,39 +280,45 @@ extension Theme {
         }
     }
     
-    public func themesIfLoaded(forKey aKey: String) -> Theme.Collection? {
-        return self.keyedThemesIfLoaded?[aKey]
+    public func themesIfLoaded(forKey aKey: String, bundle: Bundle) -> Theme.Collection? {
+        let themesKey = bundle.bundlePath + "#" + aKey
+        return self.keyedThemesIfLoaded?[themesKey]
     }
     
-    public func set(_ themes: Theme.Collection, forKey aKey: String) {
-        keyedThemes[aKey] = themes
+    public func set(_ themes: Theme.Collection, forKey aKey: String, bundle: Bundle) {
+        let themesKey = bundle.bundlePath + "#" + aKey
+        keyedThemes[themesKey] = themes
     }
     
-    public func themes(forKey aKey: String) -> Theme.Collection {
-        if let themes = self.keyedThemesIfLoaded?[aKey] {
+    /// 获取样式表。
+    public func themes(forKey aKey: String, bundle: Bundle) -> Theme.Collection {
+        let themesKey = bundle.bundlePath + "#" + aKey
+        if let themes = self.keyedThemesIfLoaded?[themesKey] {
             return themes;
         }
-        let themes = Theme.Collection.init(for: self)
-        
+        var themes: Theme.Collection! = nil
         // TODO: - 解析 xzss 样式表。
-        //if let sheetURL = Bundle.main.url(forResource: aKey, withExtension: "xzss") {
-        //    if let dict = Dictionary<String, Any>.init(json: try? Data.init(contentsOf: sheetURL)) {
-        //
-        //    }
-        //}
-        
-        self.keyedThemes[aKey] = themes
+        // 匹配样式 ^(#day)* *( *\.[a-z\-0-9_]+(\:[a-z]+)*,*)* *\{([^\}]*)\}
+        if let sheetURL = bundle.url(forResource: aKey, withExtension: "xzss") {
+            themes = Theme.parser.parse(sheetURL, for: self)
+        }
+        if themes == nil {
+            themes = Theme.Collection.init(for: self)
+        }
+        self.keyedThemes[themesKey] = themes
         return themes
     }
     
     public func themesIfLoaded(for anObject: NSObject) -> Theme.Collection? {
-        let key = NSStringFromClass(type(of: anObject))
-        return self.themesIfLoaded(forKey: key)
+        let className = String.init(describing: type(of: anObject))
+        let classBundle = Bundle.init(for: type(of: anObject))
+        return self.themesIfLoaded(forKey: className, bundle: classBundle)
     }
     
     public func themes(for anObject: NSObject) -> Theme.Collection {
-        let key = NSStringFromClass(type(of: anObject))
-        return self.themes(forKey: key)
+        let className = String.init(describing: type(of: anObject))
+        let classBundle = Bundle.init(for: type(of: anObject))
+        return self.themes(forKey: className, bundle: classBundle)
     }
 }
 
