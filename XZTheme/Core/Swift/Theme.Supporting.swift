@@ -10,6 +10,30 @@ import UIKit
 
 extension NSObject {
     
+    /// 全局样式集。与主题无关，与实例对象无关。
+    /// - Note: 修改全局样式集，更改内容不会同步到已应用主题的对象上。
+    /// - Note: 全局样式与类对象绑定，不会被子类继承。
+    @objc(xz_themeStylesForTheme:)
+    open class func themeStyles(for theme: Theme) -> Theme.Style.Collection {
+        if var themedStyles = objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? [Theme: Theme.Style.Collection] {
+            if let themeStyles = themedStyles[theme] {
+                return themeStyles
+            }
+            let themeStyles = Theme.Style.Collection.init(for: nil)
+            themedStyles[theme] = themeStyles
+            objc_setAssociatedObject(self, &AssociationKey.themeStyles, themedStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return themeStyles
+        }
+        let themeStyles = Theme.Style.Collection.init(for: nil)
+        objc_setAssociatedObject(self, &AssociationKey.themeStyles, [theme: themeStyles], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return themeStyles
+    }
+
+    @objc(xz_themeStylesIfLoadedForTheme:)
+    open class func themeStylesIfLoaded(for theme: Theme) -> Theme.Style.Collection? {
+        return (objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? [Theme: Theme.Style.Collection])?[theme]
+    }
+    
     /// 私有样式集。与主题无关。
     /// - Note: 私有样式仅为当前对象所有，优先级最高。
     /// - Note: 当主题变更时，私有样式不会改变也不会清空。
@@ -23,7 +47,7 @@ extension NSObject {
         return themeStyles
     }
     
-    @objc(xz_themesIfLoaded)
+    @objc(xz_themeStylesIfLoaded)
     open var themeStylesIfLoaded: Theme.Style.Collection? {
         return objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? Theme.Style.Collection
     }
@@ -116,12 +140,14 @@ extension NSObject {
         // 不论主题是否改变，都应用主题样式，比如只修改私有样式，因为主题没有改变，但是需要应用主题样式。
         // guard newTheme != self.appliedTheme else { return }
         
+        // 获取类全局样式。
+        let defaultStyles = type(of: self).themeStylesIfLoaded(for: newTheme)
         // 获取样式表样式。
         let sheetStyles = newTheme.themesIfLoaded(for: self)?.themeStylesIfLoaded(for: self)
         // 当前对象私有样式。
         let selfStyles = self.themeStylesIfLoaded
         // 计算样式。
-        let computedThemeStyles = Theme.Style.Collection.init(for: self, union: sheetStyles, selfStyles)
+        let computedThemeStyles = Theme.Style.Collection.init(for: self, union: defaultStyles, sheetStyles, selfStyles)
         self.computedThemeStyles = computedThemeStyles
         guard computedThemeStyles != nil else {
             return
