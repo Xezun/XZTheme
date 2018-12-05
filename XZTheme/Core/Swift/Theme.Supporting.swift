@@ -183,10 +183,34 @@ extension NSObject {
         }
     }
     
+    @objc(xz_styleSheetName)
+    open var styleSheetName: String? {
+        return String.init(describing: type(of: self))
+    }
+    
 }
 
 
 extension UIView {
+    
+    open override var styleSheetName: String? {
+        let bundle = Bundle.init(for: type(of: self))
+        
+        var next: UIResponder? = self
+        var name: String? = nil
+        repeat {
+            // 样式表名，类名
+            name = String.init(describing: type(of: next!))
+            // ClassName.xzss 文件如果存在，说明找到样式表。
+            guard bundle.path(forResource: name!, ofType: "xzss") == nil else { break }
+            name = nil
+            // 查找至 UIViewController/UIWindow 终止。
+            guard !(next is UIViewController || next is UIWindow) else { break }
+            next = next!.next
+        } while (next != nil)
+        
+        return name
+    }
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
     /// - Note: 子类可通过 forwardsThemeAppearanceUpdate 属性来控制该行为。
