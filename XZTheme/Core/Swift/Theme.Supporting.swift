@@ -93,6 +93,16 @@ extension NSObject {
         self.appliedTheme = newTheme
     }
     
+    /// 计算后的样式。在者样式修改时，此属性设置为 nil 。
+    public internal(set) var computedThemeStyles: Theme.Style.Collection? {
+        get {
+            return objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) as? Theme.Style.Collection
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociationKey.computedThemeStyles, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
     /// 当需要应用主题时，此方法会被调用。
     /// - Note: 如果主题发生改变，则此方法一定会被调用（如果控件正在显示或将来会被显示）。
     /// - Note: 在 NSObject 默认实现中，当此方法执行时，属性 `xz_appliedTheme` 的值为旧的主题。
@@ -103,12 +113,21 @@ extension NSObject {
     /// - Parameter newTheme: 待应用的主题。
     @objc(xz_updateAppearanceWithTheme:)
     open func updateAppearance(with newTheme: Theme) {
-        guard newTheme != self.appliedTheme else { return }
-        // 获取主题配置
-        guard let themes = newTheme.themesIfLoaded(for: self) else { return }
-        // 获取主题计算样式
-        guard let themeStyles = themes.themeStyles(for: self) else { return }
-        self.updateAppearance(with: themeStyles)
+        // 不论主题是否改变，都应用主题样式，比如只修改私有样式，因为主题没有改变，但是需要应用主题样式。
+        // guard newTheme != self.appliedTheme else { return }
+        
+        // 获取样式表样式。
+        let sheetStyles = newTheme.themesIfLoaded(for: self)?.themeStylesIfLoaded(for: self)
+        // 当前对象私有样式。
+        let selfStyles = self.themeStylesIfLoaded
+        // 计算样式。
+        let computedThemeStyles = Theme.Style.Collection.init(for: self, union: sheetStyles, selfStyles)
+        self.computedThemeStyles = computedThemeStyles
+        guard computedThemeStyles != nil else {
+            return
+        }
+        // 应用主题样式。
+        self.updateAppearance(with: computedThemeStyles!)
     }
     
     /// 当应用主题时，如果当前对象已配置了主题样式，则此方法会被调用。
@@ -188,7 +207,7 @@ extension UIViewController {
             }
         }
         
-        for childVC in self.childViewControllers {
+        for childVC in self.children {
             childVC.setNeedsThemeAppearanceUpdate()
         }
         

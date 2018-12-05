@@ -48,6 +48,8 @@ extension Theme.Identifier: ExpressibleByArrayLiteral {
         self.init(rawValue: rawValue)
     }
     
+    // TODO: - 标识符的包含关系处理。
+    
     /// 标识符是否包含另一个标识符。
     public func contains(_ other: Theme.Identifier) -> Bool {
         if let range = rawValue.range(of: other.rawValue) {

@@ -7,27 +7,45 @@
 
 import Foundation
 
+extension NSObject {
+    
+
+    
+}
+
 extension Theme.Collection {
     
-    /// 计算样式。
-    
-    /// 获取对象的计算样式。
+    /// 获取样式表中某对象的样式。
     ///
     /// - Parameter object: 指定的对象。
     /// - Returns: 主题样式集。
-    public func themeStyles(for object: NSObject) -> Theme.Style.Collection? {
+    public func themeStylesIfLoaded(for object: NSObject) -> Theme.Style.Collection? {
         // 1. 读取对象的计算样式，如果有，直接使用。
         if let computedThemeStyles = objc_getAssociatedObject(self, &AssociationKey.computedThemeStyles) {
             return computedThemeStyles as? Theme.Style.Collection
         }
         // 2. 从样式表中匹配对象的样式
-        let themeStyles = self.theme.themes(for: object).theme//self.fetchThemeStyleSheet(for: object)
+        guard let identifiedThemeStyles = self.identifiedThemeStylesIfLoaded else { return nil }
         
-        // 3. 合并成计算样式，并保存。
-        let computedThemeStyles = Theme.Style.Collection.init(for: nil, union: themeStyles, object.themeStylesIfLoaded)
-        objc_setAssociatedObject(object, &AssociationKey.computedThemeStyles, computedThemeStyles ?? NSNull(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    
-        return computedThemeStyles
+        let identifier = { (_ object: NSObject) -> Theme.Identifier in
+            let classIdentifier = Theme.Identifier.init(rawValue: String.init(describing: type(of: object)))
+            if let id1 = object.themeIdentifier {
+                return [classIdentifier, id1]
+            }
+            return classIdentifier
+        }(object)
+        
+        var themeStyles: Theme.Style.Collection? = nil
+        for item in identifiedThemeStyles {
+            guard item.key.contains(identifier) else { continue }
+            if themeStyles != nil {
+                themeStyles!.union(item.value)
+            } else {
+                themeStyles = Theme.Style.Collection.init(for: object, union: item.value)
+            }
+        }
+        
+        return themeStyles
     }
     
     /// 从样式表中匹配对象的样式，并合并成计算样式。

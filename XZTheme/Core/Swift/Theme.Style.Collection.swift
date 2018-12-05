@@ -40,7 +40,6 @@ extension Theme.Style.Collection {
             self.union(itemStyles)
         }
     }
-
     
 }
 

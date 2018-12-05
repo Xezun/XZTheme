@@ -84,7 +84,8 @@ public final class Theme: NSObject {
     /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
     public let name: String
     
-    /// 构造主题对象。
+    /// 主题对象的初始化方法。
+    /// - TODO: 使用单例来表示同一主题，那么主题一旦加载就不会释放，浪费内存；如果只保存当前主题能解决此问题，但是可能会重复解析样式表；二者取优待研究。
     ///
     /// - Parameter name: 主题名称。
     public init(name: String) {
@@ -102,14 +103,13 @@ public final class Theme: NSObject {
         return name.hashValue
     }
     
-    /// Key 为样式表名称，Value 为样式表。
     /// 表示当前主题下，所有类的样式表。
+    /// - Note: Key 为样式表标识符，一般为控件类的名称；Value 为样式表，保存的是当前主题下的样式。
     public private(set) var keyedThemesIfLoaded: [String: Theme.Collection]?
-    
     
     // MARK: - 定义：主题集。
     
-    /// 主题集，管理了某主题下的样式。
+    /// 主题集，主题下所有按按标识符分类的主题样式集的集合。
     /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
     @objc(XZThemeCollection)
     public final class Collection: NSObject {
@@ -190,6 +190,7 @@ public final class Theme: NSObject {
     // MARK: - 定义：主题标识符。
     
     /// 主题标识符。
+    /// .nav 普通标识符；UIView 匹配类名；* 与其它标识符都匹配。
     public struct Identifier: RawRepresentable {
         
         public typealias RawValue = String
@@ -309,12 +310,20 @@ extension Theme {
         return themes
     }
     
+    /// 获取对象当前主题下，已配置的所有主题集对象。
+    ///
+    /// - Parameter anObject: 对象。
+    /// - Returns: 主题集。
     public func themesIfLoaded(for anObject: NSObject) -> Theme.Collection? {
         let className = String.init(describing: type(of: anObject))
         let classBundle = Bundle.init(for: type(of: anObject))
         return self.themesIfLoaded(forKey: className, bundle: classBundle)
     }
     
+    /// 获取对象当前主题下的所有主题集对象，如果当前没有配置主题集，则自动创建空的主题集对象。
+    ///
+    /// - Parameter anObject: 对象。
+    /// - Returns: 主题集。
     public func themes(for anObject: NSObject) -> Theme.Collection {
         let className = String.init(describing: type(of: anObject))
         let classBundle = Bundle.init(for: type(of: anObject))
