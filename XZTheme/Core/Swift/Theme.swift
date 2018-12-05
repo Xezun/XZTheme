@@ -327,6 +327,9 @@ extension Theme {
     public func themes(for anObject: NSObject) -> Theme.Collection {
         let className = String.init(describing: type(of: anObject))
         let classBundle = Bundle.init(for: type(of: anObject))
+        
+        // TODO: - 对象样式表的获取规则，即控件到底应该使用哪个样式表。
+        
         return self.themes(forKey: className, bundle: classBundle)
     }
 }
