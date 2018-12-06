@@ -8,13 +8,6 @@
 import Foundation
 
 
-extension Theme.Identifier {
-    
-    /// 空字符串不被视为合法的主题标识符。
-    public static let notAnIdentifier: Theme.Identifier = Theme.Identifier.init(rawValue: "")
-    
-}
-
 extension Theme.Identifier: ExpressibleByStringLiteral, Equatable, Hashable {
     
     public typealias StringLiteralType = String
@@ -29,37 +22,6 @@ extension Theme.Identifier: ExpressibleByStringLiteral, Equatable, Hashable {
     /// Returns rawValue's hashValue.
     public var hashValue: Int {
         return rawValue.hashValue
-    }
-    
-}
-
-extension Theme.Identifier: ExpressibleByArrayLiteral {
-    
-    public typealias ArrayLiteralElement = Theme.Identifier
-    
-    /// 主题标识符的数组字面量表示法。数组 [.id1, .id2] 字面量为 .id1.id2 标识符。
-    ///
-    /// - Parameter elements: 主题标识符数组字面量。
-    public init(arrayLiteral elements: Theme.Identifier...) {
-        var rawValue = String.init()
-        for element in elements {
-            rawValue.append(element.rawValue)
-        }
-        self.init(rawValue: rawValue)
-    }
-    
-    // TODO: - 标识符的包含关系处理。
-    
-    /// 标识符是否包含另一个标识符。
-    public func contains(_ other: Theme.Identifier) -> Bool {
-        if let range = rawValue.range(of: other.rawValue) {
-            if range.upperBound == rawValue.endIndex {
-                return true
-            } else if rawValue[rawValue.index(after: range.upperBound)] == "." {
-                return true
-            }
-        }
-        return false
     }
     
 }
@@ -97,5 +59,23 @@ extension Theme.Identifier: ReferenceConvertible {
     }
     
     public typealias _ObjectiveCType = NSString
+    
+}
+
+extension Theme.Identifier {
+    
+    // TODO: - 标识符的包含关系处理。
+    
+    /// 标识符是否包含另一个标识符。
+    public func contains(_ other: Theme.Identifier) -> Bool {
+        if let range = rawValue.range(of: other.rawValue) {
+            if range.upperBound == rawValue.endIndex {
+                return true
+            } else if rawValue[rawValue.index(after: range.upperBound)] == "." {
+                return true
+            }
+        }
+        return false
+    }
     
 }

@@ -1,0 +1,50 @@
+[
+	{
+		"#day": {
+			"backgroundColor": "#fff"
+		}
+	},
+
+	{
+		"#day .title": {
+			"textColor": "#000"
+		}
+	},
+
+	{
+		"#day .sun": {
+			"image": "icon_sun_day"
+		}
+	},
+
+	{
+		"#day .moon": {
+			"image": "icon_moon_day"
+		}
+	},
+
+	{
+		"#night": {
+			"backgroundColor": "#252525"
+		}
+	},
+
+	{
+		"#night .title": {
+			"textColor": "#707070"
+		}
+	},
+
+	{
+		"#night .sun": {
+			"image": "icon_sun_night"
+		}
+	},
+
+	{
+		"#night .moon": {
+			"image": "icon_moon_night"
+		}
+	}
+
+]

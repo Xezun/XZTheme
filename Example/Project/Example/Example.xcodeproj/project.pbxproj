@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2878E2AD21B902EF0047C1C9 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2878E2AC21B902EF0047C1C9 /* TestObject.m */; };
+		2878E2AF21B906390047C1C9 /* SwitchThemeViewController.xzss in Resources */ = {isa = PBXBuildFile; fileRef = 2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */; };
 		6CAF8036A0D63FD2C63C0E53 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C855A1BA20E43821E3736CD5 /* Pods_Example.framework */; };
 		DD04FC582084EDA300463A17 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC572084EDA300463A17 /* Theme.plist */; };
 		DD04FC5A2084F61F00463A17 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC592084F61F00463A17 /* readme.md */; };
@@ -25,6 +27,9 @@
 
 /* Begin PBXFileReference section */
 		25308744C3F47A390AFBFCBC /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		2878E2AB21B902EF0047C1C9 /* TestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestObject.h; sourceTree = "<group>"; };
+		2878E2AC21B902EF0047C1C9 /* TestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestObject.m; sourceTree = "<group>"; };
+		2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */ = {isa = PBXFileReference; explicitFileType = text.json; path = SwitchThemeViewController.xzss; sourceTree = "<group>"; };
 		7E742AC717FC65313DBE725D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		C855A1BA20E43821E3736CD5 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD04FC572084EDA300463A17 /* Theme.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Theme.plist; sourceTree = "<group>"; };
@@ -88,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				DD0C9E5120C4208B00C3C96F /* SwitchThemeViewController.swift */,
+				2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */,
 				DD0C9E5320C4215600C3C96F /* SwitchThemeTableViewCell.swift */,
 			);
 			path = "Switch Theme";
@@ -117,6 +123,8 @@
 				DD2321692080798900989B0E /* XZThemeBridgeHeader.h */,
 				DD3DA9262080471E00A642C0 /* AppDelegate.swift */,
 				DDA4BFDE20C2FB7700E544A1 /* Theme.swift */,
+				2878E2AB21B902EF0047C1C9 /* TestObject.h */,
+				2878E2AC21B902EF0047C1C9 /* TestObject.m */,
 				DD7690DC2097774500C9B3F0 /* ThemeNavigationController.swift */,
 				DD09202320CAC8C200A099C4 /* Theme */,
 				DD09202420CAC8D300A099C4 /* Switch Theme */,
@@ -195,6 +203,7 @@
 				DD3DA9312080471F00A642C0 /* LaunchScreen.storyboard in Resources */,
 				DD3DA92E2080471F00A642C0 /* Assets.xcassets in Resources */,
 				DD04FC5A2084F61F00463A17 /* readme.md in Resources */,
+				2878E2AF21B906390047C1C9 /* SwitchThemeViewController.xzss in Resources */,
 				DD3DA92C2080471E00A642C0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD7690DD2097774500C9B3F0 /* ThemeNavigationController.swift in Sources */,
+				2878E2AD21B902EF0047C1C9 /* TestObject.m in Sources */,
 				DD0C9E5220C4208B00C3C96F /* SwitchThemeViewController.swift in Sources */,
 				DDA4BFE520C3B8CA00E544A1 /* ThemeTableViewCell.swift in Sources */,
 				DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */,

@@ -111,8 +111,7 @@ public final class Theme: NSObject {
     
     /// 主题集，主题下所有按按标识符分类的主题样式集的集合。
     /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
-    @objc(XZThemeCollection)
-    public final class Collection: NSObject {
+    public final class Collection {
         
         /// 主题集所属的主题。
         public unowned let theme: Theme
@@ -120,13 +119,13 @@ public final class Theme: NSObject {
         /// 构造主题集对象。
         ///
         /// - Parameter theme: 主题。
-        public init(for theme: Theme) {
+        public init(for theme: Theme, themeStyles: [Theme.Style.Collection]) {
             self.theme = theme
-            super.init()
+            self.themeStyles = themeStyles
         }
         
         /// 样式表。
-        public private(set) var identifiedThemeStylesIfLoaded: [Theme.Identifier: Theme.Style.Collection]?
+        public var themeStyles: [Theme.Style.Collection]
     }
     
     
@@ -145,7 +144,7 @@ public final class Theme: NSObject {
         
         /// 样式在复制时，如果是私有样式，会成为普通样式。
         public func copy(with zone: NSZone? = nil) -> Any {
-            let themeStyle = Theme.Style.init()
+            let themeStyle = Theme.Style.init(for: nil)
             themeStyle.attributedValuesIfLoaded = self.attributedValuesIfLoaded
             return themeStyle
         }
@@ -156,9 +155,9 @@ public final class Theme: NSObject {
         /// 构造私有样式集。私有样式不区分主题，切换主题时不清空。
         ///
         /// - Parameter object: 私有样式集所属的对象。
-        public convenience init(for object: NSObject?) {
-            self.init()
+        public init(for object: NSObject?) {
             self.object = object
+            super.init()
         }
         
         
@@ -168,6 +167,13 @@ public final class Theme: NSObject {
         /// - Note: 主题样式集也是 .noState 主题状态的主题样式。
         @objc(XZThemeStyleCollection)
         public final class Collection: Theme.Style {
+            
+            public let identifier: Theme.Identifier
+            
+            public init(identifier: Theme.Identifier, for object: NSObject?) {
+                self.identifier = identifier
+                super.init(for: object)
+            }
             
             /// 按主题状态存储的主题样式集合，非懒加载。
             /// - Note: 会标记所有者需要更新主题。
@@ -191,18 +197,38 @@ public final class Theme: NSObject {
     
     /// 主题标识符。
     /// .nav 普通标识符；UIView 匹配类名；* 与其它标识符都匹配。
-    public struct Identifier: RawRepresentable {
+    public struct Identifier: RawRepresentable, ExpressibleByArrayLiteral {
         
+        /// 空字符串不被视为合法的主题标识符。
+        public static let notAnIdentifier = Theme.Identifier.init("")
+        private init(_ rawValue: String) {
+            self.rawValue = rawValue
+        }
+
         public typealias RawValue = String
-        
         public let rawValue: String
-        
+        private static let regularExpression = try! NSRegularExpression(pattern: "(^[\\#\\.][A-Z_][A-Z_0-9]*$)|(^[_A-Z][A-Z_0-9]*$)|(^\\*$)", options: NSRegularExpression.Options.init(rawValue: 0))
         public init(rawValue: String) {
-            guard rawValue.count > 0 else {
-                fatalError("The `\(rawValue)` is not an valid Theme.Identifier rawValue.")
+            let range = NSRange.init(location: 0, length: rawValue.count)
+            guard Identifier.regularExpression.firstMatch(in: rawValue, options: .none, range: range)?.range == range else {
+                fatalError("The string `\(rawValue)` is not a valid theme identifier.")
             }
             self.rawValue = rawValue
         }
+        
+        public typealias ArrayLiteralElement = Theme.Identifier
+        public init(arrayLiteral elements: Theme.Identifier...) {
+            self.rawValue = elements.map({ (identifier) -> String in
+                return identifier.rawValue
+            }).joined(separator: " ")
+        }
+        
+        public init(_ elements: [Theme.Identifier]) {
+            self.rawValue = elements.map({ (identifier) -> String in
+                return identifier.rawValue
+            }).joined(separator: " ")
+        }
+        
     }
     
     
@@ -281,57 +307,14 @@ extension Theme {
         }
     }
     
-    public func themesIfLoaded(forKey aKey: String, bundle: Bundle) -> Theme.Collection? {
-        let themesKey = bundle.bundlePath + "#" + aKey
-        return self.keyedThemesIfLoaded?[themesKey]
+    public func themes(forKey aKey: String) -> Theme.Collection? {
+        return self.keyedThemesIfLoaded?[aKey]
     }
     
-    public func set(_ themes: Theme.Collection, forKey aKey: String, bundle: Bundle) {
-        let themesKey = bundle.bundlePath + "#" + aKey
-        keyedThemes[themesKey] = themes
+    public func set(_ themes: Theme.Collection?, forKey aKey: String) {
+        keyedThemes[aKey] = themes
     }
     
-    /// 获取样式表。
-    public func themes(forKey aKey: String, bundle: Bundle) -> Theme.Collection {
-        let themesKey = bundle.bundlePath + "#" + aKey
-        if let themes = self.keyedThemesIfLoaded?[themesKey] {
-            return themes;
-        }
-        var themes: Theme.Collection! = nil
-        // TODO: - 解析 xzss 样式表。
-        // 匹配样式 ^(#day)* *( *\.[a-z\-0-9_]+(\:[a-z]+)*,*)* *\{([^\}]*)\}
-        if let sheetURL = bundle.url(forResource: aKey, withExtension: "xzss") {
-            themes = Theme.parser.parse(sheetURL, for: self)
-        }
-        if themes == nil {
-            themes = Theme.Collection.init(for: self)
-        }
-        self.keyedThemes[themesKey] = themes
-        return themes
-    }
-    
-    /// 获取对象当前主题下，已配置的所有主题集对象。
-    ///
-    /// - Parameter anObject: 对象。
-    /// - Returns: 主题集。
-    public func themesIfLoaded(for anObject: NSObject) -> Theme.Collection? {
-        let className = String.init(describing: type(of: anObject))
-        let classBundle = Bundle.init(for: type(of: anObject))
-        return self.themesIfLoaded(forKey: className, bundle: classBundle)
-    }
-    
-    /// 获取对象当前主题下的所有主题集对象，如果当前没有配置主题集，则自动创建空的主题集对象。
-    ///
-    /// - Parameter anObject: 对象。
-    /// - Returns: 主题集。
-    public func themes(for anObject: NSObject) -> Theme.Collection {
-        let className = String.init(describing: type(of: anObject))
-        let classBundle = Bundle.init(for: type(of: anObject))
-        
-        // TODO: - 对象样式表的获取规则，即控件到底应该使用哪个样式表。
-        
-        return self.themes(forKey: className, bundle: classBundle)
-    }
 }
 
 extension Theme.State: Sequence, IteratorProtocol {
@@ -462,28 +445,6 @@ extension Theme.State: Sequence, IteratorProtocol {
 // MARK: - 拓展：Theme.Collection
 
 extension Theme.Collection {
-    
-    /// 按主题分类的主题样式集合，懒加载。
-    public private(set) var identifiedThemeStyles: [Theme.Identifier: Theme.Style.Collection] {
-        get {
-            if identifiedThemeStylesIfLoaded != nil {
-                return identifiedThemeStylesIfLoaded!
-            }
-            identifiedThemeStylesIfLoaded = [Theme.Identifier: Theme.Style.Collection]()
-            return identifiedThemeStylesIfLoaded!
-        }
-        set {
-            identifiedThemeStylesIfLoaded = newValue
-        }
-    }
-    
-    /// 设置主题样式。
-    ///
-    /// - Parameter themeStyles: 主题样式。
-    /// - Parameter theme: 主题。
-    public func set(_ themeStyles: Theme.Style.Collection, for themeIdentifier: Theme.Identifier) {
-        identifiedThemeStyles[themeIdentifier] = themeStyles
-    }
     
     /// 当发生内存警告时，Theme.Collection 将尝试将样式缓存到 tmp 目录，并释放相关资源。
     /// - Note: 目前该函数的功能没有实现。

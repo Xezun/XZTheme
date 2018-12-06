@@ -19,12 +19,12 @@ extension NSObject {
             if let themeStyles = themedStyles[theme] {
                 return themeStyles
             }
-            let themeStyles = Theme.Style.Collection.init(for: nil)
+            let themeStyles = Theme.Style.Collection.init(identifier: .notAnIdentifier, for: nil)
             themedStyles[theme] = themeStyles
             objc_setAssociatedObject(self, &AssociationKey.themeStyles, themedStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return themeStyles
         }
-        let themeStyles = Theme.Style.Collection.init(for: nil)
+        let themeStyles = Theme.Style.Collection.init(identifier: .notAnIdentifier, for: nil)
         objc_setAssociatedObject(self, &AssociationKey.themeStyles, [theme: themeStyles], .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return themeStyles
     }
@@ -42,7 +42,7 @@ extension NSObject {
         if let themeStyles = self.themeStylesIfLoaded {
             return themeStyles
         }
-        let themeStyles = Theme.Style.Collection.init(for: self)
+        let themeStyles = Theme.Style.Collection.init(identifier: .notAnIdentifier, for: self)
         objc_setAssociatedObject(self, &AssociationKey.themeStyles, themeStyles, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return themeStyles
     }
@@ -143,7 +143,7 @@ extension NSObject {
         // 获取类全局样式。
         let defaultStyles = type(of: self).themeStylesIfLoaded(for: newTheme)
         // 获取样式表样式。
-        let sheetStyles = newTheme.themesIfLoaded(for: self)?.themeStylesIfLoaded(for: self)
+        let sheetStyles = newTheme.sheetStyle(for: newTheme)
         // 当前对象私有样式。
         let selfStyles = self.themeStylesIfLoaded
         // 计算样式。
@@ -154,6 +154,28 @@ extension NSObject {
         }
         // 应用主题样式。
         self.updateAppearance(with: computedThemeStyles!)
+    }
+    
+    private func sheetStyle(for theme: Theme) -> Theme.Style.Collection? {
+        guard let sheetName = self.styleSheetName else { return nil }
+        let bundle = Bundle.init(for: type(of: self))
+        let themesKey = bundle.bundlePath + "#" + sheetName
+        
+        if let themes = theme.themes(forKey: themesKey) {
+            // 在样式表中查找样式。
+            return themes.themeStylesIfLoaded(for: self);
+        }
+        
+        // 查找并解析样式表
+        var themes: Theme.Collection! = nil
+        if let sheetURL = bundle.url(forResource: sheetName, withExtension: "xzss") {
+            themes = Theme.parser.parse(sheetURL, for: theme)
+        }
+        if themes == nil {
+            themes = Theme.Collection.init(for: theme, themeStyles: [])
+        }
+        theme.set(themes, forKey: themesKey)
+        return themes.themeStylesIfLoaded(for: self)
     }
     
     /// 当应用主题时，如果当前对象已配置了主题样式，则此方法会被调用。
@@ -183,9 +205,15 @@ extension NSObject {
         }
     }
     
+    /// 样式表名。
     @objc(xz_styleSheetName)
     open var styleSheetName: String? {
-        return String.init(describing: type(of: self))
+        get {
+            return objc_getAssociatedObject(self, &AssociationKey.styleSheetName) as? String
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociationKey.styleSheetName, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
     }
     
 }
@@ -193,23 +221,17 @@ extension NSObject {
 
 extension UIView {
     
+    /// 如果自身没有设置样式表，则返回下一个上级响应者的样式表（最终返回视图所在控制器或UIWindow为止）。
     open override var styleSheetName: String? {
-        let bundle = Bundle.init(for: type(of: self))
-        
-        var next: UIResponder? = self
-        var name: String? = nil
-        repeat {
-            // 样式表名，类名
-            name = String.init(describing: type(of: next!))
-            // ClassName.xzss 文件如果存在，说明找到样式表。
-            guard bundle.path(forResource: name!, ofType: "xzss") == nil else { break }
-            name = nil
-            // 查找至 UIViewController/UIWindow 终止。
-            guard !(next is UIViewController || next is UIWindow) else { break }
-            next = next!.next
-        } while (next != nil)
-        
-        return name
+        get {
+            if let styleSheetName = super.styleSheetName {
+                return styleSheetName
+            }
+            return next?.styleSheetName
+        }
+        set {
+            super.styleSheetName = newValue
+        }
     }
     
     /// 当视图控件被标记为需要更新主题时，会同时标记其子视图。
@@ -234,7 +256,47 @@ extension UIView {
     
 }
 
+extension UIWindow {
+    
+    /// 如果没有设置过样式表，则返回类名称。
+    open override var styleSheetName: String? {
+        get {
+            if let styleSheetName = super.styleSheetName {
+                return styleSheetName
+            }
+            return String.init(describing: type(of: self))
+        }
+        set {
+            super.styleSheetName = newValue
+        }
+    }
+}
+
 extension UIViewController {
+    
+    /// 如果没有设置过样式表，则返回类名称。
+    open override var styleSheetName: String? {
+        get {
+            if let styleSheetName = super.styleSheetName {
+                return styleSheetName
+            }
+            return String.init(describing: type(of: self))
+        }
+        set {
+            super.styleSheetName = newValue
+            if navigationController != nil {
+                navigationItem.styleSheetName = newValue
+            }
+            if tabBarController != nil {
+                self.tabBarItem.styleSheetName = self.styleSheetName
+            }
+            if let toolbarItems = self.toolbarItems {
+                for toolbarItem in toolbarItems {
+                    toolbarItem.styleSheetName = self.styleSheetName
+                }
+            }
+        }
+    }
     
     /// 当控制被标记为需要更新主题时，同时标记其 childViewControllers、presentedViewController、navigationItem、toolbarItems、tabBarItem 等属性。
     open override func setNeedsThemeAppearanceUpdate() {
@@ -242,17 +304,20 @@ extension UIViewController {
             return
         }
         super.setNeedsThemeAppearanceUpdate()
-        
+
         if navigationController != nil {
+            self.navigationItem.styleSheetName = self.styleSheetName
             self.navigationItem.setNeedsThemeAppearanceUpdate()
         }
         
         if tabBarController != nil {
+            self.tabBarItem.styleSheetName = self.styleSheetName
             self.tabBarItem.setNeedsThemeAppearanceUpdate()
         }
         
         if let toolbarItems = self.toolbarItems {
             for toolbarItem in toolbarItems {
+                toolbarItem.styleSheetName = self.styleSheetName
                 toolbarItem.setNeedsThemeAppearanceUpdate()
             }
         }
@@ -266,6 +331,22 @@ extension UIViewController {
 }
 
 extension UINavigationItem {
+    
+    open override var styleSheetName: String? {
+        didSet {
+            self.backBarButtonItem?.styleSheetName = self.styleSheetName
+            if let leftBarButtonItems = self.leftBarButtonItems {
+                for barButtonItem in leftBarButtonItems {
+                    barButtonItem.styleSheetName = self.styleSheetName
+                }
+            }
+            if let rightBarButtonItems = self.rightBarButtonItems {
+                for barButtonItem in rightBarButtonItems {
+                    barButtonItem.styleSheetName = self.styleSheetName
+                }
+            }
+        }
+    }
     
     /// 当被标记为需要更新主题时，其 backBarButtonItem、leftBarButtonItems、rightBarButtonItems 会被标记为需要更新。
     open override func setNeedsThemeAppearanceUpdate() {
@@ -301,6 +382,7 @@ private struct AssociationKey {
     static var themeIdentifier:             Int = 2
     static var appliedTheme:                Int = 3
     static var needsUpdateThemeAppearance:  Int = 4
+    static var styleSheetName:              Int = 5
 }
 
 

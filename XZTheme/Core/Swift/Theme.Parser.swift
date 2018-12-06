@@ -16,7 +16,8 @@ extension Theme {
     public static var parser: ThemeParsing = Parser.init()
     
     /// 默认的主题样式解析器。
-    public final class Parser: ThemeParsing {
+    @objc(XZThemeParser)
+    private final class Parser: NSObject, ThemeParsing {
         
     }
     
@@ -105,8 +106,18 @@ public protocol ThemeParsing {
 
 extension ThemeParsing {
     
+    
     public func parse(_ sheetURL: URL, for theme: Theme) -> Theme.Collection? {
-        // TODO: - 样式解析
+        // TODO: - 解析 xzss 样式表。
+        // 匹配样式 ^(#day)* *( *\.[a-z\-0-9_]+(\:[a-z]+)*,*)* *\{([^\}]*)\}
+        guard let styleDicts = Array<Any>.init(json: try? Data.init(contentsOf: sheetURL, options: .uncached)) else { return nil }
+        
+        for item in styleDicts {
+            guard let styleDict = item as? [String: Any] else {
+                break
+            }
+        }
+        
         return nil
     }
     

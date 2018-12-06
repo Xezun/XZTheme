@@ -10,17 +10,14 @@ import UIKit
 import XZKit
 import XZTheme
 
-struct ABC {
-    let a: Int
-}
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        XZLog("The current theme is %@.", Theme.current)
+        XZLog("%@", UIView.init())
         return true
     }
 
