@@ -34,6 +34,16 @@ extension NSObject {
         return (objc_getAssociatedObject(self, &AssociationKey.themeStyles) as? [Theme: Theme.Style.Collection])?[theme]
     }
     
+//    open var themes: Theme.Collection {
+//        
+//    }
+//    
+//    open func themesIfLoaded: Theme.Collection? {
+//        
+//    }
+    
+    
+    
     /// 私有样式集。与主题无关。
     /// - Note: 私有样式仅为当前对象所有，优先级最高。
     /// - Note: 当主题变更时，私有样式不会改变也不会清空。
