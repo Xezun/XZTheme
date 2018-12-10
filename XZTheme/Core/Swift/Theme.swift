@@ -13,7 +13,7 @@ extension Theme {
     
     /// 当主题发生改变时，发送 Notification 所使用的名称。
     /// - Note: 视图及视图控制器 UIView/UIViewController 及其子类，无需监听通知，其会自动的在适当的时机应用主题。
-    public static let currentThemeDidChangeNotification = Notification.Name.init(Domain + ".theme.changed")
+    public static let currentDidChangeNotification = Notification.Name.init(Domain + ".theme.changed")
     
 }
 
@@ -64,7 +64,7 @@ extension Theme {
             })
         }
         // 发送通知。
-        NotificationCenter.default.post(name: Theme.currentThemeDidChangeNotification, object: self)
+        NotificationCenter.default.post(name: Theme.currentDidChangeNotification, object: self)
     }
     
     /// 应用主题动画时长，0.5 秒。
