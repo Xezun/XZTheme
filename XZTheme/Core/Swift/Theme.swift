@@ -11,7 +11,7 @@ import XZKit
 
 extension Theme {
     
-    /// 当主题发生改变时，发送 Notification 所使用的名称。
+    /// 当主题发生改变时，发送 Notification 的名称。
     /// - Note: 视图及视图控制器 UIView/UIViewController 及其子类，无需监听通知，其会自动的在适当的时机应用主题。
     public static let currentDidChangeNotification = Notification.Name.init(Domain + ".theme.changed")
     
@@ -19,8 +19,7 @@ extension Theme {
 
 extension Theme {
     
-    /// 默认主题，名称为 *default* 的主题。
-    /// - Note: 在应用主题时，如果没有任何可以应用的主题样式，会读取此主题下配置的主题样式。
+    /// 默认主题。在应用主题样式时，优先使用当前主题下的样式配置；如果当前主题下没有找到主题样式，则使用默认主题样式配置。
     public static let `default`: Theme = Theme.init(name: "default")
     
     /// 当前主题，最后一次应用过的主题。
@@ -79,7 +78,7 @@ extension Theme {
 /// 主题。
 @objc(XZTheme)
 public final class Theme: NSObject {
-
+    
     /// 主题名称。
     /// - Note: 主题名称为主题的唯一标识符，判断两个主题对象是否相等的唯一标准。
     public let name: String
@@ -107,10 +106,11 @@ public final class Theme: NSObject {
     /// - Note: Key 为样式表标识符，一般为控件类的名称；Value 为样式表，保存的是当前主题下的样式。
     public private(set) var keyedThemesIfLoaded: [String: Theme.Collection]?
     
+    
+    // =====================================================================
     // MARK: - 定义：主题集。
     
-    /// 主题集，主题下所有按按标识符分类的主题样式集的集合。
-    /// - Note: 在主题集中，按主题进行分类存储所有的的主题样式。
+    /// 样式表，所有主题样式的有序集合。
     public final class Collection {
         
         /// 主题集所属的主题。
@@ -129,13 +129,14 @@ public final class Theme: NSObject {
     }
     
     
+    // =====================================================================
     // MARK: - 定义：主题样式。
     
     /// 主题样式，用于存储主题外观样式属性以及属性值的对象。
     /// - Note: 使用 Array.init(themeStyles:) 可以取得所有已配置的属性。
     @objc(XZThemeStyle)
     public class Style: NSObject, NSCopying {
-
+        
         /// 按属性存储的属性值，非懒加载。
         /// - Note: 更新样式属性值会标记所有者需要更新主题。
         public private(set) var attributedValuesIfLoaded: [Theme.Attribute: Any?]? {
@@ -160,7 +161,7 @@ public final class Theme: NSObject {
             super.init()
         }
         
-        
+        // =====================================================================
         // MARK: - 定义：主题样式集。
         
         /// 主题样式集：同一主题下，按状态分类的所有主题样式集合。
@@ -192,7 +193,7 @@ public final class Theme: NSObject {
         }
     }
     
-    
+    // =====================================================================
     // MARK: - 定义：主题标识符。
     
     /// 主题标识符。
@@ -204,7 +205,7 @@ public final class Theme: NSObject {
         private init(_ rawValue: String) {
             self.rawValue = rawValue
         }
-
+        
         public typealias RawValue = String
         public let rawValue: String
         private static let regularExpression = try! NSRegularExpression(pattern: "(^[\\#\\.][A-Z_][A-Z_0-9]*$)|(^[_A-Z][A-Z_0-9]*$)|(^\\*$)", options: NSRegularExpression.Options.init(rawValue: 0))
@@ -231,7 +232,7 @@ public final class Theme: NSObject {
         
     }
     
-    
+    // =====================================================================
     // MARK: - 定义：主题属性。
     
     /// 主题属性。
@@ -247,7 +248,7 @@ public final class Theme: NSObject {
         
     }
     
-    
+    // =====================================================================
     // MARK: - 定义：主题状态。
     
     /// 主题状态被设计为集合。基本状态为其自身的集合，复合状态为基本状态的集合。
@@ -261,7 +262,7 @@ public final class Theme: NSObject {
         
         /// 特殊值，没有主题状态。
         public static let noState = Theme.State.init(name: "", rawValue: "", rawType: String.self, isOptionSet: false, children: [])
-    
+        
         /// 主题状态名，区分主题状态的标识符。
         public let name: String
         
@@ -526,7 +527,7 @@ extension Theme.Style.Collection {
             statedThemeStylesIfLoaded = newValue
         }
     }
-
+    
     /// 设置指定状态下的主题样式。
     /// - Note: 无需设置状态状态 noState 的样式。
     /// - Note: 被设置的样式的所有者，必须与当前集合的所有者相同。
