@@ -17,7 +17,7 @@ import Foundation
 //
 //}
 
-class Theme {
+public class Theme {
     
     var namedStyleSheets = [String: StyleSheet]()
     
@@ -66,12 +66,11 @@ class Theme {
         
     }
     
-    class StyleSheet {
+    public enum Identifier: Int, Hashable {
+        case notAnIdentifier
+    }
+    public class StyleSheet {
         
-        enum Identifier: Int, Hashable {
-            case notAnIdentifier
-        }
-    
         /// 样式表中的样式。
         lazy var identifiedStyles = [Identifier: Style]()
         
