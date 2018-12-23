@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XZThemeDefines.h"
 
 @class XZThemeStyleSheet;
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Theme)
-@interface XZTheme : NSObject
+@interface XZTheme : NSObject <NSCopying>
 
 + (XZTheme *)themeNamed:(NSString *)name NS_SWIFT_NAME(init(named:));
 
@@ -25,7 +26,7 @@ NS_SWIFT_NAME(Theme)
 @property (class, nonatomic, readonly) XZTheme *defaultTheme NS_SWIFT_NAME(default);
 @property (class, nonatomic, readonly) XZTheme *currentTheme NS_SWIFT_NAME(current);
 
-@property (nonatomic, readonly) NSDictionary<NSString *, XZThemeStyleSheet *> *namedStyleSheets;
+- (nullable XZThemeStyleSheet *)themeStyleSheetForObject:(id<XZThemeSupporting>)object;
 
 @end
 

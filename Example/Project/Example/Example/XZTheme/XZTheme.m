@@ -7,9 +7,10 @@
 //
 
 #import "XZTheme.h"
+#import "XZThemeStyleSheet.h"
 
 @implementation XZTheme {
-    NSMutableDictionary<NSString *, XZThemeStyleSheet *> *_namedStyleSheets;
+    NSMutableDictionary<NSString *, id> *_keyedThemeStyleSheets;
 }
 
 + (XZTheme *)defaultTheme {
@@ -43,13 +44,9 @@
     self = [super init];
     if (self != nil) {
         _name = name.copy;
-        _namedStyleSheets = [NSMutableDictionary dictionary];
+        _keyedThemeStyleSheets = [NSMutableDictionary dictionary];
     }
     return self;
-}
-
-- (NSDictionary<NSString *,XZThemeStyleSheet *> *)namedStyleSheets {
-    return _namedStyleSheets;
 }
 
 - (BOOL)isEqualToTheme:(XZTheme *)otherTheme {
@@ -64,6 +61,42 @@
         return [self isEqualToTheme:(XZTheme *)object];
     }
     return NO;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+- (XZThemeStyleSheet *)themeStyleSheetForObject:(id<XZThemeSupporting>)object {
+    NSString *sheetName = object.xz_styleSheetName;
+    if (sheetName == nil) {
+        return nil;
+    }
+    NSBundle *currentBundle = [NSBundle bundleForClass:object.class];
+    NSURL *sheetURL1 = [currentBundle URLForResource:sheetName withExtension:@"xzss"]; // xzss in class bundle
+    NSURL *sheetURL2 = nil; // xzss in main bundle
+    if ([NSBundle.mainBundle isEqual:currentBundle]) {
+        sheetURL2 = sheetURL1;
+        sheetURL1 = nil;
+    } else {
+       sheetURL2 = [NSBundle.mainBundle URLForResource:sheetName withExtension:@"xzss"];
+    }
+    NSString *sheetKey = [NSString stringWithFormat:@"%@|%@", sheetURL1.absoluteString, sheetURL2.absoluteString];
+    XZThemeStyleSheet *styleSheet = _keyedThemeStyleSheets[sheetKey];
+    if (styleSheet == nil) {
+        if (sheetURL1 != nil) {
+            styleSheet = [[XZThemeStyleSheet alloc] initWithURL:sheetURL1];
+        }
+        if (styleSheet != nil) {
+            [styleSheet addThemeStylesFromThemeStyleSheet:[[XZThemeStyleSheet alloc] initWithURL:sheetURL2]];
+        } else {
+            styleSheet = [[XZThemeStyleSheet alloc] initWithURL:sheetURL2];
+        }
+        _keyedThemeStyleSheets[sheetKey] = (styleSheet == nil ? NSNull.null : styleSheet);
+    } else if (![styleSheet isKindOfClass:[XZThemeStyleSheet class]]) {
+        styleSheet = nil;
+    }
+    return styleSheet;
 }
 
 @end

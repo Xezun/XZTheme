@@ -10,7 +10,7 @@
 		286C0F3321CC9B2E00E54264 /* XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3221CC9B2E00E54264 /* XZTheme.m */; };
 		286C0F3621CC9B3C00E54264 /* XZThemeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3521CC9B3C00E54264 /* XZThemeStyle.m */; };
 		286C0F3921CC9B4B00E54264 /* XZThemeStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3821CC9B4B00E54264 /* XZThemeStyleSheet.m */; };
-		286C0F3C21CCDAD300E54264 /* NSObject+XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3B21CCDAD300E54264 /* NSObject+XZTheme.m */; };
+		286C0F3C21CCDAD300E54264 /* NSObject+XZThemeSupporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3B21CCDAD300E54264 /* NSObject+XZThemeSupporting.m */; };
 		286C0F3F21CCDF9200E54264 /* XZThemeDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3E21CCDF9200E54264 /* XZThemeDefines.m */; };
 		2878E2AD21B902EF0047C1C9 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2878E2AC21B902EF0047C1C9 /* TestObject.m */; };
 		2878E2AF21B906390047C1C9 /* SwitchThemeViewController.xzss in Resources */ = {isa = PBXBuildFile; fileRef = 2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */; };
@@ -38,8 +38,8 @@
 		286C0F3521CC9B3C00E54264 /* XZThemeStyle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyle.m; sourceTree = "<group>"; };
 		286C0F3721CC9B4B00E54264 /* XZThemeStyleSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleSheet.h; sourceTree = "<group>"; };
 		286C0F3821CC9B4B00E54264 /* XZThemeStyleSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleSheet.m; sourceTree = "<group>"; };
-		286C0F3A21CCDAD300E54264 /* NSObject+XZTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+XZTheme.h"; sourceTree = "<group>"; };
-		286C0F3B21CCDAD300E54264 /* NSObject+XZTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+XZTheme.m"; sourceTree = "<group>"; };
+		286C0F3A21CCDAD300E54264 /* NSObject+XZThemeSupporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+XZThemeSupporting.h"; sourceTree = "<group>"; };
+		286C0F3B21CCDAD300E54264 /* NSObject+XZThemeSupporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+XZThemeSupporting.m"; sourceTree = "<group>"; };
 		286C0F3D21CCDF6200E54264 /* XZThemeDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeDefines.h; sourceTree = "<group>"; };
 		286C0F3E21CCDF9200E54264 /* XZThemeDefines.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeDefines.m; sourceTree = "<group>"; };
 		2878E2AB21B902EF0047C1C9 /* TestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestObject.h; sourceTree = "<group>"; };
@@ -88,8 +88,8 @@
 				286C0F3521CC9B3C00E54264 /* XZThemeStyle.m */,
 				286C0F3721CC9B4B00E54264 /* XZThemeStyleSheet.h */,
 				286C0F3821CC9B4B00E54264 /* XZThemeStyleSheet.m */,
-				286C0F3A21CCDAD300E54264 /* NSObject+XZTheme.h */,
-				286C0F3B21CCDAD300E54264 /* NSObject+XZTheme.m */,
+				286C0F3A21CCDAD300E54264 /* NSObject+XZThemeSupporting.h */,
+				286C0F3B21CCDAD300E54264 /* NSObject+XZThemeSupporting.m */,
 			);
 			path = XZTheme;
 			sourceTree = "<group>";
@@ -182,7 +182,6 @@
 				DD3DA91F2080471E00A642C0 /* Sources */,
 				DD3DA9202080471E00A642C0 /* Frameworks */,
 				DD3DA9212080471E00A642C0 /* Resources */,
-				4CA185ED170A5A15754A81FB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,26 +243,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4CA185ED170A5A15754A81FB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/XZKit/XZKit.framework",
-				"${BUILT_PRODUCTS_DIR}/XZTheme/XZTheme.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XZKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XZTheme.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7A9FE6368E6B979D7801D450 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,7 +280,7 @@
 				DD0C9E5420C4215600C3C96F /* SwitchThemeTableViewCell.swift in Sources */,
 				DDA4BFE720C3BE0900E544A1 /* ThemeTableView.swift in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
-				286C0F3C21CCDAD300E54264 /* NSObject+XZTheme.m in Sources */,
+				286C0F3C21CCDAD300E54264 /* NSObject+XZThemeSupporting.m in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

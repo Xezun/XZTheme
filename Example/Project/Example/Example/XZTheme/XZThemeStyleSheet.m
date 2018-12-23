@@ -7,15 +7,16 @@
 //
 
 #import "XZThemeStyleSheet.h"
+#import "XZThemeDefines.h"
 
 @implementation XZThemeStyleSheet {
     NSDictionary<XZThemeIdentifier, XZThemeStyle *> *_identifiedThemeStyles;
 }
 
-- (instancetype)initWithName:(NSString *)name {
+- (instancetype)initWithURL:(NSURL *)sheetURL {
     self = [super init];
     if (self != nil) {
-        _name = name.copy;
+        _url = sheetURL;
         _identifiedThemeStyles = [NSMutableDictionary dictionary];
     }
     return self;
@@ -23,6 +24,14 @@
 
 - (NSDictionary<XZThemeIdentifier,XZThemeStyle *> *)identifiedThemeStyles {
     return _identifiedThemeStyles;
+}
+
+- (XZThemeStyle *)themeStyleForObject:(id<XZThemeSupporting>)object {
+    return nil;
+}
+
+- (void)addThemeStylesFromThemeStyleSheet:(XZThemeStyleSheet *)otherStyleSheet {
+    
 }
 
 @end

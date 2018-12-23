@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import XZTheme
 
 class SwitchThemeViewController: UITableViewController {
     

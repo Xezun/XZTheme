@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import XZKit
-import XZTheme
 
 class SwitchThemeTableViewCell: UITableViewCell {
 
-    override func updateAppearance(with newTheme: Theme) {
+//    override func updateAppearance(with newTheme: Theme) {
 //        switch newTheme {
 //        case .day:
 //            self.backgroundColor = UIColor(0xffffffff)
@@ -31,44 +29,44 @@ class SwitchThemeTableViewCell: UITableViewCell {
 //        default:
 //            fatalError("Not supported theme.")
 //        }
-    }
+//    }
 
 }
 
 class SwitchThemeOptionTableViewCell: SwitchThemeTableViewCell {
     
-    override func updateAppearance(with newTheme: Theme) {
-        super.updateAppearance(with: newTheme)
-        
-        guard let themeIdentifier = self.themeIdentifier else { return }
-        
-        switch themeIdentifier {
-        case "day":
-            switch newTheme {
-            case .day:
-                self.imageView?.image = UIImage.init(named: "icon_sun_day")
-                self.accessoryType = .checkmark
-            case .night:
-                self.imageView?.image = UIImage.init(named: "icon_sun_night")
-                self.accessoryType = .none
-            default:
-                break
-            }
-        case "night":
-            switch newTheme {
-            case .day:
-                self.imageView?.image = UIImage.init(named: "icon_moon_day")
-                self.accessoryType = .none
-            case .night:
-                self.imageView?.image = UIImage.init(named: "icon_moon_night")
-                self.accessoryType = .checkmark
-            default: break
-            }
-        default:
-            fatalError("")
-        }
-        
-    }
+//    override func updateAppearance(with newTheme: Theme) {
+//        super.updateAppearance(with: newTheme)
+//        
+//        guard let themeIdentifier = self.themeIdentifier else { return }
+//        
+//        switch themeIdentifier {
+//        case "day":
+//            switch newTheme {
+//            case .day:
+//                self.imageView?.image = UIImage.init(named: "icon_sun_day")
+//                self.accessoryType = .checkmark
+//            case .night:
+//                self.imageView?.image = UIImage.init(named: "icon_sun_night")
+//                self.accessoryType = .none
+//            default:
+//                break
+//            }
+//        case "night":
+//            switch newTheme {
+//            case .day:
+//                self.imageView?.image = UIImage.init(named: "icon_moon_day")
+//                self.accessoryType = .none
+//            case .night:
+//                self.imageView?.image = UIImage.init(named: "icon_moon_night")
+//                self.accessoryType = .checkmark
+//            default: break
+//            }
+//        default:
+//            fatalError("")
+//        }
+//        
+//    }
     
 }
 
