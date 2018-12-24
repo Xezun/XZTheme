@@ -157,7 +157,7 @@ static const void * const _themedStyles = &_themedStyles;
     return themedStyles[theme];
 }
 
-- (NSString *)xz_styleSheetName {
+- (NSString *)xz_themeStyleSheetName {
     return nil;
 }
 

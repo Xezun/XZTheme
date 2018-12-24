@@ -68,7 +68,7 @@
 }
 
 - (XZThemeStyleSheet *)themeStyleSheetForObject:(NSObject *)object {
-    NSString *sheetName = object.xz_styleSheetName;
+    NSString *sheetName = object.xz_themeStyleSheetName;
     if (sheetName == nil) {
         return nil;
     }

@@ -10,8 +10,14 @@
 
 @implementation UIView (XZThemeSupporting)
 
+- (NSString *)xz_themeStyleSheetName {
+    return self.nextResponder.xz_themeStyleSheetName;
+}
+
 - (void)xz_forwardThemeAppearanceUpdate {
-    
+    for (UIView *subview in self.subviews) {
+        [subview xz_setNeedsThemeAppearanceUpdate];
+    }
 }
 
 @end

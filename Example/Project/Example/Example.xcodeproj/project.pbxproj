@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		281EB62721D101FB0062308C /* UIView+XZThemeSupporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 281EB62621D101FB0062308C /* UIView+XZThemeSupporting.m */; };
+		281EB62A21D105DA0062308C /* UIViewController+XZThemeSupporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 281EB62921D105DA0062308C /* UIViewController+XZThemeSupporting.m */; };
 		286C0F3321CC9B2E00E54264 /* XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3221CC9B2E00E54264 /* XZTheme.m */; };
 		286C0F3621CC9B3C00E54264 /* XZThemeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3521CC9B3C00E54264 /* XZThemeStyle.m */; };
 		286C0F3921CC9B4B00E54264 /* XZThemeStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3821CC9B4B00E54264 /* XZThemeStyleSheet.m */; };
@@ -33,6 +34,8 @@
 		25308744C3F47A390AFBFCBC /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		281EB62521D101FB0062308C /* UIView+XZThemeSupporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+XZThemeSupporting.h"; sourceTree = "<group>"; };
 		281EB62621D101FB0062308C /* UIView+XZThemeSupporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+XZThemeSupporting.m"; sourceTree = "<group>"; };
+		281EB62821D105DA0062308C /* UIViewController+XZThemeSupporting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+XZThemeSupporting.h"; sourceTree = "<group>"; };
+		281EB62921D105DA0062308C /* UIViewController+XZThemeSupporting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XZThemeSupporting.m"; sourceTree = "<group>"; };
 		286C0F3121CC9B2E00E54264 /* XZTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZTheme.h; sourceTree = "<group>"; };
 		286C0F3221CC9B2E00E54264 /* XZTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZTheme.m; sourceTree = "<group>"; };
 		286C0F3421CC9B3C00E54264 /* XZThemeStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyle.h; sourceTree = "<group>"; };
@@ -81,6 +84,8 @@
 				286C0F3B21CCDAD300E54264 /* NSObject+XZThemeSupporting.m */,
 				281EB62521D101FB0062308C /* UIView+XZThemeSupporting.h */,
 				281EB62621D101FB0062308C /* UIView+XZThemeSupporting.m */,
+				281EB62821D105DA0062308C /* UIViewController+XZThemeSupporting.h */,
+				281EB62921D105DA0062308C /* UIViewController+XZThemeSupporting.m */,
 				286C0F3121CC9B2E00E54264 /* XZTheme.h */,
 				286C0F3221CC9B2E00E54264 /* XZTheme.m */,
 				286C0F3421CC9B3C00E54264 /* XZThemeStyle.h */,
@@ -276,6 +281,7 @@
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
 				286C0F3C21CCDAD300E54264 /* NSObject+XZThemeSupporting.m in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
+				281EB62A21D105DA0062308C /* UIViewController+XZThemeSupporting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -69,7 +69,7 @@ FOUNDATION_EXPORT XZThemeState const XZThemeStateNone NS_SWIFT_NAME(none);
 @property (nonatomic, nullable, readonly) XZThemeStyle *xz_computedThemeStyle NS_SWIFT_NAME(computedThemeStyle);
 
 /// 样式表名，用于查找当前对象样式表样式，默认 nil ，没有样式表样式。
-@property (nonatomic, nullable, readonly) NSString *xz_styleSheetName NS_SWIFT_NAME(styleSheetName);
+@property (nonatomic, nullable, readonly) NSString *xz_themeStyleSheetName NS_SWIFT_NAME(themeStyleSheetName);
 
 @end
 
