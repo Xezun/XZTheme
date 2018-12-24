@@ -23,10 +23,10 @@
 
 + (NSMutableDictionary<NSString *, XZTheme *> *)namedThemes {
     static NSMutableDictionary<NSString *, XZTheme *> *_namedThemes = nil;
-    if (_namedThemes != nil) {
-        return _namedThemes;
-    }
-    _namedThemes = [NSMutableDictionary dictionary];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _namedThemes = [NSMutableDictionary dictionary];
+    });
     return _namedThemes;
 }
 
