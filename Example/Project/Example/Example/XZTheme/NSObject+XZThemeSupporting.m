@@ -12,6 +12,8 @@
 #import "XZThemeStyle.h"
 #import "XZThemeStyleSheet.h"
 
+XZThemeState const XZThemeStateNone = @"";
+
 static const void * const _themeIdentifier = &_themeIdentifier;
 static const void * const _appliedTheme = &_appliedTheme;
 static const void * const _needsUpdateThemeAppearance = &_needsUpdateThemeAppearance;
@@ -41,6 +43,7 @@ static const void * const _themedStyles = &_themedStyles;
         return;
     }
     objc_setAssociatedObject(self, _needsUpdateThemeAppearance, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self xz_forwardThemeAppearanceUpdate];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self xz_updateThemeAppearanceIfNeeded];
     });

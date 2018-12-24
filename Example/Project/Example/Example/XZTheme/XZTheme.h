@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XZThemeDefines.h"
+#import "NSObject+XZThemeSupporting.h"
 
 @class XZThemeStyleSheet;
 
@@ -26,7 +26,7 @@ NS_SWIFT_NAME(Theme)
 @property (class, nonatomic, readonly) XZTheme *defaultTheme NS_SWIFT_NAME(default);
 @property (class, nonatomic, readonly) XZTheme *currentTheme NS_SWIFT_NAME(current);
 
-- (nullable XZThemeStyleSheet *)themeStyleSheetForObject:(id<XZThemeSupporting>)object;
+- (nullable XZThemeStyleSheet *)themeStyleSheetForObject:(NSObject *)object;
 
 @end
 

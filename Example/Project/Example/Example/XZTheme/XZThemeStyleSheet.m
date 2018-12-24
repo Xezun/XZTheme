@@ -7,7 +7,6 @@
 //
 
 #import "XZThemeStyleSheet.h"
-#import "XZThemeDefines.h"
 
 @implementation XZThemeStyleSheet {
     NSDictionary<XZThemeIdentifier, XZThemeStyle *> *_identifiedThemeStyles;
@@ -26,7 +25,7 @@
     return _identifiedThemeStyles;
 }
 
-- (XZThemeStyle *)themeStyleForObject:(id<XZThemeSupporting>)object {
+- (XZThemeStyle *)themeStyleForObject:(NSObject *)object {
     return nil;
 }
 

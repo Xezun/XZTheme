@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XZThemeDefines.h"
+#import "NSObject+XZThemeSupporting.h"
 
 @class XZThemeStyle;
 
@@ -22,7 +22,7 @@ NS_SWIFT_NAME(XZTheme.StyleSheet)
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithURL:(NSURL *)sheetURL NS_SWIFT_NAME(init(_:));
 
-- (nullable XZThemeStyle *)themeStyleForObject:(id<XZThemeSupporting>)object;
+- (nullable XZThemeStyle *)themeStyleForObject:(NSObject *)object;
 
 - (void)addThemeStylesFromThemeStyleSheet:(nullable XZThemeStyleSheet *)otherStyleSheet;
 

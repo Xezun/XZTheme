@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XZThemeDefines.h"
+#import "NSObject+XZThemeSupporting.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,10 +17,10 @@ NS_SWIFT_NAME(XZTheme.Style)
 @interface XZThemeStyle : NSObject
 
 + (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState NS_SWIFT_NAME(init(for:));
-+ (XZThemeStyle *)themeStyleForObject:(nullable id<XZThemeSupporting>)object NS_SWIFT_NAME(init(for:));
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable id<XZThemeSupporting>)object NS_SWIFT_NAME(init(for:object:));
++ (XZThemeStyle *)themeStyleForObject:(nullable NSObject *)object NS_SWIFT_NAME(init(for:));
++ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable NSObject *)object NS_SWIFT_NAME(init(for:object:));
 
-@property (nonatomic, weak, nullable) id<XZThemeSupporting> object;
+@property (nonatomic, weak, nullable) NSObject *object;
 @property (nonatomic, copy, readonly) XZThemeState state;
 @property (nonatomic, readonly) NSDictionary<XZThemeAttribute, id> *attributedStyleValues;
 

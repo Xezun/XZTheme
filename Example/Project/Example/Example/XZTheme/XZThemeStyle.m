@@ -24,11 +24,11 @@ NS_ASSUME_NONNULL_END
     return [XZThemeStyle themeStyleForState:themeState object:nil];
 }
 
-+ (XZThemeStyle *)themeStyleForObject:(id<XZThemeSupporting>)object {
++ (XZThemeStyle *)themeStyleForObject:(NSObject *)object {
     return [XZThemeStyle themeStyleForState:XZThemeStateNone object:object];
 }
 
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable id<XZThemeSupporting>)object {
++ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable NSObject *)object {
     if ([themeState isEqualToString:XZThemeStateNone]) {
         return [[XZStatedThemeStyle alloc] initWithState:themeState object:object];
     } else {

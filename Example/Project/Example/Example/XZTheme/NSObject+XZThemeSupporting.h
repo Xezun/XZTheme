@@ -7,13 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "XZThemeDefines.h"
+
+/// 主题状态。
+typedef NSString * XZThemeState NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(XZThemeStyle.State);
+/// 主题属性。
+typedef NSString * XZThemeAttribute NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(XZThemeStyle.Attribute);
+/// 主题标识符。
+typedef NSString * XZThemeIdentifier NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(XZTheme.Identifier);
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT XZThemeState const XZThemeStateNone NS_SWIFT_NAME(none);
+
 @class XZTheme, XZThemeStyle;
 
-@interface NSObject (XZThemeSupporting) <XZThemeSupporting>
+@interface NSObject (XZThemeSupporting)
 
 /// 主题标识符，用于在样式表中匹配主题样式。
 @property (nonatomic, nullable, setter=xz_setThemeIdentifier:) XZThemeIdentifier xz_themeIdentifier NS_SWIFT_NAME(themeIdentifier);
