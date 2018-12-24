@@ -1,5 +1,7 @@
 # XZTheme
 
+# 框架重构中，暂不可用！
+
 [![Build](https://img.shields.io/badge/build-pass-brightgreen.svg)](https://cocoapods.org/pods/XZTheme)
 [![Version](https://img.shields.io/badge/Pod-0.1.0-blue.svg?style=flat)](http://cocoapods.org/pods/XZTheme)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](http://cocoapods.org/pods/XZTheme)
