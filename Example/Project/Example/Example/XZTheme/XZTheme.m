@@ -10,7 +10,7 @@
 #import "XZThemeStyleSheet.h"
 
 @implementation XZTheme {
-    NSMutableDictionary<NSString *, id> *_keyedThemeStyleSheets;
+    NSMutableDictionary<NSString *, id> *_keyedStyleSheets;
 }
 
 + (XZTheme *)defaultTheme {
@@ -44,7 +44,7 @@
     self = [super init];
     if (self != nil) {
         _name = name.copy;
-        _keyedThemeStyleSheets = [NSMutableDictionary dictionary];
+        _keyedStyleSheets = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -82,7 +82,7 @@
        sheetURL2 = [NSBundle.mainBundle URLForResource:sheetName withExtension:@"xzss"];
     }
     NSString *sheetKey = [NSString stringWithFormat:@"%@|%@", sheetURL1.absoluteString, sheetURL2.absoluteString];
-    XZThemeStyleSheet *styleSheet = _keyedThemeStyleSheets[sheetKey];
+    XZThemeStyleSheet *styleSheet = _keyedStyleSheets[sheetKey];
     if (styleSheet == nil) {
         if (sheetURL1 != nil) {
             styleSheet = [[XZThemeStyleSheet alloc] initWithURL:sheetURL1];
@@ -92,7 +92,7 @@
         } else {
             styleSheet = [[XZThemeStyleSheet alloc] initWithURL:sheetURL2];
         }
-        _keyedThemeStyleSheets[sheetKey] = (styleSheet == nil ? NSNull.null : styleSheet);
+        _keyedStyleSheets[sheetKey] = (styleSheet == nil ? NSNull.null : styleSheet);
     } else if (![styleSheet isKindOfClass:[XZThemeStyleSheet class]]) {
         styleSheet = nil;
     }

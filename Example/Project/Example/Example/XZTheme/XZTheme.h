@@ -26,7 +26,7 @@ NS_SWIFT_NAME(Theme)
 @property (class, nonatomic, readonly) XZTheme *defaultTheme NS_SWIFT_NAME(default);
 @property (class, nonatomic, readonly) XZTheme *currentTheme NS_SWIFT_NAME(current);
 
-- (nullable XZThemeStyleSheet *)themeStyleSheetForObject:(NSObject *)object;
+- (nullable XZThemeStyleSheet *)themeStyleSheetForObject:(NSObject *)object NS_SWIFT_NAME(styleSheet(for:));
 
 @end
 
