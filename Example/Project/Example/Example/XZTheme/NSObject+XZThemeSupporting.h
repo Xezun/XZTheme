@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT XZThemeState const XZThemeStateNone NS_SWIFT_NAME(none);
 
-@class XZTheme, XZThemeStyle;
+@class XZTheme, XZThemeStyle, XZThemeStyleSheet;
 
 @interface NSObject (XZThemeSupporting)
 
