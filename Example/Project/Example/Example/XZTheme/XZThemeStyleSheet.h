@@ -22,9 +22,9 @@ NS_SWIFT_NAME(XZTheme.StyleSheet)
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithURL:(NSURL *)sheetURL NS_SWIFT_NAME(init(_:));
 
-- (nullable XZThemeStyle *)themeStyleForObject:(NSObject *)object;
+- (nullable XZThemeStyle *)themeStyleForObject:(NSObject *)object NS_SWIFT_NAME(themeStyle(for:));
 
-- (void)addThemeStylesFromThemeStyleSheet:(nullable XZThemeStyleSheet *)otherStyleSheet;
+- (void)addThemeStylesFromThemeStyleSheet:(nullable XZThemeStyleSheet *)otherStyleSheet NS_SWIFT_NAME(addThemeStyles(from:));
 
 @end
 
