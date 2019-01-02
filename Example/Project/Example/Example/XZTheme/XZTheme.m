@@ -118,23 +118,6 @@ static const void * const _themedStyles = &_themedStyles;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @implementation NSObject (XZTheme)
 
 - (XZThemeIdentifier)xz_themeIdentifier {

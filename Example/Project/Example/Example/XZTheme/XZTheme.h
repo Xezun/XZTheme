@@ -76,7 +76,7 @@ NS_SWIFT_NAME(Theme)
 /// 应用主题样式。
 - (void)xz_updateAppearanceWithThemeStyle:(XZThemeStyle *)themeStyle;
 
-/// 当前类的全局主题样式，懒加载，不可被继承。
+/// 当前类的全局主题样式，懒加载，不可被继承。修改全局样式不会改变已应用主题样式的控件的外观。
 ///
 /// @param theme 主题。
 /// @return 全局主题样式。
