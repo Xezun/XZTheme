@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		286C0F3321CC9B2E00E54264 /* XZTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 286C0F3221CC9B2E00E54264 /* XZTheme.m */; };
 		2878E2AF21B906390047C1C9 /* SwitchThemeViewController.xzss in Resources */ = {isa = PBXBuildFile; fileRef = 2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */; };
+		289C9BD321DD103B00E546BC /* XZThemeStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 289C9BD221DD103B00E546BC /* XZThemeStyle.m */; };
+		289C9BD921DD169B00E546BC /* XZThemeStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 289C9BD821DD169B00E546BC /* XZThemeStyleSheet.m */; };
 		6CAF8036A0D63FD2C63C0E53 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C855A1BA20E43821E3736CD5 /* Pods_Example.framework */; };
 		DD04FC582084EDA300463A17 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC572084EDA300463A17 /* Theme.plist */; };
 		DD04FC5A2084F61F00463A17 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = DD04FC592084F61F00463A17 /* readme.md */; };
@@ -30,6 +32,10 @@
 		286C0F3121CC9B2E00E54264 /* XZTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZTheme.h; sourceTree = "<group>"; };
 		286C0F3221CC9B2E00E54264 /* XZTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZTheme.m; sourceTree = "<group>"; };
 		2878E2AE21B906390047C1C9 /* SwitchThemeViewController.xzss */ = {isa = PBXFileReference; explicitFileType = text.json; path = SwitchThemeViewController.xzss; sourceTree = "<group>"; };
+		289C9BD121DD103B00E546BC /* XZThemeStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyle.h; sourceTree = "<group>"; };
+		289C9BD221DD103B00E546BC /* XZThemeStyle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyle.m; sourceTree = "<group>"; };
+		289C9BD721DD169B00E546BC /* XZThemeStyleSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XZThemeStyleSheet.h; sourceTree = "<group>"; };
+		289C9BD821DD169B00E546BC /* XZThemeStyleSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XZThemeStyleSheet.m; sourceTree = "<group>"; };
 		7E742AC717FC65313DBE725D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "../../Pods/Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		C855A1BA20E43821E3736CD5 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD04FC572084EDA300463A17 /* Theme.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Theme.plist; sourceTree = "<group>"; };
@@ -67,6 +73,10 @@
 			children = (
 				286C0F3121CC9B2E00E54264 /* XZTheme.h */,
 				286C0F3221CC9B2E00E54264 /* XZTheme.m */,
+				289C9BD121DD103B00E546BC /* XZThemeStyle.h */,
+				289C9BD221DD103B00E546BC /* XZThemeStyle.m */,
+				289C9BD721DD169B00E546BC /* XZThemeStyleSheet.h */,
+				289C9BD821DD169B00E546BC /* XZThemeStyleSheet.m */,
 			);
 			path = XZTheme;
 			sourceTree = "<group>";
@@ -248,8 +258,10 @@
 				286C0F3321CC9B2E00E54264 /* XZTheme.m in Sources */,
 				DDA4BFE520C3B8CA00E544A1 /* ThemeTableViewCell.swift in Sources */,
 				DDA4BFDF20C2FB7700E544A1 /* Theme.swift in Sources */,
+				289C9BD321DD103B00E546BC /* XZThemeStyle.m in Sources */,
 				DD0C9E5420C4215600C3C96F /* SwitchThemeTableViewCell.swift in Sources */,
 				DDA4BFE720C3BE0900E544A1 /* ThemeTableView.swift in Sources */,
+				289C9BD921DD169B00E546BC /* XZThemeStyleSheet.m in Sources */,
 				DD3DA9292080471E00A642C0 /* ThemeViewController.swift in Sources */,
 				DD3DA9272080471E00A642C0 /* AppDelegate.swift in Sources */,
 			);

@@ -54,105 +54,6 @@ NS_SWIFT_NAME(Theme)
 @end
 
 
-/// 主题样式。
-NS_SWIFT_NAME(XZTheme.Style)
-@interface XZThemeStyle : NSObject
-
-/// 构造指定状态下的主题样式。
-///
-/// @param themeState 主题状态。
-/// @return 主题样式 XZThemeStyle 对象。
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState NS_SWIFT_NAME(init(for:));
-/// 给指定对象构造私有样式。
-///
-/// @param object 主题样式所属的对象。
-/// @return 主题样式 XZThemeStyle 对象。
-+ (XZThemeStyle *)themeStyleForObject:(NSObject *)object NS_SWIFT_NAME(init(for:));
-/// 为对象构造指定状态下的主题样式。
-///
-/// @param themeState 主题状态。
-/// @param object 主题样式所属的对象。
-/// @return 主题样式 XZThemeStyle 对象。
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable NSObject *)object NS_SWIFT_NAME(init(for:object:));
-
-/// 主题状态。
-@property (nonatomic, copy, readonly) XZThemeState state;
-/// 主题属性与值。
-@property (nonatomic, readonly) NSDictionary<XZThemeAttribute, id> *attributedStyleValues;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-/// 获取主题属性对应的样式值。
-///
-/// @param themeAttribute 主题属性。
-/// @return 主题样式值。
-- (nullable id)valueForAttribute:(XZThemeAttribute)themeAttribute NS_SWIFT_NAME(value(for:));
-/// 设置主题属性样式值。
-///
-/// @param value 主题样式值。
-/// @param themeAttribute 主题属性。
-- (void)setValue:(nullable id)value forAttribute:(XZThemeAttribute)themeAttribute NS_SWIFT_NAME(setValue(_:for:));
-
-/// 获取主题属性对应的样式值。
-///
-/// @param themeAttribute 主题属性。
-/// @return 主题样式值。
-- (nullable id)objectForKeyedSubscript:(XZThemeAttribute)themeAttribute;
-/// 设置主题属性样式值。
-///
-/// @param value 主题样式值。
-/// @param themeAttribute 主题属性。
-- (void)setObject:(nullable id)value forKeyedSubscript:(XZThemeAttribute)themeAttribute;
-
-/// 主题样式中是否包含指定主题属性。
-///
-/// @param themeAttribute 主题属性。
-/// @return 是否包含主题属性。
-- (BOOL)containsAttribute:(XZThemeAttribute)themeAttribute NS_SWIFT_NAME(contains(_:));
-
-/// 将另一个主题样式中的所有值复制到当前主题样式中。
-///
-/// @param themeStyle 被复制到主题样式。
-- (void)addValuesFromThemeStyle:(nullable XZThemeStyle *)themeStyle NS_SWIFT_NAME(addValues(from:));
-
-/// 获取指定主题状态下的主题样式。
-///
-/// @param themeState 主题状态。
-/// @return 主题样式。
-- (nullable XZThemeStyle *)themeStyleIfLoadedForState:(XZThemeState)themeState NS_SWIFT_NAME(themeStyleIfLoaded(for:));
-/// 获取指定主题状态下的主题样式，懒加载。
-///
-/// @param themeState 主题状态。
-/// @return 主题样式。
-- (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState NS_SWIFT_NAME(themeStyle(for:));
-
-- (nullable id)valueForAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState NS_SWIFT_NAME(value(for:for:));
-- (void)setValue:(nullable id)value forAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState NS_SWIFT_NAME(setValue(_:for:for:));
-
-@end
-
-
-/// 主题样式表。
-NS_SWIFT_NAME(XZTheme.StyleSheet)
-@interface XZThemeStyleSheet : NSObject
-/// xzss 文件路径。
-@property (nonatomic, readonly) NSURL *url;
-/// 样式。
-@property (nonatomic, readonly) NSDictionary<XZThemeIdentifier, XZThemeStyle *> *identifiedThemeStyles NS_SWIFT_NAME(identifiedStyles);
-
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithURL:(NSURL *)sheetURL NS_SWIFT_NAME(init(_:));
-
-- (nullable XZThemeStyle *)themeStyleForObject:(NSObject *)object NS_SWIFT_NAME(style(for:));
-
-- (void)addThemeStylesFromThemeStyleSheet:(nullable XZThemeStyleSheet *)otherStyleSheet NS_SWIFT_NAME(addStyles(from:));
-
-@end
-
-
-
-
-
 @interface NSObject (XZTheme)
 
 /// 主题标识符，用于在样式表中匹配主题样式。
@@ -196,6 +97,8 @@ NS_SWIFT_NAME(XZTheme.StyleSheet)
 /// @param theme 主题。
 /// @return 私有样式。
 - (XZThemeStyle *)xz_themeStyleIfLoadedForTheme:(XZTheme *)theme NS_SWIFT_NAME(xz_themeStyleIfLoaded(for:));
+/// 私有样式发生改变，将重新生成计算样式。
+- (void)xz_themeStyleDidChange;
 
 /// 计算样式，应用到当前对象上的样式，不可直接修改计算样式。
 @property (nonatomic, nullable, readonly) XZThemeStyle *xz_computedThemeStyle NS_SWIFT_NAME(computedThemeStyle);

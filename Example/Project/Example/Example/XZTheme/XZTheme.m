@@ -8,6 +8,8 @@
 
 #import "XZTheme.h"
 #import <objc/runtime.h>
+#import "XZThemeStyle.h"
+#import "XZThemeStyleSheet.h"
 
 XZThemeState const XZThemeStateNone = @"";
 
@@ -16,11 +18,6 @@ static const void * const _appliedTheme = &_appliedTheme;
 static const void * const _needsUpdateThemeAppearance = &_needsUpdateThemeAppearance;
 static const void * const _computedThemeStyle = &_computedThemeStyle;
 static const void * const _themedStyles = &_themedStyles;
-
-@interface NSObject (XZThemeInternal)
-@property (nonatomic, nullable, strong, setter=xz_setComputedThemeStyle:) XZThemeStyle *xz_computedThemeStyle;
-@end
-
 
 @implementation XZTheme {
     NSMutableDictionary<NSString *, id> *_keyedStyleSheets;
@@ -121,202 +118,17 @@ static const void * const _themedStyles = &_themedStyles;
 
 
 
-@interface XZThemeStyle ()
-- (instancetype)initWithState:(XZThemeState)themeState;
-@end
-@interface XZStatedThemeStyle : XZThemeStyle
-@property (nonatomic, readonly) NSMutableDictionary<XZThemeState, XZThemeStyle *> *statedThemeStyles;
-@end
-@interface XZObjectThemeStyle : XZStatedThemeStyle
-@property (nonatomic, weak, nullable, readonly) NSObject *object;
-- (instancetype)initWithObject:(NSObject *)object state:(XZThemeState)themeState;
-@end
-
-@implementation XZThemeStyle {
-    NSMutableDictionary *_attributedStyleValues;
-}
-
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState {
-    return [XZThemeStyle themeStyleForState:themeState object:nil];
-}
-
-+ (XZThemeStyle *)themeStyleForObject:(NSObject *)object {
-    return [XZThemeStyle themeStyleForState:XZThemeStateNone object:object];
-}
-
-+ (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState object:(nullable NSObject *)object {
-    if ([themeState isEqualToString:XZThemeStateNone]) {
-        return [[XZStatedThemeStyle alloc] initWithState:themeState object:object];
-    } else {
-        return [[XZThemeStyle alloc] initWithState:themeState object:object];
-    }
-}
-
-- (instancetype)initWithState:(XZThemeState)themeState object:(id)object {
-    self = [super init];
-    if (self != nil) {
-        _object = object;
-        _state = [themeState copy];
-        _attributedStyleValues = [NSMutableDictionary dictionary];
-    }
-    return self;
-}
-
-- (NSDictionary<XZThemeAttribute,id> *)attributedStyleValues {
-    return _attributedStyleValues;
-}
-
-- (id)valueForAttribute:(XZThemeAttribute)themeAttribute {
-    return _attributedStyleValues[themeAttribute];
-}
-
-- (void)setValue:(id)value forAttribute:(XZThemeAttribute)themeAttribute {
-    _attributedStyleValues[themeAttribute] = value;
-    [_object xz_setComputedThemeStyle:nil];
-    [_object xz_setNeedsThemeAppearanceUpdate];
-}
-
-- (id)objectForKeyedSubscript:(XZThemeAttribute)themeAttribute {
-    return [self valueForAttribute:themeAttribute];
-}
-
-- (void)setObject:(id)value forKeyedSubscript:(XZThemeAttribute)themeAttribute {
-    [self setValue:value forAttribute:themeAttribute];
-}
-
-- (BOOL)containsAttribute:(XZThemeAttribute)themeAttribute {
-    return _attributedStyleValues[themeAttribute] != nil;
-}
-
-- (void)addValuesFromThemeStyle:(XZThemeStyle *)themeStyle {
-    if (themeStyle == nil) {
-        return;
-    }
-    [themeStyle.attributedStyleValues enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute _Nonnull themeAttribute, id _Nonnull value, BOOL * _Nonnull stop) {
-        [self->_attributedStyleValues setObject:value forKeyedSubscript:themeAttribute];
-    }];
-    // 如果目标样式是集合样式。
-    if ([themeStyle isKindOfClass:[XZStatedThemeStyle class]]) {
-        themeStyle = [(XZStatedThemeStyle *)themeStyle themeStyleIfLoadedForState:_state];
-        [themeStyle.attributedStyleValues enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute _Nonnull themeAttribute, id  _Nonnull value, BOOL * _Nonnull stop) {
-            [self->_attributedStyleValues setObject:value forKeyedSubscript:themeAttribute];
-        }];
-    }
-    [_object xz_setComputedThemeStyle:nil];
-    [_object xz_setNeedsThemeAppearanceUpdate];
-}
-
-- (XZThemeStyle *)themeStyleIfLoadedForState:(XZThemeState)themeState {
-    return self;
-}
-
-- (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState {
-    return self;
-}
-
-- (id)valueForAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState {
-    return [self valueForAttribute:themeAttribute forState:(XZThemeStateNone)];
-}
-
-- (void)setValue:(id)value forAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState {
-    [self setValue:value forAttribute:themeAttribute forState:(XZThemeStateNone)];
-}
-
-@end
-
-
-@implementation XZStatedThemeStyle
-
-@synthesize statedThemeStyles = _statedThemeStyles;
-
-- (NSMutableDictionary<XZThemeState, XZThemeStyle *> *)statedThemeStyles {
-    if (_statedThemeStyles != nil) {
-        return _statedThemeStyles;
-    }
-    _statedThemeStyles = [NSMutableDictionary dictionary];
-    return _statedThemeStyles;
-}
-
-- (void)addValuesFromThemeStyle:(XZThemeStyle *)themeStyle {
-    if (themeStyle == nil) {
-        return;
-    }
-    if ([themeStyle isKindOfClass:[XZStatedThemeStyle class]]) {
-        [themeStyle.attributedStyleValues enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [self setValue:obj forAttribute:key];
-        }];
-        XZStatedThemeStyle *statedThemeStyle = (XZStatedThemeStyle *)themeStyle;
-        [statedThemeStyle->_statedThemeStyles enumerateKeysAndObjectsUsingBlock:^(XZThemeState _Nonnull themeState, XZThemeStyle * _Nonnull themeStyle, BOOL * _Nonnull stop) {
-            XZThemeStyle *newThemeStyle = [self themeStyleForState:themeState];
-            [themeStyle.attributedStyleValues enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute _Nonnull themeAttribute, id  _Nonnull value, BOOL * _Nonnull stop) {
-                [newThemeStyle setValue:value forAttribute:themeAttribute];
-            }];
-        }];
-    } else {
-        XZThemeStyle *newThemeStyle = [self themeStyleForState:themeStyle.state];
-        [themeStyle.attributedStyleValues enumerateKeysAndObjectsUsingBlock:^(XZThemeAttribute _Nonnull themeAttribute, id  _Nonnull value, BOOL * _Nonnull stop) {
-            [newThemeStyle setValue:value forAttribute:themeAttribute];
-        }];
-    }
-    [self.object xz_setNeedsThemeAppearanceUpdate];
-}
-
-- (XZThemeStyle *)themeStyleIfLoadedForState:(XZThemeState)themeState {
-    if ([themeState isEqualToString:XZThemeStateNone]) {
-        return self;
-    }
-    return _statedThemeStyles[themeState];
-}
-
-- (XZThemeStyle *)themeStyleForState:(XZThemeState)themeState {
-    XZThemeStyle *themeStyle = [self themeStyleIfLoadedForState:themeState];
-    if (themeStyle != nil) {
-        return themeStyle;
-    }
-    themeStyle = [[XZThemeStyle alloc] initWithState:themeState object:self.object];
-    self.statedThemeStyles[themeState] = themeStyle;
-    return themeStyle;
-}
-
-- (id)valueForAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState {
-    return [[self themeStyleIfLoadedForState:themeState] valueForAttribute:themeAttribute];
-}
-
-- (void)setValue:(id)value forAttribute:(XZThemeAttribute)themeAttribute forState:(XZThemeState)themeState {
-    [[self themeStyleForState:themeState] setValue:value forAttribute:themeAttribute];
-}
-
-@end
 
 
 
 
-@implementation XZThemeStyleSheet {
-    NSDictionary<XZThemeIdentifier, XZThemeStyle *> *_identifiedThemeStyles;
-}
 
-- (instancetype)initWithURL:(NSURL *)sheetURL {
-    self = [super init];
-    if (self != nil) {
-        _url = sheetURL;
-        _identifiedThemeStyles = [NSMutableDictionary dictionary];
-    }
-    return self;
-}
 
-- (NSDictionary<XZThemeIdentifier,XZThemeStyle *> *)identifiedThemeStyles {
-    return _identifiedThemeStyles;
-}
 
-- (XZThemeStyle *)themeStyleForObject:(NSObject *)object {
-    return nil;
-}
 
-- (void)addThemeStylesFromThemeStyleSheet:(XZThemeStyleSheet *)otherStyleSheet {
-    
-}
 
-@end
+
+
 
 
 
@@ -446,6 +258,11 @@ static const void * const _themedStyles = &_themedStyles;
 - (XZThemeStyle *)xz_themeStyleIfLoadedForTheme:(XZTheme *)theme {
     NSDictionary<XZTheme *, XZThemeStyle *> *themedStyles = objc_getAssociatedObject(self, _themedStyles);
     return themedStyles[theme];
+}
+
+- (void)xz_themeStyleDidChange {
+    objc_setAssociatedObject(self, _computedThemeStyle, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self xz_setNeedsThemeAppearanceUpdate];
 }
 
 + (XZThemeStyle *)xz_themeStyleForTheme:(XZTheme *)theme {
